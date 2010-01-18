@@ -1,14 +1,7 @@
 import UserDict
 import os
 import sqlite3
-
-class _infoBase(object):
-    """ Holds record info """
-    def __init__(self, index=0, name='', sequence='', accuracy=''):
-        self.index = index
-        self.name = str(name)
-        self.sequence = str(sequence)
-        self.accuracy = str(accuracy)
+import dbEntries
 
 class sqeaqrDB(object, UserDict.DictMixin):
     def __init__(self, filepath):
@@ -31,7 +24,7 @@ class sqeaqrDB(object, UserDict.DictMixin):
         QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE INTDEX = ?" \
                 % self._tableName
         for index, name, sequence, accuracy in self.sqdb.execute(QUERY, (index,)):
-            return _infoBase(index, name, sequence, accuracy)
+            return dbEntries.fastqEntry(index, name, sequence, accuracy)
         raise KeyError("Key %s not found" % index)
 
     def __setitem__(self, name, infoBaseObject):
@@ -55,7 +48,7 @@ class sqeaqrDB(object, UserDict.DictMixin):
     def keys(self):
         QUERY = "SELECT INTDEX FROM %s %s" % (self._tableName, self._orderBy)
         result = []
-        for key, in self.sqdb.execute(QUERY):
+        for key, in self.sqdb.execute(QUERYp):
             result.append(key)
         return result
 
@@ -64,7 +57,7 @@ class sqeaqrDB(object, UserDict.DictMixin):
                 self._tableName
         for index in self.keys():
             for name, sequence, accuracy in self.sqdb.execute(QUERY, (index,)):
-                yield (_infoBase(index, name, sequence, accuracy))
+                yield (dbEntries.fastqEntry(index, name, sequence, accuracy))
                 
     def iteritems(self):
         for v in self.itervalues():

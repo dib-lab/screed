@@ -5,6 +5,7 @@ feed the data to their respective dict writers which
 create the databases
 """
 import fqByIntDict
+import dbEntries
 
 sqeaqrExtension = '_sqeaqr'
 
@@ -32,7 +33,7 @@ def read_fastq_sequences(filename, dbType='int'):
 
     sqeaqrDbName = filename + sqeaqrExtension
     fqDb = fqByIntDict.sqeaqrDB(sqeaqrDbName)
-    entry = fqByIntDict._infoBase
+    entry = dbEntries.fastqEntry
 
     while 1:
         # Make sure the FASTQ file is being read correctly
