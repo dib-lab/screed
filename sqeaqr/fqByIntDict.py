@@ -2,11 +2,15 @@ import UserDict
 import os
 import sqlite3
 import dbEntries
+from sqeaqrExtension import fileExtension
 
 class sqeaqrDB(object, UserDict.DictMixin):
     def __init__(self, filepath):
         self._tableName = 'DICTIONARY_TABLE'
         self._orderBy = ' ORDER BY ROWID '
+
+        if not filepath.endswith(fileExtension):
+            filepath += fileExtension
             
         create = not os.path.isfile(filepath)
         self.sqdb = sqlite3.connect(filepath)

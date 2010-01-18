@@ -6,8 +6,7 @@ create the databases
 """
 import fqByIntDict
 import dbEntries
-
-sqeaqrExtension = '_sqeaqr'
+#import sqeaqrExtension
 
 class DbException(Exception):
     def __init__(self, value):
@@ -23,16 +22,17 @@ def read_fastq_sequences(filename, dbType='int'):
 
     # [AN] when write other version of fqDict, put in check for 'int' vs 'key' or something
 
-    if filename.endswith(sqeaqrExtension):
-        raise DbException("Cannot parse database file, give me a fastq file!")
+#    if filename.endswith(sqeaqrExtension.fileExtension):
+#        raise DbException("Cannot parse database file, give me a fastq file!")
     
     try:
         theFile = open(filename, "rb")
     except IOError, e: 
         raise DbException(str(e))
 
-    sqeaqrDbName = filename + sqeaqrExtension
-    fqDb = fqByIntDict.sqeaqrDB(sqeaqrDbName)
+#    sqeaqrDbName = filename + sqeaqrExtension.fileExtension
+    fqDb = fqByIntDict.sqeaqrDB(filename)
+#    fqDb = fqByIntDict.sqeaqrDB(sqeaqrDbName)
     entry = dbEntries.fastqEntry
 
     while 1:
