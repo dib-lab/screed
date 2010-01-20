@@ -2,7 +2,9 @@
 
 import UserDict
 
+# [AN] possible to make these tuples?
 FASTQFIELDS = ['index', 'name', 'sequence', 'accuracy']
+FASTAFIELDS = ['index', 'name', 'description', 'sequence']
 
 class _sqeaqr_record(UserDict.DictMixin):
     """
