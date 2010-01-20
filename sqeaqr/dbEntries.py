@@ -22,12 +22,3 @@ class _sqeaqr_record(UserDict.DictMixin):
 
     def keys(self):
         return self.d.keys()
-
-
-class fastqEntry(object):
-    """ Holds entry data for entries in a fastq-derived database """
-    def __init__(self, index=0, name='', sequence='', accuracy=''):
-        self.index = index
-        self.name = str(name)
-        self.sequence = str(sequence)
-        self.accuracy = str(accuracy)

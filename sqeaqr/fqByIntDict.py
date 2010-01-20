@@ -39,12 +39,12 @@ class sqeaqrDB(object, UserDict.DictMixin):
             raise KeyError("Key %s not found" % index)
         return dbEntries._sqeaqr_record(pairs)
 
-    def __setitem__(self, name, infoBaseObject):
+    def __setitem__(self, name, fieldDict):
         QUERY = "REPLACE INTO %s (NAME, SEQUENCE, ACCURACY) VALUES (?, ?, ?)" \
                 % self._tableName
-        self.sqdb.execute(QUERY, (infoBaseObject.name,
-                                  infoBaseObject.sequence,
-                                  infoBaseObject.accuracy))
+        self.sqdb.execute(QUERY, (fieldDict['name'],
+                                  fieldDict['sequence'],
+                                  fieldDict['accuracy']))
 
     def __len__(self):
         for length, in self.sqdb.execute("SELECT count(1) FROM %s" % self._tableName):

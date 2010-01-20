@@ -22,30 +22,27 @@ def read_fastq_sequences(filename, dbType='int'):
 
     # [AN] when write other version of fqDict, put in check for 'int' vs 'key' or something
 
-#    if filename.endswith(sqeaqrExtension.fileExtension):
-#        raise DbException("Cannot parse database file, give me a fastq file!")
-    
     try:
         theFile = open(filename, "rb")
     except IOError, e: 
         raise DbException(str(e))
 
-#    sqeaqrDbName = filename + sqeaqrExtension.fileExtension
     fqDb = fqByIntDict.sqeaqrDB(filename)
-#    fqDb = fqByIntDict.sqeaqrDB(sqeaqrDbName)
-    entry = dbEntries.fastqEntry
 
     while 1:
+        # [AN] does this have to be empty? could make set here instead of in db
+        data = [0] # Emtpy index entry 
         # Make sure the FASTQ file is being read correctly
         firstLine = theFile.readline().strip().split('@')
         if len(firstLine) == 1: # Reached eof
             break
         assert firstLine[0] == ''
-        entry.name = firstLine[1]
-        entry.sequence = theFile.readline().strip()
+        name = firstLine[1]
+        data.append(name) # The name
+        data.append(theFile.readline().strip()) # The sequence
         theFile.read(2) # Ignore the '+\n'
-        entry.accuracy = theFile.readline().strip()
-        fqDb[entry.name] = entry
+        data.append(theFile.readline().strip()) # The accuracy
+        fqDb[name] = dbEntries._sqeaqr_record(zip(dbEntries.FASTQFIELDS, data))
 
     theFile.close()
     fqDb.close()
