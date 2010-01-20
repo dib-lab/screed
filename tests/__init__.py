@@ -6,6 +6,7 @@ sys.path.insert(0, libdir)
 import fqByIntDict
 import fqByKeyDict
 import faByIntDict
+import faByKeyDict
 import sqeaqrExtension
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
@@ -14,15 +15,15 @@ testfa = os.path.join(thisdir, 'test.fa')
 testfq = os.path.join(thisdir, 'test.fastq')
 testha = os.path.join(thisdir, 'test.hava')
 
-def setup():
+#def setup():
     # index databases
-    read_fasta_sequences(testfa)
+#    read_fasta_sequences(testfa)
 #    read_hava_sequences(testha)
-    read_fastq_sequences(testfq)
+#    read_fastq_sequences(testfq)
 
-def teardown():
-    os.unlink(testfq + sqeaqrExtension.fileExtension)
-    os.unlink(testfa + sqeaqrExtension.fileExtension)
+#def teardown():
+#    os.unlink(testfq + sqeaqrExtension.fileExtension)
+#    os.unlink(testfa + sqeaqrExtension.fileExtension)
 
 ## class Test_hava_methods(object):
 ##     """
@@ -63,7 +64,11 @@ def teardown():
 
 class Test_fastq_int(object):
     def setup(self):
+        read_fastq_sequences(testfq, 'key')
         self.db = fqByIntDict.sqeaqrDB(testfq)
+
+    def teardown(self):
+        os.unlink(testfq + sqeaqrExtension.fileExtension)
 
     def test_length(self):
         assert len(self.db) == 125
@@ -112,10 +117,13 @@ class Test_fastq_int(object):
             assert index == self.db[entry.index].index
             assert entry == self.db[entry.index]
 
-
 class Test_fastq_key(object):
     def setup(self):
+        read_fastq_sequences(testfq, 'index')
         self.db = fqByKeyDict.sqeaqrDB(testfq)
+
+    def teardown(self):
+        os.unlink(testfq + sqeaqrExtension.fileExtension)
 
     def test_length(self):
         assert len(self.db) == 125
@@ -166,7 +174,11 @@ class Test_fastq_key(object):
 
 class Test_fasta_int(object):
     def setup(self):
+        read_fasta_sequences(testfa, 'key')
         self.db = faByIntDict.sqeaqrDB(testfa)
+
+    def teardown(self):
+        os.unlink(testfa + sqeaqrExtension.fileExtension)
 
     def test_length(self):
         assert len(self.db) == 22
@@ -214,6 +226,61 @@ class Test_fasta_int(object):
         for index, entry in self.db.iteritems():
             assert index == self.db[entry.index].index
             assert entry == self.db[entry.index]
+
+class Test_fasta_key(object):
+    def setup(self):
+        read_fasta_sequences(testfa, 'index')
+        self.db = faByKeyDict.sqeaqrDB(testfa)
+
+    def teardown(self):
+        os.unlink(testfa + sqeaqrExtension.fileExtension)
+
+    def test_length(self):
+        assert len(self.db) == 22
+
+    def test_keys(self):
+        for key in self.db:
+            assert key == self.db[key].name
+
+    def test_contains_front(self):
+        first = self.db[self.db.keys()[0]]
+        assert first.index == 1
+        assert first.name == 'ENSMICT00000012722'
+        assert first.description == 'cdna:pseudogene scaffold:micMur1:scaffold_185008:9:424:1 gene:ENSMICG00000012730'
+        assert first.sequence.startswith('TGCAGAAAATATCAAGAGTCAGCAGAAAAACTATACAAGGGCTGGTATTTTGATTATTCT')
+
+    def test_contains_middle(self):
+        middle = self.db[self.db.keys()[10]]
+        assert middle.index == 11
+        assert middle.name == 'ENSMICT00000012078'
+        assert middle.description == 'cdna:pseudogene scaffold:micMur1:scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
+        assert middle.sequence.startswith('GCGCACTCCCAGTGGCTACCCACGGCAGGAGGCGGCGGCAGTGACTGGGCCGGCGGCCCG')
+
+    def test_contains_end(self):
+        end = self.db[self.db.keys()[21]]
+        assert end.index == 22
+        assert end.name == 'ENSMICT00000003880'
+        assert end.description == 'cdna:novel scaffold:micMur1:scaffold_175819:130:631:1 gene:ENSMICG00000003884'
+        assert end.sequence.startswith('ATGCTGCCTAAGTTTGACCCCAACGCGATCAAAGTCATGTACCTGAGGTGCACGGGTGGC')
+
+    def test_contains(self):
+        for k in self.db:
+            assert self.db.has_key(k)
+
+        assert not 'FOO' in self.db
+
+    def test_iterv(self):
+        entries = []
+        for entry in self.db:
+            entries.append(self.db[entry])
+
+        ivalues = list(self.db.itervalues())
+        assert sorted(entries) == sorted(ivalues)
+
+    def test_iteri(self):
+        for index, entry in self.db.iteritems():
+            assert index == self.db[entry.name].index
+            assert entry == self.db[entry.name]
 
 ## class Test_dict_methods(object):
 ##     """
@@ -436,7 +503,7 @@ class Test_fasta_int(object):
 ##             record = self.db[k]
 ##             record2 = self.db.loadRecordByIndex(i)
 ##             assert record.name == record2.name
-
+            
 ##     def test_name_hashing(self):
 ##         db = self.db
 ##         for k in db:

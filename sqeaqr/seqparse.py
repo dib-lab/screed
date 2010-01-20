@@ -5,7 +5,9 @@ feed the data to their respective dict writers which
 create the databases
 """
 import fqByIntDict
+import fqByKeyDict
 import faByIntDict
+import faByKeyDict
 import dbEntries
 
 class DbException(Exception):
@@ -14,7 +16,7 @@ class DbException(Exception):
     def __str__(self):
         return repr(self.value)
 
-def read_fastq_sequences(filename, dbType='int'):
+def read_fastq_sequences(filename, dbType='index'):
     """
     Function to parse text from the given FASTQ file into a sqeaqr database.
     dbType specifies if the database will use integer or text keys 
@@ -27,7 +29,14 @@ def read_fastq_sequences(filename, dbType='int'):
     except IOError, e: 
         raise DbException(str(e))
 
-    fqDb = fqByIntDict.sqeaqrDB(filename)
+    fqDb = None
+    if dbType == 'index':
+        fqDb = fqByIntDict.sqeaqrDB(filename)
+    elif dbType == 'key':
+        fqDb = fqByKeyDict.sqeaqrDB(filename)
+    else:
+        print "Invalid dbType specified: %s" % dbType
+        exit(1)
 
     while 1:
         # [AN] does this have to be empty? could make set here instead of in db
@@ -47,10 +56,10 @@ def read_fastq_sequences(filename, dbType='int'):
     theFile.close()
     fqDb.close()
 
-def read_fasta_sequences(filename, dbType='int'):
+def read_fasta_sequences(filename, dbType='index'):
     """
     Function to parse text from the given FASTA file into a sqeaqr database.
-    dbType specifies if the database will use integer or text keys
+    dbType specifies if the database will use index or text keys
     """
     try:
         theFile = open(filename, "rb")
@@ -58,7 +67,14 @@ def read_fasta_sequences(filename, dbType='int'):
         raise DbException(str(e))
 
     # [AN] when write other version of fqDict, put in check for 'int' vs 'key' or something
-    faDb = faByIntDict.sqeaqrDB(filename)
+    faDb = None
+    if dbType == 'index':
+        faDb = faByIntDict.sqeaqrDB(filename)
+    elif dbType == 'key':
+        faDb = faByKeyDict.sqeaqrDB(filename)
+    else:
+        print "Invalid dbType specified: %s" % dbType
+        exit(1)
 
     # Parse text and add to database
     nextChar = theFile.read(1)

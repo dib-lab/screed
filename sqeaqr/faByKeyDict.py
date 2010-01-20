@@ -4,11 +4,14 @@ import sqlite3
 import dbEntries
 from sqeaqrExtension import fileExtension
 
+# [AN] consolidate fadbm/fqdbm dict classes into two, by int or by key?
+# based on the list of entries which could the the table fields as well
+
 class sqeaqrDB(object, UserDict.DictMixin):
     def __init__(self, filepath):
         self._tableName = 'DICTIONARY_TABLE'
         self._orderBy = ' ORDER BY INTDEX '
-        self.fields = dbEntries.FASTQFIELDS
+        self.fields = dbEntries.FASTAFIELDS
 
         if not filepath.endswith(fileExtension):
             filepath += fileExtension
@@ -22,14 +25,14 @@ class sqeaqrDB(object, UserDict.DictMixin):
         """
         Creates a table to use for storing sequences
         """
-        self.sqdb.execute('CREATE TABLE %s (INTDEX INTEGER PRIMARY KEY, NAME TEXT, SEQUENCE TEXT, ACCURACY TEXT);' %
+        self.sqdb.execute('CREATE TABLE %s (INTDEX INTEGER PRIMARY KEY, NAME TEXT, DESCRIPTION TEXT, SEQUENCE TEXT);' %
                           self._tableName)
 
     def __getitem__(self, key):
-        QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE NAME = ?" \
+        QUERY = "SELECT INTDEX, NAME, DESCRIPTION, SEQUENCE FROM %s WHERE NAME = ?" \
                 % self._tableName
         retrieved = self.sqdb.execute(QUERY, (key,))
-
+        
         try:
             pairs = zip(self.fields, retrieved.next())
         except StopIteration:
@@ -37,11 +40,11 @@ class sqeaqrDB(object, UserDict.DictMixin):
         return dbEntries._sqeaqr_record(pairs)
 
     def __setitem__(self, name, fieldDict):
-        QUERY = "REPLACE INTO %s (NAME, SEQUENCE, ACCURACY) VALUES (?, ?, ?)" \
+        QUERY = "REPLACE INTO %s (NAME, DESCRIPTION, SEQUENCE) VALUES (?, ?, ?)" \
                 % self._tableName
         self.sqdb.execute(QUERY, (fieldDict['name'],
-                                  fieldDict['sequence'],
-                                  fieldDict['accuracy']))
+                                  fieldDict['description'],
+                                  fieldDict['sequence']))
 
     def __len__(self):
         for length, in self.sqdb.execute("SELECT count(1) FROM %s" % self._tableName):
@@ -58,11 +61,11 @@ class sqeaqrDB(object, UserDict.DictMixin):
         QUERY = "SELECT NAME FROM %s %s" % (self._tableName, self._orderBy)
         result = []
         for key, in self.sqdb.execute(QUERY):
-            result.append(str(key))
+            result.append(key)
         return result
 
     def itervalues(self):
-        QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE NAME = ?" % \
+        QUERY = "SELECT INTDEX, NAME, DESCRIPTION, SEQUENCE FROM %s WHERE NAME = ?" % \
                 self._tableName
         for key in self.keys():
             retrieved = self.sqdb.execute(QUERY, (key,))
