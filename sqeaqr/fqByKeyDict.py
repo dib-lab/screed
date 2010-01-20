@@ -4,9 +4,6 @@ import sqlite3
 import dbEntries
 from sqeaqrExtension import fileExtension
 
-# [AN] consolidate fadbm/fqdbm dict classes into two, by int or by key?
-# based on the list of entries which could the the table fields as well
-
 class sqeaqrDB(object, UserDict.DictMixin):
     def __init__(self, filepath):
         self._tableName = 'DICTIONARY_TABLE'
@@ -28,15 +25,16 @@ class sqeaqrDB(object, UserDict.DictMixin):
         self.sqdb.execute('CREATE TABLE %s (INTDEX INTEGER PRIMARY KEY, NAME TEXT, SEQUENCE TEXT, ACCURACY TEXT);' %
                           self._tableName)
 
-    def __getitem__(self, index):
-        QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE INTDEX = ?" \
+    def __getitem__(self, key):
+        QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE NAME = ?" \
                 % self._tableName
-        retrieved = self.sqdb.execute(QUERY, (index,))
-        
+
+        retrieved = self.sqdb.execute(QUERY, (key,))
+
         try:
             pairs = zip(self.fields, retrieved.next())
         except StopIteration:
-            raise KeyError("Key %s not found" % index)
+            raise KeyError("Key %s not found" % key)
         return dbEntries._sqeaqr_record(pairs)
 
     def __setitem__(self, name, infoBaseObject):
@@ -50,25 +48,25 @@ class sqeaqrDB(object, UserDict.DictMixin):
         for length, in self.sqdb.execute("SELECT count(1) FROM %s" % self._tableName):
             return length
 
-    def __delitem__(self, index):
-        if not index in self.keys():
-            raise KeyError("Key %s not found" % index)
-        QUERY = "DELETE FROM %s WHERE INTDEX = ?" % self._tableName
-        if self.sqdb.execute(QUERY, (index,)) < 1:
-            raise KeyError("Key %s not found" % index)
+    def __delitem__(self, key):
+        if not key in self.keys():
+            raise KeyError("Key %s not found" % key)
+        QUERY = "DELETE FROM %s WHERE NAME = ?" % self._tableName
+        if self.sqdb.execute(QUERY, (key,)) < 1:
+            raise KeyError("Key %s not found" % key)
 
     def keys(self):
-        QUERY = "SELECT INTDEX FROM %s %s" % (self._tableName, self._orderBy)
+        QUERY = "SELECT NAME FROM %s %s" % (self._tableName, self._orderBy)
         result = []
         for key, in self.sqdb.execute(QUERY):
-            result.append(key)
+            result.append(str(key))
         return result
 
     def itervalues(self):
-        QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE INTDEX = ?" % \
+        QUERY = "SELECT INTDEX, NAME, SEQUENCE, ACCURACY FROM %s WHERE NAME = ?" % \
                 self._tableName
-        for index in self.keys():
-            retrieved = self.sqdb.execute(QUERY, (index,))
+        for key in self.keys():
+            retrieved = self.sqdb.execute(QUERY, (key,))
             pairs = zip(self.fields, retrieved.next())
             yield dbEntries._sqeaqr_record(pairs)
                 

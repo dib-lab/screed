@@ -4,6 +4,7 @@ thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'sqeaqr'))
 sys.path.insert(0, libdir)
 import fqByIntDict
+import fqByKeyDict
 import sqeaqrExtension
 from seqparse import read_fastq_sequences
 
@@ -12,11 +13,13 @@ testfq = os.path.join(thisdir, 'test.fastq')
 testha = os.path.join(thisdir, 'test.hava')
 
 def setup():
-    d = 7
     # index databases
 #    read_fasta_sequences(testfa)
-#    read_fastq_sequences(testfq)
 #    read_hava_sequences(testha)
+    read_fastq_sequences(testfq)
+
+def teardown():
+    os.unlink(testfq + sqeaqrExtension.fileExtension)
 
 ## class Test_hava_methods(object):
 ##     """
@@ -57,14 +60,14 @@ def setup():
 
 class Test_fastq_int(object):
     def setup(self):
-        read_fastq_sequences(testfq)
         self.db = fqByIntDict.sqeaqrDB(testfq)
-
-    def teardown(self):
-        os.unlink(testfq + sqeaqrExtension.fileExtension)
 
     def test_length(self):
         assert len(self.db) == 125
+
+    def test_keys(self):
+        for key in self.db:
+            assert key == self.db[key].index
 
     def test_contains_front(self):
         first = self.db[1]
@@ -87,6 +90,76 @@ class Test_fastq_int(object):
         assert end.sequence == 'GGTACAAAATAGATGCTGGACTCTCCGAATCCTATA'
         assert end.accuracy == ';?5AAAAAAAAAA?A??;?AA;AAA>AAAA?4?844'
 
+    def test_contains(self):
+        for k in self.db:
+            assert self.db.has_key(k)
+
+        assert not 0 in self.db
+
+    def test_iterv(self):
+        entries = []
+        for entry in self.db:
+            entries.append(self.db[entry])
+
+        ivalues = list(self.db.itervalues())
+        assert sorted(entries) == sorted(ivalues)
+
+    def test_iteri(self):
+        for index, entry in self.db.iteritems():
+            assert index == self.db[entry.index].index
+            assert entry == self.db[entry.index]
+
+
+class Test_fastq_key(object):
+    def setup(self):
+        self.db = fqByKeyDict.sqeaqrDB(testfq)
+
+    def test_length(self):
+        assert len(self.db) == 125
+
+    def test_keys(self):
+        for key in self.db:
+            assert key == self.db[key].name
+
+    def test_contains_front(self):
+        first = self.db[self.db.keys()[0]]
+        assert first.index == 1
+        assert first.name == 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2'
+        assert first.sequence == 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'
+        assert first.accuracy == 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<'
+
+    def test_contains_middle(self):
+        middle = self.db[self.db.keys()[62]]
+        assert middle.index == 63
+        assert middle.name == 'HWI-EAS_4_PE-FC20GCB:2:1:245:483/2'
+        assert middle.sequence == 'TGTCGAGCAAAGCAAAACAGGCGTAAAAATTGCCAT'
+        assert middle.accuracy == 'AAAAAAAAAAAAAAAAAAAAA>AAAAAAAA?9>6><'
+
+    def test_contains_end(self):
+        end = self.db[self.db.keys()[124]]
+        assert end.index == 125
+        assert end.name == 'HWI-EAS_4_PE-FC20GCB:2:1:350:588/2'
+        assert end.sequence == 'GGTACAAAATAGATGCTGGACTCTCCGAATCCTATA'
+        assert end.accuracy == ';?5AAAAAAAAAA?A??;?AA;AAA>AAAA?4?844'
+
+    def test_contains(self):
+        for k in self.db:
+            assert self.db.has_key(k)
+
+        assert not 'FOO' in self.db
+
+    def test_iterv(self):
+        entries = []
+        for entry in self.db:
+            entries.append(self.db[entry])
+
+        ivalues = list(self.db.itervalues())
+        assert sorted(entries) == sorted(ivalues)
+
+    def test_iteri(self):
+        for index, entry in self.db.iteritems():
+            assert index == self.db[entry.name].index
+            assert entry == self.db[entry.name]
 
 ## class Test_dict_methods(object):
 ##     """
