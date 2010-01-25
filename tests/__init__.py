@@ -64,7 +64,7 @@ testha = os.path.join(thisdir, 'test.hava')
 
 class Test_fastq_int(object):
     def setup(self):
-        read_fastq_sequences(testfq, 'key')
+        read_fastq_sequences(testfq, 'index')
         self.db = fqByIntDict.sqeaqrDB(testfq)
 
     def teardown(self):
@@ -119,7 +119,7 @@ class Test_fastq_int(object):
 
 class Test_fastq_key(object):
     def setup(self):
-        read_fastq_sequences(testfq, 'index')
+        read_fastq_sequences(testfq, 'key')
         self.db = fqByKeyDict.sqeaqrDB(testfq)
 
     def teardown(self):
@@ -174,7 +174,7 @@ class Test_fastq_key(object):
 
 class Test_fasta_int(object):
     def setup(self):
-        read_fasta_sequences(testfa, 'key')
+        read_fasta_sequences(testfa, 'index')
         self.db = faByIntDict.sqeaqrDB(testfa)
 
     def teardown(self):
@@ -229,7 +229,7 @@ class Test_fasta_int(object):
 
 class Test_fasta_key(object):
     def setup(self):
-        read_fasta_sequences(testfa, 'index')
+        read_fasta_sequences(testfa, 'key')
         self.db = faByKeyDict.sqeaqrDB(testfa)
 
     def teardown(self):

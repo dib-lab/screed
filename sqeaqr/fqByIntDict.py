@@ -4,6 +4,8 @@ import sqlite3
 import dbEntries
 from sqeaqrExtension import fileExtension
 
+# INTDEX -> ID
+# SQLITE DICT cursor de zip
 # [AN] consolidate fadbm/fqdbm dict classes into two, by int or by key?
 # based on the list of entries which could the the table fields as well
 

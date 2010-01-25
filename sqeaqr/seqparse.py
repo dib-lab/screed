@@ -22,8 +22,6 @@ def read_fastq_sequences(filename, dbType='index'):
     dbType specifies if the database will use integer or text keys 
     """
 
-    # [AN] when write other version of fqDict, put in check for 'int' vs 'key' or something
-
     try:
         theFile = open(filename, "rb")
     except IOError, e: 
