@@ -4,10 +4,6 @@ extract sequence information from files. These parsers
 feed the data to their respective dict writers which
 create the databases
 """
-#import fqByIntDict
-#import fqByNameDict
-#import faByIntDict
-#import faByNameDict
 import sqeaqrDB
 import dbEntries
 

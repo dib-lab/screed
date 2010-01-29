@@ -4,6 +4,7 @@ import os
 import sqlite3
 
 # [AN] switch to cursor?
+# [AN] remove decision about using querying by name or id
 
 _SQEAQRADMIN = 'SQEAQRADMIN'
 _DICT_TABLE = 'DICTIONARY_TABLE'
@@ -28,18 +29,18 @@ class _sqeaqr_record(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
-def getSqeaqrDB(filepath, queryBy=None, fields=None):
+def getSqeaqrDB(filepath, fields=None):
     """
     Opens and prepares a sqeaqrDB. The order of arguments is:
     filepath: the string path to the sqeaqr database to open
-    queryBy: either None to enable querying by primary key or the
-        name of a specified field to perform name lookups with
     fields: either None if the the database has already been created or
         a tuple of 2-tuples specifying the names and types of fields
-        to be used in the creation of the sql database
+        to be used in the creation of the sql database. The first element
+        in fields will be the 'key' or 'name' used to query the database
+        later
     Returns a 7 tuple containing:
-    (database object, _standardStub, _fieldTuple, _qMarks, _queryBy, _DICT_TABLE,
-    _PRIMARY_KEY)
+    (database object, _standardStub, _fieldTuple, _qMarks, _DICT_TABLE,
+    _queryBy, _PRIMARY_KEY)
     """
     # Ensure the filepath is correctly formatted with the extension to
     # the database filename
@@ -57,17 +58,26 @@ def getSqeaqrDB(filepath, queryBy=None, fields=None):
     # Create the standard sql query stub
     _standardStub = _retrieveStandardStub(sqdb)
 
+    # Get the name/key used for querying the database
+    _queryBy = _getQueryBy(sqdb)
+
     # Create the ordered tuple of fields
     _fieldTuple = _getFieldTuple(sqdb)
 
     # Create the string of question marks
     _qMarks = _toQmarks(sqdb)
 
-    # Set the queryBy string (PRIMARY KEY/NAME)
-    _queryBy = _setQueryBy(sqdb, queryBy)
+    return (sqdb, _standardStub, _fieldTuple, _qMarks, _DICT_TABLE,
+            _queryBy, _PRIMARY_KEY)
 
-    return (sqdb, _standardStub, _fieldTuple, _qMarks, _queryBy, _DICT_TABLE,
-            _PRIMARY_KEY)
+def _getQueryBy(sqdb):
+    """
+    Retrieves the name of the field used for querying by name in the database.
+    This is the name of the first field in the administration table
+    """
+    query = 'SELECT FIELDNAME FROM %s' % _SQEAQRADMIN
+    result, = sqdb.execute(query).next()
+    return result.lower()
 
 def _getFieldTuple(sqdb):
     """
@@ -80,23 +90,6 @@ def _getFieldTuple(sqdb):
         result.append(str(fieldName.lower()))
 
     return tuple(result)
-
-def _setQueryBy(sqdb, queryBy):
-    """
-    Returns the sub-string needed for SQL 'WHERE' clauses when selecting items
-    from the dictionary table
-    """
-    if queryBy == None: # User didn't set queryBy, default to ID
-        return _PRIMARY_KEY
-
-    # Pull field data from the admin table to make sure the user's selection
-    # matches something there
-    query = 'SELECT * FROM %s' % _SQEAQRADMIN
-    for fieldName, fieldType, in sqdb.execute(query):
-        if fieldName == queryBy.upper():
-            return queryBy.upper()
-
-    raise ValueError("Non-existant queryBy field specified: '%s'" % queryBy)
 
 def _createSqDb(filepath, fields):
     """

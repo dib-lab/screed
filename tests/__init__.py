@@ -4,10 +4,6 @@ thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'sqeaqr'))
 sys.path.insert(0, libdir)
 import sqeaqrDB
-#import fqByIntDict
-#import fqByNameDict
-#import faByIntDict
-#import faByNameDict
 import sqeaqrExtension
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
@@ -63,7 +59,7 @@ testha = os.path.join(thisdir, 'test.hava')
 ##         assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 ##         assert result.marshoon == '4FE5FDD76CC5DE4DC2F25AA2GFBD7BEG326C6D7AB5B71GA67BAFD63AE1A562CDC1C2D157G6EF17CD'
 
-class Test_fastq_int(object):
+class Test_fastq(object):
     def setup(self):
         read_fastq_sequences(testfq)
         self.db = sqeaqrDB.sqeaqrDB(testfq)
@@ -76,62 +72,13 @@ class Test_fastq_int(object):
 
     def test_keys(self):
         for key in self.db:
-            assert key == self.db[key].id
-
-    def test_contains_front(self):
-        first = self.db[1]
-        assert first.id == 1
-        assert first.name == 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2'
-        assert first.sequence == 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'
-        assert first.accuracy == 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<'
-
-    def test_contains_middle(self):
-        middle = self.db[63]
-        assert middle.id == 63
-        assert middle.name == 'HWI-EAS_4_PE-FC20GCB:2:1:245:483/2'
-        assert middle.sequence == 'TGTCGAGCAAAGCAAAACAGGCGTAAAAATTGCCAT'
-        assert middle.accuracy == 'AAAAAAAAAAAAAAAAAAAAA>AAAAAAAA?9>6><'
-
-    def test_contains_end(self):
-        end = self.db[125]
-        assert end.id == 125
-        assert end.name == 'HWI-EAS_4_PE-FC20GCB:2:1:350:588/2'
-        assert end.sequence == 'GGTACAAAATAGATGCTGGACTCTCCGAATCCTATA'
-        assert end.accuracy == ';?5AAAAAAAAAA?A??;?AA;AAA>AAAA?4?844'
-
-    def test_contains(self):
-        for k in self.db:
-            assert self.db.has_key(k)
-
-        assert not 0 in self.db
-
-    def test_iterv(self):
-        entries = []
-        for entry in self.db:
-            entries.append(self.db[entry])
-
-        ivalues = list(self.db.itervalues())
-        assert sorted(entries) == sorted(ivalues)
-
-    def test_iteri(self):
-        for id, entry in self.db.iteritems():
-            assert id == self.db[entry.id].id
-            assert entry == self.db[entry.id]
-
-class Test_fastq_name(object):
-    def setup(self):
-        read_fastq_sequences(testfq)
-        self.db = sqeaqrDB.sqeaqrDB(testfq, 'name')
-
-    def teardown(self):
-        os.unlink(testfq + sqeaqrExtension.fileExtension)
-
-    def test_length(self):
-        assert len(self.db) == 125
-
-    def test_keys(self):
-        for key in self.db:
             assert key == self.db[key].name
+
+    def test_id_retrieval(self):
+        for key in self.db:
+            record = self.db[key]
+            intRcrd = self.db.loadRecordByIndex(record.id)
+            assert record == intRcrd
 
     def test_contains_front(self):
         first = self.db[self.db.keys()[0]]
@@ -173,7 +120,7 @@ class Test_fastq_name(object):
             assert id == self.db[entry.name].id
             assert entry == self.db[entry.name]
 
-class Test_fasta_int(object):
+class Test_fasta(object):
     def setup(self):
         read_fasta_sequences(testfa)
         self.db = sqeaqrDB.sqeaqrDB(testfa)
@@ -186,62 +133,13 @@ class Test_fasta_int(object):
 
     def test_keys(self):
         for key in self.db:
-            assert key == self.db[key].id
-
-    def test_contains_front(self):
-        first = self.db[1]
-        assert first.id == 1
-        assert first.name == 'ENSMICT00000012722'
-        assert first.description == 'cdna:pseudogene scaffold:micMur1:scaffold_185008:9:424:1 gene:ENSMICG00000012730'
-        assert first.sequence.startswith('TGCAGAAAATATCAAGAGTCAGCAGAAAAACTATACAAGGGCTGGTATTTTGATTATTCT')
-
-    def test_contains_middle(self):
-        middle = self.db[11]
-        assert middle.id == 11
-        assert middle.name == 'ENSMICT00000012078'
-        assert middle.description == 'cdna:pseudogene scaffold:micMur1:scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
-        assert middle.sequence.startswith('GCGCACTCCCAGTGGCTACCCACGGCAGGAGGCGGCGGCAGTGACTGGGCCGGCGGCCCG')
-
-    def test_contains_end(self):
-        end = self.db[22]
-        assert end.id == 22
-        assert end.name == 'ENSMICT00000003880'
-        assert end.description == 'cdna:novel scaffold:micMur1:scaffold_175819:130:631:1 gene:ENSMICG00000003884'
-        assert end.sequence.startswith('ATGCTGCCTAAGTTTGACCCCAACGCGATCAAAGTCATGTACCTGAGGTGCACGGGTGGC')
-
-    def test_contains(self):
-        for k in self.db:
-            assert self.db.has_key(k)
-
-        assert not 'FOO' in self.db
-
-    def test_iterv(self):
-        entries = []
-        for entry in self.db:
-            entries.append(self.db[entry])
-
-        ivalues = list(self.db.itervalues())
-        assert sorted(entries) == sorted(ivalues)
-
-    def test_iteri(self):
-        for id, entry in self.db.iteritems():
-            assert id == self.db[entry.id].id
-            assert entry == self.db[entry.id]
-
-class Test_fasta_name(object):
-    def setup(self):
-        read_fasta_sequences(testfa)
-        self.db = sqeaqrDB.sqeaqrDB(testfa, 'name')
-
-    def teardown(self):
-        os.unlink(testfa + sqeaqrExtension.fileExtension)
-
-    def test_length(self):
-        assert len(self.db) == 22
-
-    def test_keys(self):
-        for key in self.db:
             assert key == self.db[key].name
+
+    def test_id_retrieval(self):
+        for key in self.db:
+            record = self.db[key]
+            intRcrd = self.db.loadRecordByIndex(record.id)
+            assert record == intRcrd
 
     def test_contains_front(self):
         first = self.db[self.db.keys()[0]]
