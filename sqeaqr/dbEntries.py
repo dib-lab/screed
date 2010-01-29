@@ -2,25 +2,8 @@
 
 import UserDict
 
-# [AN] possible to make these tuples?
-FASTQFIELDS = ['index', 'name', 'sequence', 'accuracy']
-FASTAFIELDS = ['index', 'name', 'description', 'sequence']
-
-class _sqeaqr_record(UserDict.DictMixin):
-    """
-    Simple dict-like record interface with bag behavior.
-    """
-    def __init__(self, *args, **kwargs):
-        self.d = dict(*args, **kwargs)
-        
-    def __getitem__(self, name):
-        return self.d[name]
-    
-    def __getattr__(self, name):
-        try:
-            return self.d[name]
-        except KeyError:
-            raise AttributeError, name
-
-    def keys(self):
-        return self.d.keys()
+# [AN] compress to one tuple/type of db
+FASTQFIELDS = ('id', 'name', 'sequence', 'accuracy')
+FASTQFIELDTYPES = (('name', 'text'), ('sequence', 'text'), ('accuracy', 'text'))
+FASTAFIELDS = ('id', 'name', 'description', 'sequence')
+FASTAFIELDTYPES = (('name', 'text'), ('description', 'text'), ('sequence', 'text'))

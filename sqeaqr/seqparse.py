@@ -4,10 +4,11 @@ extract sequence information from files. These parsers
 feed the data to their respective dict writers which
 create the databases
 """
-import fqByIntDict
-import fqByKeyDict
-import faByIntDict
-import faByKeyDict
+#import fqByIntDict
+#import fqByNameDict
+#import faByIntDict
+#import faByNameDict
+import sqeaqrDB
 import dbEntries
 
 class DbException(Exception):
@@ -16,10 +17,9 @@ class DbException(Exception):
     def __str__(self):
         return repr(self.value)
 
-def read_fastq_sequences(filename, dbType='index'):
+def read_fastq_sequences(filename):
     """
-    Function to parse text from the given FASTQ file into a sqeaqr database.
-    dbType specifies if the database will use integer or text keys 
+    Function to parse text from the given FASTQ file into a sqeaqr database
     """
 
     try:
@@ -27,18 +27,11 @@ def read_fastq_sequences(filename, dbType='index'):
     except IOError, e: 
         raise DbException(str(e))
 
-    fqDb = None
-    if dbType == 'index':
-        fqDb = fqByIntDict.sqeaqrDB(filename)
-    elif dbType == 'key':
-        fqDb = fqByKeyDict.sqeaqrDB(filename)
-    else:
-        print "Invalid dbType specified: %s" % dbType
-        exit(1)
+    fqDb = sqeaqrDB.sqeaqrDB(filename, fields=dbEntries.FASTQFIELDTYPES)
 
     while 1:
         # [AN] does this have to be empty? could make set here instead of in db
-        data = [0] # Emtpy index entry 
+        data = [] # Emtpy id entry 
         firstLine = theFile.readline().strip().split('@')
         if len(firstLine) == 1: # Reached eof
             break
@@ -49,35 +42,26 @@ def read_fastq_sequences(filename, dbType='index'):
         data.append(theFile.readline().strip()) # The sequence
         theFile.read(2) # Ignore the '+\n'
         data.append(theFile.readline().strip()) # The accuracy
-        fqDb[name] = dbEntries._sqeaqr_record(zip(dbEntries.FASTQFIELDS, data))
+        fqDb[name] = tuple(data)
 
     theFile.close()
     fqDb.close()
 
-def read_fasta_sequences(filename, dbType='index'):
+def read_fasta_sequences(filename):
     """
-    Function to parse text from the given FASTA file into a sqeaqr database.
-    dbType specifies if the database will use index or text keys
+    Function to parse text from the given FASTA file into a sqeaqr database
     """
     try:
         theFile = open(filename, "rb")
     except IOError, e:
         raise DbException(str(e))
 
-    # [AN] when write other version of fqDict, put in check for 'int' vs 'key' or something
-    faDb = None
-    if dbType == 'index':
-        faDb = faByIntDict.sqeaqrDB(filename)
-    elif dbType == 'key':
-        faDb = faByKeyDict.sqeaqrDB(filename)
-    else:
-        print "Invalid dbType specified: %s" % dbType
-        exit(1)
+    faDb = sqeaqrDB.sqeaqrDB(filename, fields=dbEntries.FASTAFIELDTYPES)
 
     # Parse text and add to database
     nextChar = theFile.read(1)
     while nextChar != '':
-        data = [0] # Empty index entry
+        data = [] # Empty id entry
         assert nextChar == '>'
         topLine = theFile.readline().strip().split(' ', 1)
 
@@ -101,8 +85,8 @@ def read_fasta_sequences(filename, dbType='index'):
             
         sequence = "".join(sequenceList)
         data.append(sequence) # The sequence
-        faDb[name] = dbEntries._sqeaqr_record(zip(dbEntries.FASTAFIELDS, data))
-            
+        faDb[name] = tuple(data)
+        
     theFile.close()
     faDb.close()
 
