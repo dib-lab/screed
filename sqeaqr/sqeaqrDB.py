@@ -61,22 +61,12 @@ class sqeaqrDB(object, UserDict.DictMixin):
         """
         return list(self.iteritems())
 
-    def __getitem__(self, key):
-        query = "SELECT %s, %s FROM %s WHERE %s = ?" \
-                % (self._primaryKey, self._standardStub, self._table, self._queryBy)
-        retrieved = self._db.execute(query, (key,))
-
-        try:
-            pairs = zip(self._fieldTuple, retrieved.next())
-        except StopIteration:
-            raise KeyError("Key %s not found" % key)
-        return sqeaqrUtility._sqeaqr_record(pairs)
-
     def loadRecordByIndex(self, index):
         """
         Retrieves record from database at the given index
         """
-        assert index > 0 # sqlite starts numbering at 1
+        index += 1 # Hack to make indexing start at 0
+        assert index >= 1 # sqlite starts numbering at 1
         query = 'SELECT * FROM %s WHERE %s = ?' \
                 % (self._table, self._primaryKey)
         result = self._db.execute(query, (index,))
@@ -84,20 +74,27 @@ class sqeaqrDB(object, UserDict.DictMixin):
             pairs = zip(self._fieldTuple, result.next())
         except StopIteration:
             raise KeyError("Index %s not found" % index)
-        return sqeaqrUtility._sqeaqr_record(pairs)
+        result = sqeaqrUtility._sqeaqr_record(pairs)
+        result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
+        return result
 
     def loadRecordByName(self, name):
         """
         Retrieves from database the record with the name 'name'
         """
-        query = 'SELECT * FROM %s WHERE %s = ?' \
-                % (self._table, self._queryBy)
-        result = self._db.execute(query, name)
+        query = "SELECT %s, %s FROM %s WHERE %s = ?" \
+                 % (self._primaryKey, self._standardStub, self._table, self._queryBy)
+        retrieved = self._db.execute(query, (name,))
         try:
             pairs = zip(self._fieldTuple, retrieved.next())
         except StopIteration:
             raise KeyError("Key %s not found" % name)
-        return sqeaqrUtility._sqeaqr_record(pairs)
+        result = sqeaqrUtility._sqeaqr_record(pairs)
+        result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
+        return result
+    
+    def __getitem__(self, key):
+        return self.loadRecordByName(key)
 
     def __setitem__(self, name, dataTuple):
         """
@@ -116,9 +113,6 @@ class sqeaqrDB(object, UserDict.DictMixin):
         res, = self._db.execute('SELECT COUNT(1) FROM %s' % self._table).next()
         return res
 
-    def __delitem__(self):
-        raise NotImplementedError('sqeaqr doesn\'t do this')
-
     def keys(self):
         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
         result = []
@@ -132,12 +126,29 @@ class sqeaqrDB(object, UserDict.DictMixin):
         for key in self.keys():
             retrieved = self._db.execute(query, (key,))
             pairs = zip(self._fieldTuple, retrieved.next())
-            yield sqeaqrUtility._sqeaqr_record(pairs)
+            result = sqeaqrUtility._sqeaqr_record(pairs)
+            result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
+            yield result
+
+    def iterkeys(self):
+        for k in self.keys():
+            yield k
 
     def iteritems(self):
         for v in self.itervalues():
             yield v[self._primaryKey.lower()], v
 
+    def has_key(self, key):
+        """
+        Returns true if given key exists in database, false otherwise
+        """
+        return self.__contains__(key)
+
+    def copy(self):
+        """
+        Returns shallow copy of itself
+        """
+        return self
 
     def __contains__(self, key):
         """
@@ -150,5 +161,20 @@ class sqeaqrDB(object, UserDict.DictMixin):
         except StopIteration:
             return False
         return True
-        
-        
+
+    # Here follow the methods that are not implemented
+
+    def clear(self):
+        raise AttributeError
+
+    def update(self, something):
+        raise AttributeError
+
+    def setdefault(self, something):
+        raise AttributeError
+
+    def pop(self):
+        raise AttributeError
+
+    def popitem(self):
+        raise AttributeError

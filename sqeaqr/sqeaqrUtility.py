@@ -19,6 +19,9 @@ class _sqeaqr_record(UserDict.DictMixin):
         
     def __getitem__(self, name):
         return self.d[name]
+
+    def __setitem__(self, name, value):
+        self.d[name] = value
     
     def __getattr__(self, name):
         try:

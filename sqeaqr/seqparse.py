@@ -6,6 +6,8 @@ create the databases
 """
 import sqeaqrDB
 import dbEntries
+import os
+import sqeaqrExtension
 
 class DbException(Exception):
     def __init__(self, value):
@@ -22,6 +24,10 @@ def read_fastq_sequences(filename):
         theFile = open(filename, "rb")
     except IOError, e: 
         raise DbException(str(e))
+
+    # Delete old sqeaqr database if that exists
+    if os.path.isfile(filename + sqeaqrExtension.fileExtension):
+        os.unlink(filename + sqeaqrExtension.fileExtension)
 
     fqDb = sqeaqrDB.sqeaqrDB(filename, fields=dbEntries.FASTQFIELDTYPES)
 
@@ -51,6 +57,10 @@ def read_fasta_sequences(filename):
         theFile = open(filename, "rb")
     except IOError, e:
         raise DbException(str(e))
+
+    # Delete old sqeaqr database if that exists
+    if os.path.isfile(filename + sqeaqrExtension.fileExtension):
+        os.unlink(filename + sqeaqrExtension.fileExtension)
 
     faDb = sqeaqrDB.sqeaqrDB(filename, fields=dbEntries.FASTAFIELDTYPES)
 
