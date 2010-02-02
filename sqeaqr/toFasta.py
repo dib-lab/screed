@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sqeaqrDB
-import dbEntries
 import sys, os
 
 _MAXSEQLINELEN = 80
