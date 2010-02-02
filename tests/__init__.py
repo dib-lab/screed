@@ -1,3 +1,4 @@
+
 import sys, os, gc
 
 thisdir = os.path.dirname(__file__)
@@ -5,6 +6,8 @@ libdir = os.path.abspath(os.path.join(thisdir, '..', 'sqeaqr'))
 sys.path.insert(0, libdir)
 import sqeaqrDB
 import sqeaqrExtension
+import toFasta
+import toFastq
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
 
@@ -58,6 +61,7 @@ def setup():
 ##         assert result.fakours == '32736451148353713169532559587626971677814946924334424648676283848861393812686731'
 ##         assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 ##         assert result.marshoon == '4FE5FDD76CC5DE4DC2F25AA2GFBD7BEG326C6D7AB5B71GA67BAFD63AE1A562CDC1C2D157G6EF17CD'
+
 
 class Test_fastq(object):
     def setup(self):
@@ -172,6 +176,36 @@ class Test_fasta(object):
         for id, entry in self.db.iteritems():
             assert id == self.db[entry.name].id
             assert entry == self.db[entry.name]
+
+class Test_fasta_recover(Test_fasta):
+    """
+    Test the functionality of the recovery script to take a sqeaqrDB to a
+    fasta file and back again
+    """
+    def setup(self):
+        self._fileName = os.path.join(thisdir, 'fastaRecovery')
+        toFasta.toFasta(testfa, self._fileName)
+        read_fasta_sequences(self._fileName)
+        self.db = sqeaqrDB.sqeaqrDB(self._fileName)
+
+    def teardown(self):
+        os.unlink(self._fileName)
+        os.unlink(self._fileName + sqeaqrExtension.fileExtension)
+
+class Test_fastq_recover(Test_fastq):
+    """
+    Test the functionality of the recovery script to take a sqeaqrDB to a
+    fastq file and back again
+    """
+    def setup(self):
+        self._fileName = os.path.join(thisdir, 'fastqRecovery')
+        toFastq.toFastq(testfq, self._fileName)
+        read_fastq_sequences(self._fileName)
+        self.db = sqeaqrDB.sqeaqrDB(self._fileName)
+
+    def teardown(self):
+        os.unlink(self._fileName)
+        os.unlink(self._fileName + sqeaqrExtension.fileExtension)
 
 class Test_dict_methods(object):
     """
