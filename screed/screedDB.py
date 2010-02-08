@@ -113,7 +113,8 @@ class screedDB(object, UserDict.DictMixin):
         self._cursor.execute(QUERY, dataTuple)
 
     def __len__(self):
-        res, = self._cursor.execute('SELECT COUNT(1) FROM %s' % self._table).next()
+        res, = self._cursor.execute('SELECT MAX(%s) FROM %s' % (self._primaryKey,
+                                                                self._table)).next()
         return res
 
     def keys(self):
