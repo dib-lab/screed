@@ -4,9 +4,11 @@ from screedExtension import fileExtension
 import UserDict
 import os
 import sqlite3
+import types
 
 # [AN] switch to cursor?
 # [AN] remove decision about using querying by name or id
+# [AN] add numbering to entries in the admin table
 
 _SCREEDADMIN = 'SCREEDADMIN'
 _DICT_TABLE = 'DICTIONARY_TABLE'
@@ -52,6 +54,9 @@ def getScreedDB(filepath, fields=None):
     if not filepath.endswith(fileExtension):
         filepath += fileExtension
 
+    if type(fields) != types.NoneType:
+        assert type(fields[0]) == types.StringType
+
     sqdb = None
     if not os.path.isfile(filepath): # Db file doesn't exist, should I create?
         if fields == None: # Need to create, but don't have fields!
@@ -89,9 +94,9 @@ def _getFieldTuple(sqdb):
     Creates the ordered tuple of fields from the database
     e.x, returns: (id, name, description)
     """
-    query = 'SELECT * FROM %s' % _SCREEDADMIN
+    query = 'SELECT FIELDNAME FROM %s' % _SCREEDADMIN
     result = [_PRIMARY_KEY.lower()]
-    for fieldName, fieldType, in sqdb.execute(query):
+    for fieldName, in sqdb.execute(query):
         result.append(str(fieldName.lower()))
 
     return tuple(result)
@@ -105,14 +110,14 @@ def _createSqDb(filepath, fields):
     sqdb = sqlite3.connect(filepath)
 
     # Create the admin table
-    sqdb.execute('CREATE TABLE %s (FIELDNAME TEXT, FIELDTYPE TEXT)' %
+    sqdb.execute('CREATE TABLE %s (FIELDNAME TEXT)' %
                       _SCREEDADMIN)
-    
-    query = 'INSERT INTO %s (FIELDNAME, FIELDTYPE) VALUES (?, ?)' % \
-            _SCREEDADMIN
 
-    for fieldName, fieldType in fields:
-        sqdb.execute(query, (fieldName.upper(), fieldType.upper()))
+    query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
+            _SCREEDADMIN
+    
+    for fieldName in fields:
+        sqdb.execute(query, (fieldName.upper(),))
 
     # Create the dictionary table
     sqdb.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
@@ -130,8 +135,8 @@ def _retrieveStandardStub(sqdb):
     returns: 'NAME, DESCRIPTION'
     """
     sqlList = []
-    query = "SELECT * FROM %s" % _SCREEDADMIN
-    for fieldName, fieldType in sqdb.execute(query):
+    query = "SELECT FIELDNAME FROM %s" % _SCREEDADMIN
+    for fieldName, in sqdb.execute(query):
         sqlList.append('%s' % fieldName)
         sqlList.append(', ')
     sqlList.pop()
@@ -158,14 +163,14 @@ def _retrieve(sqdb, getQuery):
 
 def toCreateStub(fieldTuple):
     """
-    Parses the ordered name, value pairs in fieldTuple into a create stub
+    Parses the ordered names of attributes in fieldTuple into a create stub
     ready to be inserted into the command to create the sql table.
-    e.x: given input (('name', 'text'), ('description', 'text'))
+    e.x: given input: ('name', 'description')
     returns: 'NAME TEXT, DESCRIPTION TEXT'
     """
     sqlList = []
-    for fieldName, fieldType in fieldTuple:
-        sqlList.append('%s %s' % (fieldName.upper(), fieldType.upper()))
+    for fieldName in fieldTuple:
+        sqlList.append('%s TEXT' % fieldName.upper())
         sqlList.append(', ')
     sqlList.pop()
     return "".join(sqlList)

@@ -108,8 +108,7 @@ def read_hava_sequences(filename):
     except IOError, e:
         raise dbw.DbException(str(e))
 
-    fields = (('hava', 'text'), ('quarzk', 'text'), ('muchalo', 'text'),
-              ('fakours', 'text'), ('selimizicka', 'text'), ('marshoon', 'text'))
+    fields = ('hava', 'quarzk', 'muchalo', 'fakours', 'selimizicka', 'marshoon')
     db = screedDB.screedDB(filename, fields)
 
     # Parse text and add to database

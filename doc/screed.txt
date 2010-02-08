@@ -33,11 +33,11 @@ Installing
 -------------------
 Assuming you have already downloaded the package, this is how to install::
 
-  python setup.py install
+    $ python setup.py install
 
 To run the optional nosetests type::
 
-  nosetests
+    $ nosetests
 
 in the screed/ directory
 
@@ -138,15 +138,12 @@ These steps will be described in the context of working from the python shell.
 
    >>> import screedDB
 
-2. Next, the database fields must be specified. The fields are what tells screed what
-   kind of data it will be storing and what the order is. The fields attribute is
-   represented as a tuple of 2-tuples of name-type pairs. For instance, lets say our
+2. Next, the database fields must be specified. The fields are what tells screed the
+   names and order of the data fields inside each record. For instance, lets say our
    new sequence has types 'name', 'bar', and 'baz', all text. The fields object will
    be:
 
-   >>> fields = (('name', 'text'), ('bar', 'text'), ('baz', 'text'))
-
-   [AN] remove the 'text' requirement in the future
+   >>> fields = ('name', 'bar', 'baz')
 
    Now the database dictionary object can be created with:
 
@@ -159,7 +156,7 @@ These steps will be described in the context of working from the python shell.
    will return when a record is queried.
 
 3. Finally, its time to add records to the database. After collecting the 'name', 'bar',
-   and 'baz' attributes, add data to the dict-like database object like:
+   and 'baz' attributes, add data to the dict-like database object:
 
    >>> db[name] = (name, bar, baz)
 

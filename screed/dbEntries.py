@@ -3,5 +3,5 @@
 
 import UserDict
 
-FASTQFIELDTYPES = (('name', 'text'), ('sequence', 'text'), ('accuracy', 'text'))
-FASTAFIELDTYPES = (('name', 'text'), ('description', 'text'), ('sequence', 'text'))
+FASTQFIELDTYPES = ('name', 'sequence','accuracy')
+FASTAFIELDTYPES = ('name', 'description', 'sequence')

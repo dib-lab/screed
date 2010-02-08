@@ -330,11 +330,11 @@ retrieved from these databases.</p>
 <h2>Installing</h2>
 <p>Assuming you have already downloaded the package, this is how to install:</p>
 <pre class="literal-block">
-python setup.py install
+$ python setup.py install
 </pre>
 <p>To run the optional nosetests type:</p>
 <pre class="literal-block">
-nosetests
+$ nosetests
 </pre>
 <p>in the screed/ directory</p>
 </div>
@@ -438,15 +438,13 @@ These steps will be described in the context of working from the python shell.</
 &gt;&gt;&gt; import screedDB
 </pre>
 </li>
-<li><p class="first">Next, the database fields must be specified. The fields are what tells screed what
-kind of data it will be storing and what the order is. The fields attribute is
-represented as a tuple of 2-tuples of name-type pairs. For instance, lets say our
+<li><p class="first">Next, the database fields must be specified. The fields are what tells screed the
+names and order of the data fields inside each record. For instance, lets say our
 new sequence has types 'name', 'bar', and 'baz', all text. The fields object will
 be:</p>
 <pre class="doctest-block">
-&gt;&gt;&gt; fields = (('name', 'text'), ('bar', 'text'), ('baz', 'text'))
+&gt;&gt;&gt; fields = ('name', 'bar', 'baz')
 </pre>
-<p>[AN] remove the 'text' requirement in the future</p>
 <p>Now the database dictionary object can be created with:</p>
 <pre class="doctest-block">
 &gt;&gt;&gt; db = screedDB.screedDB(filepath, fields)
@@ -458,7 +456,7 @@ will expect when receiving a new record to store and it is the order screed
 will return when a record is queried.</p>
 </li>
 <li><p class="first">Finally, its time to add records to the database. After collecting the 'name', 'bar',
-and 'baz' attributes, add data to the dict-like database object like:</p>
+and 'baz' attributes, add data to the dict-like database object:</p>
 <pre class="doctest-block">
 &gt;&gt;&gt; db[name] = (name, bar, baz)
 </pre>
