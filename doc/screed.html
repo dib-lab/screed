@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<title>screed - short read sequence database</title>
+<meta name="copyright" content="2008-2010 Michigan State University" />
+<meta name="authors" content="Alex Nolley  C. Titus Brown" />
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 5196 2007-06-03 20:25:28Z wiemann $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="screed-short-read-sequence-database">
+<h1 class="title">screed - short read sequence database</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Copyright:</th>
+<td>2008-2010 Michigan State University</td></tr>
+<tr><th class="docinfo-name">Authors:</th>
+<td>Alex Nolley
+<br />C. Titus Brown</td></tr>
+<tr><th class="docinfo-name">Contact:</th>
+<td><a class="first reference external" href="mailto:badmit&#64;gmail.com">badmit&#64;gmail.com</a>, <a class="last reference external" href="mailto:ctb&#64;msu.edu">ctb&#64;msu.edu</a></td></tr>
+<tr class="field"><th class="docinfo-name">License:</th><td class="field-body">BSD</td>
+</tr>
+</tbody>
+</table>
+<!-- contents: -->
+<div class="section" id="introduction">
+<h1>Introduction</h1>
+<p>screed is a database generation and querying package made to be used with gene
+sequences generated by Solexa machines, namely the FASTQ format, though FASTA
+is supported by default as well. Values
+such as sequence name, sequence description and the sequence itself can be
+retrieved from these databases.</p>
+</div>
+<div class="section" id="getting-going">
+<h1>Getting Going</h1>
+<p>The following software packages are required to run screed:</p>
+<ul class="simple">
+<li>Python 2.4 or newer</li>
+<li>nose (for testing)</li>
+</ul>
+<div class="section" id="downloading">
+<h2>Downloading</h2>
+<dl class="docutils">
+<dt>You will need git to download a copy from the public git repository:</dt>
+<dd>git clone git://github.com/acr/screed.git</dd>
+</dl>
+</div>
+<div class="section" id="installing">
+<h2>Installing</h2>
+<p>Assuming you have already downloaded the package, this is how to install:</p>
+<pre class="literal-block">
+python setup.py install
+</pre>
+<p>To run the optional nosetests type:</p>
+<pre class="literal-block">
+nosetests
+</pre>
+<p>in the screed/ directory</p>
+</div>
+</div>
+<div class="section" id="quick-start">
+<h1>Quick-Start</h1>
+<div class="section" id="creating-a-database-from-the-api">
+<h2>Creating a database from the API</h2>
+<p>From a python prompt type:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from screed import seqparse
+&gt;&gt;&gt; seqparse.read_fasta_sequences('../tests/test.fa')
+</pre>
+<p>That command just parsed the FASTA file '../tests/test.fa' into a
+screed-database. Relevant database files were placed in '../tests/'
+with the main data file named '../tests/test.fa_screed'. To create
+a screed database from a FASTQ file the syntax is similar:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; seqparse.read_fastq_sequences('../tests/test.fastq')
+</pre>
+</div>
+<div class="section" id="creating-a-database-from-a-script">
+<h2>Creating a database from a script</h2>
+<p>To create a screed db from a fastq file at the shell:</p>
+<pre class="literal-block">
+$ ./fqdbm ../tests/test.fastq
+</pre>
+<p>Similarly, to create a screed db from a fasta file:</p>
+<pre class="literal-block">
+$ ./fadbm ../tests/test.fa
+</pre>
+</div>
+<div class="section" id="reading-databases">
+<h2>Reading databases</h2>
+<p>In the python environment, import the screed module from the python
+subdirectory and load some databases:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; from screed import screedDB
+&gt;&gt;&gt; fadb = screedDB.screedDB('../tests/test.fa')
+&gt;&gt;&gt; fqdb = screedDB.screedDB('../tests/test.fastq')
+</pre>
+<p>The databases act like read-only dictionary objects:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; fadb.keys()
+&gt;&gt;&gt; fqdb.keys()
+</pre>
+<p>Each record in the database has certain attributes such as name and sequence
+information. If the database was derived from a fastq file, a quality score is
+also included. Conversely, fasta-derived databases have a description tag.</p>
+<p>To retrieve the names of records in the database:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; names = fadb.keys()
+</pre>
+<p>Or, to retrieve sequence information:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; sequences = []
+&gt;&gt;&gt; for key in fqdb:
+...     record = fqdb[key]
+...     sequences.append(record.sequence)
+</pre>
+<p>Length of the databases are easily found:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print len(fadb)
+22
+&gt;&gt;&gt; print len(fqdb)
+125
+</pre>
+<p>Records can also be retrieved by index, instead of by name:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; fqdb.loadRecordByIndex(5)
+</pre>
+</div>
+</div>
+<div class="section" id="writing-custom-sequence-parsers">
+<h1>Writing Custom Sequence Parsers</h1>
+<p>screed is built to be flexible with different types of file sequences.
+Included with screed are parsers for handling FASTA and FASTQ sequence file types,
+though if you need screed to work with a new file sequence type, all you need to
+do is write a new parser.</p>
+<div class="section" id="error-checking-in-parsing-methods">
+<h2>Error checking in parsing methods</h2>
+<p>The existing FASTA/FASTQ parsing functions in seqparse.py contain some error
+checking, such as making sure the file can be opened and asserting correct
+data is being read. Though screed
+doesn't enforce this, it is strongly recommended to include error checking code
+in your parser. To remain non-specific to one file sequence type or another,
+the underlying screed library can't contain error checking code of this kind.
+If errors are not detected by the parsing function, they will be silently included
+into the database being built and could cause problems much later when trying to
+access the database.</p>
+</div>
+<div class="section" id="general-parsing-function-format">
+<h2>General Parsing Function Format</h2>
+<p>This sub-section describes general steps for preparing and using screed with a
+custom sequence parser. Though they don't have to be, future sequence parsers
+should be located in the seqparse.py file for convenience.
+These steps will be described in the context of working from the python shell.</p>
+<ol class="arabic">
+<li><p class="first">First, import the screedDB file:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; import screedDB
+</pre>
+</li>
+<li><p class="first">Next, the database fields must be specified. The fields are what tells screed what
+kind of data it will be storing and what the order is. The fields attribute is
+represented as a tuple of 2-tuples of name-type pairs. For instance, lets say our
+new sequence has types 'name', 'bar', and 'baz', all text. The fields object will
+be:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; fields = (('name', 'text'), ('bar', 'text'), ('baz', 'text'))
+</pre>
+<p>[AN] remove the 'text' requirement in the future</p>
+<p>Now the database dictionary object can be created with:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; db = screedDB.screedDB(filepath, fields)
+</pre>
+<p>where 'filepath' is the path to the name of the file to be used by the screed
+database.
+Note the order in fields: 'name', 'bar', then 'baz'. This is the order screed
+will expect when receiving a new record to store and it is the order screed
+will return when a record is queried.</p>
+</li>
+<li><p class="first">Finally, its time to add records to the database. After collecting the 'name', 'bar',
+and 'baz' attributes, add data to the dict-like database object like:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; db[name] = (name, bar, baz)
+</pre>
+<p>After reading all the records into the database, close it and you're done:</p>
+<pre class="doctest-block">
+&gt;&gt;&gt; db.close()
+</pre>
+</li>
+</ol>
+<!-- Local Variables:
+mode: rst
+mode: outline-minor
+End: -->
+</div>
+</div>
+</div>
+</body>
+</html>

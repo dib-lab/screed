@@ -1,0 +1,2 @@
+screed is Copyright 2008-2010 Michigan State University
+screed is licensed under the BSD license
