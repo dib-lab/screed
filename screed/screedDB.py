@@ -37,6 +37,7 @@ class screedDB(object, UserDict.DictMixin):
         self._db, self._standardStub, self._fieldTuple, self._qMarks, \
                   self._table, self._queryBy, self._primaryKey = \
                   screedUtility.getScreedDB(filepath, fields)
+        self._cursor = self._db.cursor()
 
     def close(self):
         if self._db is not None:
@@ -71,7 +72,7 @@ class screedDB(object, UserDict.DictMixin):
         assert index >= 1 # sqlite starts numbering at 1
         query = 'SELECT * FROM %s WHERE %s = ?' \
                 % (self._table, self._primaryKey)
-        result = self._db.execute(query, (index,))
+        result = self._cursor.execute(query, (index,))
         try:
             pairs = zip(self._fieldTuple, result.next())
         except StopIteration:
@@ -86,7 +87,7 @@ class screedDB(object, UserDict.DictMixin):
         """
         query = "SELECT %s, %s FROM %s WHERE %s = ?" \
                  % (self._primaryKey, self._standardStub, self._table, self._queryBy)
-        retrieved = self._db.execute(query, (name,))
+        retrieved = self._cursor.execute(query, (name,))
         try:
             pairs = zip(self._fieldTuple, retrieved.next())
         except StopIteration:
@@ -109,16 +110,16 @@ class screedDB(object, UserDict.DictMixin):
         assert type(dataTuple) == types.TupleType
         QUERY = "REPLACE INTO %s (%s) VALUES (%s)" % \
                 (self._table, self._standardStub, self._qMarks)
-        self._db.execute(QUERY, dataTuple)
+        self._cursor.execute(QUERY, dataTuple)
 
     def __len__(self):
-        res, = self._db.execute('SELECT COUNT(1) FROM %s' % self._table).next()
+        res, = self._cursor.execute('SELECT COUNT(1) FROM %s' % self._table).next()
         return res
 
     def keys(self):
         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
         result = []
-        for key, in self._db.execute(query):
+        for key, in self._cursor.execute(query):
             result.append(key)
         return result
 
@@ -126,7 +127,7 @@ class screedDB(object, UserDict.DictMixin):
         query = 'SELECT %s, %s FROM %s WHERE %s = ?' % \
                 (self._primaryKey, self._standardStub, self._table, self._queryBy)
         for key in self.keys():
-            retrieved = self._db.execute(query, (key,))
+            retrieved = self._cursor.execute(query, (key,))
             pairs = zip(self._fieldTuple, retrieved.next())
             result = screedUtility._screed_record(pairs)
             result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
@@ -159,7 +160,7 @@ class screedDB(object, UserDict.DictMixin):
         query = 'SELECT %s FROM %s WHERE %s = ?' % \
                 (self._queryBy, self._table, self._queryBy)
         try:
-            self._db.execute(query, (key,)).next()
+            self._cursor.execute(query, (key,)).next()
         except StopIteration:
             return False
         return True

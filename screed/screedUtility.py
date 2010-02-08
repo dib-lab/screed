@@ -6,8 +6,6 @@ import os
 import sqlite3
 import types
 
-# [AN] switch to cursor?
-
 _SCREEDADMIN = 'SCREEDADMIN'
 _DICT_TABLE = 'DICTIONARY_TABLE'
 _PRIMARY_KEY = 'ID'
@@ -107,18 +105,20 @@ def _createSqDb(filepath, fields):
     """
     sqdb = sqlite3.connect(filepath)
 
+    c = sqdb.cursor()
+
     # Create the admin table
-    sqdb.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, FIELDNAME TEXT)' %
+    c.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, FIELDNAME TEXT)' %
                       _SCREEDADMIN)
 
     query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
             _SCREEDADMIN
     
     for fieldName in fields:
-        sqdb.execute(query, (fieldName.upper(),))
+        c.execute(query, (fieldName.upper(),))
 
     # Create the dictionary table
-    sqdb.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
+    c.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
                       (_DICT_TABLE, _PRIMARY_KEY, toCreateStub(fields)))
     return sqdb
 
