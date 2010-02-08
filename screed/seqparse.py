@@ -98,37 +98,32 @@ def read_fasta_sequences(filename):
     theFile.close()
     faDb.close()
 
-# # Parser for the fake 'hava' sequence
-## def read_hava_sequences(filename, multiplier=2):
-##     """
-##     Function to parse text from the given HAVA file into a screed database
-##     """
-##     try:
-##         theFile = open(filename, "rb")
-##     except IOError, e:
-##         raise dbw.DbException(str(e))
+# Parser for the fake 'hava' sequence
+def read_hava_sequences(filename):
+    """
+    Function to parse text from the given HAVA file into a screed database
+    """
+    try:
+        theFile = open(filename, "rb")
+    except IOError, e:
+        raise dbw.DbException(str(e))
 
-##     attributes = ("hava", "quarzk", "muchalo", "fakours", "selimizicka", "marshoon")
-##     db = openDBW(attributes, filename, multiplier)
+    fields = (('hava', 'text'), ('quarzk', 'text'), ('muchalo', 'text'),
+              ('fakours', 'text'), ('selimizicka', 'text'), ('marshoon', 'text'))
+    db = screedDB.screedDB(filename, fields)
 
-##     if db.is_open() == False:
-##         raise dbw.DbException("ERROR: DATABASE FILES ARE NOT OPEN")
+    # Parse text and add to database
+    nextChar = theFile.read(1)
+    while nextChar != '':
+        hava = nextChar + theFile.readline().strip()
+        quarzk = theFile.readline().strip()
+        muchalo = theFile.readline().strip()
+        fakours = theFile.readline().strip()
+        selimizicka = theFile.readline().strip()
+        marshoon = theFile.readline().strip()
 
-##     # Parse text and add to database
-##     nextChar = theFile.read(1)
-##     while nextChar != '':
-##         hava = nextChar + theFile.readline().strip()
-##         quarzk = theFile.readline().strip()
-##         muchalo = theFile.readline().strip()
-##         fakours = theFile.readline().strip()
-##         selimizicka = theFile.readline().strip()
-##         marshoon = theFile.readline().strip()
+        db[hava] = (hava, quarzk, muchalo, fakours, selimizicka, marshoon)
+        nextChar = theFile.read(1)
 
-##         recordString, attributeLengths = combineRecord((hava, quarzk, muchalo,
-##                                                         fakours, selimizicka,
-##                                                         marshoon))
-##         db.writeRecord(recordString, attributeLengths)
-##         nextChar = theFile.read(1)
-
-##     theFile.close()
-##     db.close()
+    theFile.close()
+    db.close()

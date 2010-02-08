@@ -10,6 +10,7 @@ import toFasta
 import toFastq
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
+from seqparse import read_hava_sequences
 
 testfa = os.path.join(thisdir, 'test.fa')
 testfq = os.path.join(thisdir, 'test.fastq')
@@ -18,49 +19,50 @@ testha = os.path.join(thisdir, 'test.hava')
 def setup():
     # index databases
     read_fasta_sequences(testfa)
-#    read_hava_sequences(testha)
+    read_hava_sequences(testha)
     read_fastq_sequences(testfq)
 
-#def teardown():
-#    os.unlink(testfq + screedExtension.fileExtension)
-#    os.unlink(testfa + screedExtension.fileExtension)
+def teardown():
+    os.unlink(testfq + screedExtension.fileExtension)
+    os.unlink(testfa + screedExtension.fileExtension)
+    os.unlink(testha + screedExtension.fileExtension)
 
-## class Test_hava_methods(object):
-##     """
-##     Make sure that screed can retrieve even retrieve data from imaginary filetypes, like HAVA
-##     """
-##     def setup(self):
-##         self.db = dbr.dbread(testha)
+class Test_hava_methods(object):
+    """
+    Make sure that screed can retrieve even retrieve data from imaginary filetypes, like HAVA
+    """
+    def setup(self):
+        self.db = screedDB.screedDB(testha)
 
-##     def test_contains(self):
-##         assert "test_006" in self.db
+    def test_contains(self):
+        assert "test_006" in self.db
 
-##     def test_beginning_key_retrieval(self):
-##         result = self.db['test_000']
-##         assert result.hava == 'test_000'
-##         assert result.quarzk == 'ACGGTGACGGTCACCGTCGACGGCCCAAGCCCATCGAACGTACCACCCCCACCTATCGTCACGCTGGTGGAGAGCCAATG'
-##         assert result.muchalo == 'AFPPCLHBCCILGMMOCHKNNDBKCCPNHAMKJOCCDJAOEPNMHFHCBAJOKEMMMBHCPHIOAEPFFCAOJPGIMKGK'
-##         assert result.fakours == '21858316587186112771945148345529452186568176931571171542294878855181415261425688'
-##         assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-##         assert result.marshoon == 'C7AF246AC7AAEABE5A557FCBC6FD5F5263BCDE4E745BEF1GG7DD1AB511GBC63A4GF1F4E1A154B35D'
+    def test_beginning_key_retrieval(self):
+        result = self.db['test_000']
+        assert result.hava == 'test_000'
+        assert result.quarzk == 'ACGGTGACGGTCACCGTCGACGGCCCAAGCCCATCGAACGTACCACCCCCACCTATCGTCACGCTGGTGGAGAGCCAATG'
+        assert result.muchalo == 'AFPPCLHBCCILGMMOCHKNNDBKCCPNHAMKJOCCDJAOEPNMHFHCBAJOKEMMMBHCPHIOAEPFFCAOJPGIMKGK'
+        assert result.fakours == '21858316587186112771945148345529452186568176931571171542294878855181415261425688'
+        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        assert result.marshoon == 'C7AF246AC7AAEABE5A557FCBC6FD5F5263BCDE4E745BEF1GG7DD1AB511GBC63A4GF1F4E1A154B35D'
 
-##     def test_middle_key_retrieval(self):
-##         result = self.db['test_0063']
-##         assert result.hava == 'test_0063'
-##         assert result.quarzk == 'CAACACGATCAAGTTTGGTAAGAATTCCGCCTTAAGCTTTCTAGAACGATAGTTGCCCCCAATCTGGTTCGAAATCTCTT'
-##         assert result.muchalo == 'GMDAPLMOOFANDHHMLBPIKGHIAFFFOABFMNNJNIJILEEFEPOCAJLNDLIFBPMGKOFJIEFAHNJPIOFAJMLM'
-##         assert result.fakours == '39236397139389852275613887648533427438439122136418369146118333919885587613673488'
-##         assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-##         assert result.marshoon == 'FC25E2CFC2BAFA7A2AA4757F3GFFFEE37G7752FCDBAEADBA1AC7374FB5C15552E6E2GG6GFF62C6GE'
+    def test_middle_key_retrieval(self):
+        result = self.db['test_0063']
+        assert result.hava == 'test_0063'
+        assert result.quarzk == 'CAACACGATCAAGTTTGGTAAGAATTCCGCCTTAAGCTTTCTAGAACGATAGTTGCCCCCAATCTGGTTCGAAATCTCTT'
+        assert result.muchalo == 'GMDAPLMOOFANDHHMLBPIKGHIAFFFOABFMNNJNIJILEEFEPOCAJLNDLIFBPMGKOFJIEFAHNJPIOFAJMLM'
+        assert result.fakours == '39236397139389852275613887648533427438439122136418369146118333919885587613673488'
+        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        assert result.marshoon == 'FC25E2CFC2BAFA7A2AA4757F3GFFFEE37G7752FCDBAEADBA1AC7374FB5C15552E6E2GG6GFF62C6GE'
 
-##     def test_end_key_retrieval(self):
-##         result = self.db['test_00124']
-##         assert result.hava == 'test_00124'
-##         assert result.quarzk == 'ATCGCAACCGTTTCCCCTATCTGGCAATTGAATCCGCGTCCTAAAACGAAAGCTTATCCCTGGCGAGGCACGCTAGGCCT'
-##         assert result.muchalo == 'CIHNCECANFNLKGCHNOEHJDHADHPAEMMNKGMMMPDOBMOCKNBCMCPHEBEOINHMBMMGCHEMOIOAPEFPDDJP'
-##         assert result.fakours == '32736451148353713169532559587626971677814946924334424648676283848861393812686731'
-##         assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-##         assert result.marshoon == '4FE5FDD76CC5DE4DC2F25AA2GFBD7BEG326C6D7AB5B71GA67BAFD63AE1A562CDC1C2D157G6EF17CD'
+    def test_end_key_retrieval(self):
+        result = self.db['test_00124']
+        assert result.hava == 'test_00124'
+        assert result.quarzk == 'ATCGCAACCGTTTCCCCTATCTGGCAATTGAATCCGCGTCCTAAAACGAAAGCTTATCCCTGGCGAGGCACGCTAGGCCT'
+        assert result.muchalo == 'CIHNCECANFNLKGCHNOEHJDHADHPAEMMNKGMMMPDOBMOCKNBCMCPHEBEOINHMBMMGCHEMOIOAPEFPDDJP'
+        assert result.fakours == '32736451148353713169532559587626971677814946924334424648676283848861393812686731'
+        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        assert result.marshoon == '4FE5FDD76CC5DE4DC2F25AA2GFBD7BEG326C6D7AB5B71GA67BAFD63AE1A562CDC1C2D157G6EF17CD'
 
 
 class Test_fastq(object):
