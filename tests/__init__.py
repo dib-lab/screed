@@ -2,10 +2,10 @@
 import sys, os, gc
 
 thisdir = os.path.dirname(__file__)
-libdir = os.path.abspath(os.path.join(thisdir, '..', 'sqeaqr'))
+libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
-import sqeaqrDB
-import sqeaqrExtension
+import screedDB
+import screedExtension
 import toFasta
 import toFastq
 from seqparse import read_fastq_sequences
@@ -22,8 +22,8 @@ def setup():
     read_fastq_sequences(testfq)
 
 #def teardown():
-#    os.unlink(testfq + sqeaqrExtension.fileExtension)
-#    os.unlink(testfa + sqeaqrExtension.fileExtension)
+#    os.unlink(testfq + screedExtension.fileExtension)
+#    os.unlink(testfa + screedExtension.fileExtension)
 
 ## class Test_hava_methods(object):
 ##     """
@@ -65,7 +65,7 @@ def setup():
 
 class Test_fastq(object):
     def setup(self):
-        self.db = sqeaqrDB.sqeaqrDB(testfq)
+        self.db = screedDB.screedDB(testfq)
 
     def test_length(self):
         assert len(self.db) == 125
@@ -122,7 +122,7 @@ class Test_fastq(object):
 
 class Test_fasta(object):
     def setup(self):
-        self.db = sqeaqrDB.sqeaqrDB(testfa)
+        self.db = screedDB.screedDB(testfa)
 
     def test_length(self):
         assert len(self.db) == 22
@@ -179,41 +179,41 @@ class Test_fasta(object):
 
 class Test_fasta_recover(Test_fasta):
     """
-    Test the functionality of the recovery script to take a sqeaqrDB to a
+    Test the functionality of the recovery script to take a screedDB to a
     fasta file and back again
     """
     def setup(self):
         self._fileName = os.path.join(thisdir, 'fastaRecovery')
         toFasta.toFasta(testfa, self._fileName)
         read_fasta_sequences(self._fileName)
-        self.db = sqeaqrDB.sqeaqrDB(self._fileName)
+        self.db = screedDB.screedDB(self._fileName)
 
     def teardown(self):
         os.unlink(self._fileName)
-        os.unlink(self._fileName + sqeaqrExtension.fileExtension)
+        os.unlink(self._fileName + screedExtension.fileExtension)
 
 class Test_fastq_recover(Test_fastq):
     """
-    Test the functionality of the recovery script to take a sqeaqrDB to a
+    Test the functionality of the recovery script to take a screedDB to a
     fastq file and back again
     """
     def setup(self):
         self._fileName = os.path.join(thisdir, 'fastqRecovery')
         toFastq.toFastq(testfq, self._fileName)
         read_fastq_sequences(self._fileName)
-        self.db = sqeaqrDB.sqeaqrDB(self._fileName)
+        self.db = screedDB.screedDB(self._fileName)
 
     def teardown(self):
         os.unlink(self._fileName)
-        os.unlink(self._fileName + sqeaqrExtension.fileExtension)
+        os.unlink(self._fileName + screedExtension.fileExtension)
 
 class Test_dict_methods(object):
     """
-    Make sure that sqeaqr returns sensible results for standard dictionary
+    Make sure that screed returns sensible results for standard dictionary
     queries.
     """
     def setup(self):
-        self.db = sqeaqrDB.sqeaqrDB(testfa)
+        self.db = screedDB.screedDB(testfa)
 
     def test_iter_stuff(self):
         db = self.db
