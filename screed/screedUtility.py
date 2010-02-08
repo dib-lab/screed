@@ -7,8 +7,6 @@ import sqlite3
 import types
 
 # [AN] switch to cursor?
-# [AN] remove decision about using querying by name or id
-# [AN] add numbering to entries in the admin table
 
 _SCREEDADMIN = 'SCREEDADMIN'
 _DICT_TABLE = 'DICTIONARY_TABLE'
@@ -85,7 +83,7 @@ def _getQueryBy(sqdb):
     Retrieves the name of the field used for querying by name in the database.
     This is the name of the first field in the administration table
     """
-    query = 'SELECT FIELDNAME FROM %s' % _SCREEDADMIN
+    query = 'SELECT FIELDNAME FROM %s WHERE ID=1' % _SCREEDADMIN
     result, = sqdb.execute(query).next()
     return result.lower()
 
@@ -110,7 +108,7 @@ def _createSqDb(filepath, fields):
     sqdb = sqlite3.connect(filepath)
 
     # Create the admin table
-    sqdb.execute('CREATE TABLE %s (FIELDNAME TEXT)' %
+    sqdb.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, FIELDNAME TEXT)' %
                       _SCREEDADMIN)
 
     query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
@@ -129,9 +127,9 @@ def _retrieveStandardStub(sqdb):
     Retrieves the names of the fields from the admin table and returns a sql sub-
     string that can be used for querying.
     e.x: table contains:
-    FIELDNAME      FIELDTYPE
-    'NAME'         TEXT
-    'DESCRIPTION'  TEXT
+    FIELDNAME
+    'NAME'
+    'DESCRIPTION'
     returns: 'NAME, DESCRIPTION'
     """
     sqlList = []
@@ -157,9 +155,6 @@ def _toQmarks(sqdb):
         sqlList.append(", ")
     sqlList.pop()
     return "".join(sqlList)
-
-def _retrieve(sqdb, getQuery):
-    retrieved = sqdb.execute(getQuery)
 
 def toCreateStub(fieldTuple):
     """
