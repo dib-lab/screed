@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2010, Michigan State University
+
 """
 seqparse contains definitions of parsers that are used to
 extract sequence information from files. These parsers

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Copyright (c) 2008-2010, Michigan State University
+
 import screedDB
 import sys, os
 

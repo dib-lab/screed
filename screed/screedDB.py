@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2010, Michigan State University
+
 import types
 import screedUtility
 import UserDict

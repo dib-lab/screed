@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2010, Michigan State University
+
 from screedExtension import fileExtension
 import UserDict
 import os

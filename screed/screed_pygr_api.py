@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2010, Michigan State University
+
 """
 A simple wrapper implementing a pygr-compatible SequenceDB based on screed.
 
@@ -28,7 +30,6 @@ CTB 3/20/09
 
 import UserDict
 
-#import dbr
 import screedDB
 
 from pygr.sequence import SequenceBase
