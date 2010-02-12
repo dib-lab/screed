@@ -54,18 +54,20 @@ def getScreedDB(filepath, fields=None):
         assert type(fields[0]) == types.StringType
 
     sqdb = None
+    _queryBy = None
     if not os.path.isfile(filepath): # Db file doesn't exist, should I create?
         if fields == None: # Need to create, but don't have fields!
             raise ValueError("Fields not specified and database doesn't exist")
-        sqdb = _createSqDb(filepath, fields)
+        sqdb, _queryBy = _createSqDb(filepath, fields)
     else:
         sqdb = sqlite3.connect(filepath)
+        _queryBy = _getQueryBy(sqdb)
 
     # Create the standard sql query stub
     _standardStub = _retrieveStandardStub(sqdb)
 
     # Get the name/key used for querying the database
-    _queryBy = _getQueryBy(sqdb)
+#    _queryBy = _getQueryBy(sqdb)
 
     # Create the ordered tuple of fields
     _fieldTuple = _getFieldTuple(sqdb)
@@ -113,14 +115,18 @@ def _createSqDb(filepath, fields):
 
     query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
             _SCREEDADMIN
-    
+
     for fieldName in fields:
         c.execute(query, (fieldName.upper(),))
+
+    _queryBy = _getQueryBy(c)
 
     # Create the dictionary table
     c.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
                       (_DICT_TABLE, _PRIMARY_KEY, toCreateStub(fields)))
-    return sqdb
+    # Create the dictionary index
+    c.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' % (_queryBy, _DICT_TABLE, _queryBy))
+    return sqdb, _queryBy
 
 def _retrieveStandardStub(sqdb):
     """
