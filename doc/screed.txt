@@ -52,9 +52,11 @@ From a python prompt type::
     >>> seqparse.read_fasta_sequences('../tests/test.fa')
 
 That command just parsed the FASTA file '../tests/test.fa' into a
-screed-database. Relevant database files were placed in '../tests/'
-with the main data file named '../tests/test.fa_screed'. To create
-a screed database from a FASTQ file the syntax is similar::
+screed-database named '../tests/test.fa_screed'. The screed database
+is independant from the text file it was derived from, so moving, renaming
+or deleting the '../tests/test.fa' file will not affect
+screed's operation. To create a screed database from a FASTQ file the
+syntax is similar::
 
     >>> seqparse.read_fastq_sequences('../tests/test.fastq')
 
