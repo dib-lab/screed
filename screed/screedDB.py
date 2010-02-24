@@ -135,7 +135,7 @@ class screedDB(object, UserDict.DictMixin):
         for k in self.keys():
             yield k
 
-    def getsliceById(self, index, field, begin, length):
+    def getSliceById(self, index, field, begin, length):
         """
         Returns a slice of a sequence indexed by index
         """
@@ -147,18 +147,25 @@ class screedDB(object, UserDict.DictMixin):
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
                 % (field, begin, length, self._table, self._primaryKey)
         result = self._cursor.execute(query, (index,))
-        try:
-            stringSlice, = str(result.next())
-        except StopIteration:
+        stringSlice, = result.fetchone()
+        if not stringSlice:
             raise KeyError("Index %s not found" % index)
-        return stringSlice
+        return str(stringSlice)
         
-    def getsliceByName(self, name, field, begin, length):
+    def getSliceByName(self, name, field, begin, length):
         """
         Returns a slice of a sequence indexed by name
         """
         assert field in self._fieldTuple
-        
+        begin += 1 # Sqlite begins at 1, not 0
+
+        query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
+                % (field, begin, length, self._table, self._queryBy)
+        result = self._cursor.execute(query, (name,))
+        stringSlice, = result.fetchone()
+        if not stringSlice:
+            raise KeyError("Key %s not found" % name)
+        return str(stringSlice)
 
     def iteritems(self):
         for v in self.itervalues():
