@@ -49,7 +49,7 @@ class screedDB(object, UserDict.DictMixin):
         """
         Calls loadRecordByName to retrieve the record with the given name
         """
-        return loadRecordByName(key)
+        return self.loadRecordByName(key)
 
     def values(self):
         """
@@ -74,7 +74,7 @@ class screedDB(object, UserDict.DictMixin):
                 % (self._table, self._primaryKey)
         result = self._cursor.execute(query, (index,))
         try:
-            pairs = zip(self._fieldTuple, result.next())
+            pairs = map(screedUtility.toStrings, self._fieldTuple, result.next())
         except StopIteration:
             raise KeyError("Index %s not found" % index)
         result = screedUtility._screed_record(pairs)
@@ -89,16 +89,13 @@ class screedDB(object, UserDict.DictMixin):
                  % (self._primaryKey, self._standardStub, self._table, self._queryBy)
         retrieved = self._cursor.execute(query, (name,))
         try:
-            pairs = zip(self._fieldTuple, retrieved.next())
+            pairs = map(screedUtility.toStrings, self._fieldTuple, retrieved.next())
         except StopIteration:
             raise KeyError("Key %s not found" % name)
         result = screedUtility._screed_record(pairs)
         result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
         return result
     
-    def __getitem__(self, key):
-        return self.loadRecordByName(key)
-
     def __setitem__(self, name, dataTuple):
         """
         Assigns data into the dictionary from the ordered dataTuple into the record
@@ -129,7 +126,7 @@ class screedDB(object, UserDict.DictMixin):
                 (self._primaryKey, self._standardStub, self._table, self._queryBy)
         for key in self.keys():
             retrieved = self._cursor.execute(query, (key,))
-            pairs = zip(self._fieldTuple, retrieved.next())
+            pairs = map(screedUtility.toStrings, self._fieldTuple, retrieved.next())
             result = screedUtility._screed_record(pairs)
             result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
             yield result
@@ -137,6 +134,31 @@ class screedDB(object, UserDict.DictMixin):
     def iterkeys(self):
         for k in self.keys():
             yield k
+
+    def getsliceById(self, index, field, begin, length):
+        """
+        Returns a slice of a sequence indexed by index
+        """
+        assert field in self._fieldTuple
+        index += 1 # Hack to make indexing start at 0
+        begin += 1 # Sqlite begins at 1, not 0
+        assert index >= 1 and begin >= 1
+
+        query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
+                % (field, begin, length, self._table, self._primaryKey)
+        result = self._cursor.execute(query, (index,))
+        try:
+            stringSlice, = str(result.next())
+        except StopIteration:
+            raise KeyError("Index %s not found" % index)
+        return stringSlice
+        
+    def getsliceByName(self, name, field, begin, length):
+        """
+        Returns a slice of a sequence indexed by name
+        """
+        assert field in self._fieldTuple
+        
 
     def iteritems(self):
         for v in self.itervalues():
