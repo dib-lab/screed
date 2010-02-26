@@ -1,7 +1,6 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 from screedExtension import fileExtension
-import UserDict
 import os
 import sqlite3
 import types
@@ -9,28 +8,6 @@ import types
 _SCREEDADMIN = 'SCREEDADMIN'
 _DICT_TABLE = 'DICTIONARY_TABLE'
 _PRIMARY_KEY = 'ID'
-
-class _screed_record(UserDict.DictMixin):
-    """
-    Simple dict-like record interface with bag behavior.
-    """
-    def __init__(self, *args, **kwargs):
-        self.d = dict(*args, **kwargs)
-        
-    def __getitem__(self, name):
-        return self.d[name]
-
-    def __setitem__(self, name, value):
-        self.d[name] = value
-    
-    def __getattr__(self, name):
-        try:
-            return self.d[name]
-        except KeyError:
-            raise AttributeError, name
-
-    def keys(self):
-        return self.d.keys()
 
 def toStrings(arg1, arg2):
     """

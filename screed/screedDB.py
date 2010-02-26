@@ -3,10 +3,7 @@
 import types
 import screedUtility
 import UserDict
-
-# [AN] remove decision about using querying by name or id
-# [AN] inconsistant naming scheme: allowing user to specify field names
-# but needing certain names here
+import screedRecord
 
 class screedDB(object, UserDict.DictMixin):
     """
@@ -57,7 +54,7 @@ class screedDB(object, UserDict.DictMixin):
             pairs = map(screedUtility.toStrings, self._fieldTuple, result.next())
         except StopIteration:
             raise KeyError("Index %s not found" % index)
-        result = screedUtility._screed_record(pairs)
+        result = screedRecord._screed_record_dict(pairs)
         result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
         return result
 
@@ -72,7 +69,7 @@ class screedDB(object, UserDict.DictMixin):
             pairs = map(screedUtility.toStrings, self._fieldTuple, retrieved.next())
         except StopIteration:
             raise KeyError("Key %s not found" % name)
-        result = screedUtility._screed_record(pairs)
+        result = screedRecord._screed_record_dict(pairs)
         result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
         return result
     
@@ -107,7 +104,7 @@ class screedDB(object, UserDict.DictMixin):
         for key in self.keys():
             retrieved = self._cursor.execute(query, (key,))
             pairs = map(screedUtility.toStrings, self._fieldTuple, retrieved.next())
-            result = screedUtility._screed_record(pairs)
+            result = screedRecord._screed_record_dict(pairs)
             result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
             yield result
 
