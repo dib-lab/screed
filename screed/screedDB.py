@@ -8,26 +8,6 @@ import UserDict
 # [AN] inconsistant naming scheme: allowing user to specify field names
 # but needing certain names here
 
-class _screed_record_iter(object):
-    """
-    Iterator over screed database, returning records
-    """
-    def __init__(self, db):
-        self.db = db
-        self.i = 1
-        self.n = len(db)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.i > self.n:
-            raise StopIteration
-
-        record = self.db.loadRecordByIndex(self.i)
-        self.i += 1
-        return record
-
 class screedDB(object, UserDict.DictMixin):
     """
     Class that supports lookups by id or name into an on-disk dictionary
