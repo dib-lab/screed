@@ -1,4 +1,5 @@
 import UserDict
+import types
 
 class _screed_record_dict(UserDict.DictMixin):
     """
@@ -21,3 +22,14 @@ class _screed_record_dict(UserDict.DictMixin):
 
     def keys(self):
         return self.d.keys()
+
+def _unicode2Str(arg1, arg2):
+    """
+    Converts arguments to standard string types and returns a tuple. This function
+    is meant to be used in conjunction with map()'ping the results of a database
+    query with the names of fields to get rid of the ugly u' in front
+    """
+    if type(arg2) == types.UnicodeType:
+        return (arg1, str(arg2))
+
+    return (arg1, arg2)

@@ -51,7 +51,7 @@ class screedDB(object, UserDict.DictMixin):
                 % (self._table, self._primaryKey)
         result = self._cursor.execute(query, (index,))
         try:
-            pairs = map(screedUtility.toStrings, self._fieldTuple, result.next())
+            pairs = map(screedRecord._unicode2Str, self._fieldTuple, result.next())
         except StopIteration:
             raise KeyError("Index %s not found" % index)
         result = screedRecord._screed_record_dict(pairs)
@@ -66,7 +66,7 @@ class screedDB(object, UserDict.DictMixin):
                  % (self._primaryKey, self._standardStub, self._table, self._queryBy)
         retrieved = self._cursor.execute(query, (name,))
         try:
-            pairs = map(screedUtility.toStrings, self._fieldTuple, retrieved.next())
+            pairs = map(screedRecord._unicode2Str, self._fieldTuple, retrieved.next())
         except StopIteration:
             raise KeyError("Key %s not found" % name)
         result = screedRecord._screed_record_dict(pairs)
@@ -103,7 +103,7 @@ class screedDB(object, UserDict.DictMixin):
                 (self._primaryKey, self._standardStub, self._table, self._queryBy)
         for key in self.keys():
             retrieved = self._cursor.execute(query, (key,))
-            pairs = map(screedUtility.toStrings, self._fieldTuple, retrieved.next())
+            pairs = map(screedRecord._unicode2Str, self._fieldTuple, retrieved.next())
             result = screedRecord._screed_record_dict(pairs)
             result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
             yield result
