@@ -1,4 +1,3 @@
-
 import sys, os, gc
 
 thisdir = os.path.dirname(__file__)
@@ -79,7 +78,7 @@ class Test_fastq(object):
     def test_id_retrieval(self):
         for key in self.db:
             record = self.db[key]
-            intRcrd = self.db.loadRecordByIndex(record.id)
+            intRcrd = self.db.loadRecordByIndex(int(str(record.id)))
             assert record == intRcrd
 
     def test_contains_front(self):
@@ -136,7 +135,7 @@ class Test_fasta(object):
     def test_id_retrieval(self):
         for key in self.db:
             record = self.db[key]
-            intRcrd = self.db.loadRecordByIndex(record.id)
+            intRcrd = self.db.loadRecordByIndex(repr(record.id))
             assert record == intRcrd
 
     def test_contains_front(self):
@@ -144,21 +143,21 @@ class Test_fasta(object):
         assert first.id == 0
         assert first.name == 'ENSMICT00000012722'
         assert first.description == 'cdna:pseudogene scaffold:micMur1:scaffold_185008:9:424:1 gene:ENSMICG00000012730'
-        assert first.sequence.startswith('TGCAGAAAATATCAAGAGTCAGCAGAAAAACTATACAAGGGCTGGTATTTTGATTATTCT')
+        assert str(first.sequence).startswith('TGCAGAAAATATCAAGAGTCAGCAGAAAAACTATACAAGGGCTGGTATTTTGATTATTCT')
 
     def test_contains_middle(self):
         middle = self.db[self.db.keys()[10]]
         assert middle.id == 10
         assert middle.name == 'ENSMICT00000012078'
         assert middle.description == 'cdna:pseudogene scaffold:micMur1:scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
-        assert middle.sequence.startswith('GCGCACTCCCAGTGGCTACCCACGGCAGGAGGCGGCGGCAGTGACTGGGCCGGCGGCCCG')
+        assert str(middle.sequence).startswith('GCGCACTCCCAGTGGCTACCCACGGCAGGAGGCGGCGGCAGTGACTGGGCCGGCGGCCCG')
 
     def test_contains_end(self):
         end = self.db[self.db.keys()[21]]
         assert end.id == 21
         assert end.name == 'ENSMICT00000003880'
         assert end.description == 'cdna:novel scaffold:micMur1:scaffold_175819:130:631:1 gene:ENSMICG00000003884'
-        assert end.sequence.startswith('ATGCTGCCTAAGTTTGACCCCAACGCGATCAAAGTCATGTACCTGAGGTGCACGGGTGGC')
+        assert str(end.sequence).startswith('ATGCTGCCTAAGTTTGACCCCAACGCGATCAAAGTCATGTACCTGAGGTGCACGGGTGGC')
 
     def test_contains(self):
         for k in self.db:
@@ -251,9 +250,8 @@ class Test_dict_methods(object):
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
         try:
-            self.db['FOO']
+            repr(self.db['FOO'])
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass

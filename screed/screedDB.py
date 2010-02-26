@@ -45,33 +45,35 @@ class screedDB(object, UserDict.DictMixin):
         """
         Retrieves record from database at the given index
         """
-        index += 1 # Hack to make indexing start at 0
+        index = int(index) + 1 # Hack to make indexing start at 0
         assert index >= 1 # sqlite starts numbering at 1
-        query = 'SELECT * FROM %s WHERE %s = ?' \
-                % (self._table, self._primaryKey)
-        result = self._cursor.execute(query, (index,))
-        try:
-            pairs = map(screedRecord._unicode2Str, self._fieldTuple, result.next())
-        except StopIteration:
-            raise KeyError("Index %s not found" % index)
-        result = screedRecord._screed_record_dict(pairs)
-        result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
-        return result
+        return screedRecord._buildRecord(self._fieldTuple, self._cursor, self._primaryKey, index, self._primaryKey, self._table)
+##         query = 'SELECT * FROM %s WHERE %s = ?' \
+##                 % (self._table, self._primaryKey)
+##         result = self._cursor.execute(query, (index,))
+##         try:
+##             pairs = map(screedRecord._unicode2Str, self._fieldTuple, result.next())
+##         except StopIteration:
+##             raise KeyError("Index %s not found" % index)
+##         result = screedRecord._screed_record_dict(pairs)
+##         result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
+##         return result
 
     def loadRecordByName(self, name):
         """
         Retrieves from database the record with the name 'name'
         """
-        query = "SELECT %s, %s FROM %s WHERE %s = ?" \
-                 % (self._primaryKey, self._standardStub, self._table, self._queryBy)
-        retrieved = self._cursor.execute(query, (name,))
-        try:
-            pairs = map(screedRecord._unicode2Str, self._fieldTuple, retrieved.next())
-        except StopIteration:
-            raise KeyError("Key %s not found" % name)
-        result = screedRecord._screed_record_dict(pairs)
-        result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
-        return result
+        return screedRecord._buildRecord(self._fieldTuple, self._cursor, self._primaryKey, name, self._queryBy, self._table)
+##         query = "SELECT %s, %s FROM %s WHERE %s = ?" \
+##                  % (self._primaryKey, self._standardStub, self._table, self._queryBy)
+##         retrieved = self._cursor.execute(query, (name,))
+##         try:
+##             pairs = map(screedRecord._unicode2Str, self._fieldTuple, retrieved.next())
+##         except StopIteration:
+##             raise KeyError("Key %s not found" % name)
+##         result = screedRecord._screed_record_dict(pairs)
+##         result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
+##         return result
     
     def __setitem__(self, name, dataTuple):
         """
@@ -95,18 +97,20 @@ class screedDB(object, UserDict.DictMixin):
         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
         result = []
         for key, in self._cursor.execute(query):
-            result.append(key)
+            result.append(str(key))
         return result
 
     def itervalues(self):
-        query = 'SELECT %s, %s FROM %s WHERE %s = ?' % \
-                (self._primaryKey, self._standardStub, self._table, self._queryBy)
-        for key in self.keys():
-            retrieved = self._cursor.execute(query, (key,))
-            pairs = map(screedRecord._unicode2Str, self._fieldTuple, retrieved.next())
-            result = screedRecord._screed_record_dict(pairs)
-            result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
-            yield result
+        for index in xrange(1, self.__len__()+1):
+            yield screedRecord._buildRecord(self._fieldTuple, self._cursor, self._primaryKey, index, self._primaryKey, self._table)
+##         query = 'SELECT %s, %s FROM %s WHERE %s = ?' % \
+##                 (self._primaryKey, self._standardStub, self._table, self._queryBy)
+##         for key in self.keys():
+##             retrieved = self._cursor.execute(query, (key,))
+##             pairs = map(screedRecord._unicode2Str, self._fieldTuple, retrieved.next())
+##             result = screedRecord._screed_record_dict(pairs)
+##             result[self._primaryKey.lower()] -= 1 # Hack to make indexing start at 0
+##             yield result
 
     def iterkeys(self):
         for k in self.keys():
@@ -146,7 +150,7 @@ class screedDB(object, UserDict.DictMixin):
 
     def iteritems(self):
         for v in self.itervalues():
-            yield v[self._primaryKey.lower()], v
+            yield str(v[self._primaryKey.lower()]), v
 
     def has_key(self, key):
         """
