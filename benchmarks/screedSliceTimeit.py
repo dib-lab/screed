@@ -16,7 +16,7 @@ if __name__ == '__main__':
         exit(1)
 
     runStatement = "for i in xrange(0, 500000):\n\
-    entry = db.getSliceById(random.randint(0, length), 'sequence', 0, 10)"
+    entry = db.loadRecordByIndex(random.randint(0, length))['sequence'][0:10]"
 
     setupStatement = "import os, sys\n\
 import random\n\

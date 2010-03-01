@@ -62,7 +62,6 @@ class screedDB(object, UserDict.DictMixin):
         e.x: name = 'some read name',
         dataTuple = ('some read name', 'a description of some read name', 'ATCG')
         """
-        # [AN] make a test for the existence of the name before inserting new data
         assert type(dataTuple) == types.TupleType
         QUERY = "REPLACE INTO %s (%s) VALUES (%s)" % \
                 (self._table, self._standardStub, self._qMarks)

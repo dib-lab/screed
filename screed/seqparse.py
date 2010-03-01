@@ -34,8 +34,7 @@ def read_fastq_sequences(filename):
     fqDb = screedDB.screedDB(filename, fields=dbEntries.FASTQFIELDTYPES)
 
     while 1:
-        # [AN] does this have to be empty? could make set here instead of in db
-        data = [] # Emtpy id entry 
+        data = []
         firstLine = theFile.readline().strip().split('@')
         if len(firstLine) == 1: # Reached eof
             break
