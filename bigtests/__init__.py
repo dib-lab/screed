@@ -82,7 +82,7 @@ class Test_s22_fastq:
         """
         names = []
         for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
+            names.append(str(self.db.loadRecordByIndex(i)['name']))
         assert names == self.db.keys()
 
         for i in names:
