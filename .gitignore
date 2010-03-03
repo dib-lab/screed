@@ -1,2 +1,4 @@
 *.pyc
 *_screed
+*.fa
+*.fastq
