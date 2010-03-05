@@ -8,7 +8,6 @@ create the databases
 """
 import screedDB
 import os
-import screedExtension
 
 class DbException(Exception):
     def __init__(self, value):
@@ -18,6 +17,7 @@ class DbException(Exception):
 
 FASTQFIELDTYPES = ('name', 'sequence','accuracy')
 FASTAFIELDTYPES = ('name', 'description', 'sequence')
+fileExtension = '_screed'
 
 def read_fastq_sequences(filename):
     """
@@ -30,8 +30,8 @@ def read_fastq_sequences(filename):
         raise DbException(str(e))
 
     # Delete old screed database if that exists
-    if os.path.isfile(filename + screedExtension.fileExtension):
-        os.unlink(filename + screedExtension.fileExtension)
+    if os.path.isfile(filename + fileExtension):
+        os.unlink(filename + fileExtension)
 
     fqDb = screedDB.screedDB(filename, fields=FASTQFIELDTYPES)
 
@@ -62,8 +62,8 @@ def read_fasta_sequences(filename):
         raise DbException(str(e))
 
     # Delete old screed database if that exists
-    if os.path.isfile(filename + screedExtension.fileExtension):
-        os.unlink(filename + screedExtension.fileExtension)
+    if os.path.isfile(filename + fileExtension):
+        os.unlink(filename + fileExtension)
 
     faDb = screedDB.screedDB(filename, fields=FASTAFIELDTYPES)
 
