@@ -24,8 +24,9 @@ class fastaModel(object):
 
     def writeSequence(self, sequence):
         """
-        Stores the given sequence until a call to writeDescription is made so that
-        the description and sequence will be stored in the correct fasta order
+        Stores the given sequence until a call to writeDescription is made
+        so that the description and sequence will be stored in the correct
+        fasta order
         """
         self.currSeq = sequence.strip()
 

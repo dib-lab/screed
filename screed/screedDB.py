@@ -47,13 +47,27 @@ class screedDB(object, UserDict.DictMixin):
         """
         index = int(index) + 1 # Hack to make indexing start at 0
         assert index >= 1 # sqlite starts numbering at 1
-        return screedRecord._buildRecord(self._fieldTuple, self._cursor, self._primaryKey, index, self._primaryKey, self._table)
+        query = 'SELECT %s FROM %s WHERE %s=?' % (self._primaryKey,
+                                                  self._table, self._primaryKey)
+        res = self._cursor.execute(query, (index,))
+        if type(res.fetchone()) == types.NoneType:
+            return None
+        return screedRecord._buildRecord(self._fieldTuple,self._cursor,
+                                         self._primaryKey, index, self._primaryKey,
+                                         self._table)
 
     def loadRecordByName(self, name):
         """
         Retrieves from database the record with the name 'name'
         """
-        return screedRecord._buildRecord(self._fieldTuple, self._cursor, self._primaryKey, name, self._queryBy, self._table)
+        query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
+                                                  self._table, self._queryBy)
+        res = self._cursor.execute(query, (name,))
+        if type(res.fetchone()) == types.NoneType:
+            return None
+        return screedRecord._buildRecord(self._fieldTuple, self._cursor,
+                                         self._primaryKey, name, self._queryBy,
+                                         self._table)
     
     def __setitem__(self, name, dataTuple):
         """
@@ -81,7 +95,9 @@ class screedDB(object, UserDict.DictMixin):
 
     def itervalues(self):
         for index in xrange(1, self.__len__()+1):
-            yield screedRecord._buildRecord(self._fieldTuple, self._cursor, self._primaryKey, index, self._primaryKey, self._table)
+            yield screedRecord._buildRecord(self._fieldTuple, self._cursor,
+                                            self._primaryKey, index, self._primaryKey,
+                                            self._table)
 
     def iterkeys(self):
         for k in self.keys():

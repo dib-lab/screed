@@ -54,10 +54,10 @@ def genSeq(min, max):
 def createFastaFiles(filename, size, divisions):
     cof = collectionOFiles(filename, divisions, size)
     counter = 0
+    description="cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random:95622:98297:1"
     while(not cof.finished()):
         name = ">GENSCAN00%d" % counter
         sequence = genSeq(seqLength[0], seqLength[1])
-        description = "cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random:95622:98297:1"
         cof.writeRecord(name, description, sequence)
         counter += 1
     return

@@ -44,7 +44,7 @@ def getScreedDB(filepath, fields=None):
     _standardStub = _retrieveStandardStub(sqdb)
 
     # Get the name/key used for querying the database
-#    _queryBy = _getQueryBy(sqdb)
+    _queryBy = _getQueryBy(sqdb)
 
     # Create the ordered tuple of fields
     _fieldTuple = _getFieldTuple(sqdb)

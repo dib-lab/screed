@@ -31,8 +31,8 @@ def getfile(f):
     try:
         up = urllib.urlopen(base_url)
     except IOError:
-        raise IOError, "Error downloading testfiles, are you connected to\
- the internet?"
+        raise IOError, "Error downloading testfiles, are you connected to " +\
+              "the internet?"
     fp.write(up.read())
     fp.close()
 
@@ -101,28 +101,28 @@ class Test_s22_fastq:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -199,8 +199,8 @@ class Test_s22_fastq:
 
         for case in testcases:
             assert testcases[case] == self.db[case]
-            
-            
+
+
 class Test_s31_fastq:
     """
     Test screed methods on the s31 fastq file
@@ -242,24 +242,24 @@ class Test_s31_fastq:
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-    
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -336,7 +336,7 @@ class Test_s31_fastq:
 
         for case in testcases:
             assert testcases[case] == self.db[case]
-            
+
 
 class Test_s42_fastq:
     """
@@ -375,28 +375,28 @@ class Test_s42_fastq:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -473,8 +473,8 @@ class Test_s42_fastq:
 
         for case in testcases:
             assert testcases[case] == self.db[case]
-            
-            
+
+
 class Test_po_fasta:
     """
     Test screed methods on the pongo fasta file
@@ -512,28 +512,28 @@ class Test_po_fasta:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -583,8 +583,8 @@ class Test_po_fasta:
         """
         testcases = {}
         testcases['GENSCAN00000032971'] = {
-		'id': 0,
-                'description': 'cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random:95622:98297:1',
+            'id': 0,
+            'description': 'cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random:95622:98297:1',
                 'name' : 'GENSCAN00000032971',
                 'sequence': 'ATGGCGCCCCGAACCCTCCTCCTGCTGCTCTCGGCGGCCCTGGCCCCGACCGAGACCTGG'}
         testcases['GENSCAN00000042282'] = {
@@ -650,28 +650,28 @@ class Test_mus_fasta:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -730,8 +730,8 @@ class Test_mus_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == self.db[case]['description']
             assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
-            
-            
+
+
 class Test_tri_fasta:
     """
     Test screed methods on the tri fasta file
@@ -769,28 +769,28 @@ class Test_tri_fasta:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -869,7 +869,7 @@ class Test_tri_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == self.db[case]['description']
             assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
-            
+
 
 class Test_xeno_fasta:
     """
@@ -908,28 +908,28 @@ class Test_xeno_fasta:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -1046,28 +1046,28 @@ class Test_sorex_fasta:
         del keys
         del ikeys
         gc.collect()
-        
+
     def test_contains(self):
         for k in self.db:
             assert k in self.db
-        
+
         assert not 'FOO' in self.db
-        
+
     def test_get(self):
         for k in self.db:
             record = self.db.get(k)
             assert record.name == k
-            
+
             record = self.db[k]
             assert record.name == k
-        
+
         assert self.db.get('FOO') == None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
-        
+
     def test_missing(self):
         """
         Make sure that unsupported dict attributes are actually missing.
@@ -1118,36 +1118,55 @@ class Test_sorex_fasta:
         testcases = {}
         testcases['scaffold_93039'] = {
             'id': 0,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_93039:1:203:1',
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_93' +\
+            '039:1:203:1',
             'name': 'scaffold_93039',
-            'sequence': 'GCTGAGCCTTGTAGTTCTGCTCCCTTTGACTGACGGCCCACTATGGACCGGAAAAACTAC'}
-        testcases['scaffold_107701'] = {
-		'id': 1,
-                'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_107701:1:203:1',
-                'name' : 'scaffold_107701',
-                'sequence': 'TAAACCCAAAATAAACATTCCCCAAATTATATTTCTTCCTTTCCTTCTGAATAAAAGAAA'}
-        testcases['GeneScaffold_6994'] = {
-		'id': 243135,
-                'description': 'dna:genescaffold genescaffold:COMMON_SHREW1:GeneScaffold_6994:1:2349312:1',
-                'name': 'GeneScaffold_6994',
-                'sequence': 'TATTGAGAGAAGTGGGAACTTCTCTAGTGGTGGGGTATGGTGATGGAATGATGTATGAAT'}
-        testcases['scaffold_118324'] = {
-		'id': 13823,
-                'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_118324:1:884:1',
-                'name': 'scaffold_118324',
-                'sequence': 'CAGCCCCCTGCAACAAATTTTATACTCTAGAAACAGTTTAATGGCTGTTGGAATATTTCC'}
-        testcases['scaffold_92895'] = {
-		'id': 14573,
-                'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_92895:1:890:1',
-                'name': 'scaffold_92895',
-                'sequence': 'GGGAAGCTTGCAAGGCTGTCCCATGTGGGCAGGAAGCTCTCAGTAGCTTGCCAGTTTCTC'}
-        testcases['scaffold_62271'] = {
-		'id': 37101,
-                'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_62271:1:1064:1',
-                'name': 'scaffold_62271',
-                'sequence': 'AGAGTATCTCCCCCACATGGCAGAGCCTGGCAAGCTACCCATGGCGTATTCAATATGCCA'}
+            'sequence': 'GCTGAGCCTTGTAGTTCTGCTCCCTTTGACTGACGGCCCACTATGGACCG' +\
+            'GAAAAACTAC'}
         
+        testcases['scaffold_107701'] = {
+            'id': 1,
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_10' +\
+            '7701:1:203:1',
+            'name' : 'scaffold_107701',
+            'sequence': 'TAAACCCAAAATAAACATTCCCCAAATTATATTTCTTCCTTTCCTTCTGA' +\
+            'ATAAAAGAAA'}
+        
+        testcases['GeneScaffold_6994'] = {
+            'id': 243135,
+            'description': 'dna:genescaffold genescaffold:COMMON_SHREW1:Gen' +\
+            'eScaffold_6994:1:2349312:1',
+            'name': 'GeneScaffold_6994',
+            'sequence': 'TATTGAGAGAAGTGGGAACTTCTCTAGTGGTGGGGTATGGTGATGGAATG' +\
+            'ATGTATGAAT'}
+        
+        testcases['scaffold_118324'] = {
+            'id': 13823,
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_11' +\
+            '8324:1:884:1',
+            'name': 'scaffold_118324',
+            'sequence': 'CAGCCCCCTGCAACAAATTTTATACTCTAGAAACAGTTTAATGGCTGTTG' +\
+            'GAATATTTCC'}
+        
+        testcases['scaffold_92895'] = {
+            'id': 14573,
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_92' +\
+            '895:1:890:1',
+            'name': 'scaffold_92895',
+            'sequence': 'GGGAAGCTTGCAAGGCTGTCCCATGTGGGCAGGAAGCTCTCAGTAGCTTG' +\
+            'CCAGTTTCTC'}
+        
+        testcases['scaffold_62271'] = {
+            'id': 37101,
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_62' +\
+            '271:1:1064:1',
+            'name': 'scaffold_62271',
+            'sequence': 'AGAGTATCTCCCCCACATGGCAGAGCCTGGCAAGCTACCCATGGCGTATT' +\
+            'CAATATGCCA'}
+
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
+            assert testcases[case]['description'] == \
+                   self.db[case]['description']
+            assert self.db[case]['sequence'].startswith(testcases[case]\
+                                                        ['sequence'])
