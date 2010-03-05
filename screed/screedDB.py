@@ -49,9 +49,9 @@ class screedDB(object, UserDict.DictMixin):
         assert index >= 1 # sqlite starts numbering at 1
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._primaryKey,
                                                   self._table, self._primaryKey)
-        res = self._cursor.execute(query, (index,))
+        res = self._cursor.execute(query, (int(index),))
         if type(res.fetchone()) == types.NoneType:
-            return None
+            raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self._fieldTuple,self._cursor,
                                          self._primaryKey, index, self._primaryKey,
                                          self._table)
@@ -62,9 +62,12 @@ class screedDB(object, UserDict.DictMixin):
         """
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
                                                   self._table, self._queryBy)
-        res = self._cursor.execute(query, (name,))
+        try:
+            res = self._cursor.execute(query, (str(name),))
+        except:
+            raise TypeError("query: %s, name: %s" % (type(query), type(name)))
         if type(res.fetchone()) == types.NoneType:
-            return None
+            raise KeyError("Key %s not found" % name)
         return screedRecord._buildRecord(self._fieldTuple, self._cursor,
                                          self._primaryKey, name, self._queryBy,
                                          self._table)
