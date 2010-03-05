@@ -7,7 +7,6 @@ feed the data to their respective dict writers which
 create the databases
 """
 import screedDB
-import dbEntries
 import os
 import screedExtension
 
@@ -16,6 +15,9 @@ class DbException(Exception):
         self.value = value
     def __str__(self):
         return repr(self.value)
+
+FASTQFIELDTYPES = ('name', 'sequence','accuracy')
+FASTAFIELDTYPES = ('name', 'description', 'sequence')
 
 def read_fastq_sequences(filename):
     """
@@ -31,7 +33,7 @@ def read_fastq_sequences(filename):
     if os.path.isfile(filename + screedExtension.fileExtension):
         os.unlink(filename + screedExtension.fileExtension)
 
-    fqDb = screedDB.screedDB(filename, fields=dbEntries.FASTQFIELDTYPES)
+    fqDb = screedDB.screedDB(filename, fields=FASTQFIELDTYPES)
 
     while 1:
         data = []
@@ -63,7 +65,7 @@ def read_fasta_sequences(filename):
     if os.path.isfile(filename + screedExtension.fileExtension):
         os.unlink(filename + screedExtension.fileExtension)
 
-    faDb = screedDB.screedDB(filename, fields=dbEntries.FASTAFIELDTYPES)
+    faDb = screedDB.screedDB(filename, fields=FASTAFIELDTYPES)
 
     # Parse text and add to database
     nextChar = theFile.read(1)
