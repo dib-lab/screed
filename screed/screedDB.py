@@ -24,9 +24,20 @@ class screedDB(object, UserDict.DictMixin):
 
     def __getitem__(self, key):
         """
-        Calls loadRecordByName to retrieve the record with the given name
+        Retrieves from database the record with the key 'key'
         """
-        return self.loadRecordByName(key)
+        key = str(key) # So lazy retrieval objectes are evaluated
+        query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
+                                                  self._table, self._queryBy)
+        try:
+            res = self._cursor.execute(query, (key,))
+        except:
+            raise TypeError("query: %s, key: %s" % (type(query), type(key)))
+        if type(res.fetchone()) == types.NoneType:
+            raise KeyError("Key %s not found" % key)
+        return screedRecord._buildRecord(self._fieldTuple, self._cursor,
+                                         self._primaryKey, key, self._queryBy,
+                                         self._table)
 
     def values(self):
         """
@@ -54,23 +65,6 @@ class screedDB(object, UserDict.DictMixin):
         return screedRecord._buildRecord(self._fieldTuple,self._cursor,
                                          self._primaryKey, index, self._primaryKey,
                                          self._table)
-
-    def loadRecordByName(self, name):
-        """
-        Retrieves from database the record with the name 'name'
-        """
-        name = str(name) # So lazy retrieval objectes are evaluated
-        query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
-                                                  self._table, self._queryBy)
-        try:
-            res = self._cursor.execute(query, (name,))
-        except:
-            raise TypeError("query: %s, name: %s" % (type(query), type(name)))
-        if type(res.fetchone()) == types.NoneType:
-            raise KeyError("Key %s not found" % name)
-        return screedRecord._buildRecord(self._fieldTuple, self._cursor,
-                                         self._primaryKey, name, self._queryBy,
-                                         self._table)
     
     def __setitem__(self, name, dataTuple):
         """
@@ -91,11 +85,6 @@ class screedDB(object, UserDict.DictMixin):
 
     def keys(self):
         return list(self.iterkeys())
-##         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
-##         result = []
-##         for key, in self._cursor.execute(query):
-##             result.append(str(key))
-##         return result
 
     def itervalues(self):
         for index in xrange(1, self.__len__()+1):
@@ -107,8 +96,6 @@ class screedDB(object, UserDict.DictMixin):
         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
         for key, in self._cursor.execute(query):
             yield key
-##         for k in self.keys():
-##             yield k
 
     def iteritems(self):
         for v in self.itervalues():
