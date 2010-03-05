@@ -78,7 +78,7 @@ class Test_fastq(object):
     def test_id_retrieval(self):
         for key in self.db:
             record = self.db[key]
-            intRcrd = self.db.loadRecordByIndex(int(str(record.id)))
+            intRcrd = self.db.loadRecordByIndex(record.id)
             assert record == intRcrd
 
     def test_contains_front(self):
@@ -105,6 +105,8 @@ class Test_fastq(object):
     def test_contains(self):
         for k in self.db:
             assert self.db.has_key(k)
+
+        assert self.db.get('FOO') == None
 
         assert not 'FOO' in self.db
 
@@ -135,7 +137,7 @@ class Test_fasta(object):
     def test_id_retrieval(self):
         for key in self.db:
             record = self.db[key]
-            intRcrd = self.db.loadRecordByIndex(repr(record.id))
+            intRcrd = self.db.loadRecordByIndex(record.id)
             assert record == intRcrd
 
     def test_contains_front(self):
@@ -162,6 +164,8 @@ class Test_fasta(object):
     def test_contains(self):
         for k in self.db:
             assert self.db.has_key(k)
+
+        assert self.db.get('FOO') == None
 
         assert not 'FOO' in self.db
 
@@ -234,6 +238,8 @@ class Test_dict_methods(object):
         for k in self.db:
             assert self.db.has_key(k)
 
+        assert db.get('FOO') == None
+
         assert not self.db.has_key('FOO')
             
     def test_contains(self):
@@ -251,7 +257,7 @@ class Test_dict_methods(object):
             assert record.name == k
 
         try:
-            repr(self.db['FOO'])
+            self.db['FOO']
             assert False, "the previous line should raise a KeyError"
         except KeyError:
             pass
