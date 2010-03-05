@@ -9,12 +9,6 @@ create the databases
 import screedDB
 import os
 
-class DbException(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
-
 FASTQFIELDTYPES = ('name', 'sequence','accuracy')
 FASTAFIELDTYPES = ('name', 'description', 'sequence')
 fileExtension = '_screed'
@@ -24,10 +18,8 @@ def read_fastq_sequences(filename):
     Function to parse text from the given FASTQ file into a screed database
     """
 
-    try:
-        theFile = open(filename, "rb")
-    except IOError, e: 
-        raise DbException(str(e))
+    # Will raise an exception if the file doesn't exist
+    theFile = open(filename, "rb")
 
     # Delete old screed database if that exists
     if os.path.isfile(filename + fileExtension):
@@ -56,10 +48,8 @@ def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
-    try:
-        theFile = open(filename, "rb")
-    except IOError, e:
-        raise DbException(str(e))
+    # Will raise an exception if the file doesn't exist
+    theFile = open(filename, "rb")
 
     # Delete old screed database if that exists
     if os.path.isfile(filename + fileExtension):
@@ -104,10 +94,8 @@ def read_hava_sequences(filename):
     """
     Function to parse text from the given HAVA file into a screed database
     """
-    try:
-        theFile = open(filename, "rb")
-    except IOError, e:
-        raise dbw.DbException(str(e))
+    # Will raise an exception if the file doesn't exist
+    theFile = open(filename, "rb")
 
     fields = ('hava', 'quarzk', 'muchalo', 'fakours', 'selimizicka', 'marshoon')
     db = screedDB.screedDB(filename, fields)
