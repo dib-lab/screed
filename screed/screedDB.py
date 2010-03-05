@@ -29,10 +29,7 @@ class screedDB(object, UserDict.DictMixin):
         key = str(key) # So lazy retrieval objectes are evaluated
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
                                                   self._table, self._queryBy)
-        try:
-            res = self._cursor.execute(query, (key,))
-        except:
-            raise TypeError("query: %s, key: %s" % (type(query), type(key)))
+        res = self._cursor.execute(query, (key,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self._fieldTuple, self._cursor,
@@ -79,8 +76,9 @@ class screedDB(object, UserDict.DictMixin):
         self._cursor.execute(QUERY, dataTuple)
 
     def __len__(self):
-        res, = self._cursor.execute('SELECT MAX(%s) FROM %s' % (self._primaryKey,
-                                                                self._table)).next()
+        query = 'SELECT MAX(%s) FROM %s' % (self._primaryKey,
+                                            self._table)
+        res, = self._cursor.execute(query).fetchone()
         return res
 
     def keys(self):
@@ -119,9 +117,7 @@ class screedDB(object, UserDict.DictMixin):
         """
         query = 'SELECT %s FROM %s WHERE %s = ?' % \
                 (self._queryBy, self._table, self._queryBy)
-        try:
-            self._cursor.execute(query, (key,)).next()
-        except StopIteration:
+        if self._cursor.execute(query, (key,)).fetchone() == None:
             return False
         return True
 
