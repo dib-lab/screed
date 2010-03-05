@@ -1,6 +1,6 @@
 # Copyright (c) 2008-2010, Michigan State University
 
-from screedExtension import fileExtension
+import seqparse
 import os
 import sqlite3
 import types
@@ -24,8 +24,8 @@ def getScreedDB(filepath, fields=None):
     """
     # Ensure the filepath is correctly formatted with the extension to
     # the database filename
-    if not filepath.endswith(fileExtension):
-        filepath += fileExtension
+    if not filepath.endswith(seqparse.fileExtension):
+        filepath += seqparse.fileExtension
 
     if type(fields) != types.NoneType:
         assert type(fields[0]) == types.StringType

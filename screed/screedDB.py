@@ -90,11 +90,12 @@ class screedDB(object, UserDict.DictMixin):
         return res
 
     def keys(self):
-        query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
-        result = []
-        for key, in self._cursor.execute(query):
-            result.append(str(key))
-        return result
+        return list(self.iterkeys())
+##         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
+##         result = []
+##         for key, in self._cursor.execute(query):
+##             result.append(str(key))
+##         return result
 
     def itervalues(self):
         for index in xrange(1, self.__len__()+1):
@@ -103,8 +104,11 @@ class screedDB(object, UserDict.DictMixin):
                                             self._table)
 
     def iterkeys(self):
-        for k in self.keys():
-            yield k
+        query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
+        for key, in self._cursor.execute(query):
+            yield key
+##         for k in self.keys():
+##             yield k
 
     def iteritems(self):
         for v in self.itervalues():

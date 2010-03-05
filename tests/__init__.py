@@ -4,12 +4,12 @@ thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 import screedDB
-import screedExtension
 import toFasta
 import toFastq
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
 from seqparse import read_hava_sequences
+from seqparse import fileExtension
 
 testfa = os.path.join(thisdir, 'test.fa')
 testfq = os.path.join(thisdir, 'test.fastq')
@@ -22,9 +22,9 @@ def setup():
     read_fastq_sequences(testfq)
 
 def teardown():
-    os.unlink(testfq + screedExtension.fileExtension)
-    os.unlink(testfa + screedExtension.fileExtension)
-    os.unlink(testha + screedExtension.fileExtension)
+    os.unlink(testfq + fileExtension)
+    os.unlink(testfa + fileExtension)
+    os.unlink(testha + fileExtension)
 
 class Test_hava_methods(object):
     """
@@ -195,7 +195,7 @@ class Test_fasta_recover(Test_fasta):
 
     def teardown(self):
         os.unlink(self._fileName)
-        os.unlink(self._fileName + screedExtension.fileExtension)
+        os.unlink(self._fileName + fileExtension)
 
 class Test_fastq_recover(Test_fastq):
     """
@@ -210,7 +210,7 @@ class Test_fastq_recover(Test_fastq):
 
     def teardown(self):
         os.unlink(self._fileName)
-        os.unlink(self._fileName + screedExtension.fileExtension)
+        os.unlink(self._fileName + fileExtension)
 
 class Test_dict_methods(object):
     """

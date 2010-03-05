@@ -165,7 +165,6 @@ These steps will be described in the context of working from the python shell.
    After reading all the records into the database, close it and you're done:
 
    >>> db.close()
-   
 ..
     Local Variables:
     mode: rst
