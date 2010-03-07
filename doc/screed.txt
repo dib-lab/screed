@@ -113,9 +113,9 @@ Records can also be retrieved by index, instead of by name::
 Writing Custom Sequence Parsers
 ===============================
 screed is built to be flexible with different types of file sequences.
-Included with screed are parsers for handling FASTA and FASTQ sequence file types,
-though if you need screed to work with a new file sequence type, all you need to
-do is write a new parser.
+Included with screed are parsers for handling FASTA and FASTQ sequence
+file types, though if you need screed to work with a new file sequence type,
+all you need to do is write a new parser.
 
 Error checking in parsing methods
 ---------------------------------
@@ -125,9 +125,9 @@ data is being read. Though screed
 doesn't enforce this, it is strongly recommended to include error checking code
 in your parser. To remain non-specific to one file sequence type or another,
 the underlying screed library can't contain error checking code of this kind.
-If errors are not detected by the parsing function, they will be silently included
-into the database being built and could cause problems much later when trying to
-access the database.
+If errors are not detected by the parsing function, they will be silently
+included into the database being built and could cause problems much later when
+trying to access the database.
 
 General Parsing Function Format
 -------------------------------
@@ -140,31 +140,31 @@ These steps will be described in the context of working from the python shell.
 
    >>> import screedDB
 
-2. Next, the database fields must be specified. The fields are what tells screed the
-   names and order of the data fields inside each record. For instance, lets say our
-   new sequence has types 'name', 'bar', and 'baz', all text. The fields object will
-   be:
+2. Next, the database fields must be specified. The fields are what tells
+screed the names and order of the data fields inside each record. For instance,
+lets say our new sequence has types 'name', 'bar', and 'baz', all text. The
+fields object will be:
 
    >>> fields = ('name', 'bar', 'baz')
 
-   Now the database dictionary object can be created with:
+Now the database dictionary object can be created with:
 
    >>> db = screedDB.screedDB(filepath, fields)
 
-   where 'filepath' is the path to the name of the file to be used by the screed
-   database.
-   Note the order in fields: 'name', 'bar', then 'baz'. This is the order screed
-   will expect when receiving a new record to store and it is the order screed
-   will return when a record is queried.
+where 'filepath' is the path to the name of the file to be used by the screed
+database. Note the order in fields: 'name', 'bar', then 'baz'. This is the
+order screed will expect when receiving a new record to store and it is the
+order screed will return when a record is queried.
 
-3. Finally, its time to add records to the database. After collecting the 'name', 'bar',
-   and 'baz' attributes, add data to the dict-like database object:
+3. Finally, its time to add records to the database. After collecting the
+'name',  'bar', and 'baz' attributes, add data to the dict-like database object:
 
    >>> db[name] = (name, bar, baz)
 
-   After reading all the records into the database, close it and you're done:
+After reading all the records into the database, close it and you're done:
 
    >>> db.close()
+   
 ..
     Local Variables:
     mode: rst

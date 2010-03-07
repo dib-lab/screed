@@ -60,15 +60,17 @@ class screedDB(object, UserDict.DictMixin):
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self._fieldTuple,self._cursor,
-                                         self._primaryKey, index, self._primaryKey,
+                                         self._primaryKey, index,
+                                         self._primaryKey,
                                          self._table)
     
     def __setitem__(self, name, dataTuple):
         """
-        Assigns data into the dictionary from the ordered dataTuple into the record
-        slot with key 'name'.
+        Assigns data into the dictionary from the ordered dataTuple into
+        the record slot with key 'name'.
         e.x: name = 'some read name',
-        dataTuple = ('some read name', 'a description of some read name', 'ATCG')
+        dataTuple = ('some read name', 'a description of some read name',
+        'ATCG')
         """
         assert type(dataTuple) == types.TupleType
         QUERY = "REPLACE INTO %s (%s) VALUES (%s)" % \
@@ -87,7 +89,8 @@ class screedDB(object, UserDict.DictMixin):
     def itervalues(self):
         for index in xrange(1, self.__len__()+1):
             yield screedRecord._buildRecord(self._fieldTuple, self._cursor,
-                                            self._primaryKey, index, self._primaryKey,
+                                            self._primaryKey, index,
+                                            self._primaryKey,
                                             self._table)
 
     def iterkeys(self):

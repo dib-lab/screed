@@ -78,9 +78,10 @@ def _getFieldTuple(sqdb):
 
 def _createSqDb(filepath, fields):
     """
-    Creates the screed database. This consists of a small 'SCREEDADMIN' table which
-    holds accounting information such as name and number of fields and a
-    'DICTIONARY_TABLE' which holds the actual information to be handled for the user
+    Creates the screed database. This consists of a small 'SCREEDADMIN'
+    table which holds accounting information such as name and number of fields
+    and a 'DICTIONARY_TABLE' which holds the actual information to be handled
+    for the user
     """
     sqdb = sqlite3.connect(filepath)
 
@@ -102,13 +103,14 @@ def _createSqDb(filepath, fields):
     c.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
                       (_DICT_TABLE, _PRIMARY_KEY, toCreateStub(fields)))
     # Create the dictionary index
-    c.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' % (_queryBy, _DICT_TABLE, _queryBy))
+    c.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' % (_queryBy,
+                                                       _DICT_TABLE, _queryBy))
     return sqdb, _queryBy
 
 def _retrieveStandardStub(sqdb):
     """
-    Retrieves the names of the fields from the admin table and returns a sql sub-
-    string that can be used for querying.
+    Retrieves the names of the fields from the admin table and returns a
+    sql substring that can be used for querying.
     e.x: table contains:
     FIELDNAME
     'NAME'

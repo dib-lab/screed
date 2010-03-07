@@ -584,34 +584,46 @@ class Test_po_fasta:
         testcases = {}
         testcases['GENSCAN00000032971'] = {
             'id': 0,
-            'description': 'cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random:95622:98297:1',
-                'name' : 'GENSCAN00000032971',
-                'sequence': 'ATGGCGCCCCGAACCCTCCTCCTGCTGCTCTCGGCGGCCCTGGCCCCGACCGAGACCTGG'}
+            'description': 'cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random' \
+            ':95622:98297:1',
+            'name' : 'GENSCAN00000032971',
+            'sequence': 'ATGGCGCCCCGAACCCTCCTCCTGCTGCTCTCGGCGGCCCTGGCCCCGAC' \
+            'CGAGACCTGG'}
         testcases['GENSCAN00000042282'] = {
-		'id': 53997,
-                'description': 'cdna:Genscan chromosome:PPYG2:1:229892060:229892800:1',
-                'name': 'GENSCAN00000042282',
-                'sequence': 'ATGATGCCATTGCAAGGACCCTCTGCAGGGCCTCAGTCCCGAGGATGGCACACAGCCTTC'}
+            'id': 53997,
+            'description': 'cdna:Genscan chromosome:PPYG2:1:229892060:22989' \
+            '2800:1',
+            'name': 'GENSCAN00000042282',
+            'sequence': 'ATGATGCCATTGCAAGGACCCTCTGCAGGGCCTCAGTCCCGAGGATGGCA' \
+            'CACAGCCTTC'}
         testcases['GENSCAN00000051311'] = {
-		'id': 30780,
-                'description' : 'cdna:Genscan chromosome:PPYG2:10:132962172:132962871:1',
-                'name': 'GENSCAN00000051311',
-                'sequence': 'ATGACCCAGCCACCTACCAGGCCGCTCTGCAGACCCCCCACGGGAGCAGCCTCTGCCCCC'}
+            'id': 30780,
+            'description' : 'cdna:Genscan chromosome:PPYG2:10:132962172:132' \
+            '962871:1',
+            'name': 'GENSCAN00000051311',
+            'sequence': 'ATGACCCAGCCACCTACCAGGCCGCTCTGCAGACCCCCCACGGGAGCAGC' \
+            'CTCTGCCCCC'}
         testcases['GENSCAN00000006030'] = {
-		'id': 1469,
-                'description': 'cdna:Genscan chromosome:PPYG2:14_random:1765749:1766075:-1',
-                'name': 'GENSCAN00000006030',
-                'sequence': 'ATGTGTGGCAACAAGGGCATTTCTGCCTTCCCTGAATCAGACCACCTTTTCACATGGGTA'}
+            'id': 1469,
+            'description': 'cdna:Genscan chromosome:PPYG2:14_random:1765749' \
+            ':1766075:-1',
+            'name': 'GENSCAN00000006030',
+            'sequence': 'ATGTGTGGCAACAAGGGCATTTCTGCCTTCCCTGAATCAGACCACCTTTT' \
+            'CACATGGGTA'}
         testcases['GENSCAN00000048263'] = {
-		'id': 43029,
-                'description': 'cdna:Genscan chromosome:PPYG2:6:100388173:100485454:-1',
-                'name': 'GENSCAN00000048263',
-                'sequence': 'ATGTGTCCCTTTGAATATGCCGGAGAACAACAGTTGCCATGGATGTGTTCTGGGGAGCCC'}
+            'id': 43029,
+            'description': 'cdna:Genscan chromosome:PPYG2:6:100388173:10048' \
+            '5454:-1',
+            'name': 'GENSCAN00000048263',
+            'sequence': 'ATGTGTCCCTTTGAATATGCCGGAGAACAACAGTTGCCATGGATGTGTTC' \
+            'TGGGGAGCCC'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
+            assert testcases[case]['description'] == self.db[case]\
+                   ['description']
+            assert self.db[case]['sequence'].startswith(testcases[case]\
+                                                        ['sequence'])
 
 class Test_mus_fasta:
     """
@@ -722,14 +734,18 @@ class Test_mus_fasta:
         testcases = {}
         testcases['9'] = {
 		'id': 0,
-                'description': 'dna_rm:chromosome chromosome:NCBIM37:9:1:124076172:1',
-                'name' : '9',
-                'sequence': 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'}
+            'description': 'dna_rm:chromosome chromosome:NCBIM37:9:1:124076' \
+            '172:1',
+            'name' : '9',
+            'sequence': 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN' \
+            'NNNNNNNNNN'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
+            assert testcases[case]['description'] == self.db[case]\
+                   ['description']
+            assert self.db[case]['sequence'].startswith(testcases[case]\
+                                                        ['sequence'])
 
 
 class Test_tri_fasta:
@@ -840,35 +856,37 @@ class Test_tri_fasta:
         """
         testcases = {}
         testcases['singleUn_100'] = {
-		'id': 0,
-                'description': '',
-                'name' : 'singleUn_100',
-                'sequence': 'TTTAAACACGTGTCCGCGCCATTTTTTTATTTATTTACCGATCAAGTGCA'}
+            'id': 0,
+            'description': '',
+            'name' : 'singleUn_100',
+            'sequence': 'TTTAAACACGTGTCCGCGCCATTTTTTTATTTATTTACCGATCAAGTGCA'}
         testcases['singleUn_9'] = {
-		'id': 2210,
-                'description': '',
-                'name': 'singleUn_9',
-                'sequence': 'TTTAATTTTTTTACAACTCAAAATTTTGAGTAGTGTTTTAAATAGTACAC'}
+            'id': 2210,
+            'description': '',
+            'name': 'singleUn_9',
+            'sequence': 'TTTAATTTTTTTACAACTCAAAATTTTGAGTAGTGTTTTAAATAGTACAC'}
         testcases['ChLG6'] = {
-		'id': 2016,
-                'description' : '',
-                'name': 'ChLG6',
-                'sequence': 'CAAAAAAATTCATAACTCAAAAACTAAAAGTCGTAGAGCAATGCGGTTTG'}
+            'id': 2016,
+            'description' : '',
+            'name': 'ChLG6',
+            'sequence': 'CAAAAAAATTCATAACTCAAAAACTAAAAGTCGTAGAGCAATGCGGTTTG'}
         testcases['singleUn_286'] = {
-		'id': 186,
-                'description': '',
-                'name': 'singleUn_286',
-                'sequence': 'AAACTAAAACATCCTTTTCAGCATATTATTTGTTATATTTAAAAAAAAAC'}
+            'id': 186,
+            'description': '',
+            'name': 'singleUn_286',
+            'sequence': 'AAACTAAAACATCCTTTTCAGCATATTATTTGTTATATTTAAAAAAAAAC'}
         testcases['ChLG9'] = {
-		'id': 2019,
-                'description': '',
-                'name': 'ChLG9',
-                'sequence': 'CTGCCGATAATATTTCCTACCAGAAATAACCAATTTATTTTACGTATTAC'}
+            'id': 2019,
+            'description': '',
+            'name': 'ChLG9',
+            'sequence': 'CTGCCGATAATATTTCCTACCAGAAATAACCAATTTATTTTACGTATTAC'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
+            assert testcases[case]['description'] == self.db[case]\
+                   ['description']
+            assert self.db[case]['sequence'].startswith(testcases[case]\
+                                                        ['sequence'])
 
 
 class Test_xeno_fasta:
@@ -979,35 +997,47 @@ class Test_xeno_fasta:
         """
         testcases = {}
         testcases['scaffold_20095'] = {
-		'id': 0,
-                'description': 'dna:scaffold scaffold:JGI4.1:scaffold_20095:1:2001:1',
-                'name' : 'scaffold_20095',
-                'sequence': 'GATGAGATCACCTTTCATGCTTTTTGTATCCCTATTATCTAGAGACAACAAATCAGTTGC'}
+            'id': 0,
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_20095:1:2'\
+            '001:1',
+            'name' : 'scaffold_20095',
+            'sequence': 'GATGAGATCACCTTTCATGCTTTTTGTATCCCTATTATCTAGAGACAACAA'\
+            'ATCAGTTGC'}
         testcases['scaffold_1'] = {
-		'id': 19500,
-                'description': 'dna:scaffold scaffold:JGI4.1:scaffold_1:1:7817814:1',
-                'name': 'scaffold_1',
-                'sequence': 'CCTCCCTTTTTGGCTGTCTTTTCACTGTATCATAGCCTGGCGTGAACCAAGCCTCAAAAA'}
+            'id': 19500,
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_1:1:781781'\
+            '4:1',
+            'name': 'scaffold_1',
+            'sequence': 'CCTCCCTTTTTGGCTGTCTTTTCACTGTATCATAGCCTGGCGTGAACCAAG'\
+            'CCTCAAAAA'}
         testcases['scaffold_271'] = {
-		'id': 19230,
-                'description' : 'dna:scaffold scaffold:JGI4.1:scaffold_271:1:1567461:1',
-                'name': 'scaffold_271',
-                'sequence': 'CGATTTTTGCGGAAAAACGCGAGTTTTTGGTAGCCATTCCGAAAGTTGCGATTTTTTGTA'}
+            'id': 19230,
+            'description' : 'dna:scaffold scaffold:JGI4.1:scaffold_271:1:156'\
+            '7461:1',
+            'name': 'scaffold_271',
+            'sequence': 'CGATTTTTGCGGAAAAACGCGAGTTTTTGGTAGCCATTCCGAAAGTTGCGA'\
+            'TTTTTTGTA'}
         testcases['scaffold_19901'] = {
-		'id': 329,
-                'description': 'dna:scaffold scaffold:JGI4.1:scaffold_19901:1:2256:1',
-                'name': 'scaffold_19901',
-                'sequence': 'ATACCGCAAAGGTTTCTTTCTTCTCAGTGCTCCATGCTGCCTCTCTTGTTTTGCCTCCCT'}
+            'id': 329,
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_19901:1:22'\
+            '56:1',
+            'name': 'scaffold_19901',
+            'sequence': 'ATACCGCAAAGGTTTCTTTCTTCTCAGTGCTCCATGCTGCCTCTCTTGTTT'\
+            'TGCCTCCCT'}
         testcases['scaffold_95'] = {
-		'id': 19408,
-                'description': 'dna:scaffold scaffold:JGI4.1:scaffold_95:1:2899670:1',
-                'name': 'scaffold_95',
-                'sequence': 'CCCTCCTGGTGATCCCACTTCAATCTCCCCATAGGCACACATCACTTCTAGCAGTTCACA'}
+            'id': 19408,
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_95:1:28996'\
+            '70:1',
+            'name': 'scaffold_95',
+            'sequence': 'CCCTCCTGGTGATCCCACTTCAATCTCCCCATAGGCACACATCACTTCTAG'\
+            'CAGTTCACA'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]['sequence'])
+            assert testcases[case]['description'] == self.db[case]\
+                   ['description']
+            assert self.db[case]['sequence'].startswith(testcases[case]\
+                                                        ['sequence'])
 
 class Test_sorex_fasta:
     """
@@ -1118,50 +1148,50 @@ class Test_sorex_fasta:
         testcases = {}
         testcases['scaffold_93039'] = {
             'id': 0,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_93' +\
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_93'\
             '039:1:203:1',
             'name': 'scaffold_93039',
-            'sequence': 'GCTGAGCCTTGTAGTTCTGCTCCCTTTGACTGACGGCCCACTATGGACCG' +\
+            'sequence': 'GCTGAGCCTTGTAGTTCTGCTCCCTTTGACTGACGGCCCACTATGGACCG'\
             'GAAAAACTAC'}
         
         testcases['scaffold_107701'] = {
             'id': 1,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_10' +\
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_10'\
             '7701:1:203:1',
             'name' : 'scaffold_107701',
-            'sequence': 'TAAACCCAAAATAAACATTCCCCAAATTATATTTCTTCCTTTCCTTCTGA' +\
+            'sequence': 'TAAACCCAAAATAAACATTCCCCAAATTATATTTCTTCCTTTCCTTCTGA'\
             'ATAAAAGAAA'}
         
         testcases['GeneScaffold_6994'] = {
             'id': 243135,
-            'description': 'dna:genescaffold genescaffold:COMMON_SHREW1:Gen' +\
+            'description': 'dna:genescaffold genescaffold:COMMON_SHREW1:Gen'\
             'eScaffold_6994:1:2349312:1',
             'name': 'GeneScaffold_6994',
-            'sequence': 'TATTGAGAGAAGTGGGAACTTCTCTAGTGGTGGGGTATGGTGATGGAATG' +\
+            'sequence': 'TATTGAGAGAAGTGGGAACTTCTCTAGTGGTGGGGTATGGTGATGGAATG'\
             'ATGTATGAAT'}
         
         testcases['scaffold_118324'] = {
             'id': 13823,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_11' +\
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_11'\
             '8324:1:884:1',
             'name': 'scaffold_118324',
-            'sequence': 'CAGCCCCCTGCAACAAATTTTATACTCTAGAAACAGTTTAATGGCTGTTG' +\
+            'sequence': 'CAGCCCCCTGCAACAAATTTTATACTCTAGAAACAGTTTAATGGCTGTTG'\
             'GAATATTTCC'}
         
         testcases['scaffold_92895'] = {
             'id': 14573,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_92' +\
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_92'\
             '895:1:890:1',
             'name': 'scaffold_92895',
-            'sequence': 'GGGAAGCTTGCAAGGCTGTCCCATGTGGGCAGGAAGCTCTCAGTAGCTTG' +\
+            'sequence': 'GGGAAGCTTGCAAGGCTGTCCCATGTGGGCAGGAAGCTCTCAGTAGCTTG'\
             'CCAGTTTCTC'}
         
         testcases['scaffold_62271'] = {
             'id': 37101,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_62' +\
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_62'\
             '271:1:1064:1',
             'name': 'scaffold_62271',
-            'sequence': 'AGAGTATCTCCCCCACATGGCAGAGCCTGGCAAGCTACCCATGGCGTATT' +\
+            'sequence': 'AGAGTATCTCCCCCACATGGCAGAGCCTGGCAAGCTACCCATGGCGTATT'\
             'CAATATGCCA'}
 
         for case in testcases:

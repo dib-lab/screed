@@ -28,7 +28,8 @@ def teardown():
 
 class Test_hava_methods(object):
     """
-    Make sure that screed can retrieve even retrieve data from imaginary filetypes, like HAVA
+    Make sure that screed can retrieve even retrieve data from
+    imaginary filetypes, like HAVA
     """
     def setup(self):
         self.db = screedDB.screedDB(testha)
@@ -39,29 +40,44 @@ class Test_hava_methods(object):
     def test_beginning_key_retrieval(self):
         result = self.db['test_000']
         assert result.hava == 'test_000'
-        assert result.quarzk == 'ACGGTGACGGTCACCGTCGACGGCCCAAGCCCATCGAACGTACCACCCCCACCTATCGTCACGCTGGTGGAGAGCCAATG'
-        assert result.muchalo == 'AFPPCLHBCCILGMMOCHKNNDBKCCPNHAMKJOCCDJAOEPNMHFHCBAJOKEMMMBHCPHIOAEPFFCAOJPGIMKGK'
-        assert result.fakours == '21858316587186112771945148345529452186568176931571171542294878855181415261425688'
-        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-        assert result.marshoon == 'C7AF246AC7AAEABE5A557FCBC6FD5F5263BCDE4E745BEF1GG7DD1AB511GBC63A4GF1F4E1A154B35D'
+        assert result.quarzk == 'ACGGTGACGGTCACCGTCGACGGCCCAAGCCCATCGAACG'\
+               'TACCACCCCCACCTATCGTCACGCTGGTGGAGAGCCAATG'
+        assert result.muchalo == 'AFPPCLHBCCILGMMOCHKNNDBKCCPNHAMKJOCCDJA'\
+               'OEPNMHFHCBAJOKEMMMBHCPHIOAEPFFCAOJPGIMKGK'
+        assert result.fakours == '218583165871861127719451483455294521865'\
+               '68176931571171542294878855181415261425688'
+        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'\
+               'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        assert result.marshoon == 'C7AF246AC7AAEABE5A557FCBC6FD5F5263BCDE'\
+               '4E745BEF1GG7DD1AB511GBC63A4GF1F4E1A154B35D'
 
     def test_middle_key_retrieval(self):
         result = self.db['test_0063']
         assert result.hava == 'test_0063'
-        assert result.quarzk == 'CAACACGATCAAGTTTGGTAAGAATTCCGCCTTAAGCTTTCTAGAACGATAGTTGCCCCCAATCTGGTTCGAAATCTCTT'
-        assert result.muchalo == 'GMDAPLMOOFANDHHMLBPIKGHIAFFFOABFMNNJNIJILEEFEPOCAJLNDLIFBPMGKOFJIEFAHNJPIOFAJMLM'
-        assert result.fakours == '39236397139389852275613887648533427438439122136418369146118333919885587613673488'
-        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-        assert result.marshoon == 'FC25E2CFC2BAFA7A2AA4757F3GFFFEE37G7752FCDBAEADBA1AC7374FB5C15552E6E2GG6GFF62C6GE'
+        assert result.quarzk == 'CAACACGATCAAGTTTGGTAAGAATTCCGCCTTAAGCTTT'\
+               'CTAGAACGATAGTTGCCCCCAATCTGGTTCGAAATCTCTT'
+        assert result.muchalo == 'GMDAPLMOOFANDHHMLBPIKGHIAFFFOABFMNNJNIJ'\
+               'ILEEFEPOCAJLNDLIFBPMGKOFJIEFAHNJPIOFAJMLM'
+        assert result.fakours == '392363971393898522756138876485334274384'\
+               '39122136418369146118333919885587613673488'
+        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'\
+               'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        assert result.marshoon == 'FC25E2CFC2BAFA7A2AA4757F3GFFFEE37G7752'\
+               'FCDBAEADBA1AC7374FB5C15552E6E2GG6GFF62C6GE'
 
     def test_end_key_retrieval(self):
         result = self.db['test_00124']
         assert result.hava == 'test_00124'
-        assert result.quarzk == 'ATCGCAACCGTTTCCCCTATCTGGCAATTGAATCCGCGTCCTAAAACGAAAGCTTATCCCTGGCGAGGCACGCTAGGCCT'
-        assert result.muchalo == 'CIHNCECANFNLKGCHNOEHJDHADHPAEMMNKGMMMPDOBMOCKNBCMCPHEBEOINHMBMMGCHEMOIOAPEFPDDJP'
-        assert result.fakours == '32736451148353713169532559587626971677814946924334424648676283848861393812686731'
-        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-        assert result.marshoon == '4FE5FDD76CC5DE4DC2F25AA2GFBD7BEG326C6D7AB5B71GA67BAFD63AE1A562CDC1C2D157G6EF17CD'
+        assert result.quarzk == 'ATCGCAACCGTTTCCCCTATCTGGCAATTGAATCCGCGTC'\
+               'CTAAAACGAAAGCTTATCCCTGGCGAGGCACGCTAGGCCT'
+        assert result.muchalo == 'CIHNCECANFNLKGCHNOEHJDHADHPAEMMNKGMMMPD'\
+               'OBMOCKNBCMCPHEBEOINHMBMMGCHEMOIOAPEFPDDJP'
+        assert result.fakours == '327364511483537131695325595876269716778'\
+               '14946924334424648676283848861393812686731'
+        assert result.selimizicka == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'\
+               'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        assert result.marshoon == '4FE5FDD76CC5DE4DC2F25AA2GFBD7BEG326C6D'\
+               '7AB5B71GA67BAFD63AE1A562CDC1C2D157G6EF17CD'
 
 
 class Test_fastq(object):
@@ -144,22 +160,31 @@ class Test_fasta(object):
         first = self.db[self.db.keys()[0]]
         assert first.id == 0
         assert first.name == 'ENSMICT00000012722'
-        assert first.description == 'cdna:pseudogene scaffold:micMur1:scaffold_185008:9:424:1 gene:ENSMICG00000012730'
-        assert str(first.sequence).startswith('TGCAGAAAATATCAAGAGTCAGCAGAAAAACTATACAAGGGCTGGTATTTTGATTATTCT')
+        assert first.description == 'cdna:pseudogene scaffold:micMur1:'\
+               'scaffold_185008:9:424:1 gene:ENSMICG00000012730'
+        assert str(first.sequence).startswith('TGCAGAAAATATCAAGAGTCAGC'\
+                                              'AGAAAAACTATACAAGGGCTGGT'\
+                                              'ATTTTGATTATTCT')
 
     def test_contains_middle(self):
         middle = self.db[self.db.keys()[10]]
         assert middle.id == 10
         assert middle.name == 'ENSMICT00000012078'
-        assert middle.description == 'cdna:pseudogene scaffold:micMur1:scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
-        assert str(middle.sequence).startswith('GCGCACTCCCAGTGGCTACCCACGGCAGGAGGCGGCGGCAGTGACTGGGCCGGCGGCCCG')
+        assert middle.description == 'cdna:pseudogene scaffold:micMur1'\
+               ':scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
+        assert str(middle.sequence).startswith('GCGCACTCCCAGTGGCTACCCA'\
+                                               'CGGCAGGAGGCGGCGGCAGTGA'\
+                                               'CTGGGCCGGCGGCCCG')
 
     def test_contains_end(self):
         end = self.db[self.db.keys()[21]]
         assert end.id == 21
         assert end.name == 'ENSMICT00000003880'
-        assert end.description == 'cdna:novel scaffold:micMur1:scaffold_175819:130:631:1 gene:ENSMICG00000003884'
-        assert str(end.sequence).startswith('ATGCTGCCTAAGTTTGACCCCAACGCGATCAAAGTCATGTACCTGAGGTGCACGGGTGGC')
+        assert end.description == 'cdna:novel scaffold:micMur1:scaffol'\
+               'd_175819:130:631:1 gene:ENSMICG00000003884'
+        assert str(end.sequence).startswith('ATGCTGCCTAAGTTTGACCCCAACG'\
+                                            'CGATCAAAGTCATGTACCTGAGGTG'\
+                                            'CACGGGTGGC')
 
     def test_contains(self):
         for k in self.db:

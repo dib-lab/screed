@@ -27,7 +27,8 @@ class _screed_attr(object):
     """
     Sliceable database object that supports lazy retrieval
     """
-    def __init__(self, dbObj, primaryKey, attrName, rowName, queryBy, tableName):
+    def __init__(self, dbObj, primaryKey, attrName, rowName, queryBy,
+                 tableName):
         """
         dbOjb = database handle
         primaryKey = integer incrementer on table
@@ -45,15 +46,16 @@ class _screed_attr(object):
 
     def __getitem__(self, sliceObj):
         """
-        Only supports slicing right now. Returns the slice range given. *.start + 1 to
-        be compatible with sqlite's 1 not 0 scheme
+        Only supports slicing right now. Returns the slice range given.
+        *.start + 1 to be compatible with sqlite's 1 not 0 scheme
         """
         assert type(sliceObj) == types.SliceType
-        assert sliceObj.start <= sliceObj.stop # Support string reverse in future maybe
+        assert sliceObj.start <= sliceObj.stop # String reverse in future?
         length = sliceObj.stop - sliceObj.start
         
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
-                % (self._attrName, sliceObj.start+1, length, self._tableName, self._queryBy)
+                % (self._attrName, sliceObj.start+1, length, self._tableName,
+                   self._queryBy)
         result = self._dbObj.execute(query, (str(self._rowName),))
         try:
             subStr, = result.fetchone()
@@ -164,20 +166,22 @@ class _screed_attr(object):
 
 def _buildRecord(fieldNames, dbObj, primaryKey, rowName, queryBy, tableName):
     """
-    Constructs a dict-like object with record attribute names as keys and _screed_attr
-    objects as values
+    Constructs a dict-like object with record attribute names as keys and
+    _screed_attr objects as values
     """
     accumulator = []
     for name in fieldNames:
-        attrObj = _screed_attr(dbObj, primaryKey, name.upper(), rowName, queryBy, tableName)
+        attrObj = _screed_attr(dbObj, primaryKey, name.upper(), rowName,
+                               queryBy, tableName)
         accumulator.append((name, attrObj))
     return _screed_record_dict(accumulator)
 
 def _unicode2Str(arg1, arg2):
     """
-    Converts arguments to standard string types and returns a tuple. This function
-    is meant to be used in conjunction with map()'ping the results of a database
-    query with the names of fields to get rid of the ugly u' in front
+    Converts arguments to standard string types and returns a tuple. This
+    function is meant to be used in conjunction with map()'ping the results
+    of a database query with the names of fields to get rid of the ugly u'
+    in front
     """
     if type(arg2) == types.UnicodeType:
         return (arg1, str(arg2))
