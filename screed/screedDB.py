@@ -7,8 +7,9 @@ import screedRecord
 
 class screedDB(object, UserDict.DictMixin):
     """
-    Class that supports lookups by id or name into an on-disk dictionary
-    implemented in sqlite
+    Core of screed. Accepts a path string to the screed database file and
+    an optional fields tuple which specifes the names and order of attributes
+    per record
     """
     def __init__(self, filepath, fields=None):
         self._db, self._standardStub, self._fieldTuple, self._qMarks, \
@@ -78,15 +79,24 @@ class screedDB(object, UserDict.DictMixin):
         self._cursor.execute(QUERY, dataTuple)
 
     def __len__(self):
+        """
+        Returns the number of records in the database
+        """
         query = 'SELECT MAX(%s) FROM %s' % (self._primaryKey,
                                             self._table)
         res, = self._cursor.execute(query).fetchone()
         return res
 
     def keys(self):
+        """
+        Returns a list of keys in the database
+        """
         return list(self.iterkeys())
 
     def itervalues(self):
+        """
+        Iterator over records in the database
+        """
         for index in xrange(1, self.__len__()+1):
             yield screedRecord._buildRecord(self._fieldTuple, self._cursor,
                                             self._primaryKey, index,
@@ -94,11 +104,17 @@ class screedDB(object, UserDict.DictMixin):
                                             self._table)
 
     def iterkeys(self):
+        """
+        Iterator over keys in the database
+        """
         query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
         for key, in self._cursor.execute(query):
             yield key
 
     def iteritems(self):
+        """
+        Iterator returning an (index, record) pair
+        """
         for v in self.itervalues():
             yield str(v[self._primaryKey.lower()]), v
 
@@ -127,16 +143,31 @@ class screedDB(object, UserDict.DictMixin):
     # Here follow the methods that are not implemented
 
     def clear(self):
+        """
+        Not implemented (Read-only database)
+        """
         raise AttributeError
 
     def update(self, something):
+        """
+        Not implemented (Read-only database)
+        """
         raise AttributeError
 
     def setdefault(self, something):
+        """
+        Not implemented (Read-only database)
+        """
         raise AttributeError
 
     def pop(self):
+        """
+        Not implemented (Read-only database)
+        """
         raise AttributeError
 
     def popitem(self):
+        """
+        Not implemented (Read-only database)
+        """
         raise AttributeError
