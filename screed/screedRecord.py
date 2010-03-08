@@ -32,7 +32,7 @@ class _screed_attr(object):
         """
         dbOjb = database handle
         primaryKey = integer incrementer on table
-        attrName = name of attr as in db (CAPS)
+        attrName = name of attr in db
         rowName = index/name of row
         queryBy = by name or index
         tableName = name of table to query on
@@ -171,7 +171,7 @@ def _buildRecord(fieldNames, dbObj, primaryKey, rowName, queryBy, tableName):
     """
     accumulator = []
     for name in fieldNames:
-        attrObj = _screed_attr(dbObj, primaryKey, name.upper(), rowName,
+        attrObj = _screed_attr(dbObj, primaryKey, name, rowName,
                                queryBy, tableName)
         accumulator.append((name, attrObj))
     return _screed_record_dict(accumulator)
