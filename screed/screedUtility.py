@@ -39,8 +39,8 @@ def _getQueryBy(sqdb):
     This is the name of the first field in the administration table
     """
     query = 'SELECT FIELDNAME FROM %s WHERE ID=1' % dbConstants._SCREEDADMIN
-    result, = sqdb.execute(query).next()
-    return result.lower()
+    result, = sqdb.execute(query).fetchone()
+    return result
 
 def _getFieldTuple(sqdb):
     """
@@ -50,27 +50,22 @@ def _getFieldTuple(sqdb):
     query = 'SELECT FIELDNAME FROM %s' % dbConstants._SCREEDADMIN
     result = [dbConstants._PRIMARY_KEY.lower()]
     for fieldName, in sqdb.execute(query):
-        result.append(str(fieldName.lower()))
+        result.append(fieldName)
 
     return tuple(result)
 
 def _retrieveStandardStub(sqdb):
     """
-    Retrieves the names of the fields from the admin table and returns a
+    Retrieves the names of the fields from the admin table and returns an
     sql substring that can be used for querying.
     e.x: table contains:
     FIELDNAME
-    'NAME'
-    'DESCRIPTION'
-    returns: 'NAME, DESCRIPTION'
+    'name'
+    'description'
+    returns: 'name, description'
     """
-    sqlList = []
     query = "SELECT FIELDNAME FROM %s" % dbConstants._SCREEDADMIN
-    for fieldName, in sqdb.execute(query):
-        sqlList.append('%s' % fieldName)
-        sqlList.append(', ')
-    sqlList.pop()
-    return str("".join(sqlList))
+    return "".join(['%s,' % fieldName for fieldName in sqdb.execute(query)])[:-1]
 
 def _toQmarks(sqdb):
     """
@@ -79,11 +74,6 @@ def _toQmarks(sqdb):
     e.x: table has 3 elements
     returns: '?, ?, ?'
     """
-    sqlList = []
     query = "SELECT COUNT(1) FROM %s" % dbConstants._SCREEDADMIN
-    result, = sqdb.execute(query).next()
-    for i in xrange(0, result):
-        sqlList.append("?")
-        sqlList.append(", ")
-    sqlList.pop()
-    return "".join(sqlList)
+    result, = sqdb.execute(query).fetchone()
+    return ("?," * result)[:-1]
