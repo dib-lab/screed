@@ -2,6 +2,7 @@
 
 import types
 import screedUtility
+import dbConstants
 import UserDict
 import screedRecord
 
@@ -13,8 +14,7 @@ class screedDB(object, UserDict.DictMixin):
     """
     def __init__(self, filepath, fields=None):
         self._db, self._standardStub, self._fieldTuple, self._qMarks, \
-                  self._table, self._queryBy, self._primaryKey = \
-                  screedUtility.getScreedDB(filepath, fields)
+                  self._queryBy = screedUtility.getScreedDB(filepath, fields)
         self._cursor = self._db.cursor()
 
     def close(self):
@@ -29,13 +29,13 @@ class screedDB(object, UserDict.DictMixin):
         """
         key = str(key) # So lazy retrieval objectes are evaluated
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
-                                                  self._table, self._queryBy)
+                                                  dbConstants._DICT_TABLE, self._queryBy)
         res = self._cursor.execute(query, (key,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self._fieldTuple, self._cursor,
-                                         self._primaryKey, key, self._queryBy,
-                                         self._table)
+                                         dbConstants._PRIMARY_KEY, key, self._queryBy,
+                                         dbConstants._DICT_TABLE)
 
     def values(self):
         """
@@ -55,35 +55,22 @@ class screedDB(object, UserDict.DictMixin):
         Retrieves record from database at the given index
         """
         index = int(index) + 1 # Hack to make indexing start at 0
-        query = 'SELECT %s FROM %s WHERE %s=?' % (self._primaryKey,
-                                                  self._table, self._primaryKey)
+        query = 'SELECT %s FROM %s WHERE %s=?' % (dbConstants._PRIMARY_KEY,
+                                                  dbConstants._DICT_TABLE, dbConstants._PRIMARY_KEY)
         res = self._cursor.execute(query, (index,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self._fieldTuple,self._cursor,
-                                         self._primaryKey, index,
-                                         self._primaryKey,
-                                         self._table)
+                                         dbConstants._PRIMARY_KEY, index,
+                                         dbConstants._PRIMARY_KEY,
+                                         dbConstants._DICT_TABLE)
     
-    def __setitem__(self, name, dataTuple):
-        """
-        Assigns data into the dictionary from the ordered dataTuple into
-        the record slot with key 'name'.
-        e.x: name = 'some read name',
-        dataTuple = ('some read name', 'a description of some read name',
-        'ATCG')
-        """
-        assert type(dataTuple) == types.TupleType
-        QUERY = "REPLACE INTO %s (%s) VALUES (%s)" % \
-                (self._table, self._standardStub, self._qMarks)
-        self._cursor.execute(QUERY, dataTuple)
-
     def __len__(self):
         """
         Returns the number of records in the database
         """
-        query = 'SELECT MAX(%s) FROM %s' % (self._primaryKey,
-                                            self._table)
+        query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,
+                                            dbConstants._DICT_TABLE)
         res, = self._cursor.execute(query).fetchone()
         return res
 
@@ -99,15 +86,15 @@ class screedDB(object, UserDict.DictMixin):
         """
         for index in xrange(1, self.__len__()+1):
             yield screedRecord._buildRecord(self._fieldTuple, self._cursor,
-                                            self._primaryKey, index,
-                                            self._primaryKey,
-                                            self._table)
+                                            dbConstants._PRIMARY_KEY, index,
+                                            dbConstants._PRIMARY_KEY,
+                                            dbConstants._DICT_TABLE)
 
     def iterkeys(self):
         """
         Iterator over keys in the database
         """
-        query = 'SELECT %s FROM %s' % (self._queryBy, self._table)
+        query = 'SELECT %s FROM %s' % (self._queryBy, dbConstants._DICT_TABLE)
         for key, in self._cursor.execute(query):
             yield key
 
@@ -116,7 +103,7 @@ class screedDB(object, UserDict.DictMixin):
         Iterator returning an (index, record) pair
         """
         for v in self.itervalues():
-            yield str(v[self._primaryKey.lower()]), v
+            yield str(v[dbConstants._PRIMARY_KEY.lower()]), v
 
     def has_key(self, key):
         """
@@ -135,12 +122,18 @@ class screedDB(object, UserDict.DictMixin):
         Returns true if given key exists in database, false otherwise
         """
         query = 'SELECT %s FROM %s WHERE %s = ?' % \
-                (self._queryBy, self._table, self._queryBy)
+                (self._queryBy, dbConstants._DICT_TABLE, self._queryBy)
         if self._cursor.execute(query, (key,)).fetchone() == None:
             return False
         return True
 
     # Here follow the methods that are not implemented
+
+    def __setitem__(self, something):
+        """
+        Not implemented (Read-only database)
+        """
+        raise AttributeError
 
     def clear(self):
         """

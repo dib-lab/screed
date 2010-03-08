@@ -1,13 +1,21 @@
 # Copyright (c) 2008-2010, Michigan State University
 
-import seqparse
+import dbConstants
 import os
 import sqlite3
 import types
 
-_SCREEDADMIN = 'SCREEDADMIN'
-_DICT_TABLE = 'DICTIONARY_TABLE'
-_PRIMARY_KEY = 'ID'
+## _SCREEDADMIN = 'SCREEDADMIN'
+## _DICT_TABLE = 'DICTIONARY_TABLE'
+## _PRIMARY_KEY = 'ID'
+
+def new_getScreedDB(filepath):
+    """
+    Opens a screed database. The database must be ready for querying,
+    not for inserting new data.
+    """
+    if not filepath.endswith(dbConstants.fileExtension):
+        filepath += dbConstants.fileExtension
 
 def getScreedDB(filepath, fields=None):
     """
@@ -19,13 +27,12 @@ def getScreedDB(filepath, fields=None):
         in fields will be the 'key' or 'name' used to query the database
         later
     Returns a 7 tuple containing:
-    (database object, _standardStub, _fieldTuple, _qMarks, _DICT_TABLE,
-    _queryBy, _PRIMARY_KEY)
+    (database object, _standardStub, _fieldTuple, _qMarks, _queryBy)
     """
     # Ensure the filepath is correctly formatted with the extension to
     # the database filename
-    if not filepath.endswith(seqparse.fileExtension):
-        filepath += seqparse.fileExtension
+    if not filepath.endswith(dbConstants.fileExtension):
+        filepath += dbConstants.fileExtension
 
     if type(fields) != types.NoneType:
         assert type(fields[0]) == types.StringType
@@ -52,15 +59,14 @@ def getScreedDB(filepath, fields=None):
     # Create the string of question marks
     _qMarks = _toQmarks(sqdb)
 
-    return (sqdb, _standardStub, _fieldTuple, _qMarks, _DICT_TABLE,
-            _queryBy, _PRIMARY_KEY)
+    return (sqdb, _standardStub, _fieldTuple, _qMarks, _queryBy)
 
 def _getQueryBy(sqdb):
     """
     Retrieves the name of the field used for querying by name in the database.
     This is the name of the first field in the administration table
     """
-    query = 'SELECT FIELDNAME FROM %s WHERE ID=1' % _SCREEDADMIN
+    query = 'SELECT FIELDNAME FROM %s WHERE ID=1' % dbConstants._SCREEDADMIN
     result, = sqdb.execute(query).next()
     return result.lower()
 
@@ -69,8 +75,8 @@ def _getFieldTuple(sqdb):
     Creates the ordered tuple of fields from the database
     e.x, returns: (id, name, description)
     """
-    query = 'SELECT FIELDNAME FROM %s' % _SCREEDADMIN
-    result = [_PRIMARY_KEY.lower()]
+    query = 'SELECT FIELDNAME FROM %s' % dbConstants._SCREEDADMIN
+    result = [dbConstants._PRIMARY_KEY.lower()]
     for fieldName, in sqdb.execute(query):
         result.append(str(fieldName.lower()))
 
@@ -89,10 +95,10 @@ def _createSqDb(filepath, fields):
 
     # Create the admin table
     c.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, FIELDNAME TEXT)' %
-                      _SCREEDADMIN)
+                      dbConstants._SCREEDADMIN)
 
     query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
-            _SCREEDADMIN
+            dbConstants._SCREEDADMIN
 
     for fieldName in fields:
         c.execute(query, (fieldName.upper(),))
@@ -101,10 +107,10 @@ def _createSqDb(filepath, fields):
 
     # Create the dictionary table
     c.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
-                      (_DICT_TABLE, _PRIMARY_KEY, toCreateStub(fields)))
+                      (dbConstants._DICT_TABLE, dbConstants._PRIMARY_KEY, toCreateStub(fields)))
     # Create the dictionary index
     c.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' % (_queryBy,
-                                                       _DICT_TABLE, _queryBy))
+                                                       dbConstants._DICT_TABLE, _queryBy))
     return sqdb, _queryBy
 
 def _retrieveStandardStub(sqdb):
@@ -118,7 +124,7 @@ def _retrieveStandardStub(sqdb):
     returns: 'NAME, DESCRIPTION'
     """
     sqlList = []
-    query = "SELECT FIELDNAME FROM %s" % _SCREEDADMIN
+    query = "SELECT FIELDNAME FROM %s" % dbConstants._SCREEDADMIN
     for fieldName, in sqdb.execute(query):
         sqlList.append('%s' % fieldName)
         sqlList.append(', ')
@@ -133,7 +139,7 @@ def _toQmarks(sqdb):
     returns: '?, ?, ?'
     """
     sqlList = []
-    query = "SELECT COUNT(1) FROM %s" % _SCREEDADMIN
+    query = "SELECT COUNT(1) FROM %s" % dbConstants._SCREEDADMIN
     result, = sqdb.execute(query).next()
     for i in xrange(0, result):
         sqlList.append("?")
