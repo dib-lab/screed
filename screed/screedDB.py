@@ -12,9 +12,9 @@ class screedDB(object, UserDict.DictMixin):
     an optional fields tuple which specifes the names and order of attributes
     per record
     """
-    def __init__(self, filepath, fields=None):
+    def __init__(self, filepath):
         self._db, self._standardStub, self._fieldTuple, self._qMarks, \
-                  self._queryBy = screedUtility.getScreedDB(filepath, fields)
+                  self._queryBy = screedUtility.getScreedDB(filepath)
         self._cursor = self._db.cursor()
 
     def close(self):

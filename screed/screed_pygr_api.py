@@ -106,7 +106,7 @@ class _ScreedSequenceInfo(object):
 class _ScreedSeqInfoDict_ByName(object, UserDict.DictMixin):
     """seqInfoDict implementation that uses names to retrieve records."""
     def __init__(self, filepath):
-        self.sdb = screedDB.screedDB(filepath, 'name')
+        self.sdb = screedDB.screedDB(filepath)
 
     def __getitem__(self, k):
         v = self.sdb[k]

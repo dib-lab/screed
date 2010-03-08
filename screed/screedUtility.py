@@ -5,28 +5,10 @@ import os
 import sqlite3
 import types
 
-## _SCREEDADMIN = 'SCREEDADMIN'
-## _DICT_TABLE = 'DICTIONARY_TABLE'
-## _PRIMARY_KEY = 'ID'
-
-def new_getScreedDB(filepath):
+def getScreedDB(filepath):
     """
-    Opens a screed database. The database must be ready for querying,
-    not for inserting new data.
-    """
-    if not filepath.endswith(dbConstants.fileExtension):
-        filepath += dbConstants.fileExtension
-
-def getScreedDB(filepath, fields=None):
-    """
-    Opens and prepares a screedDB. The order of arguments is:
-    filepath: the string path to the screed database to open
-    fields: either None if the the database has already been created or
-        a tuple of 2-tuples specifying the names and types of fields
-        to be used in the creation of the sql database. The first element
-        in fields will be the 'key' or 'name' used to query the database
-        later
-    Returns a 7 tuple containing:
+    Opens a screed database ready for querying. filepath is the string
+    path to the screed database to open. Returns a 5 tuple containing:
     (database object, _standardStub, _fieldTuple, _qMarks, _queryBy)
     """
     # Ensure the filepath is correctly formatted with the extension to
@@ -34,18 +16,8 @@ def getScreedDB(filepath, fields=None):
     if not filepath.endswith(dbConstants.fileExtension):
         filepath += dbConstants.fileExtension
 
-    if type(fields) != types.NoneType:
-        assert type(fields[0]) == types.StringType
-
-    sqdb = None
-    _queryBy = None
-    if not os.path.isfile(filepath): # Db file doesn't exist, should I create?
-        if fields == None: # Need to create, but don't have fields!
-            raise ValueError("Fields not specified and database doesn't exist")
-        sqdb, _queryBy = _createSqDb(filepath, fields)
-    else:
-        sqdb = sqlite3.connect(filepath)
-        _queryBy = _getQueryBy(sqdb)
+    sqdb = sqlite3.connect(filepath)
+    _queryBy = _getQueryBy(sqdb)
 
     # Create the standard sql query stub
     _standardStub = _retrieveStandardStub(sqdb)
@@ -82,37 +54,6 @@ def _getFieldTuple(sqdb):
 
     return tuple(result)
 
-def _createSqDb(filepath, fields):
-    """
-    Creates the screed database. This consists of a small 'SCREEDADMIN'
-    table which holds accounting information such as name and number of fields
-    and a 'DICTIONARY_TABLE' which holds the actual information to be handled
-    for the user
-    """
-    sqdb = sqlite3.connect(filepath)
-
-    c = sqdb.cursor()
-
-    # Create the admin table
-    c.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, FIELDNAME TEXT)' %
-                      dbConstants._SCREEDADMIN)
-
-    query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
-            dbConstants._SCREEDADMIN
-
-    for fieldName in fields:
-        c.execute(query, (fieldName.upper(),))
-
-    _queryBy = _getQueryBy(c)
-
-    # Create the dictionary table
-    c.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
-                      (dbConstants._DICT_TABLE, dbConstants._PRIMARY_KEY, toCreateStub(fields)))
-    # Create the dictionary index
-    c.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' % (_queryBy,
-                                                       dbConstants._DICT_TABLE, _queryBy))
-    return sqdb, _queryBy
-
 def _retrieveStandardStub(sqdb):
     """
     Retrieves the names of the fields from the admin table and returns a
@@ -144,19 +85,5 @@ def _toQmarks(sqdb):
     for i in xrange(0, result):
         sqlList.append("?")
         sqlList.append(", ")
-    sqlList.pop()
-    return "".join(sqlList)
-
-def toCreateStub(fieldTuple):
-    """
-    Parses the ordered names of attributes in fieldTuple into a create stub
-    ready to be inserted into the command to create the sql table.
-    e.x: given input: ('name', 'description')
-    returns: 'NAME TEXT, DESCRIPTION TEXT'
-    """
-    sqlList = []
-    for fieldName in fieldTuple:
-        sqlList.append('%s TEXT' % fieldName.upper())
-        sqlList.append(', ')
     sqlList.pop()
     return "".join(sqlList)
