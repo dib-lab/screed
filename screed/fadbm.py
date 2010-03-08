@@ -4,6 +4,7 @@
 
 import sys
 import seqparse
+import dbConstants
 
 # A python implementation of the FASTA database writer
 if __name__ == "__main__":
@@ -15,5 +16,5 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     seqparse.read_fasta_sequences(filename)
     
-    print "Database saved in %s_%s" % (sys.argv[1], seqparse.fileExtension)
+    print "Database saved in %s_%s" % (sys.argv[1], dbConstants.fileExtension)
 

@@ -9,7 +9,7 @@ import toFastq
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
 from seqparse import read_hava_sequences
-from seqparse import fileExtension
+from dbConstants import fileExtension
 
 testfa = os.path.join(thisdir, 'test.fa')
 testfq = os.path.join(thisdir, 'test.fastq')

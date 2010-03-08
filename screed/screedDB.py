@@ -103,7 +103,7 @@ class screedDB(object, UserDict.DictMixin):
         Iterator returning an (index, record) pair
         """
         for v in self.itervalues():
-            yield str(v[dbConstants._PRIMARY_KEY.lower()]), v
+            yield str(v[dbConstants._PRIMARY_KEY]), v
 
     def has_key(self, key):
         """
