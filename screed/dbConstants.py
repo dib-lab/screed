@@ -1,0 +1,4 @@
+_SCREEDADMIN = 'SCREEDADMIN'
+_DICT_TABLE = 'DICTIONARY_TABLE'
+_PRIMARY_KEY = 'ID'
+fileExtension = '_screed'
