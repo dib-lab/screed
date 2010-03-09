@@ -17,6 +17,11 @@ class screedDB(object, UserDict.DictMixin):
                   self._queryBy = screedUtility.getScreedDB(filepath)
         self._cursor = self._db.cursor()
 
+        # Retrieve the length of the database
+        query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,
+                                            dbConstants._DICT_TABLE)
+        self._len, = self._cursor.execute(query).fetchone()
+
     def close(self):
         if self._db is not None:
             self._db.commit()
@@ -69,10 +74,7 @@ class screedDB(object, UserDict.DictMixin):
         """
         Returns the number of records in the database
         """
-        query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,
-                                            dbConstants._DICT_TABLE)
-        res, = self._cursor.execute(query).fetchone()
-        return res
+        return self._len
 
     def keys(self):
         """
