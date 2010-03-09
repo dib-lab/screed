@@ -6,8 +6,8 @@ sys.path.insert(0, libdir)
 import screedDB
 import toFasta
 import toFastq
-from seqparse import read_fastq_sequences
-from seqparse import read_fasta_sequences
+from screed import read_fastq_sequences
+from screed import read_fasta_sequences
 from seqparse import read_hava_sequences
 from dbConstants import fileExtension
 

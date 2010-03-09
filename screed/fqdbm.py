@@ -3,7 +3,7 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 import sys
-import seqparse
+import __init__
 import dbConstants
 
 # A python implementation of the FASTQ database writer
@@ -14,6 +14,6 @@ if __name__ == "__main__":
         exit(1)
 
     filename = sys.argv[1]
-    seqparse.read_fastq_sequences(filename)
+    __init__.read_fastq_sequences(filename)
 
     print "Database saved in %s_%s" % (sys.argv[1], dbConstants.fileExtension)
