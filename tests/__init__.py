@@ -3,7 +3,6 @@ import sys, os, gc
 thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
-#import screedDB
 from screed import screedDB
 import toFasta
 import toFastq

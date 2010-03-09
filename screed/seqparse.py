@@ -7,7 +7,8 @@ screed databases. An example 'hava' parser is included
 
 import dbConstants
 import os
-import createdb
+from __init__ import createdb
+#import createdb
 
 # Parser for the fake 'hava' sequence
 def read_hava_sequences(filename):
@@ -18,7 +19,7 @@ def read_hava_sequences(filename):
     theFile = open(filename, "rb")
 
     fields = ('hava', 'quarzk', 'muchalo', 'fakours', 'selimizicka', 'marshoon')
-    haCreate = createdb.createdb(filename, fields)
+    haCreate = createdb(filename, fields)
 
     # Parse text and add to database
     nextChar = theFile.read(1)
