@@ -24,13 +24,12 @@ import UserDict
 import screedRecord
 import sqlite3
 
-FASTQFIELDTYPES = ('name', 'sequence','accuracy')
-FASTAFIELDTYPES = ('name', 'description', 'sequence')
 
 def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
+    FASTQFIELDTYPES = ('name', 'sequence','accuracy')
 
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
@@ -62,6 +61,8 @@ def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
+    FASTAFIELDTYPES = ('name', 'description', 'sequence')
+    
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
 
