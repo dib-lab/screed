@@ -49,8 +49,10 @@ class _screed_attr(object):
         Only supports slicing right now. Returns the slice range given.
         *.start + 1 to be compatible with sqlite's 1 not 0 scheme
         """
-        assert type(sliceObj) == types.SliceType
-        assert sliceObj.start <= sliceObj.stop # String reverse in future?
+        if type(sliceObj) != types.SliceType:
+            raise TypeError('__getitem__ argument must be of slice type')
+        if not sliceObj.start <= sliceObj.stop: # String reverse in future?
+            raise ValueError('start must be less than stop in slice object')
         length = sliceObj.stop - sliceObj.start
         
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
@@ -86,7 +88,8 @@ class _screed_attr(object):
             return str(record)
 
     def __int__(self):
-        assert self._attrName == self._primaryKey
+        if self._attrName != self._primaryKey:
+            raise TypeError('Integer conversion called for non-integer type')
         return int(self.__repr__())
 
     def __eq__(self, given):

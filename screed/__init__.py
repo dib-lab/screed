@@ -42,12 +42,12 @@ def read_fastq_sequences(filename):
 
     while 1:
         data = {}
-        firstLine = theFile.readline().strip().split('@')
-        if len(firstLine) == 1: # Reached eof
+        firstLine = theFile.readline().strip()
+        if not firstLine:
             break
-        # Make sure the FASTQ file is being read correctly
-        assert firstLine[0] == ''
-        name = firstLine[1]
+        if not firstLine.startswith('@'):
+            raise IOError('Invalid format for a FASTQ file, %s' % filename)
+        name = firstLine[1:]
         data['name'] = name
         data['sequence'] = theFile.readline().strip()
         theFile.read(2) # Ignore the '+\n'
@@ -76,7 +76,8 @@ def read_fasta_sequences(filename):
     nextChar = theFile.read(1)
     while nextChar != '':
         data = {}
-        assert nextChar == '>'
+        if nextChar != '>':
+            raise IOError('Invalid format for a FASTA file, %s' % filename)
         topLine = theFile.readline().strip().split(' ', 1)
 
         # Extract the name
