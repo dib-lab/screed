@@ -2,7 +2,7 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
-import screedDB
+from __init__ import screedDB
 import sys, os
 
 _MAXSEQLINELEN = 80
@@ -36,7 +36,7 @@ class _seq_iter(object):
 
 def toFasta(dbFile, outputFile):
     outFile = open(outputFile, 'wb')
-    db = screedDB.screedDB(dbFile)
+    db = screedDB(dbFile)
 
     for value in db.itervalues():
         outFile.write('>%s %s\n' % (value['name'], value['description']))

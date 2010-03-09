@@ -3,7 +3,8 @@ import sys, os, gc
 thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
-import screedDB
+#import screedDB
+from screed import screedDB
 import toFasta
 import toFastq
 from screed import read_fastq_sequences
@@ -32,7 +33,7 @@ class Test_hava_methods(object):
     imaginary filetypes, like HAVA
     """
     def setup(self):
-        self.db = screedDB.screedDB(testha)
+        self.db = screedDB(testha)
 
     def test_contains(self):
         assert "test_006" in self.db
@@ -82,7 +83,7 @@ class Test_hava_methods(object):
 
 class Test_fastq(object):
     def setup(self):
-        self.db = screedDB.screedDB(testfq)
+        self.db = screedDB(testfq)
 
     def test_length(self):
         assert len(self.db) == 125
@@ -141,7 +142,7 @@ class Test_fastq(object):
 
 class Test_fasta(object):
     def setup(self):
-        self.db = screedDB.screedDB(testfa)
+        self.db = screedDB(testfa)
 
     def test_length(self):
         assert len(self.db) == 22
@@ -216,7 +217,7 @@ class Test_fasta_recover(Test_fasta):
         self._fileName = os.path.join(thisdir, 'fastaRecovery')
         toFasta.toFasta(testfa, self._fileName)
         read_fasta_sequences(self._fileName)
-        self.db = screedDB.screedDB(self._fileName)
+        self.db = screedDB(self._fileName)
 
     def teardown(self):
         os.unlink(self._fileName)
@@ -231,7 +232,7 @@ class Test_fastq_recover(Test_fastq):
         self._fileName = os.path.join(thisdir, 'fastqRecovery')
         toFastq.toFastq(testfq, self._fileName)
         read_fastq_sequences(self._fileName)
-        self.db = screedDB.screedDB(self._fileName)
+        self.db = screedDB(self._fileName)
 
     def teardown(self):
         os.unlink(self._fileName)
@@ -243,7 +244,7 @@ class Test_dict_methods(object):
     queries.
     """
     def setup(self):
-        self.db = screedDB.screedDB(testfa)
+        self.db = screedDB(testfa)
 
     def test_iter_stuff(self):
         db = self.db

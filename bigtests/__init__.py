@@ -6,7 +6,7 @@ libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 
 from screed import seqparse
-import screedDB
+from screed import screedDB
 
 tests22 = os.path.join(thisdir,  's_2_2_sequence.fastq')
 tests31 = os.path.join(thisdir, 's_3_1_sequence.fastq')
@@ -69,7 +69,7 @@ class Test_s22_fastq:
     Test screed methods on the s22 fastq file
     """
     def setup(self):
-        self.db = screedDB.screedDB(tests22 + '_screed')
+        self.db = screedDB(tests22 + '_screed')
 
     def tearDown(self):
         del self.db
@@ -206,7 +206,7 @@ class Test_s31_fastq:
     Test screed methods on the s31 fastq file
     """
     def setup(self):
-        self.db = screedDB.screedDB(tests31 + '_screed')
+        self.db = screedDB(tests31 + '_screed')
 
     def tearDown(self):
         del self.db
@@ -343,7 +343,7 @@ class Test_s42_fastq:
     Test screed methods on the s42 fastq file
     """
     def setup(self):
-        self.db = screedDB.screedDB(tests42 + '_screed')
+        self.db = screedDB(tests42 + '_screed')
 
     def tearDown(self):
         del self.db
@@ -480,7 +480,7 @@ class Test_po_fasta:
     Test screed methods on the pongo fasta file
     """
     def setup(self):
-        self.db = screedDB.screedDB(pongo + '_screed')
+        self.db = screedDB(pongo + '_screed')
 
     def tearDown(self):
         del self.db
@@ -630,7 +630,7 @@ class Test_mus_fasta:
     Test screed methods on the mus_musculus fasta file
     """
     def setup(self):
-        self.db = screedDB.screedDB(mus + '_screed')
+        self.db = screedDB(mus + '_screed')
 
     def tearDown(self):
         del self.db
@@ -753,7 +753,7 @@ class Test_tri_fasta:
     Test screed methods on the tri fasta file
     """
     def setup(self):
-        self.db = screedDB.screedDB(tri + '_screed')
+        self.db = screedDB(tri + '_screed')
 
     def tearDown(self):
         del self.db
@@ -894,7 +894,7 @@ class Test_xeno_fasta:
     Test screed methods on the xeno fasta file
     """
     def setup(self):
-        self.db = screedDB.screedDB(xeno + '_screed')
+        self.db = screedDB(xeno + '_screed')
 
     def tearDown(self):
         del self.db
@@ -1044,7 +1044,7 @@ class Test_sorex_fasta:
     Test screed methods on the sorex fasta file
     """
     def setup(self):
-        self.db = screedDB.screedDB(sorex + '_screed')
+        self.db = screedDB(sorex + '_screed')
 
     def tearDown(self):
         del self.db
