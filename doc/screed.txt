@@ -184,22 +184,10 @@ second, an index of 1 and so on.
 
 Writing Custom Sequence Parsers
 ===============================
-screed is built to be flexible with different types of file sequences.
+screed is built to be adaptable to new kinds of file sequence formats.
 Included with screed are parsers for handling FASTA and FASTQ sequence
-file types, though if you need screed to work with a new file sequence type,
+file types, though if you need screed to work with a new format,
 all you need to do is write a new parser.
-
-Error checking in parsing methods
----------------------------------
-The existing FASTA/FASTQ parsing functions in seqparse.py contain some error
-checking, such as making sure the file can be opened and asserting correct
-data is being read. Though screed
-doesn't enforce this, it is strongly recommended to include error checking code
-in your parser. To remain non-specific to one file sequence type or another,
-the underlying screed library can't contain error checking code of this kind.
-If errors are not detected by the parsing function, they will be silently
-included into the database being built and could cause problems much later when
-trying to access the database.
 
 General Parsing Function Format
 -------------------------------
@@ -208,35 +196,57 @@ custom sequence parser. Though they don't have to be, future sequence parsers
 should be located in the seqparse.py file for convenience.
 These steps will be described in the context of working from the python shell.
 
-1. First, import the screedDB file:
+First, import the createdb class::
 
-   >>> import screedDB
+    >>> from screed import createdb
 
-2. Next, the database fields must be specified. The fields are what tells
+The createdb class handles the formatting of general screed databases and
+provides a simple interface to for storing sequence data.
+
+Next, the database fields must be specified. The fields are what tells
 screed the names and order of the data fields inside each record. For instance,
 lets say our new sequence has types 'name', 'bar', and 'baz', all text. The
-fields object will be:
+fields object will be::
 
-   >>> fields = ('name', 'bar', 'baz')
+    >>> fields = ('name', 'bar', 'baz')
 
-Now the database dictionary object can be created with:
+screed databases all come with an index or id attribute, the rest are
+user-defined. However, the first attribute in the fields tuple will be
+used as the key for lookups in the __getitem__ method. So, if you want 
+'baz' to be used as the key, your fields tuple could be setup like this::
 
-   >>> db = screedDB.screedDB(filepath, fields)
+    >>> fields = ('baz', 'name', 'bar')
 
-where 'filepath' is the path to the name of the file to be used by the screed
-database. Note the order in fields: 'name', 'bar', then 'baz'. This is the
-order screed will expect when receiving a new record to store and it is the
-order screed will return when a record is queried.
+Now the database dictionary object can be created with::
 
-3. Finally, its time to add records to the database. After collecting the
-'name',  'bar', and 'baz' attributes, add data to the dict-like database object:
+    >>> newdb = createdb(filepath, fields)
 
-   >>> db[name] = (name, bar, baz)
+where 'filepath' is the path to the file where the database will reside.
+If that file already exists, createdb will delete it and then open a new
+file.
 
-After reading all the records into the database, close it and you're done:
+Finally, its time to add records to the database. After collecting the
+'name',  'bar', and 'baz' attributes, data is fed to the createdb object
+in dictionary form via the class's feed() method::
 
-   >>> db.close()
-   
+    >>> newdb.feed({'name': name, 'bar': bar, 'baz': baz})
+
+After reading all the records into the database, close the createdb object::
+
+    >>> newdb.close()
+
+Error checking in parsing methods
+---------------------------------
+The existing FASTA/FASTQ parsing functions in seqparse.py contain some error
+checking, such as making sure the file can be opened and asserting correct
+data is being read. Though screed doesn't enforce this, it is strongly
+recommended to include error checking code in your parser. To remain
+non-specific to one file sequence type or another, the underlying screed
+library can't contain error checking code of this kind. If errors are not
+detected by the parsing function, they will be silently included into the
+database being built and could cause problems much later when trying to
+read from the database.
+
 ..
     Local Variables:
     mode: rst
