@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2010, Michigan State University
+
 """
 screed is a database tool useful for retrieving arbitrary kinds of sequence
 data through a on-disk database that emulates a read-only Python dictionary.

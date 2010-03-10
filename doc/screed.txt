@@ -48,8 +48,8 @@ Creating a database from the API
 --------------------------------
 From a python prompt type::
 
-    >>> from screed import seqparse
-    >>> seqparse.read_fasta_sequences('../tests/test.fa')
+    >>> import screed
+    >>> screed.read_fasta_sequences('../tests/test.fa')
 
 That command just parsed the FASTA file '../tests/test.fa' into a
 screed-database named '../tests/test.fa_screed'. The screed database
@@ -58,7 +58,7 @@ or deleting the '../tests/test.fa' file will not affect
 screed's operation. To create a screed database from a FASTQ file the
 syntax is similar::
 
-    >>> seqparse.read_fastq_sequences('../tests/test.fastq')
+    >>> screed.read_fastq_sequences('../tests/test.fastq')
 
 Creating a database from a script
 ---------------------------------

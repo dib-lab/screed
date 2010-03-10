@@ -1,4 +1,5 @@
 import sys, os, gc
+import subprocess
 
 thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
@@ -236,6 +237,34 @@ class Test_fastq_recover(Test_fastq):
     def teardown(self):
         os.unlink(self._fileName)
         os.unlink(self._fileName + fileExtension)
+
+class Test_fasta_shell(Test_fasta):
+    """
+    Tests the functionality of the script 'fadbm' in creating a
+    screed database correctly from the shell
+    """
+    def setup(self):
+        os.unlink(testfa + fileExtension)
+        fadbm = os.path.join(libdir, 'fadbm.py')
+        subprocess.check_call([fadbm, testfa], stdout=subprocess.PIPE)
+        self.db = screedDB(testfa)
+
+    def teardown(self):
+        read_fasta_sequences(testfa)    
+
+class Test_fastq_shell(Test_fastq):
+    """
+    Tests the functionality of the script 'fqdbm' in creating a
+    screed database correctly from the shell
+    """
+    def setup(self):
+        os.unlink(testfq + fileExtension)
+        fqdbm = os.path.join(libdir, 'fqdbm.py')
+        subprocess.check_call([fqdbm, testfq], stdout=subprocess.PIPE)
+        self.db = screedDB(testfq)
+
+    def teardown(self):
+        read_fastq_sequences(testfq)
 
 class Test_dict_methods(object):
     """
