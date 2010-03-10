@@ -31,29 +31,46 @@ def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
-    FASTQFIELDTYPES = ('name', 'sequence','accuracy')
+    FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
 
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
 
-    # Delete old screed database if that exists
-    if os.path.isfile(filename + dbConstants.fileExtension):
-        os.unlink(filename + dbConstants.fileExtension)
-
+    # Will delete old screed database if that exists
     fqCreate = createdb(filename, FASTQFIELDTYPES)
 
-    while 1:
+    line = theFile.readline().strip()
+    while line:
         data = {}
-        firstLine = theFile.readline().strip()
-        if not firstLine:
-            break
-        if not firstLine.startswith('@'):
+
+        if not line.startswith('@'):
             raise IOError('Invalid format for a FASTQ file, %s' % filename)
-        name = firstLine[1:]
-        data['name'] = name
-        data['sequence'] = theFile.readline().strip()
-        theFile.read(2) # Ignore the '+\n'
-        data['accuracy'] = theFile.readline().strip()
+
+        # Try to grab the name and (optional) annotations
+        try:
+            data['name'], data['annotations'] = line[1:].split(' ', 1)
+        except ValueError: # No optional annotations
+            data['name'] = line[1:]
+            data['annotations'] = ''
+            pass
+
+        # Extract the sequence lines
+        sequence = []
+        line = theFile.readline().strip()
+        while not line.startswith('+'):
+            sequence.append(line)
+            line = theFile.readline()
+
+        data['sequence'] = "".join(sequence)
+
+        # Extract the accuracy lines
+        accuracy = []
+        line = theFile.readline().strip()
+        while not line.startswith('@') and not line == '':
+            accuracy.append(line)
+            line = theFile.readline().strip()
+
+        data['accuracy'] = "".join(accuracy)
         fqCreate.feed(data)
 
     theFile.close()
@@ -68,29 +85,23 @@ def read_fasta_sequences(filename):
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
 
-    # Delete old screed database if that exists
-    if os.path.isfile(filename + dbConstants.fileExtension):
-        os.unlink(filename + dbConstants.fileExtension)
-
+    # Will delete old screed database if that exists
     faCreate = createdb(filename, FASTAFIELDTYPES)
 
-    # Parse text and add to database
+    # Don't include the '>' but make sure it exists
     nextChar = theFile.read(1)
     while nextChar != '':
         data = {}
         if nextChar != '>':
             raise IOError('Invalid format for a FASTA file, %s' % filename)
-        topLine = theFile.readline().strip().split(' ', 1)
 
-        # Extract the name
-        name = topLine[0]
-        data['name'] = name
-
-        # Extract the description
-        description = ''
-        if len(topLine) == 2:
-            description = topLine[1]
-        data['description'] = description
+        # Try to retrieve name and optional description
+        topLine = theFile.readline().strip()
+        try:
+            data['name'], data['description'] = topLine.split(' ', 1)
+        except ValueError: # Oops, just the name then
+            data['name'] = topLine
+            data['description'] = ''
 
         # Collect sequence lines into a list
         sequenceList = []
