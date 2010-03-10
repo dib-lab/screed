@@ -345,8 +345,8 @@ $ nosetests
 <h2>Creating a database from the API</h2>
 <p>From a python prompt type:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; from screed import seqparse
-&gt;&gt;&gt; seqparse.read_fasta_sequences('../tests/test.fa')
+&gt;&gt;&gt; import screed
+&gt;&gt;&gt; screed.read_fasta_sequences('../tests/test.fa')
 </pre>
 <p>That command just parsed the FASTA file '../tests/test.fa' into a
 screed-database named '../tests/test.fa_screed'. The screed database
@@ -355,12 +355,12 @@ or deleting the '../tests/test.fa' file will not affect
 screed's operation. To create a screed database from a FASTQ file the
 syntax is similar:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; seqparse.read_fastq_sequences('../tests/test.fastq')
+&gt;&gt;&gt; screed.read_fastq_sequences('../tests/test.fastq')
 </pre>
 </div>
 <div class="section" id="creating-a-database-from-a-script">
 <h2>Creating a database from a script</h2>
-<p>To create a screed db from a fastq file at the shell:</p>
+<p>To create a screed db from a FASTQ file at the shell:</p>
 <pre class="literal-block">
 $ ./fqdbm ../tests/test.fastq
 </pre>
@@ -368,34 +368,42 @@ $ ./fqdbm ../tests/test.fastq
 <pre class="literal-block">
 $ ./fadbm ../tests/test.fa
 </pre>
+<p>screed natively supports FASTA and FASTQ database creation. If you have a new
+sequence you want screed to work with, see the section below on Writing
+Custom Sequence Parsers.</p>
+</div>
 </div>
 <div class="section" id="reading-databases">
-<h2>Reading databases</h2>
-<p>In the python environment, import the screed module from the python
-subdirectory and load some databases:</p>
+<h1>Reading databases</h1>
+<p>The class screedDB is used to read screed databases, regardless of what file
+format they were derived from (FASTA/FASTQ/hava/etc..). One reader to
+rule them all!</p>
+<div class="section" id="opening">
+<h2>Opening</h2>
+<p>In the python environment, import the screedDB class and load
+some databases:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; from screed import screedDB
-&gt;&gt;&gt; fadb = screedDB.screedDB('../tests/test.fa')
-&gt;&gt;&gt; fqdb = screedDB.screedDB('../tests/test.fastq')
+&gt;&gt;&gt; fadb = screedDB('../tests/test.fa')
+&gt;&gt;&gt; fqdb = screedDB('../tests/test.fastq')
 </pre>
-<p>The databases act like read-only dictionary objects:</p>
+<p>Notice how you didn't need to write the '_screed' at the end of the filenames?
+screed automatically adds that to the filename if you didn't.</p>
+</div>
+<div class="section" id="dictionary-interface">
+<h2>Dictionary Interface</h2>
+<p>Since screed emulates a read-only dictionary interface, any methods that
+don't modify a dictionary are supported:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; fadb.keys()
 &gt;&gt;&gt; fqdb.keys()
 </pre>
 <p>Each record in the database has certain attributes such as name and sequence
-information. If the database was derived from a fastq file, a quality score is
-also included. Conversely, fasta-derived databases have a description tag.</p>
+information. If the database was derived from a FASTQ file, a quality score is
+also included. Conversely, FASTA-derived databases have a description tag.</p>
 <p>To retrieve the names of records in the database:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; names = fadb.keys()
-</pre>
-<p>Or, to retrieve sequence information:</p>
-<pre class="literal-block">
-&gt;&gt;&gt; sequences = []
-&gt;&gt;&gt; for key in fqdb:
-...     record = fqdb[key]
-...     sequences.append(record.sequence)
 </pre>
 <p>Length of the databases are easily found:</p>
 <pre class="literal-block">
@@ -404,10 +412,72 @@ also included. Conversely, fasta-derived databases have a description tag.</p>
 &gt;&gt;&gt; print len(fqdb)
 125
 </pre>
-<p>Records can also be retrieved by index, instead of by name:</p>
+</div>
+<div class="section" id="retrieving-records">
+<h2>Retrieving Records</h2>
+<p>A record is the standard container unit in screed. Each has attributes that
+vary slightly depending on what kind of file the database was derived from.
+For instance, a FASTQ-derieved screed database has an index (id), a name,
+a quality score and a sequence. A FASTA-derieved screed database has an
+index (id), name, description and a sequence. Every attribute is a string,
+except for the index which has to be an integer.</p>
+<p>Retrieving whole records:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; fqdb.loadRecordByIndex(5)
+&gt;&gt;&gt; records = []
+&gt;&gt;&gt; for record in fadb.itervalues():
+&gt;&gt;&gt;     records.append(record)
 </pre>
+<p>What is returned is a dictionary of attribute information. The names of record
+attributes are keys into this dictionary with the actual infomation as values.
+For example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; record = fadb[fadb.keys()[0]]
+&gt;&gt;&gt; index = record['id']
+&gt;&gt;&gt; name = record['name']
+&gt;&gt;&gt; description = record['description']
+&gt;&gt;&gt; sequence = record['sequence']
+</pre>
+<p>What this does is retrieve the first record object in the screed database,
+then retrieve the index, name, description and sequence from the record
+object using standard dictionary key -&gt; value pairs. Though these
+attributes aren't technically integers or strings, they 'look' like them
+and can be compared to Python integers and strings. As such, certain
+methods aren't availiable and will fail, such as:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; if name.startswith('b'):
+&gt;&gt;&gt;     # do something...
+</pre>
+<p>In cases such as these, convert the attribute to a string first then
+perform the operation:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; if str(name).startwith('b'):
+&gt;&gt;&gt;    # do something...
+</pre>
+<p>Similary, the index should be converted to an integer with the int()
+operation before performing complicated operations. The reason for
+this convoluted structure is so screed can support fast sequence
+slicing. If you have a record with a long 8K sequence, for instance,
+and you only want a substring spanning positions 4000 to 4100, do:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; subSeq = sequence[4000:4100]
+</pre>
+<p>This way there is no need to retrieve the entire 8K sequence, then perform
+a standard Python string slicing operation which would be slow. Only the
+requested slice is retrieved from the database and returned as a Python
+string.</p>
+</div>
+<div class="section" id="retrieving-via-index">
+<h2>Retrieving Via Index</h2>
+<p>Sometimes you don't care what the name of a sequence is; you're only
+interested in its position in the database. In these cases, retrieval via
+index is the method you'll want to use:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; record = fqdb.loadRecordByIndex(5)
+</pre>
+<p>An index is like an offset into the database. The order records were kept in
+the FASTA or FASTQ file determines the index in their resulting screed database.
+The first record in a sequence file will have an index of 0, the
+second, an index of 1 and so on.</p>
 </div>
 </div>
 <div class="section" id="writing-custom-sequence-parsers">

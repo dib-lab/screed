@@ -62,7 +62,7 @@ syntax is similar::
 
 Creating a database from a script
 ---------------------------------
-To create a screed db from a fastq file at the shell::
+To create a screed db from a FASTQ file at the shell::
 
     $ ./fqdbm ../tests/test.fastq
 
@@ -70,34 +70,43 @@ Similarly, to create a screed db from a fasta file::
 
     $ ./fadbm ../tests/test.fa
 
+screed natively supports FASTA and FASTQ database creation. If you have a new
+sequence you want screed to work with, see the section below on Writing
+Custom Sequence Parsers.
+
 Reading databases
------------------
-In the python environment, import the screed module from the python
-subdirectory and load some databases::
+=================
+The class screedDB is used to read screed databases, regardless of what file
+format they were derived from (FASTA/FASTQ/hava/etc..). One reader to
+rule them all!
+
+Opening
+-------
+In the python environment, import the screedDB class and load 
+some databases::
 
     >>> from screed import screedDB
-    >>> fadb = screedDB.screedDB('../tests/test.fa')
-    >>> fqdb = screedDB.screedDB('../tests/test.fastq')
+    >>> fadb = screedDB('../tests/test.fa')
+    >>> fqdb = screedDB('../tests/test.fastq')
 
-The databases act like read-only dictionary objects::
+Notice how you didn't need to write the '_screed' at the end of the filenames?
+screed automatically adds that to the filename if you didn't.
+
+Dictionary Interface
+--------------------
+Since screed emulates a read-only dictionary interface, any methods that
+don't modify a dictionary are supported::
 
     >>> fadb.keys()
     >>> fqdb.keys()
 
 Each record in the database has certain attributes such as name and sequence
-information. If the database was derived from a fastq file, a quality score is
-also included. Conversely, fasta-derived databases have a description tag.
+information. If the database was derived from a FASTQ file, a quality score is
+also included. Conversely, FASTA-derived databases have a description tag.
 
 To retrieve the names of records in the database::
 
     >>> names = fadb.keys()
-
-Or, to retrieve sequence information::
-
-    >>> sequences = []
-    >>> for key in fqdb:
-    ...     record = fqdb[key]
-    ...     sequences.append(record.sequence)
 
 Length of the databases are easily found::
 
@@ -106,9 +115,72 @@ Length of the databases are easily found::
     >>> print len(fqdb)
     125
 
-Records can also be retrieved by index, instead of by name::
+Retrieving Records
+------------------
+A record is the standard container unit in screed. Each has attributes that
+vary slightly depending on what kind of file the database was derived from.
+For instance, a FASTQ-derieved screed database has an index (id), a name,
+a quality score and a sequence. A FASTA-derieved screed database has an
+index (id), name, description and a sequence. Every attribute is a string,
+except for the index which has to be an integer.
 
-    >>> fqdb.loadRecordByIndex(5)
+Retrieving whole records::
+
+    >>> records = []
+    >>> for record in fadb.itervalues():
+    >>>     records.append(record)
+
+What is returned is a dictionary of attribute information. The names of record
+attributes are keys into this dictionary with the actual infomation as values.
+For example::
+
+    >>> record = fadb[fadb.keys()[0]]
+    >>> index = record['id']
+    >>> name = record['name']
+    >>> description = record['description']
+    >>> sequence = record['sequence']
+
+What this does is retrieve the first record object in the screed database,
+then retrieve the index, name, description and sequence from the record
+object using standard dictionary key -> value pairs. Though these
+attributes aren't technically integers or strings, they 'look' like them
+and can be compared to Python integers and strings. As such, certain
+methods aren't availiable and will fail, such as::
+
+    >>> if name.startswith('b'):
+    >>>     # do something...
+
+In cases such as these, convert the attribute to a string first then
+perform the operation::
+
+    >>> if str(name).startwith('b'):
+    >>>    # do something...
+
+Similary, the index should be converted to an integer with the int()
+operation before performing complicated operations. The reason for
+this convoluted structure is so screed can support fast sequence
+slicing. If you have a record with a long 8K sequence, for instance,
+and you only want a substring spanning positions 4000 to 4100, do::
+
+    >>> subSeq = sequence[4000:4100]
+
+This way there is no need to retrieve the entire 8K sequence, then perform
+a standard Python string slicing operation which would be slow. Only the
+requested slice is retrieved from the database and returned as a Python
+string.
+
+Retrieving Via Index
+--------------------
+Sometimes you don't care what the name of a sequence is; you're only
+interested in its position in the database. In these cases, retrieval via
+index is the method you'll want to use::
+
+    >>> record = fqdb.loadRecordByIndex(5)
+
+An index is like an offset into the database. The order records were kept in
+the FASTA or FASTQ file determines the index in their resulting screed database.
+The first record in a sequence file will have an index of 0, the
+second, an index of 1 and so on.
 
 Writing Custom Sequence Parsers
 ===============================
