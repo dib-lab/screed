@@ -26,6 +26,7 @@ import UserDict
 import screedRecord
 import sqlite3
 
+__version__ = '0.5'
 
 def read_fastq_sequences(filename):
     """
