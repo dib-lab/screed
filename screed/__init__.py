@@ -71,6 +71,8 @@ def read_fastq_sequences(filename):
             line = theFile.readline().strip()
 
         data['accuracy'] = "".join(accuracy)
+        if len(data['sequence']) != len(data['accuracy']):
+            raise IOError('sequence and accuracy strings must be of equal length')
         fqCreate.feed(data)
 
     theFile.close()

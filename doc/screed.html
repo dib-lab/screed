@@ -399,8 +399,9 @@ don't modify a dictionary are supported:</p>
 &gt;&gt;&gt; fqdb.keys()
 </pre>
 <p>Each record in the database has certain attributes such as name and sequence
-information. If the database was derived from a FASTQ file, a quality score is
-also included. Conversely, FASTA-derived databases have a description tag.</p>
+information. If the database was derived from a FASTQ file, accuracy and
+optional annotation strings are included. Conversely, FASTA-derived
+databases have a description tag.</p>
 <p>To retrieve the names of records in the database:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; names = fadb.keys()
@@ -541,6 +542,43 @@ library can't contain error checking code of this kind. If errors are not
 detected by the parsing function, they will be silently included into the
 database being built and could cause problems much later when trying to
 read from the database.</p>
+</div>
+</div>
+<div class="section" id="file-formats-as-understood-by-screed">
+<h1>File formats as understood by screed</h1>
+<p>While the screed database remains non-specific to file formats, the included
+FASTA and FASTQ parsers expect specific formats. These parsers attempt to
+handle the most common attributes of sequence files, though they can not
+support all features.</p>
+<div class="section" id="fastq">
+<h2>FASTQ</h2>
+<p>The FASTQ parsing function is read_fastq_sequences() and is located in the
+screed module.</p>
+<p>The first line in a record must begin with '&#64;' and is
+followed by a record identifier (a name). An optional annotations string
+may be included after a space on the same line.</p>
+<p>The second line begins the sequence line(s) which may be line wrapped.
+screed defines no limit on the length of sequence lines and no length on
+how many sequence lines a record may contain.</p>
+<p>After the sequence line(s) comes a '+' character on a new line. Some
+FASTQ formats require the first line to be repeated after the '+'
+character, but since this adds no new information to the record,
+read_fastq_sequences() will ignore this if it is included.</p>
+<p>Finally comes the accuracy line(s). Like the sequence line(s) these may
+be line wrapped. read_fastq_sequences() will raise an exception if the
+accuracy and sequence strings are of unequal length.</p>
+</div>
+<div class="section" id="fasta">
+<h2>FASTA</h2>
+<p>The FASTA parsing function is read_fasta_sequences() and is also located
+in the screed module.</p>
+<p>The first line in a record must begin with '&gt;' and is followed with the
+sequence's name and an optional description. If the description is
+included, it is separated from the name with a space. Note that though
+the FASTA format doesn't require a name, screed does here. Without a
+unique name, screed wouldn't be able to perform sequence lookups by name.</p>
+<p>The second line begins the line(s) of sequence. Like the FASTQ parser,
+read_fasta_sequences() allows any number of lines of any length.</p>
 <!-- Local Variables:
 mode: rst
 mode: outline-minor
