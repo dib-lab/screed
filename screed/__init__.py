@@ -28,6 +28,64 @@ import sqlite3
 
 __version__ = '0.5'
 
+def fqiter(handle):
+    """
+    Iterator over the given FASTQ file handle returning records
+    """
+    data = {}
+    line = handle.readline().strip()
+    while line:
+        if not line.startswith('@'):
+            raise IOError('Bad FASTQ format: no @ at beginning of line')
+
+        # Try to grab the name and (optional) annotations
+        try:
+            data['name'], data['annotation'] = line[1:].split(' ',1)
+        except ValueError: # No optional annotations
+            data['name'] = line[1:]
+            data['annotations'] = ''
+            pass
+
+        # Extract the sequence lines
+        sequence = []
+        line = handle.readline().strip()
+        while not line.startswith('+'):
+            sequence.append(line)
+            line = handle.readline()
+
+        data['sequence'] = ''.join(sequence)
+
+        # Extract the accuracy lines
+        accuracy = []
+        line = handle.readline().strip()
+        while not line.startswith('@') and not line == '':
+            accuracy.append(line)
+            line = handle.readline().strip()
+
+        data['accuracy'] = ''.join(accuracy)
+        if len(data['sequence']) != len(data['accuracy']):
+            raise IOError('sequence and accuracy strings must be of equal length')
+
+        yield data
+
+def rfqs(filename):
+    """
+    Function to parse text from the given FASTQ file into a screed database
+    """
+
+    FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
+
+    # Will raise an exception if the file doesn't exist
+    theFile = open(filename, 'rb')
+
+    # Setup the iterator function
+    iterfunc = fqiter(theFile)
+
+    # Create the screed db
+    create_db(filename, FASTQFIELDTYPES, iterfunc)
+
+    theFile.close()
+
 def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
@@ -73,6 +131,7 @@ def read_fastq_sequences(filename):
 
         data['accuracy'] = "".join(accuracy)
         if len(data['sequence']) != len(data['accuracy']):
+            sys.stderr.write('')
             raise IOError('sequence and accuracy strings must be of equal length')
         fqCreate.feed(data)
 
@@ -280,6 +339,62 @@ class screedDB(object, UserDict.DictMixin):
         Not implemented (Read-only database)
         """
         raise AttributeError
+
+def create_db(filepath, fields, rcrditer):
+    """
+    Creates a screed database in the given filepath. Fields is a tuple
+    specifying the names and relative order of attributes in a
+    record. rcrditer is an iterator returning records over a
+    sequence dataset. Records yielded are in dictionary form
+    """
+
+    if not filepath.endswith(dbConstants.fileExtension):
+        filepath += dbConstants.fileExtension
+
+    if os.path.exists(filepath): # Remove existing files
+        os.unlink(filepath)
+
+    con = sqlite3.connect(filepath)
+    cur = con.cursor()
+
+    # Create the admin table
+    cur.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, '\
+                'FIELDNAME TEXT)' % dbConstants._SCREEDADMIN)
+    query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
+            dbConstants._SCREEDADMIN
+    for attribute in fields:
+        cur.execute(query, (attribute,))
+
+    # Setup the dictionary table creation field substring
+    fieldsub = ''.join(['%s TEXT,' % field for field in fields])[:-1]
+
+    # Create the dictionary table
+    cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
+                (dbConstants._DICT_TABLE, dbConstants._PRIMARY_KEY,
+                 fieldsub))
+
+    # Attribute to index
+    queryby = fields[0]
+
+    # Make the index on the 'queryby' attribute
+    cur.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' %
+                (queryby, dbConstants._DICT_TABLE, queryby))
+
+    # Setup the 'qmarks' sqlite substring
+    qmarks = ('?,' * len(fields))[:-1]
+
+    # Setup the sql substring for inserting fields into database
+    fieldsub = ''.join(['%s,' % field for field in fields])[:-1]
+
+    query = 'INSERT INTO %s (%s) VALUES (%s)' %\
+            (dbConstants._DICT_TABLE, fieldsub, qmarks)
+    # Pull data from the iterator and store in database
+    for record in rcrditer:
+        data = tuple([record[key] for key in fields])
+        cur.execute(query, data)
+
+    con.commit()
+    con.close()
 
 class createdb(object):
     """
