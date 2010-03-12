@@ -16,7 +16,8 @@ def read_hava_sequences(filename):
     """
     def havaiter(handle):
         """
-        Iterator over a 'hava' sequence file, returning records
+        Iterator over a 'hava' sequence file, returning records. handle
+        is a handle to a file opened for reading
         """
         data = {}
         line = handle.readline().strip()

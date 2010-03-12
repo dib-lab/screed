@@ -192,19 +192,25 @@ all you need to do is write a new parser.
 
 General Parsing Function Format
 -------------------------------
+create_db is the function central to the creation of screed databases. This
+function accepts a filepath, a tuple of field names and an iterator function.
+The filepath describes where the screed database should go, the fields contain
+the names and ordering of fields per record and the iterator function yields
+records in a dictionary format.
+
 This sub-section describes general steps for preparing and using screed with a
 custom sequence parser. Though they don't have to be, future sequence parsers
 should be located in the seqparse.py file for convenience.
 These steps will be described in the context of working from the python shell.
 
-First, import the createdb class::
+First import the create_db function::
 
-    >>> from screed import createdb
+    >>> from screed import create_db
 
-The createdb class handles the formatting of general screed databases and
-provides a simple interface to for storing sequence data.
+The create_db class handles the formatting of screed databases and
+provides a simple interface for storing sequence data.
 
-Next, the database fields must be specified. The fields are what tells
+Next the database fields must be specified. The fields are what tells
 screed the names and order of the data fields inside each record. For instance,
 lets say our new sequence has types 'name', 'bar', and 'baz', all text. The
 fields object will be::
@@ -218,27 +224,41 @@ used as the key for lookups in the __getitem__ method. So, if you want
 
     >>> fields = ('baz', 'name', 'bar')
 
-Now the database dictionary object can be created with::
+Next you need to setup an iterator function that will return records in
+a dictionary format. Have a look at the 'fqiter' or 'faiter' functions
+contained in the read_fastq_sequences and read_fasta_sequences functions
+in the screed module for examples on how to do this. If you don't know
+what an iterator function is, have a look at the documentation on the
+Python website, http://docs.python.org/.
 
-    >>> newdb = createdb(filepath, fields)
+Once the iterator function is written, it needs to be instantiated. In the
+context of the builtin parsing functions, this means opening a file and
+passing the file handle to the iterator function::
 
-where 'filepath' is the path to the file where the database will reside.
-If that file already exists, createdb will delete it and then open a new
-file.
+    >>> seqfile = open('path_to_seq_file', 'rb')
+    >>> iter_instance = myiter(seqfile)
 
-Finally, its time to add records to the database. After collecting the
-'name',  'bar', and 'baz' attributes, data is fed to the createdb object
-in dictionary form via the class's feed() method::
+Assuming that your iterator function is called myiter, this sets up an
+instance of it ready to use with create_db.
 
-    >>> newdb.feed({'name': name, 'bar': bar, 'baz': baz})
+Now the screed database is created with one command::
 
-After reading all the records into the database, close the createdb object::
+    >>> create_db('path_to_screed_db', fields, iter_instance)
 
-    >>> newdb.close()
+If you want the screed database created in the same directory and with a
+similar filename as the sequence file, its ok to do this instead::
+
+    >>> create_db('path_to_seq_file', fields, iter_instance)
+
+create_db will just append '_screed' to the end of the filename and make
+a screed database at that filepath.
+
+When you're done with it the sequence file should be closed::
+    >>> seqfile.close()
 
 Error checking in parsing methods
 ---------------------------------
-The existing FASTA/FASTQ parsing functions in seqparse.py contain some error
+The existing FASTA/FASTQ parsing functions contain some error
 checking, such as making sure the file can be opened and asserting correct
 data is being read. Though screed doesn't enforce this, it is strongly
 recommended to include error checking code in your parser. To remain
