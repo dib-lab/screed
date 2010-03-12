@@ -28,50 +28,50 @@ import sqlite3
 
 __version__ = '0.5'
 
-def fqiter(handle):
-    """
-    Iterator over the given FASTQ file handle returning records
-    """
-    data = {}
-    line = handle.readline().strip()
-    while line:
-        if not line.startswith('@'):
-            raise IOError('Bad FASTQ format: no @ at beginning of line')
 
-        # Try to grab the name and (optional) annotations
-        try:
-            data['name'], data['annotation'] = line[1:].split(' ',1)
-        except ValueError: # No optional annotations
-            data['name'] = line[1:]
-            data['annotations'] = ''
-            pass
-
-        # Extract the sequence lines
-        sequence = []
-        line = handle.readline().strip()
-        while not line.startswith('+'):
-            sequence.append(line)
-            line = handle.readline()
-
-        data['sequence'] = ''.join(sequence)
-
-        # Extract the accuracy lines
-        accuracy = []
-        line = handle.readline().strip()
-        while not line.startswith('@') and not line == '':
-            accuracy.append(line)
-            line = handle.readline().strip()
-
-        data['accuracy'] = ''.join(accuracy)
-        if len(data['sequence']) != len(data['accuracy']):
-            raise IOError('sequence and accuracy strings must be of equal length')
-
-        yield data
-
-def rfqs(filename):
+def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
+    def fqiter(handle):
+        """
+        Iterator over the given FASTQ file handle returning records
+        """
+        data = {}
+        line = handle.readline().strip()
+        while line:
+            if not line.startswith('@'):
+                raise IOError("Bad FASTQ format: no '@' at beginning of line")
+
+            # Try to grab the name and (optional) annotations
+            try:
+                data['name'], data['annotation'] = line[1:].split(' ',1)
+            except ValueError: # No optional annotations
+                data['name'] = line[1:]
+                data['annotations'] = ''
+                pass
+
+            # Extract the sequence lines
+            sequence = []
+            line = handle.readline().strip()
+            while not line.startswith('+'):
+                sequence.append(line)
+                line = handle.readline()
+
+            data['sequence'] = ''.join(sequence)
+
+            # Extract the accuracy lines
+            accuracy = []
+            line = handle.readline().strip()
+            while not line.startswith('@') and not line == '':
+                accuracy.append(line)
+                line = handle.readline().strip()
+
+            data['accuracy'] = ''.join(accuracy)
+            if len(data['sequence']) != len(data['accuracy']):
+                raise IOError('sequence and accuracy strings must be of equal length')
+
+            yield data
 
     FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
 
@@ -86,99 +86,52 @@ def rfqs(filename):
 
     theFile.close()
 
-def read_fastq_sequences(filename):
-    """
-    Function to parse text from the given FASTQ file into a screed database
-    """
-    FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
-
-    # Will raise an exception if the file doesn't exist
-    theFile = open(filename, "rb")
-
-    # Will delete old screed database if that exists
-    fqCreate = createdb(filename, FASTQFIELDTYPES)
-
-    line = theFile.readline().strip()
-    while line:
-        data = {}
-
-        if not line.startswith('@'):
-            raise IOError('Invalid format for a FASTQ file, %s' % filename)
-
-        # Try to grab the name and (optional) annotations
-        try:
-            data['name'], data['annotations'] = line[1:].split(' ', 1)
-        except ValueError: # No optional annotations
-            data['name'] = line[1:]
-            data['annotations'] = ''
-            pass
-
-        # Extract the sequence lines
-        sequence = []
-        line = theFile.readline().strip()
-        while not line.startswith('+'):
-            sequence.append(line)
-            line = theFile.readline()
-
-        data['sequence'] = "".join(sequence)
-
-        # Extract the accuracy lines
-        accuracy = []
-        line = theFile.readline().strip()
-        while not line.startswith('@') and not line == '':
-            accuracy.append(line)
-            line = theFile.readline().strip()
-
-        data['accuracy'] = "".join(accuracy)
-        if len(data['sequence']) != len(data['accuracy']):
-            sys.stderr.write('')
-            raise IOError('sequence and accuracy strings must be of equal length')
-        fqCreate.feed(data)
-
-    theFile.close()
-    fqCreate.close()
-
 def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
+
+    def faiter(handle):
+        """
+        Iterator over the given FASTA file handle, returning records
+        """
+        data = {}
+        line = handle.readline().strip()
+        while line != '':
+            if not line.startswith('>'):
+                raise IOError("Bad FASTA format: no '>' at beginning of line")
+
+            # Try to grab the name and optional description
+            try:
+                data['name'], data['description'] = line[1:].split(' ', 1)
+            except ValueError: # No optional description
+                data['name'] = line
+                data['description'] = ''
+                pass
+
+            # Collect sequence lines into a list
+            sequenceList = []
+            line = handle.readline().strip()
+            while line != '' and not line.startswith('>'):
+                sequenceList.append(line)
+                line = handle.readline().strip()
+
+            data['sequence'] = ''.join(sequenceList)
+            yield data
+                
+    
     FASTAFIELDTYPES = ('name', 'description', 'sequence')
     
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
 
-    # Will delete old screed database if that exists
-    faCreate = createdb(filename, FASTAFIELDTYPES)
+    # Setup the iterator function
+    iterfunc = faiter(theFile)
 
-    # Don't include the '>' but make sure it exists
-    nextChar = theFile.read(1)
-    while nextChar != '':
-        data = {}
-        if nextChar != '>':
-            raise IOError('Invalid format for a FASTA file, %s' % filename)
-
-        # Try to retrieve name and optional description
-        topLine = theFile.readline().strip()
-        try:
-            data['name'], data['description'] = topLine.split(' ', 1)
-        except ValueError: # Oops, just the name then
-            data['name'] = topLine
-            data['description'] = ''
-
-        # Collect sequence lines into a list
-        sequenceList = []
-        nextChar = theFile.read(1)
-        while nextChar != '' and nextChar != '>':
-            sequenceLine = nextChar + theFile.readline().strip()
-            sequenceList.append(sequenceLine)
-            nextChar = theFile.read(1)
-            
-        sequence = "".join(sequenceList)
-        data['sequence'] = sequence
-        faCreate.feed(data)
-        
+    # Create the screed db
+    create_db(filename, FASTAFIELDTYPES, iterfunc)
+    
     theFile.close()
-    faCreate.close()
 
 class screedDB(object, UserDict.DictMixin):
     """
