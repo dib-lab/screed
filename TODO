@@ -1,0 +1,34 @@
+docstrings should start with a single, concise line explaining the purpose
+of the class/function.
+
+---
+
+
+You can write 'has_key', __contains__, as 'key in self'
+
+==== 3/14/2010
+
+I would suggest moving the stuff in __init__ into a submodule and then
+importing it back in.  That way you don't have a big chunk of code
+in __init__, which for some reason strikes me as Bad.
+
+--
+
+I think faiter and fqiter should be in a separate file -- how about
+fasta.py and fastq.py?  Then you can group all format-specific stuff
+in those files and simply import where you need them.
+
+--
+
+I think you should ditch general use of _screed_attr; it confuses
+introspection, and is only needed for specific attributes.  We can
+provide specific hooks for those who need to do substr slicing.
+
+--
+
+I'm surprised the use of self._cursor worked -- see my changes to remove.
+Briefly, cursors hold result sets, and reusing them in the middle of
+processing a result SHOULD not work.  For example, in iterkeys(), if
+whatever is iterating over the keys then wants to do a __getitem__,
+you'll be overwriting the contents of self._cursor in the middle of the
+iteration!
