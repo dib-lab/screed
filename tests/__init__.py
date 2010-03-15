@@ -5,8 +5,8 @@ thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 from screed import screedDB
-import toFasta
-import toFastq
+from screed import toFasta
+from screed import toFastq
 from screed import read_fastq_sequences
 from screed import read_fasta_sequences
 from seqparse import read_hava_sequences
@@ -215,7 +215,7 @@ class Test_fasta_recover(Test_fasta):
     """
     def setup(self):
         self._fileName = os.path.join(thisdir, 'fastaRecovery')
-        toFasta.toFasta(testfa, self._fileName)
+        toFasta(testfa, self._fileName)
         read_fasta_sequences(self._fileName)
         self.db = screedDB(self._fileName)
 
@@ -230,13 +230,34 @@ class Test_fastq_recover(Test_fastq):
     """
     def setup(self):
         self._fileName = os.path.join(thisdir, 'fastqRecovery')
-        toFastq.toFastq(testfq, self._fileName)
+        toFastq(testfq, self._fileName)
         read_fastq_sequences(self._fileName)
         self.db = screedDB(self._fileName)
 
     def teardown(self):
         os.unlink(self._fileName)
         os.unlink(self._fileName + fileExtension)
+
+class Test_fasta_to_fastq(Test_fasta):
+    """
+    Tests the ability to convert a fasta db to a fastq file, parse it into
+    a fastq db, save to a fasta file, parse the fasta file into a fasta
+    db and then run the fasta suite
+    """
+    def setup(self):
+        self._fqName = os.path.join(thisdir, 'fa_to_fq')
+        self._faName = os.path.join(thisdir, 'fq_to_fa')
+        toFastq(testfa, self._fqName)       # Convert fasta db to fq text
+        read_fastq_sequences(self._fqName)  # Parse fastq file to screed db
+        toFasta(self._fqName, self._faName) # Convert fastq db to fa text
+        read_fasta_sequences(self._faName)  # Parse fasta file to screed db
+        self.db = screedDB(self._faName)
+
+    def teardown(self):
+        os.unlink(self._fqName)
+        os.unlink(self._fqName + fileExtension)
+        os.unlink(self._faName)
+        os.unlink(self._faName + fileExtension)
 
 class Test_fasta_shell(Test_fasta):
     """

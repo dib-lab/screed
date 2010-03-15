@@ -2,53 +2,8 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
-from __init__ import screedDB
+from __init__ import toFasta
 import sys, os
-
-_MAXSEQLINELEN = 80
-
-class _seq_iter(object):
-    """
-    Yields string of characters of _MAXSEQLINELEN characters in length
-    from a given input string
-    """
-    def __init__(self, sequence):
-        self.seq = sequence
-        self.len = len(sequence)
-        self.begin = 0
-        self.end = 0
-        self.step = _MAXSEQLINELEN
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        if self.begin == self.len:
-            raise StopIteration
-
-        self.end += self.step
-        if self.end > self.len:
-            self.end = self.len
-
-        res = self.seq[self.begin:self.end]
-        self.begin = self.end
-        return res
-
-def toFasta(dbFile, outputFile):
-    outFile = open(outputFile, 'wb')
-    db = screedDB(dbFile)
-
-    for value in db.itervalues():
-        outFile.write('>%s %s\n' % (value['name'], value['description']))
-        # Write the sequence as multiple if longer than self.step
-        seq = _seq_iter(value['sequence'])
-        for line in seq:
-            outFile.write('%s\n' % line)
-    
-    db.close()
-    outFile.close()
-    return
-
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:

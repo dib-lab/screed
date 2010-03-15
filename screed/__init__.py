@@ -29,6 +29,8 @@ import screedRecord
 import sqlite3
 
 __version__ = '0.5'
+_MAXLINELEN = 80
+_null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read
 
 
 def read_fastq_sequences(filename):
@@ -48,7 +50,7 @@ def read_fastq_sequences(filename):
 
             # Try to grab the name and (optional) annotations
             try:
-                data['name'], data['annotation'] = line[1:].split(' ',1)
+                data['name'], data['annotations'] = line[1:].split(' ',1)
             except ValueError: # No optional annotations
                 data['name'] = line[1:]
                 data['annotations'] = ''
@@ -59,7 +61,7 @@ def read_fastq_sequences(filename):
             line = handle.readline().strip()
             while not line.startswith('+'):
                 sequence.append(line)
-                line = handle.readline()
+                line = handle.readline().strip()
 
             data['sequence'] = ''.join(sequence)
 
@@ -109,9 +111,12 @@ def read_fasta_sequences(filename):
             try:
                 data['name'], data['description'] = line[1:].split(' ', 1)
             except ValueError: # No optional description
-                data['name'] = line
+                data['name'] = line[1:]
                 data['description'] = ''
                 pass
+
+            data['name'] = data['name'].strip()
+            data['description'] = data['description'].strip()
 
             # Collect sequence lines into a list
             sequenceList = []
@@ -351,3 +356,70 @@ def create_db(filepath, fields, rcrditer):
 
     con.commit()
     con.close()
+
+def getComments(value):
+    """
+    Returns description or annotations attributes from given
+    dictionary object
+    """
+    if 'description' in value:
+        return value['description']
+    elif 'annotations' in value:
+        return value['annotations']
+    else:
+        return ''
+
+def linewrap(longString):
+    """
+    Given a long string of characters, inserts newline characters
+    every _MAXLINELEN characters
+    """
+    res = []
+    begin = 0
+    while begin < len(longString):
+        res.append(longString[begin:begin+_MAXLINELEN])
+        begin += _MAXLINELEN
+
+    return '\n'.join(res)
+
+def generateAccuracy(value):
+    """
+    Returns accuracy from value if it exists. Otherwise, makes
+    an accuracy. Accuracy is line wrapped to _MAXLINELEN
+    either way
+    """
+    if 'accuracy' in value:
+        return linewrap(value['accuracy'])
+
+    return linewrap(_null_accuracy * len(value['sequence']))
+
+def toFastq(dbFile, outputFile):
+    """
+    Opens the screed database file and attempts to dump it
+    to a FASTQ-formatted text file
+    """
+    outFile = open(outputFile, 'wb')
+    db = screedDB(dbFile)
+
+    for value in db.itervalues():
+        outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
+                                               getComments(value),
+                                               linewrap(value['sequence']),
+                                               generateAccuracy(value)))
+    db.close()
+    outFile.close()
+
+def toFasta(dbFile, outputFile):
+    """
+    Opens the screed database file and attempts to dump it
+    to a FASTA-formatted text file
+    """
+    outFile = open(outputFile, 'wb')
+    db = screedDB(dbFile)
+
+    for value in db.itervalues():
+        outFile.write('>%s %s\n%s\n' % (value['name'], getComments(value),
+                                      linewrap(value['sequence'])))
+    
+    db.close()
+    outFile.close()
