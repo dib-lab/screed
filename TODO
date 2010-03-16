@@ -1,6 +1,10 @@
 docstrings should start with a single, concise line explaining the purpose
 of the class/function.
 
+Pragma statements in sqlite? http://www2.sqlite.org/pragma.html
+
+document 'python -m screed.fadbm' and such
+
 ---
 
 
@@ -26,9 +30,3 @@ provide specific hooks for those who need to do substr slicing.
 
 --
 
-I'm surprised the use of self._cursor worked -- see my changes to remove.
-Briefly, cursors hold result sets, and reusing them in the middle of
-processing a result SHOULD not work.  For example, in iterkeys(), if
-whatever is iterating over the keys then wants to do a __getitem__,
-you'll be overwriting the contents of self._cursor in the middle of the
-iteration!
