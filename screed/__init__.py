@@ -150,12 +150,12 @@ class screedDB(object, UserDict.DictMixin):
     def __init__(self, filepath):
         self._db, self._standardStub, self._fieldTuple, self._qMarks, \
                   self._queryBy = screedUtility.getScreedDB(filepath)
-        self._cursor = self._db.cursor()
+        cursor = self._db.cursor()
 
         # Retrieve the length of the database
         query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,
                                             dbConstants._DICT_TABLE)
-        self._len, = self._cursor.execute(query).fetchone()
+        self._len, = cursor.execute(query).fetchone()
 
     def close(self):
         if self._db is not None:
@@ -167,13 +167,14 @@ class screedDB(object, UserDict.DictMixin):
         """
         Retrieves from database the record with the key 'key'
         """
+        cursor = self._db.cursor()
         key = str(key) # So lazy retrieval objectes are evaluated
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
                                                   dbConstants._DICT_TABLE, self._queryBy)
-        res = self._cursor.execute(query, (key,))
+        res = cursor.execute(query, (key,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Key %s not found" % key)
-        return screedRecord._buildRecord(self._fieldTuple, self._cursor,
+        return screedRecord._buildRecord(self._fieldTuple, cursor,
                                          dbConstants._PRIMARY_KEY, key, self._queryBy,
                                          dbConstants._DICT_TABLE)
 
@@ -194,13 +195,14 @@ class screedDB(object, UserDict.DictMixin):
         """
         Retrieves record from database at the given index
         """
+        cursor = self._db.cursor()
         index = int(index) + 1 # Hack to make indexing start at 0
         query = 'SELECT %s FROM %s WHERE %s=?' % (dbConstants._PRIMARY_KEY,
                                                   dbConstants._DICT_TABLE, dbConstants._PRIMARY_KEY)
-        res = self._cursor.execute(query, (index,))
+        res = cursor.execute(query, (index,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Index %d not found" % index)
-        return screedRecord._buildRecord(self._fieldTuple,self._cursor,
+        return screedRecord._buildRecord(self._fieldTuple, cursor,
                                          dbConstants._PRIMARY_KEY, index,
                                          dbConstants._PRIMARY_KEY,
                                          dbConstants._DICT_TABLE)
@@ -221,8 +223,9 @@ class screedDB(object, UserDict.DictMixin):
         """
         Iterator over records in the database
         """
+        cursor = self._db.cursor()
         for index in xrange(1, self.__len__()+1):
-            yield screedRecord._buildRecord(self._fieldTuple, self._cursor,
+            yield screedRecord._buildRecord(self._fieldTuple, cursor,
                                             dbConstants._PRIMARY_KEY, index,
                                             dbConstants._PRIMARY_KEY,
                                             dbConstants._DICT_TABLE)
@@ -231,8 +234,9 @@ class screedDB(object, UserDict.DictMixin):
         """
         Iterator over keys in the database
         """
+        cursor = self._db.cursor()
         query = 'SELECT %s FROM %s' % (self._queryBy, dbConstants._DICT_TABLE)
-        for key, in self._cursor.execute(query):
+        for key, in cursor.execute(query):
             yield key
 
     def iteritems(self):
@@ -258,9 +262,10 @@ class screedDB(object, UserDict.DictMixin):
         """
         Returns true if given key exists in database, false otherwise
         """
+        cursor = self._db.cursor()
         query = 'SELECT %s FROM %s WHERE %s = ?' % \
                 (self._queryBy, dbConstants._DICT_TABLE, self._queryBy)
-        if self._cursor.execute(query, (key,)).fetchone() == None:
+        if cursor.execute(query, (key,)).fetchone() == None:
             return False
         return True
 
