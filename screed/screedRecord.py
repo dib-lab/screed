@@ -30,6 +30,8 @@ class _screed_attr(object):
     def __init__(self, dbObj, primaryKey, attrName, rowName, queryBy,
                  tableName):
         """
+        Initializes database object with specific record retrieval
+        information
         dbOjb = database handle
         primaryKey = integer incrementer on table
         attrName = name of attr in db
@@ -46,7 +48,7 @@ class _screed_attr(object):
 
     def __getitem__(self, sliceObj):
         """
-        Only supports slicing right now. Returns the slice range given.
+        Slicing interface. Returns the slice range given.
         *.start + 1 to be compatible with sqlite's 1 not 0 scheme
         """
         if type(sliceObj) != types.SliceType:
@@ -69,11 +71,14 @@ class _screed_attr(object):
             return str(subStr)
 
     def __len__(self):
+        """
+        Returns the length of the string
+        """
         return len(self.__repr__())
 
     def __repr__(self):
         """
-        Returns the full attribute
+        Returns the full attribute as a string
         """
         query = 'SELECT %s FROM %s WHERE %s = ?' \
                 % (self._attrName, self._tableName, self._queryBy)
@@ -88,11 +93,19 @@ class _screed_attr(object):
             return str(record)
 
     def __int__(self):
+        """
+        Attempts to return an integer form of attribute. Only works if
+        the attribute is the primary key
+        """
         if self._attrName != self._primaryKey:
             raise TypeError('Integer conversion called for non-integer type')
         return int(self.__repr__())
 
     def __eq__(self, given):
+        """
+        Compares attribute to given object in string or integer form as the
+        given object dictates
+        """
         if type(given) == types.StringType:
             return given == self.__repr__()
 
@@ -105,6 +118,10 @@ class _screed_attr(object):
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __lt__(self, given):
+        """
+        Compares attribute to given object in string or integer form as the
+        given object dictates
+        """
         if type(given) == types.StringType:
             return self.__repr__() < given
 
@@ -117,6 +134,10 @@ class _screed_attr(object):
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __le__(self, given):
+        """
+        Compares attribute to given object in string or integer form as the
+        given object dictates
+        """
         if type(given) == types.StringType:
             return self.__repr__() <= given
 
@@ -129,6 +150,10 @@ class _screed_attr(object):
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __ne__(self, given):
+        """
+        Compares attribute to given object in string or integer form as the
+        given object dictates
+        """
         if type(given) == types.StringType:
             return self.__repr__() != given
 
@@ -141,6 +166,10 @@ class _screed_attr(object):
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __gt__(self, given):
+        """
+        Compares attribute to given object in string or integer form as the
+        given object dictates
+        """
         if type(given) == types.StringType:
             return self.__repr__() > given
 
@@ -153,6 +182,10 @@ class _screed_attr(object):
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __ge__(self, given):
+        """
+        Compares attribute to given object in string or integer form as the
+        given object dictates
+        """
         if type(given) == types.StringType:
             return self.__repr__() >= given
 
@@ -165,6 +198,9 @@ class _screed_attr(object):
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __str__(self):
+        """
+        Alias for __repr__
+        """
         return self.__repr__()
 
 def _buildRecord(fieldNames, dbObj, primaryKey, rowName, queryBy, tableName):

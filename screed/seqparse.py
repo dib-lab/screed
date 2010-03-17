@@ -1,8 +1,9 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 """
-seqparse contains custom parsers for parsing sequence information into
-screed databases. An example 'hava' parser is included
+seqparse contains custom sequence parsers for extending screed's
+functionality to arbitrary sequence formats. An example 'hava'
+parser is included for API reference
 """
 
 import dbConstants

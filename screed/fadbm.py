@@ -6,7 +6,7 @@ import sys
 import __init__
 import dbConstants
 
-# A python implementation of the FASTA database writer
+# A shell interface to the screed FADBM database writing function
 if __name__ == "__main__":
     # Make sure the user entered the command line arguments correctly
     if len(sys.argv) != 2:

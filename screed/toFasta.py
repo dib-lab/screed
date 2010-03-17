@@ -5,6 +5,7 @@
 from __init__ import toFasta
 import sys, os
 
+# Shell interface to the toFasta screed conversion function
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         print "Usage: %s <dbfilename> <outputfilename>" % sys.argv[0]

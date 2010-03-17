@@ -5,6 +5,11 @@ import os
 import sqlite3
 import types
 
+"""
+This file contains functions that help with the opening of pre-created
+screed databases
+"""
+
 def getScreedDB(filepath):
     """
     Opens a screed database ready for querying. filepath is the string

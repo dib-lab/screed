@@ -74,7 +74,8 @@ def read_fastq_sequences(filename):
 
             data['accuracy'] = ''.join(accuracy)
             if len(data['sequence']) != len(data['accuracy']):
-                raise IOError('sequence and accuracy strings must be of equal length')
+                raise IOError('sequence and accuracy strings must be '\
+                              'of equal length')
 
             yield data
 
@@ -158,8 +159,10 @@ class screedDB(object, UserDict.DictMixin):
         self._len, = cursor.execute(query).fetchone()
 
     def close(self):
+        """
+        Closes the sqlite database handle
+        """
         if self._db is not None:
-            self._db.commit()
             self._db.close()
             self._db = None
 
@@ -170,12 +173,14 @@ class screedDB(object, UserDict.DictMixin):
         cursor = self._db.cursor()
         key = str(key) # So lazy retrieval objectes are evaluated
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
-                                                  dbConstants._DICT_TABLE, self._queryBy)
+                                                  dbConstants._DICT_TABLE,
+                                                  self._queryBy)
         res = cursor.execute(query, (key,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self._fieldTuple, cursor,
-                                         dbConstants._PRIMARY_KEY, key, self._queryBy,
+                                         dbConstants._PRIMARY_KEY, key,
+                                         self._queryBy,
                                          dbConstants._DICT_TABLE)
 
     def values(self):
@@ -198,7 +203,8 @@ class screedDB(object, UserDict.DictMixin):
         cursor = self._db.cursor()
         index = int(index) + 1 # Hack to make indexing start at 0
         query = 'SELECT %s FROM %s WHERE %s=?' % (dbConstants._PRIMARY_KEY,
-                                                  dbConstants._DICT_TABLE, dbConstants._PRIMARY_KEY)
+                                                  dbConstants._DICT_TABLE,
+                                                  dbConstants._PRIMARY_KEY)
         res = cursor.execute(query, (index,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Index %d not found" % index)
@@ -241,7 +247,7 @@ class screedDB(object, UserDict.DictMixin):
 
     def iteritems(self):
         """
-        Iterator returning an (index, record) pair
+        Iterator returning a (index, record) pairs
         """
         for v in self.itervalues():
             yield str(v[dbConstants._PRIMARY_KEY]), v
@@ -254,7 +260,7 @@ class screedDB(object, UserDict.DictMixin):
 
     def copy(self):
         """
-        Returns shallow copy of itself
+        Returns shallow copy
         """
         return self
 
@@ -332,7 +338,7 @@ def create_db(filepath, fields, rcrditer):
         cur.execute(query, (attribute,))
 
     # Setup the dictionary table creation field substring
-    fieldsub = ''.join(['%s TEXT,' % field for field in fields])[:-1]
+    fieldsub = ','.join(['%s TEXT' % field for field in fields])
 
     # Create the dictionary table
     cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
@@ -347,10 +353,10 @@ def create_db(filepath, fields, rcrditer):
                 (queryby, dbConstants._DICT_TABLE, queryby))
 
     # Setup the 'qmarks' sqlite substring
-    qmarks = ('?,' * len(fields))[:-1]
+    qmarks = ','.join(['?' for i in range(len(fields))])
 
     # Setup the sql substring for inserting fields into database
-    fieldsub = ''.join(['%s,' % field for field in fields])[:-1]
+    fieldsub = ','.join(fields)
 
     query = 'INSERT INTO %s (%s) VALUES (%s)' %\
             (dbConstants._DICT_TABLE, fieldsub, qmarks)
@@ -390,7 +396,7 @@ def linewrap(longString):
 def generateAccuracy(value):
     """
     Returns accuracy from value if it exists. Otherwise, makes
-    an accuracy. Accuracy is line wrapped to _MAXLINELEN
+    a null accuracy. Accuracy is line wrapped to _MAXLINELEN
     either way
     """
     if 'accuracy' in value:
