@@ -1,6 +1,3 @@
-docstrings should start with a single, concise line explaining the purpose
-of the class/function.
-
 Pragma statements in sqlite? http://www2.sqlite.org/pragma.html
 
 document 'python -m screed.fadbm' and such
