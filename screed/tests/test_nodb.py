@@ -1,4 +1,6 @@
 import screed
+import os
+from dbConstants import fileExtension
 
 def test_nodb():
     """
@@ -9,4 +11,5 @@ def test_nodb():
         db = screed.screedDB('foo')
         assert 1 == 0 # Previous line should throw an error
     except TypeError:
+        os.unlink('foo' + fileExtension)
         pass
