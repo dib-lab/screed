@@ -3,22 +3,23 @@
 """
 screed is a database tool useful for retrieving arbitrary kinds of sequence
 data through a on-disk database that emulates a read-only Python dictionary.
-Functions contained here include:
-read_fastq_sequences
-read_fasta_sequences
-create_db
 
-read_*_sequences are useful for extracting record data from a FASTA or
-FASTQ file
-create_db is used by the above two to format the records into a screed
-database
+For opening a screed database, the 'screedDB' class is used. This class
+accepts a string file path to a pre-created screed database. Read-only
+dictionary methods are implemented here.
 
-Classes contained here:
-screedDB
+For creating a screed database, the 'create_db' function is used. This
+function accepts an iterator as an argument which will yield records
+from its respective sequence file. create_db will sequentially pull
+records from the iterator, writing them to disk in a screed database
+until the iterator is done.
 
-screedDB is the core dictionary class used for opening prepared screed
-databases. This is only for reading pre-created databases since screedDB
-supports no dictionary altering methods.
+Automatic ways for parsing FASTA and FASTQ files are accessed through
+the read_fast*_sequences functions. These parse the given sequence
+file into a screed database.
+
+Conversion between sequence file types is provided in the toFastq and
+toFasta functions
 """
 from openscreed import screedDB
 from conversion import toFastq
