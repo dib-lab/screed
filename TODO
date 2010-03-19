@@ -2,8 +2,6 @@ Pragma statements in sqlite? http://www2.sqlite.org/pragma.html
 
 document 'python -m screed.fadbm' and such
 
-ponybuild for running nosetests inside module (on t's github)
-
 error checking for database created or not
 
 ---

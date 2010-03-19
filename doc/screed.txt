@@ -35,11 +35,9 @@ Assuming you have already downloaded the package, this is how to install::
 
     $ python setup.py install
 
-To run the optional nosetests type::
+To run the optional tests type::
 
-    $ nosetests
-
-in the screed/ directory
+    $ python -m screed.tests.run
 
 Quick-Start
 ===========
@@ -49,26 +47,33 @@ Creating a database from the API
 From a python prompt type::
 
     >>> import screed
-    >>> screed.read_fasta_sequences('../tests/test.fa')
+    >>> screed.read_fasta_sequences('tests/test.fa')
 
-That command just parsed the FASTA file '../tests/test.fa' into a
-screed-database named '../tests/test.fa_screed'. The screed database
+That command just parsed the FASTA file 'tests/test.fa' into a
+screed-database named 'tests/test.fa_screed'. The screed database
 is independant from the text file it was derived from, so moving, renaming
-or deleting the '../tests/test.fa' file will not affect
+or deleting the 'tests/test.fa' file will not affect
 screed's operation. To create a screed database from a FASTQ file the
 syntax is similar::
 
-    >>> screed.read_fastq_sequences('../tests/test.fastq')
+    >>> screed.read_fastq_sequences('tests/test.fastq')
 
 Creating a database from a script
 ---------------------------------
 To create a screed db from a FASTQ file at the shell::
 
-    $ ./fqdbm ../tests/test.fastq
+    $ ./fqdbm tests/test.fastq
 
 Similarly, to create a screed db from a fasta file::
 
-    $ ./fadbm ../tests/test.fa
+    $ ./fadbm tests/test.fa
+
+Alternately, if the screed module is in your PATH::
+
+    $ python -m screed.fadbm <fasta file>
+    $ python -m screed.fqdbm <fastq file>
+
+where <fast* file> is the path to a sequence file.
 
 screed natively supports FASTA and FASTQ database creation. If you have a new
 sequence you want screed to work with, see the section below on Writing
@@ -86,8 +91,8 @@ In the python environment, import the screedDB class and load
 some databases::
 
     >>> from screed import screedDB
-    >>> fadb = screedDB('../tests/test.fa')
-    >>> fqdb = screedDB('../tests/test.fastq')
+    >>> fadb = screedDB('tests/test.fa')
+    >>> fqdb = screedDB('tests/test.fastq')
 
 Notice how you didn't need to write the '_screed' at the end of the filenames?
 screed automatically adds that to the filename if you didn't.
@@ -319,7 +324,16 @@ FASTA to FASTQ
 --------------
 The function used for this process is called 'toFastq' and is located in the
 screed module. It takes the path to a screed database as the first argument
-and a path to the desired FASTQ file as the second argument.
+and a path to the desired FASTQ file as the second argument. There is also
+a shell interface called toFastq.py::
+
+    $ ./toFastq.py <path to fasta db> <converted fastq file>
+
+or::
+   
+    $ python -m screed.toFastq <path to fasta db> <converted fastq file>
+
+if the screed module is in your PATH.
 
 The FASTA name attribute is directly dumped from the file. The sequence
 attribute is also dumped pretty much directly, but is line wrapped to 80
@@ -342,7 +356,16 @@ FASTQ to FASTA
 --------------
 The function used for this process is called 'toFasta' and is located in the
 screed module. It takes the path to a screed database as the first argument
-and a path to the desired FASTA file as the second argument.
+and a path to the desired FASTA file as the second argument. Like the toFastq
+function before, there is a shell interface to toFasta::
+
+    $ ./toFasta.py <path to fastq db> <converted fasta file>
+
+or::
+
+    $ python -m screed.toFasta <path to fastq db> <converted fasta file>
+
+if the screed module is in your PATH.
 
 As above, the name and sequence attributes are directly dumped from the FASTQ
 database to the FASTA file with the sequence line wrapping to 80 characters.

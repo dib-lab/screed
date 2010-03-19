@@ -332,11 +332,10 @@ retrieved from these databases.</p>
 <pre class="literal-block">
 $ python setup.py install
 </pre>
-<p>To run the optional nosetests type:</p>
+<p>To run the optional tests type:</p>
 <pre class="literal-block">
-$ nosetests
+$ python -m screed.tests.run
 </pre>
-<p>in the screed/ directory</p>
 </div>
 </div>
 <div class="section" id="quick-start">
@@ -346,28 +345,34 @@ $ nosetests
 <p>From a python prompt type:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; import screed
-&gt;&gt;&gt; screed.read_fasta_sequences('../tests/test.fa')
+&gt;&gt;&gt; screed.read_fasta_sequences('tests/test.fa')
 </pre>
-<p>That command just parsed the FASTA file '../tests/test.fa' into a
-screed-database named '../tests/test.fa_screed'. The screed database
+<p>That command just parsed the FASTA file 'tests/test.fa' into a
+screed-database named 'tests/test.fa_screed'. The screed database
 is independant from the text file it was derived from, so moving, renaming
-or deleting the '../tests/test.fa' file will not affect
+or deleting the 'tests/test.fa' file will not affect
 screed's operation. To create a screed database from a FASTQ file the
 syntax is similar:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; screed.read_fastq_sequences('../tests/test.fastq')
+&gt;&gt;&gt; screed.read_fastq_sequences('tests/test.fastq')
 </pre>
 </div>
 <div class="section" id="creating-a-database-from-a-script">
 <h2>Creating a database from a script</h2>
 <p>To create a screed db from a FASTQ file at the shell:</p>
 <pre class="literal-block">
-$ ./fqdbm ../tests/test.fastq
+$ ./fqdbm tests/test.fastq
 </pre>
 <p>Similarly, to create a screed db from a fasta file:</p>
 <pre class="literal-block">
-$ ./fadbm ../tests/test.fa
+$ ./fadbm tests/test.fa
 </pre>
+<p>Alternately, if the screed module is in your PATH:</p>
+<pre class="literal-block">
+$ python -m screed.fadbm &lt;fasta file&gt;
+$ python -m screed.fqdbm &lt;fastq file&gt;
+</pre>
+<p>where &lt;fast* file&gt; is the path to a sequence file.</p>
 <p>screed natively supports FASTA and FASTQ database creation. If you have a new
 sequence you want screed to work with, see the section below on Writing
 Custom Sequence Parsers.</p>
@@ -384,8 +389,8 @@ rule them all!</p>
 some databases:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; from screed import screedDB
-&gt;&gt;&gt; fadb = screedDB('../tests/test.fa')
-&gt;&gt;&gt; fqdb = screedDB('../tests/test.fastq')
+&gt;&gt;&gt; fadb = screedDB('tests/test.fa')
+&gt;&gt;&gt; fqdb = screedDB('tests/test.fastq')
 </pre>
 <p>Notice how you didn't need to write the '_screed' at the end of the filenames?
 screed automatically adds that to the filename if you didn't.</p>
@@ -609,7 +614,16 @@ read_fasta_sequences() allows any number of lines of any length.</p>
 <h2>FASTA to FASTQ</h2>
 <p>The function used for this process is called 'toFastq' and is located in the
 screed module. It takes the path to a screed database as the first argument
-and a path to the desired FASTQ file as the second argument.</p>
+and a path to the desired FASTQ file as the second argument. There is also
+a shell interface called toFastq.py:</p>
+<pre class="literal-block">
+$ ./toFastq.py &lt;path to fasta db&gt; &lt;converted fastq file&gt;
+</pre>
+<p>or:</p>
+<pre class="literal-block">
+$ python -m screed.toFastq &lt;path to fasta db&gt; &lt;converted fastq file&gt;
+</pre>
+<p>if the screed module is in your PATH.</p>
 <p>The FASTA name attribute is directly dumped from the file. The sequence
 attribute is also dumped pretty much directly, but is line wrapped to 80
 characters if it is longer.</p>
@@ -629,7 +643,16 @@ not rely on this automatic conversion.</p>
 <h2>FASTQ to FASTA</h2>
 <p>The function used for this process is called 'toFasta' and is located in the
 screed module. It takes the path to a screed database as the first argument
-and a path to the desired FASTA file as the second argument.</p>
+and a path to the desired FASTA file as the second argument. Like the toFastq
+function before, there is a shell interface to toFasta:</p>
+<pre class="literal-block">
+$ ./toFasta.py &lt;path to fastq db&gt; &lt;converted fasta file&gt;
+</pre>
+<p>or:</p>
+<pre class="literal-block">
+$ python -m screed.toFasta &lt;path to fastq db&gt; &lt;converted fasta file&gt;
+</pre>
+<p>if the screed module is in your PATH.</p>
 <p>As above, the name and sequence attributes are directly dumped from the FASTQ
 database to the FASTA file with the sequence line wrapping to 80 characters.</p>
 <p>If it exists, the FASTQ annotation tag is stored as the FASTA description tag.
