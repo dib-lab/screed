@@ -8,7 +8,44 @@ parser is included for API reference
 
 import dbConstants
 import os
-from __init__ import create_db
+from createscreed import create_db
+from fastq import fqiter
+from fasta import faiter
+
+def read_fastq_sequences(filename):
+    """
+    Function to parse text from the given FASTQ file into a screed database
+    """
+    FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
+
+    # Will raise an exception if the file doesn't exist
+    theFile = open(filename, 'rb')
+
+    # Setup the iterator function
+    iterfunc = fqiter(theFile)
+
+    # Create the screed db
+    create_db(filename, FASTQFIELDTYPES, iterfunc)
+
+    theFile.close()
+
+def read_fasta_sequences(filename):
+    """
+    Function to parse text from the given FASTA file into a screed database
+    """
+
+    FASTAFIELDTYPES = ('name', 'description', 'sequence')
+    
+    # Will raise an exception if the file doesn't exist
+    theFile = open(filename, "rb")
+
+    # Setup the iterator function
+    iterfunc = faiter(theFile)
+
+    # Create the screed db
+    create_db(filename, FASTAFIELDTYPES, iterfunc)
+    
+    theFile.close()
 
 # Parser for the fake 'hava' sequence
 def read_hava_sequences(filename):
