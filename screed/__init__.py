@@ -256,7 +256,7 @@ class screedDB(object, UserDict.DictMixin):
         """
         Returns true if given key exists in database, false otherwise
         """
-        return self.__contains__(key)
+        return key in self
 
     def copy(self):
         """
