@@ -29,8 +29,11 @@ def fqiter(handle):
         # Extract the accuracy lines
         accuracy = []
         line = handle.readline().strip()
-        while not line.startswith('@') and not line == '':
+        seqlen = len(data['sequence'])
+        aclen = 0
+        while not line == '' and aclen < seqlen:
             accuracy.append(line)
+            aclen += len(line)
             line = handle.readline().strip()
 
         data['accuracy'] = ''.join(accuracy)
