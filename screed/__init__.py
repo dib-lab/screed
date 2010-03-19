@@ -27,58 +27,17 @@ import screedUtility
 import UserDict
 import screedRecord
 import sqlite3
+from fastq import fqiter
+from fasta import faiter
 
 __version__ = '0.5'
 _MAXLINELEN = 80
 _null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read
 
-
 def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
-    def fqiter(handle):
-        """
-        Iterator over the given FASTQ file handle returning records. handle
-        is a handle to a file opened for reading
-        """
-        data = {}
-        line = handle.readline().strip()
-        while line:
-            if not line.startswith('@'):
-                raise IOError("Bad FASTQ format: no '@' at beginning of line")
-
-            # Try to grab the name and (optional) annotations
-            try:
-                data['name'], data['annotations'] = line[1:].split(' ',1)
-            except ValueError: # No optional annotations
-                data['name'] = line[1:]
-                data['annotations'] = ''
-                pass
-
-            # Extract the sequence lines
-            sequence = []
-            line = handle.readline().strip()
-            while not line.startswith('+'):
-                sequence.append(line)
-                line = handle.readline().strip()
-
-            data['sequence'] = ''.join(sequence)
-
-            # Extract the accuracy lines
-            accuracy = []
-            line = handle.readline().strip()
-            while not line.startswith('@') and not line == '':
-                accuracy.append(line)
-                line = handle.readline().strip()
-
-            data['accuracy'] = ''.join(accuracy)
-            if len(data['sequence']) != len(data['accuracy']):
-                raise IOError('sequence and accuracy strings must be '\
-                              'of equal length')
-
-            yield data
-
     FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
 
     # Will raise an exception if the file doesn't exist
@@ -97,39 +56,6 @@ def read_fasta_sequences(filename):
     Function to parse text from the given FASTA file into a screed database
     """
 
-    def faiter(handle):
-        """
-        Iterator over the given FASTA file handle, returning records. handle
-        is a handle to a file opened for reading
-        """
-        data = {}
-        line = handle.readline().strip()
-        while line != '':
-            if not line.startswith('>'):
-                raise IOError("Bad FASTA format: no '>' at beginning of line")
-
-            # Try to grab the name and optional description
-            try:
-                data['name'], data['description'] = line[1:].split(' ', 1)
-            except ValueError: # No optional description
-                data['name'] = line[1:]
-                data['description'] = ''
-                pass
-
-            data['name'] = data['name'].strip()
-            data['description'] = data['description'].strip()
-
-            # Collect sequence lines into a list
-            sequenceList = []
-            line = handle.readline().strip()
-            while line != '' and not line.startswith('>'):
-                sequenceList.append(line)
-                line = handle.readline().strip()
-
-            data['sequence'] = ''.join(sequenceList)
-            yield data
-                
-    
     FASTAFIELDTYPES = ('name', 'description', 'sequence')
     
     # Will raise an exception if the file doesn't exist
