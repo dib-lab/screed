@@ -22,6 +22,10 @@ def getScreedDB(filepath):
         filepath += dbConstants.fileExtension
 
     sqdb = sqlite3.connect(filepath)
+    if not is_screed_db(sqdb):
+        sqdb.close()
+        raise TypeError("Database '%s' not a screed database" % filepath)
+
     _queryBy = _getQueryBy(sqdb)
 
     # Create the standard sql query stub
@@ -37,6 +41,25 @@ def getScreedDB(filepath):
     _qMarks = _toQmarks(sqdb)
 
     return (sqdb, _standardStub, _fieldTuple, _qMarks, _queryBy)
+
+def is_screed_db(sqliteDB):
+    """
+    Checks to see if the sqlite database is a screed database. Queries
+    it and checks for the existance of dictionary and admin tables
+    """
+    cursor = sqliteDB.cursor()
+    query = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+    res = cursor.execute(query)
+    try:
+        dictionary_table, = res.fetchone()
+        admin_table, = res.fetchone()
+
+        assert dictionary_table == dbConstants._DICT_TABLE
+        assert admin_table == dbConstants._SCREEDADMIN
+    except:
+        return False
+
+    return True
 
 def _getQueryBy(sqdb):
     """
