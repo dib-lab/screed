@@ -7,6 +7,12 @@ add more fastq parser variants
 
 get bigtests working again
 
+benchmarking:
+ - use all same parsing functions, different createdbs to test creation
+   time
+ - write class with interface that implements screed's access methods
+ - similar structure in each test db: create index on name column
+
 ---
 
 ==== 3/14/2010
