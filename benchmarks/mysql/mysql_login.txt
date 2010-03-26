@@ -1,0 +1,2 @@
+dbname: sdb
+user: alex

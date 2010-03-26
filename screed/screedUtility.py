@@ -93,7 +93,7 @@ def _retrieveStandardStub(sqdb):
     returns: 'name, description'
     """
     query = "SELECT FIELDNAME FROM %s" % dbConstants._SCREEDADMIN
-    return "".join(['%s,' % fieldName for fieldName in sqdb.execute(query)])[:-1]
+    return ",".join(['%s' % fieldName for fieldName in sqdb.execute(query)])
 
 def _toQmarks(sqdb):
     """
