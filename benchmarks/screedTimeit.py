@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import timeit
-import random
 import sys
 import os
 
@@ -16,7 +15,7 @@ if __name__ == '__main__':
         exit(1)
 
     runStatement = "for i in xrange(0, 500000):\n\
-    entry = db.loadRecordByIndex(random.randint(0, length))"
+    entry = str(db[random.choice(keys)])"
 
     setupStatement = "import os, sys\n\
 import random\n\
@@ -25,9 +24,9 @@ libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))\n\
 sys.path.insert(0, libdir)\n\
 import screedDB\n\
 db = screedDB.screedDB('%s')\n\
-length = len(db)-1" % screedFile
+keys = db.keys()\n" % screedFile
 
     t = timeit.Timer(runStatement, setupStatement)
 
-    print "%s:" % screedFile
+    print "[SCREED]%s:" % screedFile
     print t.repeat(2, 1)
