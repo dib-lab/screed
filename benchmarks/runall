@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# Testing fastq__9
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__9 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__9 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__9 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__9 >> running.txt
+
+# Testing fastq__8
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__8 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__8 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__8 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__8 >> running.txt
+
+# Testing fastq__7
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__7 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__7 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__7 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__7 >> running.txt
+
+# Testing fastq__6
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__6 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__6 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__6 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__6 >> running.txt
+
+# Testing fastq__5
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__5 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__5 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__5 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__5 >> running.txt
+
+# Testing fastq__4
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__4 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__4 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__4 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__4 >> running.txt
+
+# Testing fastq__3
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__3 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__3 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__3 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__3 >> running.txt
+
+# Testing fastq__2
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__2 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__2 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__2 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__2 >> running.txt

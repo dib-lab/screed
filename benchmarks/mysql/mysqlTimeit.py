@@ -15,4 +15,5 @@ keys = db.keys()"
 
     t = timeit.Timer(runStatement, setupStatement)
 
+    print "[MYSQL TIMEIT]"
     print t.repeat(2, 1)

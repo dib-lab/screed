@@ -47,5 +47,5 @@ iterfunc = faiter(theFile)" % filename
     else:
         raise ValueError("Invalid db type specified: %s" % fafq)
 
-    print "[SCREED]%s:" % filename
+    print "[SCREED CREATE]%s:" % filename
     print t.repeat(2, 1)

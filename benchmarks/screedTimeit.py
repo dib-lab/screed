@@ -28,5 +28,5 @@ keys = db.keys()\n" % screedFile
 
     t = timeit.Timer(runStatement, setupStatement)
 
-    print "[SCREED]%s:" % screedFile
+    print "[SCREED RUN]%s:" % screedFile
     print t.repeat(2, 1)

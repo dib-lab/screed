@@ -47,5 +47,5 @@ iterfunc = faiter(theFile)" % filename
     else:
         raise ValueError("Invalid db type specified: %s" % fafq)
 
-    print "[MYSQL]%s:" % filename
+    print "[MYSQL CREATE]%s:" % filename
     print t.repeat(2, 1)
