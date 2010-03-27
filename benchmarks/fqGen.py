@@ -15,9 +15,8 @@ class collectionOFiles(object):
         for i in range(0, divisions):
             filename = self.baseName + "_%d" % i
             fh = open(filename, "wb")
-            divisor = i * 2
-            if divisor == 0:
-                divisor = 1
+            divisor = 2 ** i
+
             self.fileHandles[filename]= (fh, self.totalSize/divisor, 0)
 
     def writeRecord(self, name, sequence, accuracy):
