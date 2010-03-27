@@ -63,3 +63,19 @@ pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__2 fastq >> creation.t
 mysql/mysqlTimeit.py >> running.txt
 pgres/pgresTimeit.py >> running.txt
 ./screedTimeit.py /home/alex/genomes/fastq/fastq__2 >> running.txt
+
+# Testing fastq__1
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__1 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__1 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__1 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__1 >> running.txt
+
+# Testing fastq__0
+./screedCreateTimeit.py /home/alex/genomes/fastq/fastq__0 fastq >> creation.txt
+mysql/mysqlCreateTimeit.py /home/alex/genomes/fastq/fastq__0 fastq >> creation.txt
+pgres/pgresCreateTimeit.py /home/alex/genomes/fastq/fastq__0 fastq >> creation.txt
+mysql/mysqlTimeit.py >> running.txt
+pgres/pgresTimeit.py >> running.txt
+./screedTimeit.py /home/alex/genomes/fastq/fastq__0 >> running.txt

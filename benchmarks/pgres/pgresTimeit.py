@@ -4,7 +4,7 @@ import timeit
 import sys
 
 if __name__ == '__main__':
-    runStatement = "for i in xrange(0, 500000):\n\
+    runStatement = "for i in xrange(0, 100000):\n\
     entry = db.loadRecordByName(random.choice(keys))"
 
     setupStatement = "import os, sys\n\

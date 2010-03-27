@@ -14,7 +14,7 @@ if __name__ == '__main__':
         print "No such file: %s" % screedFile
         exit(1)
 
-    runStatement = "for i in xrange(0, 500000):\n\
+    runStatement = "for i in xrange(0, 100000):\n\
     entry = str(db[random.choice(keys)])"
 
     setupStatement = "import os, sys\n\
