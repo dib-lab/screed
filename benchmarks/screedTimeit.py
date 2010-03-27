@@ -20,10 +20,10 @@ if __name__ == '__main__':
     setupStatement = "import os, sys\n\
 import random\n\
 thisdir = sys.path[0]\n\
-libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))\n\
+libdir = os.path.abspath(os.path.join(thisdir, '..'))\n\
 sys.path.insert(0, libdir)\n\
-import screedDB\n\
-db = screedDB.screedDB('%s')\n\
+import screed\n\
+db = screed.openscreed.screedDB('%s')\n\
 keys = db.keys()\n" % screedFile
 
     t = timeit.Timer(runStatement, setupStatement)
