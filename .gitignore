@@ -2,3 +2,5 @@
 *_screed
 *.fa
 *.fastq
+build
+screed.egg-info
