@@ -37,6 +37,27 @@ provide specific hooks for those who need to do substr slicing.
 
 --
 
-install files necessary for test, too.
+install files necessary for test, too!
 
-make it 'python -m screed.tests.__main__'
+make it 'python -m screed.tests.__main__' instead of '.run'.
+
+add a __repr__ function to the screedDB class so that it tells you
+what db is opened, and what format it is from.
+
+is there a way to figure out what the fields are for each record?
+
+should the stuff in screed.txt work as a doctest?  right now it doesn't
+even work!
+
+the docs should also be updated for the lazy indexing stuff (once it's
+removed).
+
+A distressing lack of '_' between words in names ('faiter' => 'fasta_iter',
+maybe?) and PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
+I kind of agree that screedDB is prettier.
+
+---
+
+rename screed_pygr_api to just 'pygr.py', i.e.
+
+  from screed.pygr import ...
