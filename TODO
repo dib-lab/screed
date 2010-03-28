@@ -36,3 +36,5 @@ provide specific hooks for those who need to do substr slicing.
    databases (admin table)
 
 --
+
+install files necessary for test, too.

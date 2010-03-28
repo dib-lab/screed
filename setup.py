@@ -11,7 +11,7 @@ setup(name='screed',
       author='Alex Nolley',
       author_email='badmit@gmail.com',
       url='http://github.com/acr/screed/',
-      packages=['screed'],
+      packages=['screed', 'screed.tests'],
       license='BSD',
       test_suite = 'nose.collector'
       )
