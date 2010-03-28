@@ -61,3 +61,14 @@ I kind of agree that screedDB is prettier.
 rename screed_pygr_api to just 'pygr.py', i.e.
 
   from screed.pygr import ...
+
+---
+
+for _screed_attr, as discussed, we should use it ONLY for FASTA
+records/sequence attribute.  and __repr__ should definitely NOT
+be doing the database retrieval -- only 'str'.
+
+---
+
+might be worth showing an example of how to use fqiter/faiter on
+fasta/fastq files.
