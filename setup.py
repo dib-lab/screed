@@ -1,13 +1,17 @@
 #!/usr/bin/env python
-
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    print '(WARNING: importing distutils, not setuptools!)'
+    from distutils.core import setup
 
 setup(name='screed',
       version='0.5',
       description='A short read database',
       author='Alex Nolley',
       author_email='badmit@gmail.com',
-      url='http://lyorn.idyll.org/nolleyal/screed/',
+      url='http://github.com/acr/screed/',
       packages=['screed'],
-      license='BSD'
+      license='BSD',
+      test_suite = 'nose.collector'
       )
