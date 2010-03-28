@@ -9,6 +9,7 @@ parser is included for API reference
 import dbConstants
 import os
 from createscreed import create_db
+from openscreed import screedDB
 from fastq import fqiter
 from fasta import faiter
 
@@ -29,6 +30,8 @@ def read_fastq_sequences(filename):
 
     theFile.close()
 
+    return screedDB(filename)
+
 def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
@@ -46,6 +49,8 @@ def read_fasta_sequences(filename):
     create_db(filename, FASTAFIELDTYPES, iterfunc)
     
     theFile.close()
+
+    return screedDB(filename)
 
 # Parser for the fake 'hava' sequence
 def read_hava_sequences(filename):
@@ -81,3 +86,5 @@ def read_hava_sequences(filename):
     # Create the screed db
     create_db(filename, fields, iterfunc)
     theFile.close()
+
+    return screedDB(filename)
