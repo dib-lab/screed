@@ -5,3 +5,4 @@
 *.fastq
 build
 screed.egg-info
+dist
