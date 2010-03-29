@@ -15,7 +15,7 @@ if __name__ == '__main__':
         exit(1)
 
     runStatement = "for i in xrange(0, 100000):\n\
-    entry = str(db[random.choice(keys)])"
+    entry = str(db[random.choice(keys)].sequence)"
 
     setupStatement = "import os, sys\n\
 import random\n\
