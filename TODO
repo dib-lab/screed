@@ -72,3 +72,7 @@ be doing the database retrieval -- only 'str'.
 
 might be worth showing an example of how to use fqiter/faiter on
 fasta/fastq files.
+
+---
+
+name collision: screed/toFasta.py != screed.toFasta

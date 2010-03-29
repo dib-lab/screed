@@ -3,8 +3,7 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 import sys
-import __init__
-import dbConstants
+from screed import dbConstants, read_fastq_sequences
 
 # A shell interface to the screed FQDBM database writing function
 if __name__ == "__main__":
@@ -14,7 +13,7 @@ if __name__ == "__main__":
         exit(1)
 
     filename = sys.argv[1]
-    __init__.read_fastq_sequences(filename)
+    read_fastq_sequences(filename)
 
     print "Database saved in %s_%s" % (sys.argv[1], dbConstants.fileExtension)
     exit(0)
