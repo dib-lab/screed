@@ -76,3 +76,12 @@ fasta/fastq files.
 ---
 
 name collision: screed/toFasta.py != screed.toFasta
+
+---
+
+attempting to open a non-existent db creates the db (default sqlite behavior).
+Bad.
+
+---
+
+what happens if you run read_fasta_sequences twice?
