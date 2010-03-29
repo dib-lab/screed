@@ -2,7 +2,7 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
-from __init__ import toFastq
+from screed import toFastq
 import sys, os
 
 # Shell interface to the toFastq screed conversion function

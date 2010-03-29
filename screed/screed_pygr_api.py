@@ -30,7 +30,7 @@ CTB 3/20/09
 
 import UserDict
 
-from __init__ import screedDB
+from screed import screedDB
 
 from pygr.sequence import SequenceBase
 from pygr.seqdb import SequenceDB
