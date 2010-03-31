@@ -19,10 +19,12 @@ def create_db(filepath, fields, rcrditer):
     cur = con.cursor()
 
     # Create the admin table
-    cur.execute('CREATE TABLE %s (ID INTEGER PRIMARY KEY, '\
-                'FIELDNAME TEXT)' % dbConstants._SCREEDADMIN)
-    query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
-            dbConstants._SCREEDADMIN
+    cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, '\
+                '%s TEXT)' % (dbConstants._SCREEDADMIN,
+                              dbConstants._ADM_PRIMARY_KEY,
+                              dbConstants._FIELDNAME))
+    query = 'INSERT INTO %s (%s) VALUES (?)' % \
+            (dbConstants._SCREEDADMIN, dbConstants._FIELDNAME)
 
     # Put the primary key in as an attribute
     cur.execute(query, (dbConstants._PRIMARY_KEY,))

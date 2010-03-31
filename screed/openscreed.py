@@ -27,6 +27,12 @@ class screedDB(object, UserDict.DictMixin):
         try:
             dictionary_table, = res.fetchone()
             admin_table, = res.fetchone()
+
+            if dictionary_table != dbConstants._DICT_TABLE:
+                raise TypeError
+            if admin_table != dbConstants._SCREEDADMIN:
+                raise TypeError
+
         except TypeError:
             self._db.close()
             raise TypeError("Database %s is not a proper screed database"
@@ -37,13 +43,17 @@ class screedDB(object, UserDict.DictMixin):
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
         
-        # Store the elements of the admin table in a tuple
-        query = "SELECT ID, FIELDNAME FROM %s ORDER BY ID" % dbConstants._SCREEDADMIN
+        # Store the fields of the admin table in a tuple
+        query = "SELECT %s, %s FROM %s ORDER BY %s" % \
+                (dbConstants._ADM_PRIMARY_KEY,
+                 dbConstants._FIELDNAME,
+                 dbConstants._SCREEDADMIN,
+                 dbConstants._ADM_PRIMARY_KEY)
         res = cursor.execute(query)
         self._fieldTuple = tuple([field for idx, field in res])
 
         # [AN] change when concept of 'roles' introduced
-        # Select the first element as the queryby key
+        # Select the first field as the queryby key
         self._queryBy = self._fieldTuple[1]
 
         # Retrieve the length of the database
