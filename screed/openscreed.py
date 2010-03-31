@@ -40,23 +40,11 @@ class screedDB(object, UserDict.DictMixin):
         # Store the elements of the admin table in a tuple
         query = "SELECT ID, FIELDNAME FROM %s ORDER BY ID" % dbConstants._SCREEDADMIN
         res = cursor.execute(query)
-        # [AN] Store all elements (including primary key name) in table
-        self._fieldTuple = [dbConstants._PRIMARY_KEY.lower()]
-        for idx, field, in res:
-            self._fieldTuple.append(field)
-        self._fieldTuple = tuple(self._fieldTuple)
-        
+        self._fieldTuple = tuple([field for idx, field in res])
+
+        # [AN] change when concept of 'roles' introduced
         # Select the first element as the queryby key
         self._queryBy = self._fieldTuple[1]
-
-        # [AN] fix this so id is implicitly included
-        # Create the 'standard stub' used for querying
-        sd = [fieldName for fieldName in self._fieldTuple]
-        sd.pop(0)
-        self._standardStub = ','.join(sd)
-        
-        # Create the string of question marks
-        self._qMarks = ('?,' * (len(self._fieldTuple)-1))[:-1]
 
         # Retrieve the length of the database
         query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,

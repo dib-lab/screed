@@ -23,6 +23,9 @@ def create_db(filepath, fields, rcrditer):
                 'FIELDNAME TEXT)' % dbConstants._SCREEDADMIN)
     query = 'INSERT INTO %s (FIELDNAME) VALUES (?)' % \
             dbConstants._SCREEDADMIN
+
+    # Put the primary key in as an attribute
+    cur.execute(query, (dbConstants._PRIMARY_KEY,))
     for attribute in fields:
         cur.execute(query, (attribute,))
 
