@@ -1,7 +1,6 @@
 import dbConstants
 import os
 import types
-import screedUtility
 import UserDict
 import screedRecord
 import dbConstants
@@ -15,9 +14,49 @@ class screedDB(object, UserDict.DictMixin):
     path string to a screed database
     """
     def __init__(self, filepath):
-        self._db, self._standardStub, self._fieldTuple, self._qMarks, \
-                  self._queryBy = screedUtility.getScreedDB(filepath)
+        if not filepath.endswith(dbConstants.fileExtension):
+            filepath += dbConstants.fileExtension
+            
+        self._db = sqlite3.connect(filepath)
         cursor = self._db.cursor()
+
+        # Make sure the database is a prepared screed database
+        query = "SELECT name FROM sqlite_master WHERE type='table'"\
+                "ORDER BY name"
+        res = cursor.execute(query)
+        try:
+            dictionary_table, = res.fetchone()
+            admin_table, = res.fetchone()
+        except TypeError:
+            self._db.close()
+            raise TypeError("Database %s is not a proper screed database"
+                            % filepath)
+        
+        nothing = res.fetchone()
+        if type(nothing) != types.NoneType:
+            self._db.close()
+            raise TypeError("Database %s has too many tables." % filename)
+        
+        # Store the elements of the admin table in a tuple
+        query = "SELECT ID, FIELDNAME FROM %s ORDER BY ID" % dbConstants._SCREEDADMIN
+        res = cursor.execute(query)
+        # [AN] Store all elements (including primary key name) in table
+        self._fieldTuple = [dbConstants._PRIMARY_KEY.lower()]
+        for idx, field, in res:
+            self._fieldTuple.append(field)
+        self._fieldTuple = tuple(self._fieldTuple)
+        
+        # Select the first element as the queryby key
+        self._queryBy = self._fieldTuple[1]
+
+        # [AN] fix this so id is implicitly included
+        # Create the 'standard stub' used for querying
+        sd = [fieldName for fieldName in self._fieldTuple]
+        sd.pop(0)
+        self._standardStub = ','.join(sd)
+        
+        # Create the string of question marks
+        self._qMarks = ('?,' * (len(self._fieldTuple)-1))[:-1]
 
         # Retrieve the length of the database
         query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,
