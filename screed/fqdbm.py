@@ -3,7 +3,8 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 import sys
-from screed import dbConstants, read_fastq_sequences
+from __init__ import read_fastq_sequences
+import dbConstants
 
 # A shell interface to the screed FQDBM database writing function
 if __name__ == "__main__":

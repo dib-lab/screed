@@ -7,27 +7,7 @@ add more fastq parser variants
 
 get bigtests working again
 
-benchmarking:
- - use all same parsing functions, different createdbs to test creation
-   time
- - write class with interface that implements screed's access methods
- - similar structure in each test db: create index on name column
-
----
-
 ==== 3/14/2010
-
-I would suggest moving the stuff in __init__ into a submodule and then
-importing it back in.  That way you don't have a big chunk of code
-in __init__, which for some reason strikes me as Bad.
-
---
-
-I think faiter and fqiter should be in a separate file -- how about
-fasta.py and fastq.py?  Then you can group all format-specific stuff
-in those files and simply import where you need them.
-
---
 
 I think you should ditch general use of _screed_attr; it confuses
 introspection, and is only needed for specific attributes.  We can
