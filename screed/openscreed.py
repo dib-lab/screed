@@ -14,10 +14,11 @@ class screedDB(object, UserDict.DictMixin):
     path string to a screed database
     """
     def __init__(self, filepath):
-        if not filepath.endswith(dbConstants.fileExtension):
-            filepath += dbConstants.fileExtension
+        self._filepath = filepath
+        if not self._filepath.endswith(dbConstants.fileExtension):
+            self._filepath += dbConstants.fileExtension
             
-        self._db = sqlite3.connect(filepath)
+        self._db = sqlite3.connect(self._filepath)
         cursor = self._db.cursor()
 
         # Make sure the database is a prepared screed database
@@ -36,7 +37,7 @@ class screedDB(object, UserDict.DictMixin):
         except TypeError:
             self._db.close()
             raise TypeError("Database %s is not a proper screed database"
-                            % filepath)
+                            % self._filepath)
         
         nothing = res.fetchone()
         if type(nothing) != types.NoneType:
@@ -129,6 +130,15 @@ class screedDB(object, UserDict.DictMixin):
         """
         return list(self.iterkeys())
 
+    def __repr__(self):
+        """
+        Returns a string with some general information about the database
+        """
+        return "<%s, '%s', %s, '%s'>" % (self.__class__.__name__,
+                                         self._filepath,
+                                         str(self._fieldTuple),
+                                         self._queryBy)
+        
     def itervalues(self):
         """
         Iterator over records in the database

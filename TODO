@@ -9,12 +9,6 @@ get bigtests working again
 
 ==== 3/14/2010
 
-I think you should ditch general use of _screed_attr; it confuses
-introspection, and is only needed for specific attributes.  We can
-provide specific hooks for those who need to do substr slicing.
- - allow specifying of 'slicable' attributes in construction of
-   databases (admin table)
-
 --
 
 install files necessary for test, too!
