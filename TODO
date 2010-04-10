@@ -31,7 +31,7 @@ rename screed_pygr_api to just 'pygr.py', i.e.
   from screed.pygr import ...
 
   [AN] err... why? screed_pygr_api->pygr.py confuses with 'real'
-  pygr module
+  pygr module while 'screed_pygr_api' explicitly describes what it is
 
 ---
 
@@ -44,14 +44,14 @@ be doing the database retrieval -- only 'str'.
  or
  str(db[name]) == str(db[name]) # using __str__
 
+ [AN] should __repr__ even exist for this class? if so, should it
+ alias __str__? if not, comparisons must explicitly convert to
+ __str__'s or write some kind of custom comparison between __repr__'s?
+
 ---
 
 might be worth showing an example of how to use fqiter/faiter on
 fasta/fastq files.
-
----
-
-name collision: screed/toFasta.py != screed.toFasta
 
 ---
 
