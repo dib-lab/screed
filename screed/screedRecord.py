@@ -24,25 +24,22 @@ class _screed_record_dict(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
-# [AN] replace 'primaryKey' arg w/ dbConstants equ
 class _screed_attr(object):
     """
     Sliceable database object that supports lazy retrieval
     """
-    def __init__(self, dbObj, primaryKey, attrName, rowName, queryBy,
+    def __init__(self, dbObj, attrName, rowName, queryBy,
                  tableName):
         """
         Initializes database object with specific record retrieval
         information
         dbOjb = database handle
-        primaryKey = integer incrementer on table
         attrName = name of attr in db
         rowName = index/name of row
         queryBy = by name or index
         tableName = name of table to query on
         """
         self._dbObj = dbObj
-        self._primaryKey = primaryKey
         self._attrName = attrName
         self._rowName = rowName
         self._queryBy = queryBy
@@ -67,10 +64,7 @@ class _screed_attr(object):
             subStr, = result.fetchone()
         except TypeError:
             raise KeyError("Key %s not found" % self._rowName)
-        if self._attrName == self._primaryKey:
-            return int(subStr) - 1 # Hack to make indexing start at 0
-        else:
-            return str(subStr)
+        return str(subStr)
 
     def __len__(self):
         """
@@ -89,19 +83,7 @@ class _screed_attr(object):
             record, = result.fetchone()
         except TypeError:
             raise KeyError("Key %s not found" % self._rowName)
-        if self._attrName == self._primaryKey:
-            return str(int(record) -1) # Hack to make indexing start at 0
-        else:
-            return str(record)
-
-    def __int__(self):
-        """
-        Attempts to return an integer form of attribute. Only works if
-        the attribute is the primary key
-        """
-        if self._attrName != self._primaryKey:
-            raise TypeError('Integer conversion called for non-integer type')
-        return int(self.__repr__())
+        return str(record)
 
     def __eq__(self, given):
         """
@@ -112,10 +94,7 @@ class _screed_attr(object):
             return given == self.__repr__()
 
         try:
-            if self._attrName == self._primaryKey:
-                return int(given) == self.__int__()
-            else:
-                return str(given) == self.__repr__()
+            return str(given) == self.__repr__()
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -128,10 +107,7 @@ class _screed_attr(object):
             return self.__repr__() < given
 
         try:
-            if self._attrName == self._primaryKey:
-                return self.__int__() < int(given)
-            else:
-                return self.__repr__() < str(given)
+            return self.__repr__() < str(given)
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -144,10 +120,7 @@ class _screed_attr(object):
             return self.__repr__() <= given
 
         try:
-            if self._attrName == self._primaryKey:
-                return self.__int__() <= int(given)
-            else:
-                return self.__repr__() <= str(given)
+            return self.__repr__() <= str(given)
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -160,10 +133,7 @@ class _screed_attr(object):
             return self.__repr__() != given
 
         try:
-            if self._attrName == self._primaryKey:
-                return self.__int__() != int(given)
-            else:
-                return self.__repr__() != str(given)
+            return self.__repr__() != str(given)
         except AttributError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -176,10 +146,7 @@ class _screed_attr(object):
             return self.__repr__() > given
 
         try:
-            if self._attrName == self._primaryKey:
-                return self.__int__() > int(given)
-            else:
-                return self.__repr__() > str(given)
+            return self.__repr__() > str(given)
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -192,10 +159,7 @@ class _screed_attr(object):
             return self.__repr__() >= given
 
         try:
-            if self._attrName == self._primaryKey:
-                return self.__int__() >= int(given)
-            else:
-                return self.__repr__() >= str(given)
+            return self.__repr__() >= str(given)
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -205,7 +169,7 @@ class _screed_attr(object):
         """
         return self.__repr__()
 
-def _buildRecord(fieldTuple, dbObj, primaryKey, rowName, queryBy, tableName):
+def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
     """
     Constructs a dict-like object with record attribute names as keys and
     _screed_attr objects as values
@@ -216,7 +180,7 @@ def _buildRecord(fieldTuple, dbObj, primaryKey, rowName, queryBy, tableName):
     fullRetrievals = []
     for fieldname, role in fieldTuple:
         if role == dbConstants._SLICABLE_TEXT:
-            kvResult.append((fieldname, _screed_attr(dbObj, primaryKey,
+            kvResult.append((fieldname, _screed_attr(dbObj,
                                                     fieldname, rowName,
                                                     queryBy, tableName)))
         else:
