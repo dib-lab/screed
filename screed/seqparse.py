@@ -10,8 +10,8 @@ import dbConstants
 import os
 from createscreed import create_db
 from openscreed import screedDB
-from fastq import fqiter
-from fasta import faiter
+from fastq import fastq_iter
+from fasta import fasta_iter
 
 def read_fastq_sequences(filename):
     """
@@ -26,7 +26,7 @@ def read_fastq_sequences(filename):
     theFile = open(filename, 'rb')
 
     # Setup the iterator function
-    iterfunc = fqiter(theFile)
+    iterfunc = fastq_iter(theFile)
 
     # Create the screed db
     create_db(filename, FASTQFIELDTYPES, iterfunc)
@@ -48,7 +48,7 @@ def read_fasta_sequences(filename):
     theFile = open(filename, "rb")
 
     # Setup the iterator function
-    iterfunc = faiter(theFile)
+    iterfunc = fasta_iter(theFile)
 
     # Create the screed db
     create_db(filename, FASTAFIELDTYPES, iterfunc)

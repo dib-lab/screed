@@ -1,4 +1,4 @@
-def faiter(handle):
+def fasta_iter(handle):
     """
     Iterator over the given FASTA file handle, returning records. handle
     is a handle to a file opened for reading

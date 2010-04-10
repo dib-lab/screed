@@ -13,8 +13,6 @@ get bigtests working again
 
 install files necessary for test, too!
 
-make it 'python -m screed.tests.__main__' instead of '.run'.
-
 is there a way to figure out what the fields are for each record?
 
 should the stuff in screed.txt work as a doctest?  right now it doesn't
@@ -23,8 +21,7 @@ even work!
 the docs should also be updated for the lazy indexing stuff (once it's
 removed).
 
-A distressing lack of '_' between words in names ('faiter' => 'fasta_iter',
-maybe?) and PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
+PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
 I kind of agree that screedDB is prettier.
 
 ---
@@ -32,6 +29,9 @@ I kind of agree that screedDB is prettier.
 rename screed_pygr_api to just 'pygr.py', i.e.
 
   from screed.pygr import ...
+
+  [AN] err... why? screed_pygr_api->pygr.py confuses with 'real'
+  pygr module
 
 ---
 

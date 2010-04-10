@@ -1,4 +1,4 @@
-def fqiter(handle):
+def fastq_iter(handle):
     """
     Iterator over the given FASTQ file handle returning records. handle
     is a handle to a file opened for reading
