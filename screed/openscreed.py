@@ -82,7 +82,7 @@ class screedDB(object, UserDict.DictMixin):
         res = cursor.execute(query, (key,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Key %s not found" % key)
-        return screedRecord._buildRecord(self._fieldTuple, cursor,
+        return screedRecord._buildRecord(self._fieldTuple, self._db,
                                          key,
                                          self._queryBy,
                                          dbConstants._DICT_TABLE)
@@ -112,7 +112,7 @@ class screedDB(object, UserDict.DictMixin):
         res = cursor.execute(query, (index,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Index %d not found" % index)
-        return screedRecord._buildRecord(self._fieldTuple, cursor,
+        return screedRecord._buildRecord(self._fieldTuple, self._db,
                                          index,
                                          dbConstants._PRIMARY_KEY,
                                          dbConstants._DICT_TABLE)
@@ -133,9 +133,8 @@ class screedDB(object, UserDict.DictMixin):
         """
         Iterator over records in the database
         """
-        cursor = self._db.cursor()
         for index in xrange(1, self.__len__()+1):
-            yield screedRecord._buildRecord(self._fieldTuple, cursor,
+            yield screedRecord._buildRecord(self._fieldTuple, self._db,
                                             index,
                                             dbConstants._PRIMARY_KEY,
                                             dbConstants._DICT_TABLE)

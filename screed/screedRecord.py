@@ -59,7 +59,8 @@ class _screed_attr(object):
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
                 % (self._attrName, sliceObj.start+1, length, self._tableName,
                    self._queryBy)
-        result = self._dbObj.execute(query, (str(self._rowName),))
+        cur = self._dbObj.cursor()
+        result = cur.execute(query, (str(self._rowName),))
         try:
             subStr, = result.fetchone()
         except TypeError:
@@ -78,7 +79,8 @@ class _screed_attr(object):
         """
         query = 'SELECT %s FROM %s WHERE %s = ?' \
                 % (self._attrName, self._tableName, self._queryBy)
-        result = self._dbObj.execute(query, (str(self._rowName),))
+        cur = self._dbObj.cursor()
+        result = cur.execute(query, (str(self._rowName),))
         try:
             record, = result.fetchone()
         except TypeError:
@@ -87,8 +89,7 @@ class _screed_attr(object):
 
     def __eq__(self, given):
         """
-        Compares attribute to given object in string or integer form as the
-        given object dictates
+        Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
             return given == self.__repr__()
@@ -100,8 +101,7 @@ class _screed_attr(object):
 
     def __lt__(self, given):
         """
-        Compares attribute to given object in string or integer form as the
-        given object dictates
+        Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
             return self.__repr__() < given
@@ -113,8 +113,7 @@ class _screed_attr(object):
 
     def __le__(self, given):
         """
-        Compares attribute to given object in string or integer form as the
-        given object dictates
+        Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
             return self.__repr__() <= given
@@ -126,8 +125,7 @@ class _screed_attr(object):
 
     def __ne__(self, given):
         """
-        Compares attribute to given object in string or integer form as the
-        given object dictates
+        Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
             return self.__repr__() != given
@@ -139,8 +137,7 @@ class _screed_attr(object):
 
     def __gt__(self, given):
         """
-        Compares attribute to given object in string or integer form as the
-        given object dictates
+        Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
             return self.__repr__() > given
@@ -152,8 +149,7 @@ class _screed_attr(object):
 
     def __ge__(self, given):
         """
-        Compares attribute to given object in string or integer form as the
-        given object dictates
+        Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
             return self.__repr__() >= given
@@ -190,7 +186,8 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
     subs = ','.join(fullRetrievals)
     query = 'SELECT %s FROM %s WHERE %s=?' % \
             (subs, tableName, queryBy)
-    res = dbObj.execute(query, (rowName,))
+    cur = dbObj.cursor()
+    res = cur.execute(query, (rowName,))
 
     # Add the full text fields to the result tuple list
     kvResult.extend(zip(fullRetrievals, res.fetchone()))
