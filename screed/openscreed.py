@@ -36,6 +36,7 @@ class screedDB(object, UserDict.DictMixin):
 
         except TypeError:
             self._db.close()
+            os.unlink(self._filepath)
             raise TypeError("Database %s is not a proper screed database"
                             % self._filepath)
         
