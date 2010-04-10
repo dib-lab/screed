@@ -20,19 +20,22 @@ def create_db(filepath, fields, rcrditer):
 
     # Create the admin table
     cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, '\
-                '%s TEXT)' % (dbConstants._SCREEDADMIN,
-                              dbConstants._ADM_PRIMARY_KEY,
-                              dbConstants._FIELDNAME))
-    query = 'INSERT INTO %s (%s) VALUES (?)' % \
-            (dbConstants._SCREEDADMIN, dbConstants._FIELDNAME)
+                '%s TEXT, %s TEXT)' % (dbConstants._SCREEDADMIN,
+                                       dbConstants._PRIMARY_KEY,
+                                       dbConstants._FIELDNAME,
+                                       dbConstants._ROLENAME))
+    query = 'INSERT INTO %s (%s, %s) VALUES (?, ?)' % \
+            (dbConstants._SCREEDADMIN, dbConstants._FIELDNAME,
+             dbConstants._ROLENAME)
 
     # Put the primary key in as an attribute
-    cur.execute(query, (dbConstants._PRIMARY_KEY,))
-    for attribute in fields:
-        cur.execute(query, (attribute,))
+    cur.execute(query, (dbConstants._PRIMARY_KEY,
+                        dbConstants._PRIMARY_KEY_ROLE))
+    for attribute, role in fields:
+        cur.execute(query, (attribute, role))
 
     # Setup the dictionary table creation field substring
-    fieldsub = ','.join(['%s TEXT' % field for field in fields])
+    fieldsub = ','.join(['%s TEXT' % field for field, role in fields])
 
     # Create the dictionary table
     cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s)' %
@@ -40,7 +43,11 @@ def create_db(filepath, fields, rcrditer):
                  fieldsub))
 
     # Attribute to index
-    queryby = fields[0]
+    queryby = fields[0][0] # Defaults to the first field
+    for fieldname, role in fields:
+        if role == dbConstants._INDEXED_TEXT_KEY:
+            queryby = fieldname
+            break
 
     # Make the index on the 'queryby' attribute
     cur.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' %
@@ -50,13 +57,13 @@ def create_db(filepath, fields, rcrditer):
     qmarks = ','.join(['?' for i in range(len(fields))])
 
     # Setup the sql substring for inserting fields into database
-    fieldsub = ','.join(fields)
+    fieldsub = ','.join([fieldname for fieldname, role in fields])
 
     query = 'INSERT INTO %s (%s) VALUES (%s)' %\
             (dbConstants._DICT_TABLE, fieldsub, qmarks)
     # Pull data from the iterator and store in database
     for record in rcrditer:
-        data = tuple([record[key] for key in fields])
+        data = tuple([record[fieldname] for fieldname, role in fields])
         cur.execute(query, data)
 
     con.commit()

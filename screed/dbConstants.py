@@ -11,13 +11,16 @@ _SCREEDADMIN = 'SCREEDADMIN'
 # Names of _SCREEDADMIN columns
 _FIELDNAME = 'FIELDNAME'
 _ROLENAME = 'ROLE'
-_ADM_PRIMARY_KEY = 'id'
+_PRIMARY_KEY = 'id'
+
+# Names of roles
+_STANDARD_TEXT = 'STANDARDATTR'
+_SLICABLE_TEXT = 'SLICABLEATTR'
+_INDEXED_TEXT_KEY = 'TEXTKEYATTR'
+_PRIMARY_KEY_ROLE = 'INTKEYATTR'
 
 # Name of table holding sequence information
 _DICT_TABLE = 'DICTIONARY_TABLE'
-
-# Names of _DICT_TABLE columns
-_PRIMARY_KEY = 'id'
 
 # The file extension given to all screed databases
 fileExtension = '_screed'

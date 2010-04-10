@@ -17,7 +17,10 @@ def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
-    FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
+    FASTQFIELDTYPES = (('name', dbConstants._INDEXED_TEXT_KEY),
+                       ('annotations', dbConstants._STANDARD_TEXT),
+                       ('sequence', dbConstants._SLICABLE_TEXT),
+                       ('accuracy', dbConstants._STANDARD_TEXT))
 
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, 'rb')
@@ -37,7 +40,9 @@ def read_fasta_sequences(filename):
     Function to parse text from the given FASTA file into a screed database
     """
 
-    FASTAFIELDTYPES = ('name', 'description', 'sequence')
+    FASTAFIELDTYPES = (('name', dbConstants._INDEXED_TEXT_KEY),
+                       ('description', dbConstants._STANDARD_TEXT),
+                       ('sequence', dbConstants._SLICABLE_TEXT))
     
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
@@ -75,7 +80,12 @@ def read_hava_sequences(filename):
             line = handle.readline().strip()
             yield data
 
-    fields = ('hava', 'quarzk', 'muchalo', 'fakours', 'selimizicka', 'marshoon')
+    fields = (('hava', dbConstants._INDEXED_TEXT_KEY),
+              ('quarzk', dbConstants._STANDARD_TEXT),
+              ('muchalo', dbConstants._STANDARD_TEXT),
+              ('fakours', dbConstants._STANDARD_TEXT),
+              ('selimizicka', dbConstants._STANDARD_TEXT),
+              ('marshoon', dbConstants._STANDARD_TEXT))
         
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")

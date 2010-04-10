@@ -21,7 +21,7 @@ class screedDB(object, UserDict.DictMixin):
         cursor = self._db.cursor()
 
         # Make sure the database is a prepared screed database
-        query = "SELECT name FROM sqlite_master WHERE type='table'"\
+        query = "SELECT name FROM sqlite_master WHERE type='table' "\
                 "ORDER BY name"
         res = cursor.execute(query)
         try:
@@ -44,17 +44,18 @@ class screedDB(object, UserDict.DictMixin):
             raise TypeError("Database %s has too many tables." % filename)
         
         # Store the fields of the admin table in a tuple
-        query = "SELECT %s, %s FROM %s ORDER BY %s" % \
-                (dbConstants._ADM_PRIMARY_KEY,
-                 dbConstants._FIELDNAME,
-                 dbConstants._SCREEDADMIN,
-                 dbConstants._ADM_PRIMARY_KEY)
+        query = "SELECT %s, %s FROM %s" % \
+                 (dbConstants._FIELDNAME,
+                 dbConstants._ROLENAME,
+                 dbConstants._SCREEDADMIN)
         res = cursor.execute(query)
-        self._fieldTuple = tuple([field for idx, field in res])
+        self._fieldTuple = tuple([(field, role) for field, role in res])
 
-        # [AN] change when concept of 'roles' introduced
-        # Select the first field as the queryby key
-        self._queryBy = self._fieldTuple[1]
+        # Indexed text column for querying, search fields to find
+        self._queryBy = self._fieldTuple[1][0]
+        for fieldname, role in self._fieldTuple:
+            if role == dbConstants._INDEXED_TEXT_KEY:
+                self._queryBy = fieldname
 
         # Retrieve the length of the database
         query = 'SELECT MAX(%s) FROM %s' % (dbConstants._PRIMARY_KEY,
@@ -153,7 +154,7 @@ class screedDB(object, UserDict.DictMixin):
         Iterator returning a (index, record) pairs
         """
         for v in self.itervalues():
-            yield str(v[dbConstants._PRIMARY_KEY]), v
+            yield v[dbConstants._PRIMARY_KEY], v
 
     def has_key(self, key):
         """

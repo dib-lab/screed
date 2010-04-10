@@ -1,5 +1,6 @@
 import UserDict
 import types
+import dbConstants
 
 class _screed_record_dict(UserDict.DictMixin):
     """
@@ -23,6 +24,7 @@ class _screed_record_dict(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
+# [AN] replace 'primaryKey' arg w/ dbConstants equ
 class _screed_attr(object):
     """
     Sliceable database object that supports lazy retrieval
@@ -203,26 +205,38 @@ class _screed_attr(object):
         """
         return self.__repr__()
 
-def _buildRecord(fieldNames, dbObj, primaryKey, rowName, queryBy, tableName):
+def _buildRecord(fieldTuple, dbObj, primaryKey, rowName, queryBy, tableName):
     """
     Constructs a dict-like object with record attribute names as keys and
     _screed_attr objects as values
     """
-    accumulator = []
-    for name in fieldNames:
-        attrObj = _screed_attr(dbObj, primaryKey, name, rowName,
-                               queryBy, tableName)
-        accumulator.append((name, attrObj))
-    return _screed_record_dict(accumulator)
 
-def _unicode2Str(arg1, arg2):
-    """
-    Converts arguments to standard string types and returns a tuple. This
-    function is meant to be used in conjunction with map()'ping the results
-    of a database query with the names of fields to get rid of the ugly u'
-    in front
-    """
-    if type(arg2) == types.UnicodeType:
-        return (arg1, str(arg2))
+    # Separate the lazy and full retrieval objects
+    kvResult = []
+    fullRetrievals = []
+    for fieldname, role in fieldTuple:
+        if role == dbConstants._SLICABLE_TEXT:
+            kvResult.append((fieldname, _screed_attr(dbObj, primaryKey,
+                                                    fieldname, rowName,
+                                                    queryBy, tableName)))
+        else:
+            fullRetrievals.append(fieldname)
 
-    return (arg1, arg2)
+    # Retrieve the full text fields from the db
+    subs = ','.join(fullRetrievals)
+    query = 'SELECT %s FROM %s WHERE %s=?' % \
+            (subs, tableName, queryBy)
+    res = dbObj.execute(query, (rowName,))
+
+    # Add the full text fields to the result tuple list
+    kvResult.extend(zip(fullRetrievals, res.fetchone()))
+
+    # Hack to make indexing start at 0
+    hackedResult = []
+    for key, value in kvResult:
+        if key == dbConstants._PRIMARY_KEY:
+            hackedResult.append((key, value-1))
+        else:
+            hackedResult.append((key, value))
+
+    return _screed_record_dict(hackedResult)
