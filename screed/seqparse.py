@@ -19,7 +19,7 @@ def read_fastq_sequences(filename):
     """
     FASTQFIELDTYPES = (('name', dbConstants._INDEXED_TEXT_KEY),
                        ('annotations', dbConstants._STANDARD_TEXT),
-                       ('sequence', dbConstants._SLICABLE_TEXT),
+                       ('sequence', dbConstants._STANDARD_TEXT),
                        ('accuracy', dbConstants._STANDARD_TEXT))
 
     # Will raise an exception if the file doesn't exist
