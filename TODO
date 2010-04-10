@@ -15,9 +15,6 @@ install files necessary for test, too!
 
 make it 'python -m screed.tests.__main__' instead of '.run'.
 
-add a __repr__ function to the screedDB class so that it tells you
-what db is opened, and what format it is from.
-
 is there a way to figure out what the fields are for each record?
 
 should the stuff in screed.txt work as a doctest?  right now it doesn't

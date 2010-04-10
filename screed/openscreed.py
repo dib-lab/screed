@@ -134,10 +134,8 @@ class screedDB(object, UserDict.DictMixin):
         """
         Returns a string with some general information about the database
         """
-        return "<%s, '%s', %s, '%s'>" % (self.__class__.__name__,
-                                         self._filepath,
-                                         str(self._fieldTuple),
-                                         self._queryBy)
+        return "<%s, '%s'>" % (self.__class__.__name__,
+                               self._filepath)
         
     def itervalues(self):
         """
