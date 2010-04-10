@@ -39,14 +39,15 @@ for _screed_attr, as discussed, we should use it ONLY for FASTA
 records/sequence attribute.  and __repr__ should definitely NOT
 be doing the database retrieval -- only 'str'.
 
+ [AN] ok what looks better for comparing?
+ db[name] == db[name] # using __repr__
+ or
+ str(db[name]) == str(db[name]) # using __str__
+
 ---
 
 might be worth showing an example of how to use fqiter/faiter on
 fasta/fastq files.
-
----
-
-fqdbm incorrectly prints out two _ in '__screed'?
 
 ---
 

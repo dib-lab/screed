@@ -24,6 +24,7 @@ class _screed_record_dict(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
+# [AN] why is tableName needed?
 class _screed_attr(object):
     """
     Sliceable database object that supports lazy retrieval
@@ -75,17 +76,9 @@ class _screed_attr(object):
 
     def __repr__(self):
         """
-        Returns the full attribute as a string
+        Alias for __str__
         """
-        query = 'SELECT %s FROM %s WHERE %s = ?' \
-                % (self._attrName, self._tableName, self._queryBy)
-        cur = self._dbObj.cursor()
-        result = cur.execute(query, (str(self._rowName),))
-        try:
-            record, = result.fetchone()
-        except TypeError:
-            raise KeyError("Key %s not found" % self._rowName)
-        return str(record)
+        return self.__str__()
 
     def __eq__(self, given):
         """
@@ -161,9 +154,17 @@ class _screed_attr(object):
 
     def __str__(self):
         """
-        Alias for __repr__
+        Returns the full attribute as a string
         """
-        return self.__repr__()
+        query = 'SELECT %s FROM %s WHERE %s = ?' \
+                % (self._attrName, self._tableName, self._queryBy)
+        cur = self._dbObj.cursor()
+        result = cur.execute(query, (str(self._rowName),))
+        try:
+            record, = result.fetchone()
+        except TypeError:
+            raise KeyError("Key %s not found" % self._rowName)
+        return str(record)
 
 def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
     """
