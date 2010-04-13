@@ -15,12 +15,6 @@ install files necessary for test, too!
 
 is there a way to figure out what the fields are for each record?
 
-should the stuff in screed.txt work as a doctest?  right now it doesn't
-even work!
-
-the docs should also be updated for the lazy indexing stuff (once it's
-removed).
-
 PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
 I kind of agree that screedDB is prettier.
 
@@ -35,8 +29,7 @@ rename screed_pygr_api to just 'pygr.py', i.e.
 
 ---
 
-for _screed_attr, as discussed, we should use it ONLY for FASTA
-records/sequence attribute.  and __repr__ should definitely NOT
+__repr__ should definitely NOT
 be doing the database retrieval -- only 'str'.
 
  [AN] ok what looks better for comparing?
@@ -47,11 +40,6 @@ be doing the database retrieval -- only 'str'.
  [AN] should __repr__ even exist for this class? if so, should it
  alias __str__? if not, comparisons must explicitly convert to
  __str__'s or write some kind of custom comparison between __repr__'s?
-
----
-
-might be worth showing an example of how to use fqiter/faiter on
-fasta/fastq files.
 
 ---
 

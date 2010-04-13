@@ -29,7 +29,7 @@ Retrieve that record:
 
  >>> r = db[names[0]]
  >>> print r.keys()
- [u'description', u'sequence', 'id', u'name']
+ [u'description', u'id', u'name', u'sequence']
 
 Print out the internal ID number and the name:
 
