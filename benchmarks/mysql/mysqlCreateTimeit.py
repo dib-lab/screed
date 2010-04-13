@@ -11,33 +11,41 @@ if __name__ == '__main__':
     filename = sys.argv[1]
     fafq = sys.argv[2]
 
-    fqrunStatement = "create.create_db(FASTQFIELDTYPES, iterfunc)\n\
-theFile.close()"
+    fqrunStatement = """
+create.create_db(FASTQFIELDTYPES, iterfunc)
+theFile.close()
+"""
 
-    fqsetupStatement = "import os, sys\n\
-import create\n\
-thisdir = sys.path[0]\n\
-libdir = os.path.abspath(os.path.join(thisdir, '..', '..', 'screed'))\n\
-sys.path.insert(0, libdir)\n\
-from fastq import fqiter\n\
-create.droptables()\n\
-FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')\n\
-theFile = open('%s', 'rb')\n\
-iterfunc = fqiter(theFile)" % filename
+    fqsetupStatement = """
+import os, sys
+import create
+thisdir = sys.path[0]
+libdir = os.path.abspath(os.path.join(thisdir, '..', '..', 'screed'))
+sys.path.insert(0, libdir)
+from fastq import fqiter
+create.droptables()
+FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
+theFile = open('%s', 'rb')
+iterfunc = fqiter(theFile)
+""" % filename
 
-    farunStatement = "create.create_db(FASTAFIELDTYPES, iterfunc)\n\
-theFile.close()"
+    farunStatement = """
+create.create_db(FASTAFIELDTYPES, iterfunc)
+theFile.close()
+"""
 
-    fasetupStatement = "import os, sys\n\
-import create\n\
-thisdir = sys.path[0]\n\
-libdir = os.path.abspath(os.path.join(thisdir, '..', '..', 'screed'))\n\
-sys.path.insert(0, libdir)\n\
-from fasta import faiter\n\
-create.droptables()\n\
-FASTAFIELDTYPES = ('name', 'description', 'sequence')\n\
-theFile = open('%s', 'rb')\n\
-iterfunc = faiter(theFile)" % filename
+    fasetupStatement = """
+import os, sys
+import create
+thisdir = sys.path[0]
+libdir = os.path.abspath(os.path.join(thisdir, '..', '..', 'screed'))
+sys.path.insert(0, libdir)
+from fasta import faiter
+create.droptables()
+FASTAFIELDTYPES = ('name', 'description', 'sequence')
+theFile = open('%s', 'rb')
+iterfunc = faiter(theFile)
+""" % filename
 
     t = None
     if fafq == 'fasta':

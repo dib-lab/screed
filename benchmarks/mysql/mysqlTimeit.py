@@ -4,14 +4,18 @@ import timeit
 import sys
 
 if __name__ == '__main__':
-    runStatement = "for i in xrange(0, 100000):\n\
-    entry = db.loadRecordByName(random.choice(keys))"
+    runStatement = """
+for i in xrange(0, 100000):
+    entry = db.loadRecordByName(random.choice(keys))
+"""
 
-    setupStatement = "import os, sys\n\
-import random\n\
-import mydb\n\
-db = mydb.mydb()\n\
-keys = db.keys()"
+    setupStatement = """
+import os, sys
+import random
+import mydb
+db = mydb.mydb()
+keys = db.keys()
+"""
 
     t = timeit.Timer(runStatement, setupStatement)
 

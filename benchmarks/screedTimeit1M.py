@@ -27,7 +27,11 @@ libdir = os.path.abspath(os.path.join(thisdir, '..'))
 sys.path.insert(0, libdir)
 import screed
 db = screed.openscreed.screedDB('%s')
-keys = db.keys()
+keys = []
+for i, k in enumerate(db.iterkeys()):
+    if i > 1000000:
+        break
+    keys.append(k)
 """ % screedFile
 
     t = timeit.Timer(runStatement, setupStatement)
