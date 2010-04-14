@@ -4,8 +4,10 @@ def fasta_iter(handle):
     is a handle to a file opened for reading
     """
     data = {}
-    line = handle.readline().strip()
-    while line != '':
+
+    line = handle.readline()
+    while line:
+        line = line.strip()
         if not line.startswith('>'):
             raise IOError("Bad FASTA format: no '>' at beginning of line")
 
@@ -22,10 +24,10 @@ def fasta_iter(handle):
 
         # Collect sequence lines into a list
         sequenceList = []
-        line = handle.readline().strip()
-        while line != '' and not line.startswith('>'):
-            sequenceList.append(line)
-            line = handle.readline().strip()
+        line = handle.readline()
+        while line and not line.startswith('>'):
+            sequenceList.append(line.strip())
+            line = handle.readline()
 
         data['sequence'] = ''.join(sequenceList)
         yield data
