@@ -20,27 +20,4 @@ I kind of agree that screedDB is prettier.
 
 ---
 
-rename screed_pygr_api to just 'pygr.py', i.e.
-
-  from screed.pygr import ...
-
-  [AN] err... why? screed_pygr_api->pygr.py confuses with 'real'
-  pygr module while 'screed_pygr_api' explicitly describes what it is
-
----
-
-__repr__ should definitely NOT
-be doing the database retrieval -- only 'str'.
-
- [AN] ok what looks better for comparing?
- db[name] == db[name] # using __repr__
- or
- str(db[name]) == str(db[name]) # using __str__
-
- [AN] should __repr__ even exist for this class? if so, should it
- alias __str__? if not, comparisons must explicitly convert to
- __str__'s or write some kind of custom comparison between __repr__'s?
-
----
-
 what happens if you run read_fasta_sequences twice?

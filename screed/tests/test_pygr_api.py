@@ -10,7 +10,7 @@ except ImportError:
 
 import screed
 from dbConstants import fileExtension
-from screed_pygr_api import ScreedSequenceDB, ScreedSequenceDB_ByIndex
+from pygr_api import ScreedSequenceDB, ScreedSequenceDB_ByIndex
 from pickle import dump, load
 from cStringIO import StringIO
 import os
