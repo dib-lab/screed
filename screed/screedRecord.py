@@ -80,39 +80,32 @@ class _screed_attr(object):
         """
         return self.__str__()
 
+    def __cmp__(self, given):
+        """
+        Handles comparisons other than == and !=
+        """
+        ownString = __str__()
+        if isinstance(given, _screed_attr):
+            given = str(given)
+        elif not isinstance(given, str):
+            raise TypeError("Cannot compare to given type: %s" % type(given))
+
+        if ownString < given:
+            return -1
+        elif ownString > given:
+            return 1
+        else:
+            return 0
+
     def __eq__(self, given):
         """
         Compares attribute to given object in string form
         """
         if type(given) == types.StringType:
-            return given == self.__repr__()
+            return given == self.__str__()
 
         try:
-            return str(given) == self.__repr__()
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
-
-    def __lt__(self, given):
-        """
-        Compares attribute to given object in string form
-        """
-        if type(given) == types.StringType:
-            return self.__repr__() < given
-
-        try:
-            return self.__repr__() < str(given)
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
-
-    def __le__(self, given):
-        """
-        Compares attribute to given object in string form
-        """
-        if type(given) == types.StringType:
-            return self.__repr__() <= given
-
-        try:
-            return self.__repr__() <= str(given)
+            return str(given) == self.__str__()
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
@@ -126,30 +119,6 @@ class _screed_attr(object):
         try:
             return self.__repr__() != str(given)
         except AttributError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
-
-    def __gt__(self, given):
-        """
-        Compares attribute to given object in string form
-        """
-        if type(given) == types.StringType:
-            return self.__repr__() > given
-
-        try:
-            return self.__repr__() > str(given)
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
-
-    def __ge__(self, given):
-        """
-        Compares attribute to given object in string form
-        """
-        if type(given) == types.StringType:
-            return self.__repr__() >= given
-
-        try:
-            return self.__repr__() >= str(given)
-        except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __str__(self):
