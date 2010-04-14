@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2010, Michigan State University
+
 from openscreed import screedDB
 
 _MAXLINELEN = 80
@@ -37,7 +39,7 @@ def generateAccuracy(value):
     if 'accuracy' in value:
         return linewrap(value['accuracy'])
 
-    return linewrap(_null_accuracy * len(value['sequence']))
+    return linewrap(_null_accuracy * len(str(value['sequence'])))
 
 def toFastq(dbFile, outputFile):
     """
@@ -50,7 +52,7 @@ def toFastq(dbFile, outputFile):
     for value in db.itervalues():
         outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
                                                getComments(value),
-                                               linewrap(value['sequence']),
+                                               linewrap(str(value['sequence'])),
                                                generateAccuracy(value)))
     db.close()
     outFile.close()
@@ -65,7 +67,7 @@ def toFasta(dbFile, outputFile):
 
     for value in db.itervalues():
         outFile.write('>%s %s\n%s\n' % (value['name'], getComments(value),
-                                      linewrap(value['sequence'])))
+                                        linewrap(str(value['sequence']))))
     
     db.close()
     outFile.close()

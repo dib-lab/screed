@@ -72,13 +72,13 @@ class _screed_attr(object):
         """
         Returns the length of the string
         """
-        return len(self.__repr__())
+        return len(self.__str__())
 
     def __repr__(self):
         """
         Alias for __str__
         """
-        return self.__str__()
+        return "<%s '%s'>" % (self.__class__.__name__, self._attrName)
 
     def __cmp__(self, given):
         """
