@@ -74,3 +74,17 @@ class Test_fasta(object):
         for id, entry in self.db.iteritems():
             assert id == self.db[entry.name].id
             assert entry == self.db[entry.name]
+
+class Test_fasta_whitespace(object):
+    def setup(self):
+        self._testfa = os.path.join(os.path.dirname(__file__),
+                                    'test-whitespace.fa')
+        screed.read_fasta_sequences(self._testfa)
+        self.db = screed.screedDB(self._testfa)
+
+    def test_for_omitted_record(self):
+        assert 'ENSMICT00000012401' in self.db
+
+    def teardown(self):
+        os.unlink(self._testfa + fileExtension)
+
