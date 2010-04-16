@@ -17,7 +17,11 @@ class screedDB(object, UserDict.DictMixin):
         self._filepath = filepath
         if not self._filepath.endswith(dbConstants.fileExtension):
             self._filepath += dbConstants.fileExtension
-            
+
+        
+        if not os.path.exists(self._filepath):
+            raise ValueError('No such file: %s' % self._filepath)
+        
         self._db = sqlite3.connect(self._filepath)
         cursor = self._db.cursor()
 
@@ -36,7 +40,6 @@ class screedDB(object, UserDict.DictMixin):
 
         except TypeError:
             self._db.close()
-            os.unlink(self._filepath)
             raise TypeError("Database %s is not a proper screed database"
                             % self._filepath)
         
