@@ -24,13 +24,11 @@ class _screed_record_dict(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
-# [AN] why is tableName needed?
 class _screed_attr(object):
     """
     Sliceable database object that supports lazy retrieval
     """
-    def __init__(self, dbObj, attrName, rowName, queryBy,
-                 tableName):
+    def __init__(self, dbObj, attrName, rowName, queryBy):
         """
         Initializes database object with specific record retrieval
         information
@@ -38,13 +36,11 @@ class _screed_attr(object):
         attrName = name of attr in db
         rowName = index/name of row
         queryBy = by name or index
-        tableName = name of table to query on
         """
         self._dbObj = dbObj
         self._attrName = attrName
         self._rowName = rowName
         self._queryBy = queryBy
-        self._tableName = tableName
 
     def __getitem__(self, sliceObj):
         """
@@ -58,7 +54,8 @@ class _screed_attr(object):
         length = sliceObj.stop - sliceObj.start
         
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
-                % (self._attrName, sliceObj.start+1, length, self._tableName,
+                % (self._attrName, sliceObj.start+1, length,
+                   DBConstants._DICT_TABLE,
                    self._queryBy)
         cur = self._dbObj.cursor()
         result = cur.execute(query, (str(self._rowName),))
@@ -126,7 +123,7 @@ class _screed_attr(object):
         Returns the full attribute as a string
         """
         query = 'SELECT %s FROM %s WHERE %s = ?' \
-                % (self._attrName, self._tableName, self._queryBy)
+                % (self._attrName, DBConstants._DICT_TABLE, self._queryBy)
         cur = self._dbObj.cursor()
         result = cur.execute(query, (str(self._rowName),))
         try:
@@ -135,7 +132,7 @@ class _screed_attr(object):
             raise KeyError("Key %s not found" % self._rowName)
         return str(record)
 
-def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
+def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     """
     Constructs a dict-like object with record attribute names as keys and
     _screed_attr objects as values
@@ -147,15 +144,16 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
     for fieldname, role in fieldTuple:
         if role == DBConstants._SLICABLE_TEXT:
             kvResult.append((fieldname, _screed_attr(dbObj,
-                                                    fieldname, rowName,
-                                                    queryBy, tableName)))
+                                                     fieldname,
+                                                     rowName,
+                                                     queryBy)))
         else:
             fullRetrievals.append(fieldname)
 
     # Retrieve the full text fields from the db
     subs = ','.join(fullRetrievals)
     query = 'SELECT %s FROM %s WHERE %s=?' % \
-            (subs, tableName, queryBy)
+            (subs, DBConstants._DICT_TABLE, queryBy)
     cur = dbObj.cursor()
     res = cur.execute(query, (rowName,))
 

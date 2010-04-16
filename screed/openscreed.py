@@ -95,8 +95,7 @@ class ScreedDB(object, UserDict.DictMixin):
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self._fieldTuple, self._db,
                                          key,
-                                         self._queryBy,
-                                         DBConstants._DICT_TABLE)
+                                         self._queryBy)
 
     def values(self):
         """
@@ -125,8 +124,7 @@ class ScreedDB(object, UserDict.DictMixin):
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self._fieldTuple, self._db,
                                          index,
-                                         DBConstants._PRIMARY_KEY,
-                                         DBConstants._DICT_TABLE)
+                                         DBConstants._PRIMARY_KEY)
     
     def __len__(self):
         """
@@ -154,8 +152,7 @@ class ScreedDB(object, UserDict.DictMixin):
         for index in xrange(1, self.__len__()+1):
             yield screedRecord._buildRecord(self._fieldTuple, self._db,
                                             index,
-                                            DBConstants._PRIMARY_KEY,
-                                            DBConstants._DICT_TABLE)
+                                            DBConstants._PRIMARY_KEY)
 
     def iterkeys(self):
         """
