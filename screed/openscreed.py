@@ -67,6 +67,12 @@ class screedDB(object, UserDict.DictMixin):
                                             dbConstants._DICT_TABLE)
         self._len, = cursor.execute(query).fetchone()
 
+    def __del__(self):
+        """
+        Alias for close()
+        """
+        self.close()
+
     def close(self):
         """
         Closes the sqlite database handle
