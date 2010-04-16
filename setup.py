@@ -12,6 +12,7 @@ setup(name='screed',
       author_email='badmit@gmail.com',
       url='http://github.com/acr/screed/',
       packages=['screed', 'screed.tests'],
+      package_data={'screed.tests': ['test.*', 'test-whitespace.fa']},
       license='BSD',
       test_suite = 'nose.collector'
       )

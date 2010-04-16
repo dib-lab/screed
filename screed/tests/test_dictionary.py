@@ -1,6 +1,6 @@
 import os
 import screed
-from dbConstants import fileExtension
+from screed.dbConstants import fileExtension
 
 class Test_dict_methods(object):
     """

@@ -1,7 +1,7 @@
 import test_fastq
 import os
 import screed
-from dbConstants import fileExtension
+from screed.dbConstants import fileExtension
 
 class test_fq_recover(test_fastq.Test_fastq):
     def setup(self):

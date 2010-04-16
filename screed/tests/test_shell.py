@@ -3,7 +3,7 @@ import test_fastq
 import os
 import subprocess
 import screed
-from dbConstants import fileExtension
+from screed.dbConstants import fileExtension
 
 class Test_fa_shell(test_fasta.Test_fasta):
     """
@@ -14,7 +14,8 @@ class Test_fa_shell(test_fasta.Test_fasta):
         thisdir = os.path.dirname(__file__)
         self._testfa = os.path.join(thisdir, 'test.fa')
         fadbm = os.path.join(thisdir, '..', 'fadbm.py')
-        subprocess.check_call([fadbm, self._testfa], stdout=subprocess.PIPE)
+        subprocess.check_call(['python', fadbm, self._testfa],
+                              stdout=subprocess.PIPE)
         self.db = screed.screedDB(self._testfa)
 
     def teardown(self):
@@ -28,8 +29,10 @@ class Test_fq_shell(test_fastq.Test_fastq):
     def setup(self):
         thisdir = os.path.dirname(__file__)
         self._testfq = os.path.join(thisdir, 'test.fastq')
+        
         fqdbm = os.path.join(thisdir, '..', 'fqdbm.py')
-        subprocess.check_call([fqdbm, self._testfq], stdout=subprocess.PIPE)
+        subprocess.check_call(['python', fqdbm, self._testfq],
+                              stdout=subprocess.PIPE)
         self.db = screed.screedDB(self._testfq)
 
     def teardown(self):

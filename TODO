@@ -10,14 +10,10 @@ get bigtests working again
 ==== 3/14/2010
 
 --
-
-install files necessary for test, too!
-
 is there a way to figure out what the fields are for each record?
+ - [AN] reading the screedDB._fieldTuple tuple, or is something more
+   formal required?
 
 PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
 I kind of agree that screedDB is prettier.
 
----
-
-what happens if you run read_fasta_sequences twice?

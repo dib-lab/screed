@@ -1,7 +1,7 @@
 import test_fasta
 import os
 import screed
-from dbConstants import fileExtension
+from screed.dbConstants import fileExtension
 
 class Test_fasta_to_fastq(test_fasta.Test_fasta):
     """

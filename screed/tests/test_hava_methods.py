@@ -1,13 +1,13 @@
 import screed
-import seqparse
-from dbConstants import fileExtension
+import screed.seqparse
+from screed.dbConstants import fileExtension
 import os
 
 testha = os.path.join(os.path.dirname(__file__), 'test.hava')
 
 class test_hava(object):
     def setup(self):
-        seqparse.read_hava_sequences(testha)
+        screed.seqparse.read_hava_sequences(testha)
         self._db = screed.screedDB(testha)
 
     def teardown(self):

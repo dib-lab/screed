@@ -15,10 +15,10 @@ class screedDB(object, UserDict.DictMixin):
     """
     def __init__(self, filepath):
         self._filepath = filepath
+        self._db = None
         if not self._filepath.endswith(dbConstants.fileExtension):
             self._filepath += dbConstants.fileExtension
 
-        
         if not os.path.exists(self._filepath):
             raise ValueError('No such file: %s' % self._filepath)
         

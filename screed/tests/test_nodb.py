@@ -1,6 +1,6 @@
 import screed
 import os
-from dbConstants import fileExtension
+from screed.dbConstants import fileExtension
 
 def test_nodb():
     """

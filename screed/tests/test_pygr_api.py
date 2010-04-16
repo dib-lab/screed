@@ -9,8 +9,8 @@ except ImportError:
     raise nose.SkipTest, "pygr is required for these tests"
 
 import screed
-from dbConstants import fileExtension
-from pygr_api import ScreedSequenceDB, ScreedSequenceDB_ByIndex
+from screed.dbConstants import fileExtension
+from screed.pygr_api import ScreedSequenceDB, ScreedSequenceDB_ByIndex
 from pickle import dump, load
 from cStringIO import StringIO
 import os

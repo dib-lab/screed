@@ -1,5 +1,5 @@
 import screed
-from dbConstants import fileExtension
+from screed.dbConstants import fileExtension
 import os
 
 class Test_fastq(object):
