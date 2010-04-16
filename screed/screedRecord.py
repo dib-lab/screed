@@ -1,6 +1,6 @@
 import UserDict
 import types
-import dbConstants
+import DBConstants
 
 class _screed_record_dict(UserDict.DictMixin):
     """
@@ -145,7 +145,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
     kvResult = []
     fullRetrievals = []
     for fieldname, role in fieldTuple:
-        if role == dbConstants._SLICABLE_TEXT:
+        if role == DBConstants._SLICABLE_TEXT:
             kvResult.append((fieldname, _screed_attr(dbObj,
                                                     fieldname, rowName,
                                                     queryBy, tableName)))
@@ -165,7 +165,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy, tableName):
     # Hack to make indexing start at 0
     hackedResult = []
     for key, value in kvResult:
-        if key == dbConstants._PRIMARY_KEY:
+        if key == DBConstants._PRIMARY_KEY:
             hackedResult.append((key, value-1))
         else:
             hackedResult.append((key, value))

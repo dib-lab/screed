@@ -4,7 +4,7 @@
 
 import sys
 from __init__ import read_fasta_sequences
-import dbConstants
+import DBConstants
 
 # A shell interface to the screed FADBM database writing function
 if __name__ == "__main__":
@@ -16,5 +16,5 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     read_fasta_sequences(filename)
     
-    print "Database saved in %s%s" % (sys.argv[1], dbConstants.fileExtension)
+    print "Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension)
 

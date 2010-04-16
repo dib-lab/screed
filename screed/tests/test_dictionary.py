@@ -1,6 +1,6 @@
 import os
 import screed
-from screed.dbConstants import fileExtension
+from screed.DBConstants import fileExtension
 
 class Test_dict_methods(object):
     """
@@ -10,7 +10,7 @@ class Test_dict_methods(object):
     def setup(self):
         self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
         screed.read_fasta_sequences(self._testfa)
-        self.db = screed.screedDB(self._testfa)
+        self.db = screed.ScreedDB(self._testfa)
 
     def teardown(self):
         os.unlink(self._testfa + fileExtension)

@@ -30,7 +30,7 @@ CTB 3/20/09
 
 import UserDict
 
-from screed import screedDB
+from screed import ScreedDB
 
 from pygr.sequence import SequenceBase
 from pygr.seqdb import SequenceDB
@@ -106,7 +106,7 @@ class _ScreedSequenceInfo(object):
 class _ScreedSeqInfoDict_ByName(object, UserDict.DictMixin):
     """seqInfoDict implementation that uses names to retrieve records."""
     def __init__(self, filepath):
-        self.sdb = screedDB(filepath)
+        self.sdb = ScreedDB(filepath)
 
     def __getitem__(self, k):
         v = self.sdb[k]
@@ -131,7 +131,7 @@ class _ScreedSeqInfoDict_ByName(object, UserDict.DictMixin):
 class _ScreedSeqInfoDict_ByIndex(object, UserDict.DictMixin):
     """seqInfoDict implementation that uses indices to retrieve records."""
     def __init__(self, filepath):
-        self.sdb = screedDB(filepath)
+        self.sdb = ScreedDB(filepath)
 
     def __getitem__(self, k):
         n = int(k) 

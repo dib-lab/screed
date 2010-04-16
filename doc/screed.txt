@@ -93,12 +93,12 @@ rule them all!
 
 Opening
 -------
-In the Python environment, import the screedDB class and load 
+In the Python environment, import the ScreedDB class and load 
 some databases::
 
-    >>> from screed import screedDB
-    >>> fadb = screedDB('screed/tests/test.fa')
-    >>> fqdb = screedDB('screed/tests/test.fastq')
+    >>> from screed import ScreedDB
+    >>> fadb = ScreedDB('screed/tests/test.fa')
+    >>> fqdb = ScreedDB('screed/tests/test.fastq')
 
 Notice how you didn't need to write the '_screed' at the end of the filenames?
 screed automatically adds that to the filename if you didn't.
@@ -208,26 +208,26 @@ Each field in a screed database is assigned a role. These roles describe what
 kind of information is stored in their field. Right now there are only 4
 different roles in a screed database: the text role, the slicable role,
 the indexed key role and the primary key role. All roles are defined in the
-file: screed/dbConstants.py
+file: screed/DBConstants.py
 
-The text role (dbConstants._STANDARD_TEXT) is the role most fields in a
+The text role (DBConstants._STANDARD_TEXT) is the role most fields in a
 database will have. This role tells screed that the associated field is
 storing standard textual data. Nothing special.
 
-The slicable role (dbConstants._SLICABLE_TEXT) is a role that can be
+The slicable role (DBConstants._SLICABLE_TEXT) is a role that can be
 assigned to long sequence fields. screed's default FASTA parser defines
 the 'sequence' field with the slicable role. When screed retrieves a field
 that has the slicable role, it builds a special data structure that
 supports slicing into the text.
 
-The indexed key role (dbConstants._INDEXED_TEXT_KEY) is associated with
+The indexed key role (DBConstants._INDEXED_TEXT_KEY) is associated with
 exactly one of the fields in a screed database. In screed's FASTA and
 FASTQ parsers, this role is fullfilled by the 'name' field. This field
 is required because it is the field screed tells sqlite to index when
 creating the database and it is the field used for name lookups when
 querying a screed database.
 
-The primary key role (dbConstants._PRIMARY_KEY_ROLE) is a role automatically
+The primary key role (DBConstants._PRIMARY_KEY_ROLE) is a role automatically
 associated with the 'id' field in each database. This field is always
 created with each screed database and always holds this role. You as a
 user of screed won't need to worry about this one.
@@ -258,18 +258,18 @@ screed the names and order of the data fields inside each record. For instance,
 lets say our new sequence has types 'name', 'bar', and 'baz', all text. The
 tuple will be::
 
-    >>> fields = (('name', dbConstants._INDEXED_TEXT_KEY),
-                  ('bar', dbConstants._STANDARD_TEXT),
-                  ('baz', dbConstants._STANDARD_TEXT))
+    >>> fields = (('name', DBConstants._INDEXED_TEXT_KEY),
+                  ('bar', DBConstants._STANDARD_TEXT),
+                  ('baz', DBConstants._STANDARD_TEXT))
 
 Notice how 'name' is given the indexed key role and bar and baz are
 given text roles? If, for instance, you know 'baz' fields can be very long
 and you want to be able to retrieve slices of them, you could specify
 fields as::
 
-    >>> fields = (('name', dbConstants._INDEXED_TEXT_KEY),
-                  ('bar', dbConstants._STANDARD_TEXT),
-                  ('baz', dbConstants._SLICABLE_TEXT))
+    >>> fields = (('name', DBConstants._INDEXED_TEXT_KEY),
+                  ('bar', DBConstants._STANDARD_TEXT),
+                  ('baz', DBConstants._SLICABLE_TEXT))
     
 All screed databases come with an 'id' field, which is a sequential
 numbering order starting at 0 for the first record, 1 for the second, and
@@ -403,16 +403,16 @@ As an extra nicety, screed can convert FASTA files to FASTQ and back again.
 
 FASTA to FASTQ
 --------------
-The function used for this process is called 'toFastq' and is located in the
+The function used for this process is called 'ToFastq' and is located in the
 screed module. It takes the path to a screed database as the first argument
 and a path to the desired FASTQ file as the second argument. There is also
-a shell interface called toFastq.py::
+a shell interface called ToFastq.py::
 
-    $ ./toFastq.py <path to fasta db> <converted fastq file>
+    $ ./ToFastq.py <path to fasta db> <converted fastq file>
 
 or::
    
-    $ python -m screed.toFastq <path to fasta db> <converted fastq file>
+    $ python -m screed.ToFastq <path to fasta db> <converted fastq file>
 
 if the screed module is in your PATH.
 
@@ -437,14 +437,14 @@ FASTQ to FASTA
 --------------
 The function used for this process is called 'toFasta' and is located in the
 screed module. It takes the path to a screed database as the first argument
-and a path to the desired FASTA file as the second argument. Like the toFastq
-function before, there is a shell interface to toFasta::
+and a path to the desired FASTA file as the second argument. Like the ToFastq
+function before, there is a shell interface to ToFasta::
 
-    $ ./toFasta.py <path to fastq db> <converted fasta file>
+    $ ./ToFasta.py <path to fastq db> <converted fasta file>
 
 or::
 
-    $ python -m screed.toFasta <path to fastq db> <converted fasta file>
+    $ python -m screed.ToFasta <path to fastq db> <converted fasta file>
 
 if the screed module is in your PATH.
 

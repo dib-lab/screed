@@ -6,10 +6,10 @@ functionality to arbitrary sequence formats. An example 'hava'
 parser is included for API reference
 """
 
-import dbConstants
+import DBConstants
 import os
 from createscreed import create_db
-from openscreed import screedDB
+from openscreed import ScreedDB
 from fastq import fastq_iter
 from fasta import fasta_iter
 
@@ -17,10 +17,10 @@ def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
-    FASTQFIELDTYPES = (('name', dbConstants._INDEXED_TEXT_KEY),
-                       ('annotations', dbConstants._STANDARD_TEXT),
-                       ('sequence', dbConstants._STANDARD_TEXT),
-                       ('accuracy', dbConstants._STANDARD_TEXT))
+    FASTQFIELDTYPES = (('name', DBConstants._INDEXED_TEXT_KEY),
+                       ('annotations', DBConstants._STANDARD_TEXT),
+                       ('sequence', DBConstants._STANDARD_TEXT),
+                       ('accuracy', DBConstants._STANDARD_TEXT))
 
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, 'rb')
@@ -33,16 +33,16 @@ def read_fastq_sequences(filename):
 
     theFile.close()
 
-    return screedDB(filename)
+    return ScreedDB(filename)
 
 def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
 
-    FASTAFIELDTYPES = (('name', dbConstants._INDEXED_TEXT_KEY),
-                       ('description', dbConstants._STANDARD_TEXT),
-                       ('sequence', dbConstants._SLICABLE_TEXT))
+    FASTAFIELDTYPES = (('name', DBConstants._INDEXED_TEXT_KEY),
+                       ('description', DBConstants._STANDARD_TEXT),
+                       ('sequence', DBConstants._SLICABLE_TEXT))
     
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
@@ -55,7 +55,7 @@ def read_fasta_sequences(filename):
     
     theFile.close()
 
-    return screedDB(filename)
+    return ScreedDB(filename)
 
 # Parser for the fake 'hava' sequence
 def read_hava_sequences(filename):
@@ -80,12 +80,12 @@ def read_hava_sequences(filename):
             line = handle.readline().strip()
             yield data
 
-    fields = (('hava', dbConstants._INDEXED_TEXT_KEY),
-              ('quarzk', dbConstants._STANDARD_TEXT),
-              ('muchalo', dbConstants._STANDARD_TEXT),
-              ('fakours', dbConstants._STANDARD_TEXT),
-              ('selimizicka', dbConstants._STANDARD_TEXT),
-              ('marshoon', dbConstants._STANDARD_TEXT))
+    fields = (('hava', DBConstants._INDEXED_TEXT_KEY),
+              ('quarzk', DBConstants._STANDARD_TEXT),
+              ('muchalo', DBConstants._STANDARD_TEXT),
+              ('fakours', DBConstants._STANDARD_TEXT),
+              ('selimizicka', DBConstants._STANDARD_TEXT),
+              ('marshoon', DBConstants._STANDARD_TEXT))
         
     # Will raise an exception if the file doesn't exist
     theFile = open(filename, "rb")
@@ -97,4 +97,4 @@ def read_hava_sequences(filename):
     create_db(filename, fields, iterfunc)
     theFile.close()
 
-    return screedDB(filename)
+    return ScreedDB(filename)

@@ -2,10 +2,10 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
-from screed import toFastq
+from screed import ToFastq
 import sys, os
 
-# Shell interface to the toFastq screed conversion function
+# Shell interface to the ToFastq screed conversion function
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         print "Usage: %s <dbfilename> <outputfilename>" % sys.argv[0]
@@ -20,4 +20,4 @@ if __name__ == '__main__':
     if os.path.isfile(outputFile):
         os.unlink(outputFile)
     
-    toFastq(dbFile, outputFile)
+    ToFastq(dbFile, outputFile)

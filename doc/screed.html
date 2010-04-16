@@ -391,12 +391,12 @@ format they were derived from (FASTA/FASTQ/hava/etc..). One reader to
 rule them all!</p>
 <div class="section" id="opening">
 <h2>Opening</h2>
-<p>In the Python environment, import the screedDB class and load
+<p>In the Python environment, import the ScreedDB class and load
 some databases:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; from screed import screedDB
-&gt;&gt;&gt; fadb = screedDB('screed/tests/test.fa')
-&gt;&gt;&gt; fqdb = screedDB('screed/tests/test.fastq')
+&gt;&gt;&gt; from screed import ScreedDB
+&gt;&gt;&gt; fadb = ScreedDB('screed/tests/test.fa')
+&gt;&gt;&gt; fqdb = ScreedDB('screed/tests/test.fastq')
 </pre>
 <p>Notice how you didn't need to write the '_screed' at the end of the filenames?
 screed automatically adds that to the filename if you didn't.</p>
@@ -504,22 +504,22 @@ all you need to do is write a new parser.</p>
 kind of information is stored in their field. Right now there are only 4
 different roles in a screed database: the text role, the slicable role,
 the indexed key role and the primary key role. All roles are defined in the
-file: screed/dbConstants.py</p>
-<p>The text role (dbConstants._STANDARD_TEXT) is the role most fields in a
+file: screed/DBConstants.py</p>
+<p>The text role (DBConstants._STANDARD_TEXT) is the role most fields in a
 database will have. This role tells screed that the associated field is
 storing standard textual data. Nothing special.</p>
-<p>The slicable role (dbConstants._SLICABLE_TEXT) is a role that can be
+<p>The slicable role (DBConstants._SLICABLE_TEXT) is a role that can be
 assigned to long sequence fields. screed's default FASTA parser defines
 the 'sequence' field with the slicable role. When screed retrieves a field
 that has the slicable role, it builds a special data structure that
 supports slicing into the text.</p>
-<p>The indexed key role (dbConstants._INDEXED_TEXT_KEY) is associated with
+<p>The indexed key role (DBConstants._INDEXED_TEXT_KEY) is associated with
 exactly one of the fields in a screed database. In screed's FASTA and
 FASTQ parsers, this role is fullfilled by the 'name' field. This field
 is required because it is the field screed tells sqlite to index when
 creating the database and it is the field used for name lookups when
 querying a screed database.</p>
-<p>The primary key role (dbConstants._PRIMARY_KEY_ROLE) is a role automatically
+<p>The primary key role (DBConstants._PRIMARY_KEY_ROLE) is a role automatically
 associated with the 'id' field in each database. This field is always
 created with each screed database and always holds this role. You as a
 user of screed won't need to worry about this one.</p>
@@ -546,18 +546,18 @@ screed the names and order of the data fields inside each record. For instance,
 lets say our new sequence has types 'name', 'bar', and 'baz', all text. The
 tuple will be:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; fields = (('name', dbConstants._INDEXED_TEXT_KEY),
-              ('bar', dbConstants._STANDARD_TEXT),
-              ('baz', dbConstants._STANDARD_TEXT))
+&gt;&gt;&gt; fields = (('name', DBConstants._INDEXED_TEXT_KEY),
+              ('bar', DBConstants._STANDARD_TEXT),
+              ('baz', DBConstants._STANDARD_TEXT))
 </pre>
 <p>Notice how 'name' is given the indexed key role and bar and baz are
 given text roles? If, for instance, you know 'baz' fields can be very long
 and you want to be able to retrieve slices of them, you could specify
 fields as:</p>
 <pre class="literal-block">
-&gt;&gt;&gt; fields = (('name', dbConstants._INDEXED_TEXT_KEY),
-              ('bar', dbConstants._STANDARD_TEXT),
-              ('baz', dbConstants._SLICABLE_TEXT))
+&gt;&gt;&gt; fields = (('name', DBConstants._INDEXED_TEXT_KEY),
+              ('bar', DBConstants._STANDARD_TEXT),
+              ('baz', DBConstants._SLICABLE_TEXT))
 </pre>
 <p>All screed databases come with an 'id' field, which is a sequential
 numbering order starting at 0 for the first record, 1 for the second, and
@@ -684,16 +684,16 @@ read_fasta_sequences() allows any number of lines of any length.</p>
 <p>As an extra nicety, screed can convert FASTA files to FASTQ and back again.</p>
 <div class="section" id="fasta-to-fastq">
 <h2>FASTA to FASTQ</h2>
-<p>The function used for this process is called 'toFastq' and is located in the
+<p>The function used for this process is called 'ToFastq' and is located in the
 screed module. It takes the path to a screed database as the first argument
 and a path to the desired FASTQ file as the second argument. There is also
-a shell interface called toFastq.py:</p>
+a shell interface called ToFastq.py:</p>
 <pre class="literal-block">
-$ ./toFastq.py &lt;path to fasta db&gt; &lt;converted fastq file&gt;
+$ ./ToFastq.py &lt;path to fasta db&gt; &lt;converted fastq file&gt;
 </pre>
 <p>or:</p>
 <pre class="literal-block">
-$ python -m screed.toFastq &lt;path to fasta db&gt; &lt;converted fastq file&gt;
+$ python -m screed.ToFastq &lt;path to fasta db&gt; &lt;converted fastq file&gt;
 </pre>
 <p>if the screed module is in your PATH.</p>
 <p>The FASTA name attribute is directly dumped from the file. The sequence
@@ -715,14 +715,14 @@ not rely on this automatic conversion.</p>
 <h2>FASTQ to FASTA</h2>
 <p>The function used for this process is called 'toFasta' and is located in the
 screed module. It takes the path to a screed database as the first argument
-and a path to the desired FASTA file as the second argument. Like the toFastq
-function before, there is a shell interface to toFasta:</p>
+and a path to the desired FASTA file as the second argument. Like the ToFastq
+function before, there is a shell interface to ToFasta:</p>
 <pre class="literal-block">
-$ ./toFasta.py &lt;path to fastq db&gt; &lt;converted fasta file&gt;
+$ ./ToFasta.py &lt;path to fastq db&gt; &lt;converted fasta file&gt;
 </pre>
 <p>or:</p>
 <pre class="literal-block">
-$ python -m screed.toFasta &lt;path to fastq db&gt; &lt;converted fasta file&gt;
+$ python -m screed.ToFasta &lt;path to fastq db&gt; &lt;converted fasta file&gt;
 </pre>
 <p>if the screed module is in your PATH.</p>
 <p>As above, the name and sequence attributes are directly dumped from the FASTQ

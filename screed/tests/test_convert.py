@@ -1,7 +1,7 @@
 import test_fasta
 import os
 import screed
-from screed.dbConstants import fileExtension
+from screed.DBConstants import fileExtension
 
 class Test_fasta_to_fastq(test_fasta.Test_fasta):
     """
@@ -16,11 +16,11 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
         self._testfa = os.path.join(thisdir, 'test.fa')
 
         screed.read_fasta_sequences(self._testfa)
-        screed.toFastq(self._testfa, self._fqName)       # Convert fasta db to fq text
-        screed.read_fastq_sequences(self._fqName)  # Parse fastq file to screed db
-        screed.toFasta(self._fqName, self._faName) # Convert fastq db to fa text
-        screed.read_fasta_sequences(self._faName)  # Parse fasta file to screed db
-        self.db = screed.screedDB(self._faName)
+        screed.ToFastq(self._testfa, self._fqName) # Fasta db -> fasta text
+        screed.read_fastq_sequences(self._fqName)  # Fastq file -> fastq db
+        screed.ToFasta(self._fqName, self._faName) # Fastq db -> fasta text
+        screed.read_fasta_sequences(self._faName)  # Fasta file -> fasta db
+        self.db = screed.ScreedDB(self._faName)
 
     def teardown(self):
         os.unlink(self._fqName)

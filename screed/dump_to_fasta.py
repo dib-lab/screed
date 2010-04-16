@@ -2,10 +2,10 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
-from screed import toFasta
+from screed import ToFasta
 import sys, os
 
-# Shell interface to the toFasta screed conversion function
+# Shell interface to the ToFasta screed conversion function
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         print "Usage: %s <dbfilename> <outputfilename>" % sys.argv[0]
@@ -20,4 +20,4 @@ if __name__ == '__main__':
     if os.path.isfile(outputFile):
         os.unlink(outputFile)
     
-    toFasta(dbFile, outputFile)
+    ToFasta(dbFile, outputFile)

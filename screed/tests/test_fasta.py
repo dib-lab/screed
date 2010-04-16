@@ -1,12 +1,12 @@
 import screed
-from screed.dbConstants import fileExtension
+from screed.DBConstants import fileExtension
 import os
 
 class Test_fasta(object):
     def setup(self):
         self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
         screed.read_fasta_sequences(self._testfa)
-        self.db = screed.screedDB(self._testfa)
+        self.db = screed.ScreedDB(self._testfa)
 
     def teardown(self):
         os.unlink(self._testfa + fileExtension)
@@ -80,7 +80,7 @@ class Test_fasta_whitespace(object):
         self._testfa = os.path.join(os.path.dirname(__file__),
                                     'test-whitespace.fa')
         screed.read_fasta_sequences(self._testfa)
-        self.db = screed.screedDB(self._testfa)
+        self.db = screed.ScreedDB(self._testfa)
 
     def test_for_omitted_record(self):
         assert 'ENSMICT00000012401' in self.db

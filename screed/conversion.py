@@ -1,11 +1,11 @@
 # Copyright (c) 2008-2010, Michigan State University
 
-from openscreed import screedDB
+from openscreed import ScreedDB
 
 _MAXLINELEN = 80
 _null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read
 
-def getComments(value):
+def GetComments(value):
     """
     Returns description or annotations attributes from given
     dictionary object
@@ -30,7 +30,7 @@ def linewrap(longString):
 
     return '\n'.join(res)
 
-def generateAccuracy(value):
+def GenerateAccuracy(value):
     """
     Returns accuracy from value if it exists. Otherwise, makes
     a null accuracy. Accuracy is line wrapped to _MAXLINELEN
@@ -41,32 +41,32 @@ def generateAccuracy(value):
 
     return linewrap(_null_accuracy * len(str(value['sequence'])))
 
-def toFastq(dbFile, outputFile):
+def ToFastq(dbFile, outputFile):
     """
     Opens the screed database file and attempts to dump it
     to a FASTQ-formatted text file
     """
     outFile = open(outputFile, 'wb')
-    db = screedDB(dbFile)
+    db = ScreedDB(dbFile)
 
     for value in db.itervalues():
         outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
-                                               getComments(value),
+                                               GetComments(value),
                                                linewrap(str(value['sequence'])),
-                                               generateAccuracy(value)))
+                                               GenerateAccuracy(value)))
     db.close()
     outFile.close()
 
-def toFasta(dbFile, outputFile):
+def ToFasta(dbFile, outputFile):
     """
     Opens the screed database file and attempts to dump it
     to a FASTA-formatted text file
     """
     outFile = open(outputFile, 'wb')
-    db = screedDB(dbFile)
+    db = ScreedDB(dbFile)
 
     for value in db.itervalues():
-        outFile.write('>%s %s\n%s\n' % (value['name'], getComments(value),
+        outFile.write('>%s %s\n%s\n' % (value['name'], GetComments(value),
                                         linewrap(str(value['sequence']))))
     
     db.close()

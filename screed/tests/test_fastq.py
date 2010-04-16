@@ -1,12 +1,12 @@
 import screed
-from screed.dbConstants import fileExtension
+from screed.DBConstants import fileExtension
 import os
 
 class Test_fastq(object):
     def setup(self):
         self._testfq = os.path.join(os.path.dirname(__file__), 'test.fastq')
         screed.read_fastq_sequences(self._testfq)
-        self.db = screed.screedDB(self._testfq)
+        self.db = screed.ScreedDB(self._testfq)
 
     def teardown(self):
         os.unlink(self._testfq + fileExtension)
