@@ -73,7 +73,7 @@ class _screed_attr(object):
 
     def __repr__(self):
         """
-        Alias for __str__
+        Prints out the name of the class and the name of the slicable attr
         """
         return "<%s '%s'>" % (self.__class__.__name__, self._attrName)
 
