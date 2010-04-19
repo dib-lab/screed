@@ -158,13 +158,14 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     res = cur.execute(query, (rowName,))
 
     # Add the full text fields to the result tuple list
-    kvResult.extend(zip(fullRetrievals, res.fetchone()))
+    data = tuple([str(r) for r in res.fetchone()])
+    kvResult.extend(zip(fullRetrievals, data))
 
     # Hack to make indexing start at 0
     hackedResult = []
     for key, value in kvResult:
         if key == DBConstants._PRIMARY_KEY:
-            hackedResult.append((key, value-1))
+            hackedResult.append((key, int(value)-1))
         else:
             hackedResult.append((key, value))
 

@@ -1,11 +1,12 @@
 Pragma statements in sqlite? http://www2.sqlite.org/pragma.html
+ - synchronous
+ - locking_mode
+ - cache_size 
 
 fix the conversion so can be achieved with text -> text instead of
 db -> text
 
 add more fastq parser variants
-
-get bigtests working again
 
 ==== 3/14/2010
 

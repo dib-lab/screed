@@ -54,7 +54,7 @@ class ScreedDB(object, UserDict.DictMixin):
                  DBConstants._ROLENAME,
                  DBConstants._SCREEDADMIN)
         res = cursor.execute(query)
-        self._fieldTuple = tuple([(field, role) for field, role in res])
+        self._fieldTuple = tuple([(str(field), role) for field, role in res])
 
         # Indexed text column for querying, search fields to find
         self._queryBy = self._fieldTuple[1][0]

@@ -5,8 +5,9 @@ thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 
-from screed import seqparse
-from screed import screedDB
+from screed import read_fastq_sequences
+from screed import read_fasta_sequences
+from screed import ScreedDB
 
 tests22 = os.path.join(thisdir,  's_2_2_sequence.fastq')
 tests31 = os.path.join(thisdir, 's_3_1_sequence.fastq')
@@ -54,9 +55,9 @@ def setup():
             getfile(f)
         parser = None
         if f[1] == 'fasta':
-            parser = seqparse.read_fasta_sequences
+            parser = read_fasta_sequences
         elif f[1] == 'fastq':
-            parser = seqparse.read_fastq_sequences
+            parser = read_fastq_sequences
         created = True
         for end in endings:
             if not os.path.isfile(fname + end):
@@ -69,7 +70,7 @@ class Test_s22_fastq:
     Test screed methods on the s22 fastq file
     """
     def setup(self):
-        self.db = screedDB(tests22 + '_screed')
+        self.db = ScreedDB(tests22 + '_screed')
 
     def tearDown(self):
         del self.db
@@ -80,16 +81,10 @@ class Test_s22_fastq:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(str(self.db.loadRecordByIndex(i)['name']))
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -172,41 +167,49 @@ class Test_s22_fastq:
         """
         testcases = {}
         testcases['HWI-EAS_4_PE-FC20GCB:2:1:492:573/2'] = {
-		'id': 0,
-                'accuracy': 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<',
-                'name' : 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2',
-                'sequence': 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'}
+            'id': 0,
+            'annotations': '',
+            'accuracy': 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<',
+            'name' : 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2',
+            'sequence': 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:2:162:131:826/2'] = {
-		'id': 1895228,
-                'accuracy': 'AAAAAAAAAAAAAAAAAAAAAA+@6=7A<05<*15:',
-                'name': 'HWI-EAS_4_PE-FC20GCB:2:162:131:826/2',
-                'sequence': 'ATGAATACAAACAATGCGGCAGTCATAATGCCCCTC'}
+            'id': 1895228,
+            'annotations': '',
+            'accuracy': 'AAAAAAAAAAAAAAAAAAAAAA+@6=7A<05<*15:',
+            'name': 'HWI-EAS_4_PE-FC20GCB:2:162:131:826/2',
+            'sequence': 'ATGAATACAAACAATGCGGCAGTCATAATGCCCCTC'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:2:330:88:628/2'] = {
-		'id': 3790455,
-                'accuracy' : 'AA;AA??A5A;;+AA?AAAA;AA;9AA.AA?????9',
-                'name': 'HWI-EAS_4_PE-FC20GCB:2:330:88:628/2',
-                'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA'}
+            'id': 3790455,
+            'annotations': '',
+            'accuracy' : 'AA;AA??A5A;;+AA?AAAA;AA;9AA.AA?????9',
+            'name': 'HWI-EAS_4_PE-FC20GCB:2:330:88:628/2',
+            'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:2:4:707:391/2'] = {
-		'id': 29999,
-                'accuracy': 'AAAAAAAAAA@<)A*AAA6A::<@AA<>A>-8?>4<',
-                'name': 'HWI-EAS_4_PE-FC20GCB:2:4:707:391/2',
-                'sequence': 'ATTAATCTCCAGTTTCTGGCAAACATTCAGGCCATT'}
+            'id': 29999,
+            'annotations': '',
+            'accuracy': 'AAAAAAAAAA@<)A*AAA6A::<@AA<>A>-8?>4<',
+            'name': 'HWI-EAS_4_PE-FC20GCB:2:4:707:391/2',
+            'sequence': 'ATTAATCTCCAGTTTCTGGCAAACATTCAGGCCATT'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:2:36:158:208/2'] = {
-		'id': 342842,
-                'accuracy': 'AA5?AAAAA?AAAA5?AAA5A???5A>AAA4?;.;;',
-                'name': 'HWI-EAS_4_PE-FC20GCB:2:36:158:208/2',
-                'sequence': 'TTTCCCTACAGAAGTGTCTGTACCGGTAATAAAGAA'}
+            'id': 342842,
+            'annotations': '',
+            'accuracy': 'AA5?AAAAA?AAAA5?AAA5A???5A>AAA4?;.;;',
+            'name': 'HWI-EAS_4_PE-FC20GCB:2:36:158:208/2',
+            'sequence': 'TTTCCCTACAGAAGTGTCTGTACCGGTAATAAAGAA'}
 
         for case in testcases:
             assert testcases[case] == self.db[case]
-
 
 class Test_s31_fastq:
     """
     Test screed methods on the s31 fastq file
     """
     def setup(self):
-        self.db = screedDB(tests31 + '_screed')
+        self.db = ScreedDB(tests31 + '_screed')
 
     def tearDown(self):
         del self.db
@@ -217,16 +220,10 @@ class Test_s31_fastq:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -309,41 +306,49 @@ class Test_s31_fastq:
         """
         testcases = {}
         testcases['HWI-EAS_4_PE-FC20GCB:3:1:71:840/1'] = {
-		'id': 0,
-                'accuracy': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
-                'name' : 'HWI-EAS_4_PE-FC20GCB:3:1:71:840/1',
-                'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}
+            'id': 0,
+            'annotations': '',
+            'accuracy': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
+            'name' : 'HWI-EAS_4_PE-FC20GCB:3:1:71:840/1',
+            'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:3:330:957:433/1'] = {
-                'id': 4439695,
-		'accuracy': 'AAAAAAAAAAA<A?<AA<AAAAA?AAA?<:*??&::',
-                'name': 'HWI-EAS_4_PE-FC20GCB:3:330:957:433/1',
-                'sequence': 'CTTTGTGGAGAAGAGGGCGTGGGCAAGGCACTGATA'}
+            'id': 4439695,
+            'annotations': '',
+            'accuracy': 'AAAAAAAAAAA<A?<AA<AAAAA?AAA?<:*??&::',
+            'name': 'HWI-EAS_4_PE-FC20GCB:3:330:957:433/1',
+            'sequence': 'CTTTGTGGAGAAGAGGGCGTGGGCAAGGCACTGATA'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:3:166:443:410/1'] = {
-                'id': 2219847,
-		'accuracy' : 'AAAAAAAAAAAAAAAAAAAAAAAA6<@AA959???%',
-                'name': 'HWI-EAS_4_PE-FC20GCB:3:166:443:410/1',
-                'sequence': 'TGGCATTCGCACACATCATGATGGTGCTGACCGTAA'}
+            'id': 2219847,
+            'annotations': '',
+            'accuracy' : 'AAAAAAAAAAAAAAAAAAAAAAAA6<@AA959???%',
+            'name': 'HWI-EAS_4_PE-FC20GCB:3:166:443:410/1',
+            'sequence': 'TGGCATTCGCACACATCATGATGGTGCTGACCGTAA'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:3:1:803:878/1'] = {
-                'id': 2999,
-		'accuracy': '?6AAA6A<A6AA<<AA?A&A066/6:/&?&1191+0',
-                'name': 'HWI-EAS_4_PE-FC20GCB:3:1:803:878/1',
-                'sequence': 'AAGATGCTGTAGTGGCCGCATGTGTAATAGGCTTTA'}
+            'id': 2999,
+            'annotations': '',
+            'accuracy': '?6AAA6A<A6AA<<AA?A&A066/6:/&?&1191+0',
+            'name': 'HWI-EAS_4_PE-FC20GCB:3:1:803:878/1',
+            'sequence': 'AAGATGCTGTAGTGGCCGCATGTGTAATAGGCTTTA'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:3:245:54:506/1'] = {
-                'id': 3329772,
-		'accuracy': "AAAAAAAAAAAAAAAA>A+AAA+@AA+A>A%8*?'%",
-                'name': 'HWI-EAS_4_PE-FC20GCB:3:245:54:506/1',
-                'sequence': 'CTTCGTTGCTGTTTATCAGTAACTTTTTCTGGCTAG'}
+            'id': 3329772,
+            'annotations': '',
+            'accuracy': "AAAAAAAAAAAAAAAA>A+AAA+@AA+A>A%8*?'%",
+            'name': 'HWI-EAS_4_PE-FC20GCB:3:245:54:506/1',
+            'sequence': 'CTTCGTTGCTGTTTATCAGTAACTTTTTCTGGCTAG'}
 
         for case in testcases:
             assert testcases[case] == self.db[case]
-
 
 class Test_s42_fastq:
     """
     Test screed methods on the s42 fastq file
     """
     def setup(self):
-        self.db = screedDB(tests42 + '_screed')
+        self.db = ScreedDB(tests42 + '_screed')
 
     def tearDown(self):
         del self.db
@@ -354,16 +359,11 @@ class Test_s42_fastq:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
 
     def test_dict_stuff(self):
         """
@@ -446,30 +446,39 @@ class Test_s42_fastq:
         """
         testcases = {}
         testcases['HWI-EAS_4_PE-FC20GCB:4:1:257:604/2'] = {
-                'id': 0,
-		'accuracy': 'AAAAAAAA:4>>AAA:44>>->-&4;8+8826;66.',
-                'name' : 'HWI-EAS_4_PE-FC20GCB:4:1:257:604/2',
-                'sequence': 'TGTGGATAGTCGCCCGTGATGGCGTCGAAGTTCCGG'}
+            'id': 0,
+            'annotations': '',
+            'accuracy': 'AAAAAAAA:4>>AAA:44>>->-&4;8+8826;66.',
+            'name' : 'HWI-EAS_4_PE-FC20GCB:4:1:257:604/2',
+            'sequence': 'TGTGGATAGTCGCCCGTGATGGCGTCGAAGTTCCGG'}
+        
         testcases['HWI-EAS_4_PE-FC20GCB:4:330:96:902/2'] = {
-                'id': 4148632,
-		'accuracy': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA??????',
-                'name': 'HWI-EAS_4_PE-FC20GCB:4:330:96:902/2',
-                'sequence': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC'}
+            'id': 4148632,
+            'annotations': '',
+            'accuracy': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA??????',
+            'name': 'HWI-EAS_4_PE-FC20GCB:4:330:96:902/2',
+            'sequence': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:4:166:158:532/2'] = {
-                'id': 2074316,
-		'accuracy' : 'AAAAAAA?A?AAAAAAA?A>A?A?AAAAAA?.<?-?',
-                'name': 'HWI-EAS_4_PE-FC20GCB:4:166:158:532/2',
-                'sequence': 'ATCGCCAATGCCCAGGCCTGGTTCTCTTTAACCTAT'}
+            'id': 2074316,
+            'annotations': '',
+            'accuracy' : 'AAAAAAA?A?AAAAAAA?A>A?A?AAAAAA?.<?-?',
+            'name': 'HWI-EAS_4_PE-FC20GCB:4:166:158:532/2',
+            'sequence': 'ATCGCCAATGCCCAGGCCTGGTTCTCTTTAACCTAT'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:4:1:332:634/2'] = {
-                'id': 3000,
-		'accuracy': '?A?AAAAAAAAA8>AAAAAA*AA?A?AA.?)<9)9?',
-                'name': 'HWI-EAS_4_PE-FC20GCB:4:1:332:634/2',
-                'sequence': 'ACCGTGCCAGATCAGAACCTAGTGGCGATTCCAATT'}
+            'id': 3000,
+            'annotations': '',
+            'accuracy': '?A?AAAAAAAAA8>AAAAAA*AA?A?AA.?)<9)9?',
+            'name': 'HWI-EAS_4_PE-FC20GCB:4:1:332:634/2',
+            'sequence': 'ACCGTGCCAGATCAGAACCTAGTGGCGATTCCAATT'}
+
         testcases['HWI-EAS_4_PE-FC20GCB:4:242:843:13/2'] = {
-                'id': 3111474,
-		'accuracy': "ABAAACA?CAAA??%A;2A;/5/&:?-*1-'11%71",
-                'name': 'HWI-EAS_4_PE-FC20GCB:4:242:843:13/2',
-                'sequence': 'GTTTCTATATTCTGGCGTTAGTCGTCGCCGATAATT'}
+            'id': 3111474,
+            'annotations': '',
+            'accuracy': "ABAAACA?CAAA??%A;2A;/5/&:?-*1-'11%71",
+            'name': 'HWI-EAS_4_PE-FC20GCB:4:242:843:13/2',
+            'sequence': 'GTTTCTATATTCTGGCGTTAGTCGTCGCCGATAATT'}
 
         for case in testcases:
             assert testcases[case] == self.db[case]
@@ -480,7 +489,7 @@ class Test_po_fasta:
     Test screed methods on the pongo fasta file
     """
     def setup(self):
-        self.db = screedDB(pongo + '_screed')
+        self.db = ScreedDB(pongo + '_screed')
 
     def tearDown(self):
         del self.db
@@ -491,16 +500,10 @@ class Test_po_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -622,7 +625,7 @@ class Test_po_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == self.db[case]\
                    ['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]\
+            assert str(self.db[case]['sequence']).startswith(testcases[case]\
                                                         ['sequence'])
 
 class Test_mus_fasta:
@@ -630,7 +633,7 @@ class Test_mus_fasta:
     Test screed methods on the mus_musculus fasta file
     """
     def setup(self):
-        self.db = screedDB(mus + '_screed')
+        self.db = ScreedDB(mus + '_screed')
 
     def tearDown(self):
         del self.db
@@ -641,16 +644,10 @@ class Test_mus_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -744,7 +741,7 @@ class Test_mus_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == self.db[case]\
                    ['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]\
+            assert str(self.db[case]['sequence']).startswith(testcases[case]\
                                                         ['sequence'])
 
 
@@ -753,7 +750,7 @@ class Test_tri_fasta:
     Test screed methods on the tri fasta file
     """
     def setup(self):
-        self.db = screedDB(tri + '_screed')
+        self.db = ScreedDB(tri + '_screed')
 
     def tearDown(self):
         del self.db
@@ -764,16 +761,10 @@ class Test_tri_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -885,7 +876,7 @@ class Test_tri_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == self.db[case]\
                    ['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]\
+            assert str(self.db[case]['sequence']).startswith(testcases[case]\
                                                         ['sequence'])
 
 
@@ -894,7 +885,7 @@ class Test_xeno_fasta:
     Test screed methods on the xeno fasta file
     """
     def setup(self):
-        self.db = screedDB(xeno + '_screed')
+        self.db = ScreedDB(xeno + '_screed')
 
     def tearDown(self):
         del self.db
@@ -905,16 +896,10 @@ class Test_xeno_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -1036,7 +1021,7 @@ class Test_xeno_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == self.db[case]\
                    ['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]\
+            assert str(self.db[case]['sequence']).startswith(testcases[case]\
                                                         ['sequence'])
 
 class Test_sorex_fasta:
@@ -1044,7 +1029,7 @@ class Test_sorex_fasta:
     Test screed methods on the sorex fasta file
     """
     def setup(self):
-        self.db = screedDB(sorex + '_screed')
+        self.db = ScreedDB(sorex + '_screed')
 
     def tearDown(self):
         del self.db
@@ -1055,16 +1040,10 @@ class Test_sorex_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        names = []
-        for i in range(0, len(self.db)):
-            names.append(self.db.loadRecordByIndex(i)['name'])
-        assert names == self.db.keys()
-
-        for i in names:
-            l = self.db[i]
-
-        del names
-        gc.collect()
+        for idx in xrange(0, len(self.db)):
+            rcrd = db.loadRecordByIndex(idx)
+            nameRcrd = db[rcrd.name]
+            assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
         """
@@ -1198,5 +1177,5 @@ class Test_sorex_fasta:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == \
                    self.db[case]['description']
-            assert self.db[case]['sequence'].startswith(testcases[case]\
+            assert str(self.db[case]['sequence']).startswith(testcases[case]\
                                                         ['sequence'])
