@@ -82,8 +82,8 @@ class Test_s22_fastq:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
@@ -221,8 +221,8 @@ class Test_s31_fastq:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
@@ -360,8 +360,8 @@ class Test_s42_fastq:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
 
@@ -501,8 +501,8 @@ class Test_po_fasta:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
@@ -645,8 +645,8 @@ class Test_mus_fasta:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
@@ -762,8 +762,8 @@ class Test_tri_fasta:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
@@ -897,8 +897,8 @@ class Test_xeno_fasta:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
@@ -1041,8 +1041,8 @@ class Test_sorex_fasta:
         name
         """
         for idx in xrange(0, len(self.db)):
-            rcrd = db.loadRecordByIndex(idx)
-            nameRcrd = db[rcrd.name]
+            rcrd = self.db.loadRecordByIndex(idx)
+            nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
     def test_dict_stuff(self):
