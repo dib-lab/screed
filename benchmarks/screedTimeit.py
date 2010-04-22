@@ -26,7 +26,7 @@ thisdir = sys.path[0]
 libdir = os.path.abspath(os.path.join(thisdir, '..'))
 sys.path.insert(0, libdir)
 import screed
-db = screed.openscreed.screedDB('%s')
+db = screed.openscreed.ScreedDB('%s')
 keys = db.keys()
 """ % screedFile
 
