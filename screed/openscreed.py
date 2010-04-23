@@ -54,13 +54,16 @@ class ScreedDB(object, UserDict.DictMixin):
                  DBConstants._ROLENAME,
                  DBConstants._SCREEDADMIN)
         res = cursor.execute(query)
-        self._fieldTuple = tuple([(str(field), role) for field, role in res])
+        self.fields = tuple([(str(field), role) for field, role in res])
 
         # Indexed text column for querying, search fields to find
-        self._queryBy = self._fieldTuple[1][0]
-        for fieldname, role in self._fieldTuple:
+        self._queryBy = self.fields[1][0]
+        for fieldname, role in self.fields:
             if role == DBConstants._INDEXED_TEXT_KEY:
                 self._queryBy = fieldname
+
+        # Sqlite PRAGMA settings for speed
+        cursor.execute("PRAGMA cache_size=2000")
 
         # Retrieve the length of the database
         query = 'SELECT MAX(%s) FROM %s' % (DBConstants._PRIMARY_KEY,
@@ -93,7 +96,7 @@ class ScreedDB(object, UserDict.DictMixin):
         res = cursor.execute(query, (key,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Key %s not found" % key)
-        return screedRecord._buildRecord(self._fieldTuple, self._db,
+        return screedRecord._buildRecord(self.fields, self._db,
                                          key,
                                          self._queryBy)
 
@@ -122,7 +125,7 @@ class ScreedDB(object, UserDict.DictMixin):
         res = cursor.execute(query, (index,))
         if type(res.fetchone()) == types.NoneType:
             raise KeyError("Index %d not found" % index)
-        return screedRecord._buildRecord(self._fieldTuple, self._db,
+        return screedRecord._buildRecord(self.fields, self._db,
                                          index,
                                          DBConstants._PRIMARY_KEY)
     
@@ -150,7 +153,7 @@ class ScreedDB(object, UserDict.DictMixin):
         Iterator over records in the database
         """
         for index in xrange(1, self.__len__()+1):
-            yield screedRecord._buildRecord(self._fieldTuple, self._db,
+            yield screedRecord._buildRecord(self.fields, self._db,
                                             index,
                                             DBConstants._PRIMARY_KEY)
 

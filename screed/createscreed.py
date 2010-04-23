@@ -18,6 +18,10 @@ def create_db(filepath, fields, rcrditer):
     con = sqlite3.connect(filepath)
     cur = con.cursor()
 
+    # Sqlite PRAGMA settings for speed
+    cur.execute("PRAGMA syncronous='OFF'")
+    cur.execute("PRAGMA locking_mode=EXCLUSIVE")
+
     # Create the admin table
     cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, '\
                 '%s TEXT, %s TEXT)' % (DBConstants._SCREEDADMIN,

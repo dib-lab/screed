@@ -1,6 +1,7 @@
 Pragma statements in sqlite? http://www2.sqlite.org/pragma.html
- - synchronous
- - locking_mode
+ - synchronous - enable for writing, maybe not important for reading
+ - locking_mode - can't do for reading, writing yes
+   - disable all locking for reading maybe
  - cache_size 
 
 fix the conversion so can be achieved with text -> text instead of
@@ -9,11 +10,6 @@ db -> text
 add more fastq parser variants
 
 ==== 3/14/2010
-
---
-is there a way to figure out what the fields are for each record?
- - [AN] reading the screedDB._fieldTuple tuple, or is something more
-   formal required?
 
 PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
 I kind of agree that screedDB is prettier.
