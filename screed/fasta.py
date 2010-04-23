@@ -1,3 +1,9 @@
+import DBConstants
+
+FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
+              ('description', DBConstants._STANDARD_TEXT),
+              ('sequence', DBConstants._SLICEABLE_TEXT))
+
 def fasta_iter(handle):
     """
     Iterator over the given FASTA file handle, returning records. handle

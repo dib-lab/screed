@@ -1,3 +1,10 @@
+import DBConstants
+
+FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
+              ('annotations', DBConstants._STANDARD_TEXT),
+              ('sequence', DBConstants._STANDARD_TEXT),
+              ('accuracy', DBConstants._STANDARD_TEXT))
+
 def fastq_iter(handle):
     """
     Iterator over the given FASTQ file handle returning records. handle

@@ -355,7 +355,7 @@ $ python -m screed.tests.__main__
 </pre>
 <p>That command just parsed the FASTA file 'screed/tests/test.fa' into a
 screed-database named 'screed/tests/test.fa_screed'. The screed database
-is independant from the text file it was derived from, so moving, renaming
+is independent from the text file it was derived from, so moving, renaming
 or deleting the 'screed/tests/test.fa' file will not affect
 screed's operation. To create a screed database from a FASTQ file the
 syntax is similar:</p>
@@ -386,7 +386,7 @@ Custom Sequence Parsers.</p>
 </div>
 <div class="section" id="reading-databases">
 <h1>Reading databases</h1>
-<p>The class screedDB is used to read screed databases, regardless of what file
+<p>The class ScreedDB is used to read screed databases, regardless of what file
 format they were derived from (FASTA/FASTQ/hava/etc..). One reader to
 rule them all!</p>
 <div class="section" id="opening">
@@ -398,8 +398,8 @@ some databases:</p>
 &gt;&gt;&gt; fadb = ScreedDB('screed/tests/test.fa')
 &gt;&gt;&gt; fqdb = ScreedDB('screed/tests/test.fastq')
 </pre>
-<p>Notice how you didn't need to write the '_screed' at the end of the filenames?
-screed automatically adds that to the filename if you didn't.</p>
+<p>Notice how you didn't need to write the '_screed' at the end of the file names?
+screed automatically adds that to the file name if you didn't.</p>
 </div>
 <div class="section" id="dictionary-interface">
 <h2>Dictionary Interface</h2>
@@ -429,8 +429,8 @@ databases have a description field.</p>
 <h2>Retrieving Records</h2>
 <p>A record is the standard container unit in screed. Each has 'fields' that
 vary slightly depending on what kind of file the database was derived from.
-For instance, a FASTQ-derieved screed database has an id, a name,
-a quality score and a sequence. A FASTA-derieved screed database has an
+For instance, a FASTQ-derived screed database has an id, a name,
+a quality score and a sequence. A FASTA-derived screed database has an
 id, name, description and a sequence.</p>
 <p>Retrieving whole records:</p>
 <pre class="literal-block">
@@ -439,7 +439,7 @@ id, name, description and a sequence.</p>
 &gt;&gt;&gt;     records.append(record)
 </pre>
 <p>What is returned is a dictionary of fields. The names of fields
-are keys into this dictionary with the actual infomation as values.
+are keys into this dictionary with the actual information as values.
 For example:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; record = fadb[fadb.keys()[0]]
@@ -502,22 +502,22 @@ all you need to do is write a new parser.</p>
 <h2>Field Roles</h2>
 <p>Each field in a screed database is assigned a role. These roles describe what
 kind of information is stored in their field. Right now there are only 4
-different roles in a screed database: the text role, the slicable role,
+different roles in a screed database: the text role, the sliceable role,
 the indexed key role and the primary key role. All roles are defined in the
 file: screed/DBConstants.py</p>
 <p>The text role (DBConstants._STANDARD_TEXT) is the role most fields in a
 database will have. This role tells screed that the associated field is
 storing standard textual data. Nothing special.</p>
-<p>The slicable role (DBConstants._SLICABLE_TEXT) is a role that can be
+<p>The sliceable role (DBConstants._SLICEABLE_TEXT) is a role that can be
 assigned to long sequence fields. screed's default FASTA parser defines
-the 'sequence' field with the slicable role. When screed retrieves a field
-that has the slicable role, it builds a special data structure that
+the 'sequence' field with the sliceable role. When screed retrieves a field
+that has the sliceable role, it builds a special data structure that
 supports slicing into the text.</p>
 <p>The indexed key role (DBConstants._INDEXED_TEXT_KEY) is associated with
 exactly one of the fields in a screed database. In screed's FASTA and
-FASTQ parsers, this role is fullfilled by the 'name' field. This field
+FASTQ parsers, this role is fulfilled by the 'name' field. This field
 is required because it is the field screed tells sqlite to index when
-creating the database and it is the field used for name lookups when
+creating the database and it is the field used for name look-ups when
 querying a screed database.</p>
 <p>The primary key role (DBConstants._PRIMARY_KEY_ROLE) is a role automatically
 associated with the 'id' field in each database. This field is always
@@ -527,8 +527,8 @@ user of screed won't need to worry about this one.</p>
 <div class="section" id="general-parsing-function-format">
 <h2>General Parsing Function Format</h2>
 <p>create_db is the function central to the creation of screed databases. This
-function accepts a filepath, a tuple of field names and roles, and an
-iterator function. The filepath describes where the screed database should
+function accepts a file path, a tuple of field names and roles, and an
+iterator function. The file path describes where the screed database should
 go, the tuple contains the names of fields and their associated roles and
 the iterator function yields records in a dictionary format.</p>
 <p>This sub-section describes general steps for preparing and using screed with a
@@ -557,26 +557,27 @@ fields as:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; fields = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('bar', DBConstants._STANDARD_TEXT),
-              ('baz', DBConstants._SLICABLE_TEXT))
+              ('baz', DBConstants._SLICEABLE_TEXT))
 </pre>
 <p>All screed databases come with an 'id' field, which is a sequential
 numbering order starting at 0 for the first record, 1 for the second, and
 so on. The names and number of the other fields are arbitrary with one
-restrition: one and only one of the fields must fulfill the indexed key role.</p>
+restriction: one and only one of the fields must fulfill the indexed key role.</p>
 <p>Next, you need to setup an iterator function that will return records in
-a dictionary format. Have a look at the 'fastq_iter' or 'fasta_iter'
-functions in the screed/fastq.py and screed/fasta.py files, respectively
-for examples on how to write one of these. If you don't know what an
-iterator function is, have a look at the documentation on the Python website,
+a dictionary format. Have a look at the 'fastq_iter', 'fasta_iter', or
+'hava_iter' functions in the screed/fastq.py, screed/fasta.py, and
+screed/hava.py files, respectively for examples on how to write one of these.
+If you don't know what an iterator function is, the documentation on the
+Python website gives a good description:
 <a class="reference external" href="http://docs.python.org/library/stdtypes.html#iterator-types">http://docs.python.org/library/stdtypes.html#iterator-types</a>.</p>
 <p>Once the iterator function is written, it needs to be instantiated. In the
-context of the builtin parsing functions, this means opening a file and
+context of the built-in parsing functions, this means opening a file and
 passing the file handle to the iterator function:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; seqfile = open('path_to_seq_file', 'rb')
 &gt;&gt;&gt; iter_instance = myiter(seqfile)
 </pre>
-<p>Assuming that your iterator function is called myiter, this sets up an
+<p>Assuming that your iterator function is called 'myiter', this sets up an
 instance of it ready to use with create_db.</p>
 <p>Now the screed database is created with one command:</p>
 <pre class="literal-block">
@@ -584,12 +585,13 @@ instance of it ready to use with create_db.</p>
 </pre>
 <p>If you want the screed database saved at 'path_to_screed_db'. If instead you
 want the screed database created in the same directory and with a
-similar filename as the sequence file, its ok to do this:</p>
+similar file name as the sequence file, its OK to do this:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; create_db('path_to_seq_file', fields, iter_instance)
 </pre>
-<p>create_db will just append '_screed' to the end of the filename and make
-a screed database at that filepath.</p>
+<p>create_db will just append '_screed' to the end of the file name and make
+a screed database at that file path so the original file won't be
+overwritten.</p>
 <dl class="docutils">
 <dt>When you're done the sequence file should be closed::</dt>
 <dd><pre class="first last doctest-block">
@@ -598,8 +600,8 @@ a screed database at that filepath.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="using-the-builtin-sequence-iterator-functions">
-<h2>Using the Builtin Sequence Iterator Functions</h2>
+<div class="section" id="using-the-built-in-sequence-iterator-functions">
+<h2>Using the Built-in Sequence Iterator Functions</h2>
 <p>This section shows how to use the 'fastq_iter' and 'fasta_iter' functions
 for returning records from a sequence file.</p>
 <p>These functions both take a file handle as the only argument and then return
@@ -662,9 +664,10 @@ how many sequence lines a record may contain.</p>
 FASTQ formats require the first line to be repeated after the '+'
 character, but since this adds no new information to the record,
 read_fastq_sequences() will ignore this if it is included.</p>
-<p>Finally comes the accuracy line(s). Like the sequence line(s) these may
+<p>The accuracy line(s) is last. Like the sequence line(s) this may
 be line wrapped. read_fastq_sequences() will raise an exception if the
-accuracy and sequence strings are of unequal length.</p>
+accuracy and sequence strings are of unequal length. screed performs
+no checking for valid quality scores.</p>
 </div>
 <div class="section" id="fasta">
 <h2>FASTA</h2>
@@ -673,8 +676,8 @@ in the screed module.</p>
 <p>The first line in a record must begin with '&gt;' and is followed with the
 sequence's name and an optional description. If the description is
 included, it is separated from the name with a space. Note that though
-the FASTA format doesn't require a name, screed does here. Without a
-unique name, screed wouldn't be able to perform sequence lookups by name.</p>
+the FASTA format doesn't require named records, screed does. Without a
+unique name, screed can't look up sequences by name.</p>
 <p>The second line begins the line(s) of sequence. Like the FASTQ parser,
 read_fasta_sequences() allows any number of lines of any length.</p>
 </div>
@@ -704,7 +707,7 @@ string with no other interpretation done.</p>
 <p>Finally, as there is no accuracy or quality score in a FASTA file, a default
 one is generated. The generation of the accuracy follows the Sanger FASTQ
 conventions. The score is 1 (ASCII: '&quot;') meaning a probability of about 75%
-that the read is incorrect (1 in 4 chance). This Phred quality score is
+that the read is incorrect (1 in 4 chance). This PHRED quality score is
 calculated from the Sanger format: Q = -10log(p) where p is the probability
 of an incorrect read. Obviously this is a very rough way of providing a
 quality score and it is only intended to fill in the requirements of a FASTQ

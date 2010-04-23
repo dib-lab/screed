@@ -73,7 +73,7 @@ class _screed_attr(object):
 
     def __repr__(self):
         """
-        Prints out the name of the class and the name of the slicable attr
+        Prints out the name of the class and the name of the sliceable attr
         """
         return "<%s '%s'>" % (self.__class__.__name__, self._attrName)
 
@@ -142,7 +142,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     kvResult = []
     fullRetrievals = []
     for fieldname, role in fieldTuple:
-        if role == DBConstants._SLICABLE_TEXT:
+        if role == DBConstants._SLICEABLE_TEXT:
             kvResult.append((fieldname, _screed_attr(dbObj,
                                                      fieldname,
                                                      rowName,
