@@ -46,6 +46,19 @@ def create_db(filepath, fields, rcrditer):
                 (DBConstants._DICT_TABLE, DBConstants._PRIMARY_KEY,
                  fieldsub))
 
+    # Setup the 'qmarks' sqlite substring
+    qmarks = ','.join(['?' for i in range(len(fields))])
+
+    # Setup the sql substring for inserting fields into database
+    fieldsub = ','.join([fieldname for fieldname, role in fields])
+
+    query = 'INSERT INTO %s (%s) VALUES (%s)' %\
+            (DBConstants._DICT_TABLE, fieldsub, qmarks)
+    # Pull data from the iterator and store in database
+    data = (tuple(record[fieldname] for fieldname, role in fields) for record in rcrditer)
+    cur.executemany(query, data)
+    con.commit()
+
     # Attribute to index
     queryby = fields[0][0] # Defaults to the first field
     for fieldname, role in fields:
@@ -56,19 +69,6 @@ def create_db(filepath, fields, rcrditer):
     # Make the index on the 'queryby' attribute
     cur.execute('CREATE UNIQUE INDEX %sidx ON %s(%s)' %
                 (queryby, DBConstants._DICT_TABLE, queryby))
-
-    # Setup the 'qmarks' sqlite substring
-    qmarks = ','.join(['?' for i in range(len(fields))])
-
-    # Setup the sql substring for inserting fields into database
-    fieldsub = ','.join([fieldname for fieldname, role in fields])
-
-    query = 'INSERT INTO %s (%s) VALUES (%s)' %\
-            (DBConstants._DICT_TABLE, fieldsub, qmarks)
-    # Pull data from the iterator and store in database
-    for record in rcrditer:
-        data = tuple([record[fieldname] for fieldname, role in fields])
-        cur.execute(query, data)
 
     con.commit()
     con.close()
