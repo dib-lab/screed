@@ -1,6 +1,7 @@
 import DBConstants
 import os
 import sqlite3
+import itertools
 
 def create_db(filepath, fields, rcrditer):
     """
@@ -55,8 +56,13 @@ def create_db(filepath, fields, rcrditer):
     query = 'INSERT INTO %s (%s) VALUES (%s)' %\
             (DBConstants._DICT_TABLE, fieldsub, qmarks)
     # Pull data from the iterator and store in database
-    data = (tuple(record[fieldname] for fieldname, role in fields) for record in rcrditer)
-    cur.executemany(query, data)
+    # Commiting in batches seems faster than a single call to executemany
+    data = (tuple(record[fieldname] for fieldname, role in fields) \
+            for record in rcrditer)
+    while True:
+        batch = list(itertools.islice(data, 10000))
+        if not batch: break
+        cur.executemany(query, batch)
     con.commit()
 
     # Attribute to index
