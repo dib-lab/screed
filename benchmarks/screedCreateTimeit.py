@@ -12,7 +12,7 @@ if __name__ == '__main__':
     fafq = sys.argv[2]
 
     fqrunStatement = """
-createscreed.create_db(filename, FASTQFIELDTYPES, iterfunc)
+createscreed.create_db(filename, fastq.FieldTypes, iterfunc)
 theFile.close()
 """
 
@@ -22,15 +22,15 @@ thisdir = sys.path[0]
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 import createscreed
-from fastq import fqiter
+import fastq
 FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
 filename = '%s'
 theFile = open(filename, 'rb')
-iterfunc = fqiter(theFile)
+iterfunc = fastq.fastq_iter(theFile)
 """ % filename
 
     farunStatement = """
-createscreed.create_db(filename, FASTAFIELDTYPES, iterfunc)
+createscreed.create_db(filename, fasta.FieldTypes, iterfunc)
 theFile.close()
 """
 
@@ -40,11 +40,11 @@ thisdir = sys.path[0]
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 import createscreed
-from fasta import faiter
+import fasta
 FASTAFIELDTYPES = ('name', 'description', 'sequence')
 filename = '%s'
 theFile = open(filename, 'rb')
-iterfunc = faiter(theFile)
+iterfunc = fasta.fasta_iter(theFile)
 """ % filename
 
     t = None
