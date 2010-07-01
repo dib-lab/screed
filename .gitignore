@@ -6,3 +6,5 @@
 build
 screed.egg-info
 dist
+screed/tests/fa_to_fq
+screed/tests/fq_to_fa
