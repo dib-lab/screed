@@ -20,7 +20,7 @@ def create_db(filepath, fields, rcrditer):
     cur = con.cursor()
 
     # Sqlite PRAGMA settings for speed
-    cur.execute("PRAGMA syncronous='OFF'")
+    cur.execute("PRAGMA synchronous='OFF'")
     cur.execute("PRAGMA locking_mode=EXCLUSIVE")
 
     # Create the admin table
