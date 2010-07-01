@@ -1,6 +1,18 @@
 import screed
 from screed.DBConstants import fileExtension
 import os
+from cStringIO import StringIO
+
+def test_new_record():
+    # test for a bug where the record dict was not reset after each
+    # sequence load, leading to all records being identical if you
+    # kept a handle on the returned dictionary.
+    
+    s = StringIO(">1\nACTG\n>2\nACGG\n")
+
+    records = list(iter(screed.fasta.fasta_iter(s)))
+    assert records[0]['name'] == '1'
+    assert records[1]['name'] == '2'
 
 class Test_fasta(object):
     def setup(self):
