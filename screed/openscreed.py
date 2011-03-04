@@ -3,9 +3,37 @@ import types
 import UserDict
 import types
 import sqlite3
+import gzip
 
 import DBConstants
 import screedRecord
+from fastq import fastq_iter
+from fasta import fasta_iter
+
+def open(filename, *args, **kwargs):
+    """
+    Make a best-effort guess as to how to open/parse the given sequence file.
+
+    Deals with .gz, FASTA, and FASTQ records.
+    """
+    if filename.endswith('.gz'):
+        fp = gzip.open(filename)
+    else:
+        fp = file(filename)
+
+    line = fp.readline()
+
+    iter_fn = None
+    if line.startswith('>'):
+        iter_fn = fasta_iter
+    elif line.startswith('@'):
+        iter_fn = fastq_iter
+
+    if iter_fn is None:
+        raise Exception("unknown file format for '%s'" % filename)
+
+    fp.seek(0)
+    return iter_fn(fp, *args, **kwargs)
 
 class ScreedDB(object, UserDict.DictMixin):
     """
