@@ -1,12 +1,11 @@
-import DBConstants
 import os
 import types
 import UserDict
-import screedRecord
-import DBConstants
-import os
 import types
 import sqlite3
+
+import DBConstants
+import screedRecord
 
 class ScreedDB(object, UserDict.DictMixin):
     """
