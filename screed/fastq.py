@@ -1,4 +1,5 @@
 import DBConstants
+from screedRecord import _screed_record_dict
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('annotations', DBConstants._STANDARD_TEXT),
@@ -12,7 +13,7 @@ def fastq_iter(handle):
     """
     line = handle.readline().strip()
     while line:
-        data = {}
+        data = _screed_record_dict()
         
         if not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
