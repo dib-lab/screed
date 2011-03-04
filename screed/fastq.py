@@ -28,7 +28,7 @@ def fastq_iter(handle):
         # Extract the sequence lines
         sequence = []
         line = handle.readline().strip()
-        while not line.startswith('+'):
+        while not line.startswith('+') and not line.startswith('#'):
             sequence.append(line)
             line = handle.readline().strip()
 
