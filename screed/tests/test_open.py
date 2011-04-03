@@ -2,6 +2,11 @@ import os.path
 
 import screed
 
+def test_empty_open():
+    filename = os.path.join(os.path.dirname(__file__), 'empty.fa')
+    
+    assert len(list(iter(screed.open(filename)))) == 0
+
 def test_simple_open():
     filename = os.path.join(os.path.dirname(__file__), 'test.fa')
     

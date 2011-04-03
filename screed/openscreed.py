@@ -23,6 +23,9 @@ def open(filename, *args, **kwargs):
 
     line = fp.readline()
 
+    if not line:
+        return []
+
     iter_fn = None
     if line.startswith('>'):
         iter_fn = fasta_iter
