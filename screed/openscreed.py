@@ -4,6 +4,7 @@ import UserDict
 import types
 import sqlite3
 import gzip
+import bz2
 
 import DBConstants
 import screedRecord
@@ -18,6 +19,8 @@ def open(filename, *args, **kwargs):
     """
     if filename.endswith('.gz'):
         fp = gzip.open(filename)
+    elif filename.endswith('.bz2'):
+        fp = bz2.BZ2File(filename)
     else:
         fp = file(filename)
 
