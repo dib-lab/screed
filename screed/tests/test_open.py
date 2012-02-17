@@ -33,6 +33,15 @@ def test_gz_open():
         assert r1.name == r2.name
 
     assert n > 0
+
+def test_bz2_open():
+    filename1 = os.path.join(os.path.dirname(__file__), 'test.fa')
+    filename2 = os.path.join(os.path.dirname(__file__), 'test.fa.bz2')
+    for n, (r1, r2) in enumerate(zip(screed.open(filename1),
+                                     screed.open(filename2))):
+        assert r1.name == r2.name
+
+    assert n > 0
                             
 def test_gz_open_fastq():
     filename1 = os.path.join(os.path.dirname(__file__), 'test.fastq')
