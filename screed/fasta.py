@@ -5,12 +5,14 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('description', DBConstants._STANDARD_TEXT),
               ('sequence', DBConstants._SLICEABLE_TEXT))
 
-def fasta_iter(handle, parse_description=True):
+def fasta_iter(handle, parse_description=True, line=None):
     """
     Iterator over the given FASTA file handle, returning records. handle
     is a handle to a file opened for reading
     """
-    line = handle.readline()
+    if line is None:
+        line = handle.readline()
+        
     while line:
         data = _screed_record_dict()
 

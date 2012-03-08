@@ -6,12 +6,14 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('sequence', DBConstants._STANDARD_TEXT),
               ('accuracy', DBConstants._STANDARD_TEXT))
 
-def fastq_iter(handle):
+def fastq_iter(handle, line=None):
     """
     Iterator over the given FASTQ file handle returning records. handle
     is a handle to a file opened for reading
     """
-    line = handle.readline().strip()
+    if line is None:
+        line = handle.readline()
+    line = line.strip()
     while line:
         data = _screed_record_dict()
         
