@@ -27,5 +27,6 @@ from conversion import ToFasta
 from createscreed import create_db
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
+from dna import rc
 
-__version__ = '0.6'
+__version__ = '0.7'
