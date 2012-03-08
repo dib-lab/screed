@@ -1,4 +1,4 @@
-import string
+import string, array
 
 legal_dna = "ACGTN"
 
@@ -41,7 +41,7 @@ def reverse(s):
     """
     Return reverse of 's'.
     """
-    r = array('c', s)
+    r = array.array('c', s)
     r.reverse()
     r = string.join(r, '')
 
