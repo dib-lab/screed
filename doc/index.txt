@@ -1,0 +1,27 @@
+.. screed documentation master file, created by
+   sphinx-quickstart on Wed Jun  6 16:32:37 2012.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+screed - short read sequence utils
+==================================
+
+:Copyright: 2008-2010 Michigan State University
+:Authors: Alex Nolley, C. Titus Brown
+:Contact: badmit@gmail.com, ctb@msu.edu
+:License: BSD
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   screed
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
