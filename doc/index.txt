@@ -6,7 +6,7 @@
 screed - short read sequence utils
 ==================================
 
-:Copyright: 2008-2010 Michigan State University
+:Copyright: 2008-2012 Michigan State University
 :Authors: Alex Nolley, C. Titus Brown
 :Contact: badmit@gmail.com, ctb@msu.edu
 :License: BSD
@@ -17,6 +17,7 @@ Contents:
    :maxdepth: 2
 
    screed
+   example
 
 Indices and tables
 ==================
