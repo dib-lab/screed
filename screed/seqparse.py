@@ -18,15 +18,13 @@ def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
+    import openscreed
+    
     # Will raise an exception if the file doesn't exist
-    theFile = open(filename, 'rb')
-
-    # Setup the iterator function
-    iterfunc = fastq.fastq_iter(theFile)
+    iterfunc = openscreed.open(filename)
 
     # Create the screed db
     create_db(filename, fastq.FieldTypes, iterfunc)
-    theFile.close()
 
     return ScreedDB(filename)
 
@@ -34,15 +32,13 @@ def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
+    import openscreed
+    
     # Will raise an exception if the file doesn't exist
-    theFile = open(filename, "rb")
-
-    # Setup the iterator function
-    iterfunc = fasta.fasta_iter(theFile)
+    iterfunc = openscreed.open(filename)
 
     # Create the screed db
     create_db(filename, fasta.FieldTypes, iterfunc)
-    theFile.close()
 
     return ScreedDB(filename)
 
