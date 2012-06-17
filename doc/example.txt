@@ -1,11 +1,6 @@
-=====================================
-screed - short read sequence database
-=====================================
-
-:Copyright: 2008-2010 Michigan State University
-:Authors: Alex Nolley, C. Titus Brown
-:Contact: badmit@gmail.com, ctb@msu.edu
-:License: BSD
+===============
+screed examples
+===============
 
 .. contents:
 
