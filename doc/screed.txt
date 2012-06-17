@@ -432,6 +432,8 @@ read_fasta_sequences() allows any number of lines of any length.
 FASTA <-> FASTQ Conversion
 ==========================
 
+@CTB this doesn't work?
+
 As an extra nicety, screed can convert FASTA files to FASTQ and back again.
 
 FASTA to FASTQ

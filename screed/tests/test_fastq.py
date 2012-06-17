@@ -77,3 +77,39 @@ class Test_fastq(object):
         for id, entry in self.db.iteritems():
             assert id == self.db[entry.name].id
             assert entry == self.db[entry.name]
+
+def test_writer():
+    fp = StringIO()
+    w = screed.fastq.FASTQ_Writer("", fp)
+
+    class FakeRecord(object):
+        pass
+    
+    read = FakeRecord()
+    read.name = 'foo'
+    read.description = 'bar'
+    read.sequence = 'ATCG'
+    read.accuracy = '####'
+
+    w.write(read)
+
+    assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
+    
+def test_writer_2():
+    fp = StringIO()
+    w = screed.fastq.FASTQ_Writer("", fp)
+
+    class FakeRecord(object):
+        pass
+    
+    read = FakeRecord()
+    read.name = 'foo'
+    read.description = 'bar'
+    read.sequence = 'ATCG'
+    read.accuracy = '####'
+
+    read_iter = [read]
+
+    w.consume(read_iter)
+
+    assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'

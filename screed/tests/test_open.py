@@ -1,6 +1,6 @@
 import os.path
 
-import screed
+import screed, screed.openscreed
 
 def test_empty_open():
     filename = os.path.join(os.path.dirname(__file__), 'empty.fa')
@@ -51,3 +51,12 @@ def test_gz_open_fastq():
         assert r1.name == r2.name
 
     assert n > 0
+
+def test_get_writer_class_fasta():
+    import screed.fasta
+    
+    filename = os.path.join(os.path.dirname(__file__), 'test.fa')
+
+    read_iter = screed.open(filename)
+    x = screed.openscreed.get_writer_class(read_iter)
+    assert x is screed.fasta.FASTA_Writer, x

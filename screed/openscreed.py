@@ -8,10 +8,21 @@ import bz2
 
 import DBConstants
 import screedRecord
-from fastq import fastq_iter
-from fasta import fasta_iter
+from fastq import fastq_iter, FASTQ_Writer
+from fasta import fasta_iter, FASTA_Writer
 
-def open(filename, *args, **kwargs):
+def get_writer_class(read_iter):
+    if read_iter.__name__ == 'fasta_iter':
+        return FASTA_Writer
+    elif read_iter.__name__ == 'fastq_iter':
+        return FASTQ_Writer
+
+def open_writer(inp_filename, outp_filename):
+    read_iter = open_reader(inp_filename) 
+    klass = get_writer_class(read_iter)
+    return klass(outp_filename)
+
+def open_reader(filename, *args, **kwargs):
     """
     Make a best-effort guess as to how to open/parse the given sequence file.
 
@@ -40,6 +51,8 @@ def open(filename, *args, **kwargs):
 
     fp.seek(0)
     return iter_fn(fp, *args, **kwargs)
+
+open = open_reader
 
 class ScreedDB(object, UserDict.DictMixin):
     """

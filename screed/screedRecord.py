@@ -1,6 +1,8 @@
 import UserDict
 import types
 import DBConstants
+import gzip
+import bz2
 
 class _screed_record_dict(UserDict.DictMixin):
     """
@@ -170,3 +172,24 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
             hackedResult.append((key, value))
 
     return _screed_record_dict(hackedResult)
+
+
+class _Writer(object):
+    def __init__(self, filename, fp=None):
+        self.filename = filename
+        if fp is None:
+            if filename.endswith('.gz'):
+                fp = gzip.open(filename, 'w')
+            elif filename.endswith('.bz2'):
+                fp = bz2.BZ2File(filename, 'w')
+            else:
+                fp = file(filename, 'wb')
+
+        self.fp = fp
+
+    def consume(self, read_iter):
+        for read in read_iter:
+            self.write(read)
+
+    def close(self):
+        self.fp.close()

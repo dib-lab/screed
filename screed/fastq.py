@@ -1,6 +1,5 @@
 import DBConstants
-from screedRecord import _screed_record_dict
-
+from screedRecord import _screed_record_dict, _Writer
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('annotations', DBConstants._STANDARD_TEXT),
               ('sequence', DBConstants._STANDARD_TEXT),
@@ -53,3 +52,9 @@ def fastq_iter(handle, line=None):
                           'of equal length')
 
         yield data
+
+class FASTQ_Writer(_Writer):
+    def write(self, record):
+        s = "@%s %s\n%s\n+\n%s\n" % (record.name, record.description,
+                                     record.sequence, record.accuracy)
+        self.fp.write(s)

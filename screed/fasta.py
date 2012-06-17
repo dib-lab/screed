@@ -1,5 +1,5 @@
 import DBConstants
-from screedRecord import _screed_record_dict
+from screedRecord import _screed_record_dict, _Writer
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('description', DBConstants._STANDARD_TEXT),
@@ -42,3 +42,9 @@ def fasta_iter(handle, parse_description=True, line=None):
 
         data['sequence'] = ''.join(sequenceList)
         yield data
+
+class FASTA_Writer(_Writer):
+    def write(self, record):
+        s = ">%s %s\n%s\n" % (record.name, record.description,
+                              record.sequence,)
+        self.fp.write(s)
