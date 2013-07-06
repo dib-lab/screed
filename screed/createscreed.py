@@ -1,4 +1,8 @@
-import DBConstants
+import sys
+if sys.version_info[0] < 3:
+    import DBConstants
+else:
+    from . import DBConstants
 import os
 import sqlite3
 import itertools

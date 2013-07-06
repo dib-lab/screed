@@ -16,5 +16,5 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     read_fastq_sequences(filename)
 
-    print "Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension)
+    print("Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension))
     exit(0)

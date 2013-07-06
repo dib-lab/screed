@@ -83,7 +83,7 @@ def createHavaFiles(filename, size, divisions):
 
 if __name__ == '__main__':
     if len(sys.argv) != 4:
-        print "Usage: <filename> <size> <divisions>"
+        print("Usage: <filename> <size> <divisions>")
         exit(1)
 
     filename = sys.argv[1]

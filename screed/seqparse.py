@@ -7,18 +7,25 @@ parser is included for API reference
 """
 
 import os
-from createscreed import create_db
-from openscreed import ScreedDB
-import fastq
-import fasta
-import hava
+import sys
+if sys.version_info[0] < 3:
+    from createscreed import create_db
+    from openscreed import ScreedDB
+    import fastq
+    import fasta
+    import hava
+else:
+    from .createscreed import create_db
+    from .openscreed import ScreedDB
+    from . import fastq
+    from . import fasta
+    from . import hava
 
 # [AN] these functions look strangely similar
 def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
-    import openscreed
     
     # Will raise an exception if the file doesn't exist
     iterfunc = openscreed.open(filename)
@@ -32,7 +39,6 @@ def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
-    import openscreed
     
     # Will raise an exception if the file doesn't exist
     iterfunc = openscreed.open(filename)
