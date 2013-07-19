@@ -7,3 +7,5 @@ The official central repository for screed is:
 See http://readthedocs.org/docs/screed/en/latest/ for docs.
 
 Issues are tracked at https://github.com/ged-lab/khmer/issues.
+
+[![Build Status](http://162.209.84.54:8080/buildStatus/icon?job=screed-master)](http://162.209.84.54:8080/job/screed-master/)
