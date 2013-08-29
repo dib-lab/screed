@@ -14,16 +14,11 @@ import sqlite3
 import gzip
 import bz2
 
-if sys.version_info[0] < 3:
-    import DBConstants
-    import screedRecord
-    from fastq import fastq_iter
-    from fasta import fasta_iter
-else:
-    from . import DBConstants
-    from . import screedRecord
-    from .fastq import fastq_iter
-    from .fasta import fasta_iter
+from __future__ import absolute_import
+from . import DBConstants
+from . import screedRecord
+from .fastq import fastq_iter
+from .fasta import fasta_iter
 
 def open(filename, *args, **kwargs):
     """

@@ -1,10 +1,8 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 import sys
-if sys.version_info[0] < 3:
-    from openscreed import ScreedDB
-else:
-    from .openscreed import ScreedDB
+from __future__ import absolute_import
+from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
 _null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read
