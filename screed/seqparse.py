@@ -7,19 +7,12 @@ parser is included for API reference
 """
 
 import os
-import sys
-if sys.version_info[0] < 3:
-    from createscreed import create_db
-    from openscreed import ScreedDB
-    import fastq
-    import fasta
-    import hava
-else:
-    from .createscreed import create_db
-    from .openscreed import ScreedDB
-    from . import fastq
-    from . import fasta
-    from . import hava
+from __future__ import absolute_import
+from .createscreed import create_db
+from .openscreed import ScreedDB
+from . import fastq
+from . import fasta
+from . import hava
 
 # [AN] these functions look strangely similar
 def read_fastq_sequences(filename):

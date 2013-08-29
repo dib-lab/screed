@@ -8,10 +8,8 @@ if sys.version_info[0] == 2 and sys.version_info[1] < 6:
 else:
     from collections import MutableMapping
 import types
-if sys.version_info[0] < 3:
-    import DBConstants
-else:
-    from . import DBConstants
+from __future__ import absolute_import
+from . import DBConstants
 
 class _screed_record_dict(MutableMapping):
     """

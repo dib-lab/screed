@@ -4,12 +4,9 @@ import screed
 from screed.DBConstants import fileExtension
 
 import sys
-if sys.version_info[0] < 3:
-    import test_fasta
-    import test_fastq
-else:
-    from . import test_fasta
-    from . import test_fastq
+from __future__ import absolute_import
+from . import test_fasta
+from . import test_fastq
 
 class Test_fa_shell(test_fasta.Test_fasta):
     """

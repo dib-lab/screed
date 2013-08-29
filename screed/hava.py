@@ -1,8 +1,6 @@
 import sys
-if sys.version_info[0] < 3:
-    import DBConstants
-else:
-    from . import DBConstants
+from __future__ import absolute_import
+from . import DBConstants
 
 FieldTypes = (('hava', DBConstants._INDEXED_TEXT_KEY),
               ('quarzk', DBConstants._STANDARD_TEXT),
