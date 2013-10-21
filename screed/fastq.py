@@ -6,7 +6,7 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('sequence', DBConstants._STANDARD_TEXT),
               ('accuracy', DBConstants._STANDARD_TEXT))
 
-def fastq_iter(handle, line=None):
+def fastq_iter(handle, line=None, parse_description=True):
     """
     Iterator over the given FASTQ file handle returning records. handle
     is a handle to a file opened for reading
@@ -21,12 +21,16 @@ def fastq_iter(handle, line=None):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
 
         # Try to grab the name and (optional) annotations
-        try:
-            data['name'], data['annotations'] = line[1:].split(' ',1)
-        except ValueError: # No optional annotations
+        if parse_description:
+            try:
+                data['name'], data['annotations'] = line[1:].split(' ',1)
+            except ValueError: # No optional annotations
+                data['name'] = line[1:]
+                data['annotations'] = ''
+                pass
+        else:
             data['name'] = line[1:]
             data['annotations'] = ''
-            pass
 
         # Extract the sequence lines
         sequence = []
