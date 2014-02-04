@@ -1,15 +1,24 @@
 import os
 import types
-import UserDict
+# compatibility with antique versions of Python,
+# although I suspect that the rest in not compatible
+# with Python < 2.6 anyway...
+import sys
+if sys.version_info[0] == 2 and sys.version_info[1] < 6:
+    import UserDict
+    MutableMapping = UserDict.DictMixin
+else:
+    from collections import MutableMapping
 import types
 import sqlite3
 import gzip
 import bz2
 
-import DBConstants
-import screedRecord
-from fastq import fastq_iter
-from fasta import fasta_iter
+from __future__ import absolute_import
+from . import DBConstants
+from . import screedRecord
+from .fastq import fastq_iter
+from .fasta import fasta_iter
 
 def open(filename, *args, **kwargs):
     """
@@ -22,7 +31,7 @@ def open(filename, *args, **kwargs):
     elif filename.endswith('.bz2'):
         fp = bz2.BZ2File(filename)
     else:
-        fp = file(filename)
+        fp = __builtins__['open'](filename, mode="rb")
 
     line = fp.readline()
 
@@ -30,9 +39,9 @@ def open(filename, *args, **kwargs):
         return []
 
     iter_fn = None
-    if line.startswith('>'):
+    if line.startswith(b'>'):
         iter_fn = fasta_iter
-    elif line.startswith('@'):
+    elif line.startswith(b'@'):
         iter_fn = fastq_iter
 
     if iter_fn is None:
@@ -41,7 +50,7 @@ def open(filename, *args, **kwargs):
     fp.seek(0)
     return iter_fn(fp, *args, **kwargs)
 
-class ScreedDB(object, UserDict.DictMixin):
+class ScreedDB(MutableMapping):
     """
     Core on-disk dictionary interface for reading screed databases. Accepts a
     path string to a screed database

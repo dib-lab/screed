@@ -1,4 +1,6 @@
-import DBConstants
+import sys
+from __future__ import absolute_import
+from . import DBConstants
 import os
 import sqlite3
 import itertools

@@ -1,7 +1,11 @@
+import os
 import screed
 from screed.DBConstants import fileExtension
-import os
-from cStringIO import StringIO
+import sys
+if sys.version_info[0] < 3:
+    from cStringIO import StringIO
+else:
+    from io import StringIO
 
 def test_new_record():
     # test for a bug where the record dict was not reset after each
