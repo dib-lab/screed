@@ -1,6 +1,8 @@
 # Copyright (c) 2008-2010, Michigan State University
 
-from openscreed import ScreedDB
+import sys
+from __future__ import absolute_import
+from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
 _null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read

@@ -156,8 +156,8 @@ if __name__ == '__main__':
 
     db = ScreedSequenceDB(filename)
     for k in db:
-        print k, repr(db[k]), db[k].name
+        print(k, repr(db[k]), db[k].name)
 
     db = ScreedSequenceDB_ByIndex(filename)
     for k in db:
-        print k, repr(db[k]), db[k].name
+        print(k, repr(db[k]), db[k].name)

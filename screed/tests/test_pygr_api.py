@@ -6,7 +6,7 @@ try:
     import pygr
 except ImportError:
     import nose
-    raise nose.SkipTest, "pygr is required for these tests"
+    raise nose.SkipTest("pygr is required for these tests")
 
 import screed
 from screed.DBConstants import fileExtension

@@ -28,7 +28,11 @@ def reverse_complement(s):
 
 rc = reverse_complement                 # alias 'rc' to 'reverse_complement'
 
-__complementTranslation = string.maketrans('ACTG', 'TGAC')
+import sys
+if sys.version_info[0] < 3:
+    __complementTranslation = string.maketrans('ACTG', 'TGAC')
+else:
+    __complementTranslation = str.maketrans('ACTG', 'TGAC')
 
 def complement(s):
     """

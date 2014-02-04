@@ -1,5 +1,7 @@
-import DBConstants
-from screedRecord import _screed_record_dict
+import sys
+from __future__ import absolute_import
+from . import DBConstants
+from .screedRecord import _screed_record_dict
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('description', DBConstants._STANDARD_TEXT),

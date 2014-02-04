@@ -1,4 +1,6 @@
-import DBConstants
+import sys
+from __future__ import absolute_import
+from . import DBConstants
 
 FieldTypes = (('hava', DBConstants._INDEXED_TEXT_KEY),
               ('quarzk', DBConstants._STANDARD_TEXT),

@@ -1,9 +1,12 @@
-import test_fasta
-import test_fastq
 import os
 import subprocess
 import screed
 from screed.DBConstants import fileExtension
+
+import sys
+from __future__ import absolute_import
+from . import test_fasta
+from . import test_fastq
 
 class Test_fa_shell(test_fasta.Test_fasta):
     """
