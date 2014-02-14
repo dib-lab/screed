@@ -6,10 +6,13 @@ functionality to arbitrary sequence formats. An example 'hava'
 parser is included for API reference
 """
 
-import os
 from __future__ import absolute_import
+
+import os
+
 from .createscreed import create_db
 from .openscreed import ScreedDB
+from . import openscreed
 from . import fastq
 from . import fasta
 from . import hava

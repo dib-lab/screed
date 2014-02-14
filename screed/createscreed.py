@@ -1,5 +1,7 @@
-import sys
 from __future__ import absolute_import
+
+import sys
+
 from . import DBConstants
 import os
 import sqlite3

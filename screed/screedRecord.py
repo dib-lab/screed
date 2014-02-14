@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 # compatibility with antique versions of Python,
 # although I suspect that the rest in not compatible
 # with Python < 2.6 anyway...
@@ -8,7 +10,6 @@ if sys.version_info[0] == 2 and sys.version_info[1] < 6:
 else:
     from collections import MutableMapping
 import types
-from __future__ import absolute_import
 from . import DBConstants
 
 class _screed_record_dict(MutableMapping):
@@ -32,6 +33,16 @@ class _screed_record_dict(MutableMapping):
 
     def keys(self):
         return self.d.keys()
+
+    def __delitem__(self, key):
+        del self.d[key]
+
+    def __iter__(self):
+        return iter(self.d)
+
+    def __len__(self):
+        return len(self.d)
+
 
 class _screed_attr(object):
     """

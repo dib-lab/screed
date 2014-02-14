@@ -23,14 +23,15 @@ ToFasta functions
 """
 
 # conditional import for Python 2 / Python 3
-import sys
 from __future__ import absolute_import
-from .openscreed import ScreedDB, open
-from .conversion import ToFastq
-from .conversion import ToFasta
-from .createscreed import create_db
-from .seqparse import read_fastq_sequences
-from .seqparse import read_fasta_sequences
-from .dna import rc
+
+import sys
+from screed.openscreed import ScreedDB, open
+from screed.conversion import ToFastq
+from screed.conversion import ToFasta
+from screed.createscreed import create_db
+from screed.seqparse import read_fastq_sequences
+from screed.seqparse import read_fasta_sequences
+from screed.dna import rc
 
 __version__ = '0.7.1'

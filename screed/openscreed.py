@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import os
 import types
 # compatibility with antique versions of Python,
@@ -14,7 +16,6 @@ import sqlite3
 import gzip
 import bz2
 
-from __future__ import absolute_import
 from . import DBConstants
 from . import screedRecord
 from .fastq import fastq_iter
@@ -208,6 +209,9 @@ class ScreedDB(MutableMapping):
         for key, in cursor.execute(query):
             yield key
 
+    def __iter__(self):
+        return self.iterkeys()
+
     def iteritems(self):
         """
         Iterator returning a (index, record) pairs
@@ -241,6 +245,12 @@ class ScreedDB(MutableMapping):
     # Here follow the methods that are not implemented
 
     def __setitem__(self, something):
+        """
+        Not implemented (Read-only database)
+        """
+        raise AttributeError
+
+    def __delitem__(self, something):
         """
         Not implemented (Read-only database)
         """

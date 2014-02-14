@@ -1,5 +1,6 @@
-import sys
 from __future__ import absolute_import
+
+import sys
 from . import DBConstants
 from .screedRecord import _screed_record_dict
 

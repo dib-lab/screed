@@ -1,10 +1,11 @@
+from __future__ import absolute_import
+
 import os
 import subprocess
 import screed
 from screed.DBConstants import fileExtension
 
 import sys
-from __future__ import absolute_import
 from . import test_fasta
 from . import test_fastq
 

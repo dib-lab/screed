@@ -1,7 +1,8 @@
 # Copyright (c) 2008-2010, Michigan State University
 
-import sys
 from __future__ import absolute_import
+
+import sys
 from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
