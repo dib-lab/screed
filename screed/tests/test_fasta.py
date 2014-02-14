@@ -1,3 +1,4 @@
+import operator
 import os
 import screed
 from screed.DBConstants import fileExtension
@@ -84,7 +85,7 @@ class Test_fasta(object):
             entries.append(self.db[entry])
 
         ivalues = list(self.db.itervalues())
-        assert sorted(entries) == sorted(ivalues)
+        assert sorted(entries, key=operator.itemgetter("id")) == sorted(ivalues, key=operator.itemgetter('id'))
 
     def test_iteri(self):
         for id, entry in self.db.iteritems():
