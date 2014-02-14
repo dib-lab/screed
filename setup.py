@@ -6,7 +6,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='screed',
-      version='0.7',
+      version='0.7.1',
       description='A short read database',
       author='Alex Nolley, C. Titus Brown',
       author_email='ctb@msu.edu',

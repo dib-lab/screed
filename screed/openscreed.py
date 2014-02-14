@@ -205,7 +205,7 @@ class ScreedDB(MutableMapping):
         Iterator over keys in the database
         """
         cursor = self._db.cursor()
-        query = 'SELECT %s FROM %s' % (self._queryBy, DBConstants._DICT_TABLE)
+        query = 'SELECT %s FROM %s ORDER BY id' % (self._queryBy, DBConstants._DICT_TABLE)
         for key, in cursor.execute(query):
             yield key
 
