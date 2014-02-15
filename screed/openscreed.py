@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import codecs
 import os
 import types
 # compatibility with antique versions of Python,
@@ -33,7 +34,7 @@ def open(filename, *args, **kwargs):
     elif filename.endswith('.bz2'):
         fp = bz2.BZ2File(filename)
     else:
-        fp = __builtins__['open'](filename, mode="rb")
+        fp = codecs.open(filename, mode="rb")
 
     line = to_str(fp.readline())
     if not line:
