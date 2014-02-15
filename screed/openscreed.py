@@ -35,14 +35,18 @@ def open(filename, *args, **kwargs):
         fp = __builtins__['open'](filename, mode="rb")
 
     line = fp.readline()
+    try:
+        line = line.decode('utf-8')
+    except AttributeError:
+        pass
 
     if not line:
         return []
 
     iter_fn = None
-    if line.startswith(b'>'):
+    if line.startswith('>'):
         iter_fn = fasta_iter
-    elif line.startswith(b'@'):
+    elif line.startswith('@'):
         iter_fn = fastq_iter
 
     if iter_fn is None:
@@ -87,7 +91,7 @@ class ScreedDB(MutableMapping):
                             % self._filepath)
 
         nothing = res.fetchone()
-        if type(nothing) != type(None):
+        if type(nothing) is not type(None):
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
 
