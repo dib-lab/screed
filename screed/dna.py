@@ -26,13 +26,14 @@ def reverse_complement(s):
 
     return rc
 
+
 rc = reverse_complement                 # alias 'rc' to 'reverse_complement'
 
-import sys
-if sys.version_info[0] < 3:
-    __complementTranslation = string.maketrans('ACTG', 'TGAC')
-else:
+try:
     __complementTranslation = str.maketrans('ACTG', 'TGAC')
+except AttributeError:
+    __complementTranslation = string.maketrans('ACTG', 'TGAC')
+
 
 def complement(s):
     """

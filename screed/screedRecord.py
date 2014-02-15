@@ -1,15 +1,12 @@
 from __future__ import absolute_import
 
-# compatibility with antique versions of Python,
-# although I suspect that the rest in not compatible
-# with Python < 2.6 anyway...
-import sys
-if sys.version_info[0] == 2 and sys.version_info[1] < 6:
+import types
+try:
+    from collections import MutableMapping
+except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
-else:
-    from collections import MutableMapping
-import types
+
 from . import DBConstants
 
 class _screed_record_dict(MutableMapping):

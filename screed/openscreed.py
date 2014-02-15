@@ -2,20 +2,14 @@ from __future__ import absolute_import
 
 import codecs
 import os
-import types
-# compatibility with antique versions of Python,
-# although I suspect that the rest in not compatible
-# with Python < 2.6 anyway...
-import sys
-if sys.version_info[0] == 2 and sys.version_info[1] < 6:
-    import UserDict
-    MutableMapping = UserDict.DictMixin
-else:
-    from collections import MutableMapping
-import types
 import sqlite3
 import gzip
 import bz2
+try:
+    from collections import MutableMapping
+except ImportError:
+    import UserDict
+    MutableMapping = UserDict.DictMixin
 
 from . import DBConstants
 from . import screedRecord
