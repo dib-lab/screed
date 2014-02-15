@@ -15,11 +15,16 @@ def fasta_iter(handle, parse_description=True, line=None):
     """
     if line is None:
         line = handle.readline()
-        
+
     while line:
         data = _screed_record_dict()
 
         line = line.strip()
+        try:
+            line = line.decode('utf-8')
+        except AttributeError:
+            pass
+
         if not line.startswith('>'):
             raise IOError("Bad FASTA format: no '>' at beginning of line")
 
@@ -39,9 +44,18 @@ def fasta_iter(handle, parse_description=True, line=None):
         # Collect sequence lines into a list
         sequenceList = []
         line = handle.readline()
+        try:
+            line = line.decode('utf-8')
+        except AttributeError:
+            pass
+
         while line and not line.startswith('>'):
             sequenceList.append(line.strip())
             line = handle.readline()
+            try:
+                line = line.decode('utf-8')
+            except AttributeError:
+                pass
 
         data['sequence'] = ''.join(sequenceList)
         yield data

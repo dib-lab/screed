@@ -18,13 +18,13 @@ class _screed_record_dict(MutableMapping):
     """
     def __init__(self, *args, **kwargs):
         self.d = dict(*args, **kwargs)
-        
+
     def __getitem__(self, name):
         return self.d[name]
 
     def __setitem__(self, name, value):
         self.d[name] = value
-    
+
     def __getattr__(self, name):
         try:
             return self.d[name]
@@ -72,7 +72,7 @@ class _screed_attr(object):
         if not sliceObj.start <= sliceObj.stop: # String reverse in future?
             raise ValueError('start must be less than stop in slice object')
         length = sliceObj.stop - sliceObj.start
-        
+
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
                 % (self._attrName, sliceObj.start+1, length,
                    DBConstants._DICT_TABLE,
@@ -118,8 +118,12 @@ class _screed_attr(object):
         """
         Compares attribute to given object in string form
         """
-        if type(given) == types.StringType:
-            return given == self.__str__()
+        try:
+            if isinstance(given, basestring):
+                return given == self.__str__()
+        except NameError:
+            if isinstance(given, str):
+                return given == self.__str__()
 
         try:
             return str(given) == self.__str__()

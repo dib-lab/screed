@@ -17,9 +17,14 @@ def fastq_iter(handle, line=None, parse_description=True):
     if line is None:
         line = handle.readline()
     line = line.strip()
+    try:
+        line = line.decode('utf-8')
+    except AttributeError:
+        pass
+
     while line:
         data = _screed_record_dict()
-        
+
         if not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
 
@@ -38,21 +43,39 @@ def fastq_iter(handle, line=None, parse_description=True):
         # Extract the sequence lines
         sequence = []
         line = handle.readline().strip()
+        try:
+            line = line.decode('utf-8')
+        except AttributeError:
+            pass
+
         while not line.startswith('+') and not line.startswith('#'):
             sequence.append(line)
             line = handle.readline().strip()
+            try:
+                line = line.decode('utf-8')
+            except AttributeError:
+                pass
 
         data['sequence'] = ''.join(sequence)
 
         # Extract the accuracy lines
         accuracy = []
         line = handle.readline().strip()
+        try:
+            line = line.decode('utf-8')
+        except AttributeError:
+            pass
+
         seqlen = len(data['sequence'])
         aclen = 0
         while not line == '' and aclen < seqlen:
             accuracy.append(line)
             aclen += len(line)
             line = handle.readline().strip()
+            try:
+                line = line.decode('utf-8')
+            except AttributeError:
+                pass
 
         data['accuracy'] = ''.join(accuracy)
         if len(data['sequence']) != len(data['accuracy']):

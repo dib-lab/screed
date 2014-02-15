@@ -19,6 +19,11 @@ def hava_iter(handle):
     """
     data = {}
     line = handle.readline().strip()
+    try:
+        line = line.decode('utf-8')
+    except AttributeError:
+        pass
+
     while line:
         data['hava'] = line
         data['quarzk'] = handle.readline().strip()
@@ -26,6 +31,17 @@ def hava_iter(handle):
         data['fakours'] = handle.readline().strip()
         data['selimizicka'] = handle.readline().strip()
         data['marshoon'] = handle.readline().strip()
-        
+
+        for k in ('quarzk', 'muchalo', 'fakours', 'selimizicka', 'marshoon'):
+            try:
+                data[k] = data[k].decode('utf-8')
+            except AttributeError:
+                pass
+
         line = handle.readline().strip()
+        try:
+            line = line.decode('utf-8')
+        except AttributeError:
+            pass
+
         yield data

@@ -53,10 +53,11 @@ def ToFastq(dbFile, outputFile):
     db = ScreedDB(dbFile)
 
     for value in db.itervalues():
-        outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
-                                               GetComments(value),
-                                               linewrap(str(value['sequence'])),
-                                               GenerateAccuracy(value)))
+        line = '@%s %s\n%s\n+\n%s\n' % (value['name'],
+                                        GetComments(value),
+                                        linewrap(str(value['sequence'])),
+                                        GenerateAccuracy(value))
+        outFile.write(line.encode('UTF-8'))
     db.close()
     outFile.close()
 
@@ -69,8 +70,9 @@ def ToFasta(dbFile, outputFile):
     db = ScreedDB(dbFile)
 
     for value in db.itervalues():
-        outFile.write('>%s %s\n%s\n' % (value['name'], GetComments(value),
-                                        linewrap(str(value['sequence']))))
-    
+        line = '>%s %s\n%s\n' % (value['name'], GetComments(value),
+                                 linewrap(str(value['sequence'])))
+        outFile.write(line.encode('UTF-8'))
+
     db.close()
     outFile.close()
