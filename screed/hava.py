@@ -20,7 +20,6 @@ def hava_iter(handle):
     """
     data = {}
     line = to_str(handle.readline().strip())
-
     while line:
         data['hava'] = line
         data['quarzk'] = to_str(handle.readline().strip())
@@ -30,5 +29,4 @@ def hava_iter(handle):
         data['marshoon'] = to_str(handle.readline().strip())
 
         line = to_str(handle.readline().strip())
-
         yield data

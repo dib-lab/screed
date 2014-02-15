@@ -18,7 +18,6 @@ def fastq_iter(handle, line=None, parse_description=True):
     if line is None:
         line = handle.readline()
     line = to_str(line.strip())
-
     while line:
         data = _screed_record_dict()
 
@@ -40,7 +39,6 @@ def fastq_iter(handle, line=None, parse_description=True):
         # Extract the sequence lines
         sequence = []
         line = to_str(handle.readline().strip())
-
         while not line.startswith('+') and not line.startswith('#'):
             sequence.append(line)
             line = to_str(handle.readline().strip())
@@ -50,7 +48,6 @@ def fastq_iter(handle, line=None, parse_description=True):
         # Extract the accuracy lines
         accuracy = []
         line = to_str(handle.readline().strip())
-
         seqlen = len(data['sequence'])
         aclen = 0
         while not line == '' and aclen < seqlen:
