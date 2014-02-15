@@ -2,7 +2,6 @@ import screed
 from screed.DBConstants import fileExtension
 import operator
 import os
-import sys
 try:
     from io import StringIO
 except ImportError:

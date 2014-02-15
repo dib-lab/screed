@@ -5,7 +5,6 @@ import subprocess
 import screed
 from screed.DBConstants import fileExtension
 
-import sys
 from . import test_fasta
 from . import test_fastq
 
@@ -33,7 +32,7 @@ class Test_fq_shell(test_fastq.Test_fastq):
     def setup(self):
         thisdir = os.path.dirname(__file__)
         self._testfq = os.path.join(thisdir, 'test.fastq')
-        
+
         fqdbm = os.path.join(thisdir, '..', 'fqdbm.py')
         subprocess.check_call(['python', fqdbm, self._testfq],
                               stdout=subprocess.PIPE)

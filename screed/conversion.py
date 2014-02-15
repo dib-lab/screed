@@ -2,7 +2,6 @@
 
 from __future__ import absolute_import
 
-import sys
 from .openscreed import ScreedDB
 
 _MAXLINELEN = 80

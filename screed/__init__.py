@@ -22,10 +22,8 @@ Conversion between sequence file types is provided in the ToFastq and
 ToFasta functions
 """
 
-# conditional import for Python 2 / Python 3
 from __future__ import absolute_import
 
-import sys
 from screed.openscreed import ScreedDB, open
 from screed.conversion import ToFastq
 from screed.conversion import ToFasta
