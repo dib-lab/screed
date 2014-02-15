@@ -20,6 +20,7 @@ from . import DBConstants
 from . import screedRecord
 from .fastq import fastq_iter
 from .fasta import fasta_iter
+from .utils import to_str
 
 def open(filename, *args, **kwargs):
     """
@@ -34,12 +35,7 @@ def open(filename, *args, **kwargs):
     else:
         fp = __builtins__['open'](filename, mode="rb")
 
-    line = fp.readline()
-    try:
-        line = line.decode('utf-8')
-    except AttributeError:
-        pass
-
+    line = to_str(fp.readline())
     if not line:
         return []
 

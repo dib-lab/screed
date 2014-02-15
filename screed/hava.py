@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import sys
 
 from . import DBConstants
+from .utils import to_str
 
 FieldTypes = (('hava', DBConstants._INDEXED_TEXT_KEY),
               ('quarzk', DBConstants._STANDARD_TEXT),
@@ -18,30 +19,16 @@ def hava_iter(handle):
     is a handle to a file opened for reading
     """
     data = {}
-    line = handle.readline().strip()
-    try:
-        line = line.decode('utf-8')
-    except AttributeError:
-        pass
+    line = to_str(handle.readline().strip())
 
     while line:
         data['hava'] = line
-        data['quarzk'] = handle.readline().strip()
-        data['muchalo'] = handle.readline().strip()
-        data['fakours'] = handle.readline().strip()
-        data['selimizicka'] = handle.readline().strip()
-        data['marshoon'] = handle.readline().strip()
+        data['quarzk'] = to_str(handle.readline().strip())
+        data['muchalo'] = to_str(handle.readline().strip())
+        data['fakours'] = to_str(handle.readline().strip())
+        data['selimizicka'] = to_str(handle.readline().strip())
+        data['marshoon'] = to_str(handle.readline().strip())
 
-        for k in ('quarzk', 'muchalo', 'fakours', 'selimizicka', 'marshoon'):
-            try:
-                data[k] = data[k].decode('utf-8')
-            except AttributeError:
-                pass
-
-        line = handle.readline().strip()
-        try:
-            line = line.decode('utf-8')
-        except AttributeError:
-            pass
+        line = to_str(handle.readline().strip())
 
         yield data

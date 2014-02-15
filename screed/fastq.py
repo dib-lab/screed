@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import sys
 from . import DBConstants
 from .screedRecord import _screed_record_dict
+from .utils import to_str
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('annotations', DBConstants._STANDARD_TEXT),
@@ -16,11 +17,7 @@ def fastq_iter(handle, line=None, parse_description=True):
     """
     if line is None:
         line = handle.readline()
-    line = line.strip()
-    try:
-        line = line.decode('utf-8')
-    except AttributeError:
-        pass
+    line = to_str(line.strip())
 
     while line:
         data = _screed_record_dict()
@@ -42,40 +39,24 @@ def fastq_iter(handle, line=None, parse_description=True):
 
         # Extract the sequence lines
         sequence = []
-        line = handle.readline().strip()
-        try:
-            line = line.decode('utf-8')
-        except AttributeError:
-            pass
+        line = to_str(handle.readline().strip())
 
         while not line.startswith('+') and not line.startswith('#'):
             sequence.append(line)
-            line = handle.readline().strip()
-            try:
-                line = line.decode('utf-8')
-            except AttributeError:
-                pass
+            line = to_str(handle.readline().strip())
 
         data['sequence'] = ''.join(sequence)
 
         # Extract the accuracy lines
         accuracy = []
-        line = handle.readline().strip()
-        try:
-            line = line.decode('utf-8')
-        except AttributeError:
-            pass
+        line = to_str(handle.readline().strip())
 
         seqlen = len(data['sequence'])
         aclen = 0
         while not line == '' and aclen < seqlen:
             accuracy.append(line)
             aclen += len(line)
-            line = handle.readline().strip()
-            try:
-                line = line.decode('utf-8')
-            except AttributeError:
-                pass
+            line = to_str(handle.readline().strip())
 
         data['accuracy'] = ''.join(accuracy)
         if len(data['sequence']) != len(data['accuracy']):

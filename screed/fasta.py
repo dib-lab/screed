@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import sys
 from . import DBConstants
 from .screedRecord import _screed_record_dict
+from .utils import to_str
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('description', DBConstants._STANDARD_TEXT),
@@ -19,12 +20,7 @@ def fasta_iter(handle, parse_description=True, line=None):
     while line:
         data = _screed_record_dict()
 
-        line = line.strip()
-        try:
-            line = line.decode('utf-8')
-        except AttributeError:
-            pass
-
+        line = to_str(line.strip())
         if not line.startswith('>'):
             raise IOError("Bad FASTA format: no '>' at beginning of line")
 
@@ -43,19 +39,11 @@ def fasta_iter(handle, parse_description=True, line=None):
 
         # Collect sequence lines into a list
         sequenceList = []
-        line = handle.readline()
-        try:
-            line = line.decode('utf-8')
-        except AttributeError:
-            pass
+        line = to_str(handle.readline())
 
         while line and not line.startswith('>'):
             sequenceList.append(line.strip())
-            line = handle.readline()
-            try:
-                line = line.decode('utf-8')
-            except AttributeError:
-                pass
+            line = to_str(handle.readline())
 
         data['sequence'] = ''.join(sequenceList)
         yield data
