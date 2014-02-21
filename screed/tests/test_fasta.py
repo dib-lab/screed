@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import operator
 import os
 import screed
@@ -12,7 +14,7 @@ def test_new_record():
     # sequence load, leading to all records being identical if you
     # kept a handle on the returned dictionary.
 
-    s = StringIO(u">1\nACTG\n>2\nACGG\n")
+    s = StringIO(">1\nACTG\n>2\nACGG\n")
 
     records = list(iter(screed.fasta.fasta_iter(s)))
     assert records[0]['name'] == '1'
