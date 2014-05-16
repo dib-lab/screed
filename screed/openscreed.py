@@ -1,10 +1,10 @@
 import os
 import types
 import UserDict
-import types
 import sqlite3
 import gzip
 import bz2
+import zipfile
 
 import DBConstants
 import screedRecord
@@ -28,14 +28,26 @@ def open_reader(filename, *args, **kwargs):
 
     Deals with .gz, FASTA, and FASTQ records.
     """
-    if filename.endswith('.gz'):
-        fp = gzip.open(filename)
-    elif filename.endswith('.bz2'):
-        fp = bz2.BZ2File(filename)
-    else:
-        fp = file(filename)
+    magic_dict = {
+        "\x1f\x8b\x08": "gz",
+        "\x42\x5a\x68": "bz2",
+        "\x50\x4b\x03\x04": "zip"
+    } # Inspired by http://stackoverflow.com/a/13044946/1585509
+    rawfile = _open(filename)
+    file_start = rawfile.read(max(len(x) for x in magic_dict))
+    rawfile.close()
+    compression = None
+    for magic, ftype in magic_dict.items():
+        if file_start.startswith(magic):
+            compression = ftype
+            break
+    sequencefile = {
+        'gz': lambda: gzip.open(filename),
+        'bz2': lambda: bz2.BZ2File(filename),
+        'zip': lambda: zipfile.ZipFile(filename),
+        None: lambda: _open(filename)}[compression]()
 
-    line = fp.readline()
+    line = sequencefile.readline()
 
     if not line:
         return []
@@ -49,9 +61,10 @@ def open_reader(filename, *args, **kwargs):
     if iter_fn is None:
         raise Exception("unknown file format for '%s'" % filename)
 
-    fp.seek(0)
-    return iter_fn(fp, *args, **kwargs)
+    sequencefile.seek(0)
+    return iter_fn(sequencefile, *args, **kwargs)
 
+_open = open
 open = open_reader
 
 class ScreedDB(object, UserDict.DictMixin):
