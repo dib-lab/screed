@@ -11,16 +11,19 @@ import screedRecord
 from fastq import fastq_iter, FASTQ_Writer
 from fasta import fasta_iter, FASTA_Writer
 
+
 def get_writer_class(read_iter):
     if read_iter.__name__ == 'fasta_iter':
         return FASTA_Writer
     elif read_iter.__name__ == 'fastq_iter':
         return FASTQ_Writer
 
+
 def open_writer(inp_filename, outp_filename):
-    read_iter = open_reader(inp_filename) 
+    read_iter = open_reader(inp_filename)
     klass = get_writer_class(read_iter)
     return klass(outp_filename)
+
 
 def open_reader(filename, *args, **kwargs):
     """
@@ -32,7 +35,7 @@ def open_reader(filename, *args, **kwargs):
         "\x1f\x8b\x08": "gz",
         "\x42\x5a\x68": "bz2",
         "\x50\x4b\x03\x04": "zip"
-    } # Inspired by http://stackoverflow.com/a/13044946/1585509
+    }  # Inspired by http://stackoverflow.com/a/13044946/1585509
     rawfile = _open(filename)
     file_start = rawfile.read(max(len(x) for x in magic_dict))
     rawfile.close()
@@ -67,11 +70,14 @@ def open_reader(filename, *args, **kwargs):
 _open = open
 open = open_reader
 
+
 class ScreedDB(object, UserDict.DictMixin):
+
     """
     Core on-disk dictionary interface for reading screed databases. Accepts a
     path string to a screed database
     """
+
     def __init__(self, filepath):
         self._filepath = filepath
         self._db = None
@@ -80,7 +86,7 @@ class ScreedDB(object, UserDict.DictMixin):
 
         if not os.path.exists(self._filepath):
             raise ValueError('No such file: %s' % self._filepath)
-        
+
         self._db = sqlite3.connect(self._filepath)
         cursor = self._db.cursor()
 
@@ -101,17 +107,17 @@ class ScreedDB(object, UserDict.DictMixin):
             self._db.close()
             raise TypeError("Database %s is not a proper screed database"
                             % self._filepath)
-        
+
         nothing = res.fetchone()
         if type(nothing) != types.NoneType:
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
-        
+
         # Store the fields of the admin table in a tuple
         query = "SELECT %s, %s FROM %s" % \
-                 (DBConstants._FIELDNAME,
-                 DBConstants._ROLENAME,
-                 DBConstants._SCREEDADMIN)
+            (DBConstants._FIELDNAME,
+             DBConstants._ROLENAME,
+             DBConstants._SCREEDADMIN)
         res = cursor.execute(query)
         self.fields = tuple([(str(field), role) for field, role in res])
 
@@ -148,7 +154,7 @@ class ScreedDB(object, UserDict.DictMixin):
         Retrieves from database the record with the key 'key'
         """
         cursor = self._db.cursor()
-        key = str(key) # So lazy retrieval objectes are evaluated
+        key = str(key)  # So lazy retrieval objectes are evaluated
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
                                                   DBConstants._DICT_TABLE,
                                                   self._queryBy)
@@ -177,7 +183,7 @@ class ScreedDB(object, UserDict.DictMixin):
         Retrieves record from database at the given index
         """
         cursor = self._db.cursor()
-        index = int(index) + 1 # Hack to make indexing start at 0
+        index = int(index) + 1  # Hack to make indexing start at 0
         query = 'SELECT %s FROM %s WHERE %s=?' % (DBConstants._PRIMARY_KEY,
                                                   DBConstants._DICT_TABLE,
                                                   DBConstants._PRIMARY_KEY)
@@ -187,7 +193,7 @@ class ScreedDB(object, UserDict.DictMixin):
         return screedRecord._buildRecord(self.fields, self._db,
                                          index,
                                          DBConstants._PRIMARY_KEY)
-    
+
     def __len__(self):
         """
         Returns the number of records in the database
@@ -206,12 +212,12 @@ class ScreedDB(object, UserDict.DictMixin):
         """
         return "<%s, '%s'>" % (self.__class__.__name__,
                                self._filepath)
-        
+
     def itervalues(self):
         """
         Iterator over records in the database
         """
-        for index in xrange(1, self.__len__()+1):
+        for index in xrange(1, self.__len__() + 1):
             yield screedRecord._buildRecord(self.fields, self._db,
                                             index,
                                             DBConstants._PRIMARY_KEY)
@@ -221,7 +227,8 @@ class ScreedDB(object, UserDict.DictMixin):
         Iterator over keys in the database
         """
         cursor = self._db.cursor()
-        query = 'SELECT %s FROM %s ORDER BY id' % (self._queryBy, DBConstants._DICT_TABLE)
+        query = 'SELECT %s FROM %s ORDER BY id' % (
+            self._queryBy, DBConstants._DICT_TABLE)
         for key, in cursor.execute(query):
             yield key
 
