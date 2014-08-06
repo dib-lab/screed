@@ -79,7 +79,7 @@ syntax is similar::
 Creating a database from a script
 ---------------------------------
 
-If the screed module is in your PATH, you can create a screed db from
+If the screed module is in your PYTHONPATH, you can create a screed db from
 a FASTQ file at the shell::
 
     $ python -m screed.fqdbm <fastq file>
@@ -439,7 +439,7 @@ The function used for this process is called 'ToFastq' and is located
 in the screed module. It takes the path to a screed database as the
 first argument and a path to the desired FASTQ file as the second
 argument. There is also a shell interface if the screed module is in
-your PATH::
+your PYTHONPATH::
 
     $ python -m screed.dump_to_fastq <path to fasta db> <converted fastq file>
 
@@ -468,7 +468,7 @@ The function used for this process is called 'toFasta' and is located
 in the screed module. It takes the path to a screed database as the
 first argument and a path to the desired FASTA file as the second
 argument. Like the ToFastq function before, there is a shell interface
-to ToFasta if the screed module is in your PATH::
+to ToFasta if the screed module is in your PYTHONPATH::
 
     $ python -m screed.dump_to_fasta <path to fastq db> <converted fasta file>
 
