@@ -3,9 +3,11 @@ import os.path
 import screed, screed.openscreed
 
 def test_empty_open():
-    filename = os.path.join(os.path.dirname(__file__), 'empty.fa')
-    
-    assert len(list(iter(screed.open(filename)))) == 0
+    try:
+        filename = os.path.join(os.path.dirname(__file__), 'empty.fa')
+        assert 0, "This should fail"
+    except Exception as exc:
+        print str(exc)
 
 def test_simple_open():
     filename = os.path.join(os.path.dirname(__file__), 'test.fa')

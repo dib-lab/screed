@@ -3,8 +3,9 @@ import types
 import UserDict
 import sqlite3
 import gzip
-import bz2
+import bz2file as bz2
 import zipfile
+import io
 
 import DBConstants
 import screedRecord
@@ -36,35 +37,31 @@ def open_reader(filename, *args, **kwargs):
         "\x42\x5a\x68": "bz2",
         "\x50\x4b\x03\x04": "zip"
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
-    rawfile = _open(filename)
-    file_start = rawfile.read(max(len(x) for x in magic_dict))
-    rawfile.close()
+    bufferedfile = io.open(file=filename, mode='rb')
+    file_start = bufferedfile.peek(max(len(x) for x in magic_dict))
     compression = None
     for magic, ftype in magic_dict.items():
         if file_start.startswith(magic):
             compression = ftype
             break
     sequencefile = {
-        'gz': lambda: gzip.open(filename),
-        'bz2': lambda: bz2.BZ2File(filename),
-        'zip': lambda: zipfile.ZipFile(filename),
-        None: lambda: _open(filename)}[compression]()
+        'gz': lambda: io.BufferedReader(gzip.GzipFile(fileobj=bufferedfile)),
+        'bz2': lambda: io.BufferedReader(bz2.BZ2File(filename=bufferedfile)),
+        'zip': lambda: io.BufferedReader(zipfile.ZipFile(file=bufferedfile)),
+        None: lambda: bufferedfile}[compression]()
 
-    line = sequencefile.readline()
-
-    if not line:
-        return []
+    peek = sequencefile.peek(1)
 
     iter_fn = None
-    if line.startswith('>'):
-        iter_fn = fasta_iter
-    elif line.startswith('@'):
-        iter_fn = fastq_iter
+    if peek:
+        if peek[0] == '>':
+            iter_fn = fasta_iter
+        elif peek[0] == '@':
+            iter_fn = fastq_iter
 
     if iter_fn is None:
         raise Exception("unknown file format for '%s'" % filename)
 
-    sequencefile.seek(0)
     return iter_fn(sequencefile, *args, **kwargs)
 
 _open = open

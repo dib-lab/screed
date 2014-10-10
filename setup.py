@@ -14,6 +14,6 @@ setup(name='screed',
       packages=['screed', 'screed.tests'],
       package_data={'screed.tests': ['test.*', 'test-whitespace.fa']},
       license='BSD',
-      test_suite='nose.collector',
-      extras_require={'tests': ['nose >= 1.0']},
+      extras_require={'tests': ['nose >= 1.0'], 'bz2': ['bz2file']},
+      test_suite = 'nose.collector'
       )
