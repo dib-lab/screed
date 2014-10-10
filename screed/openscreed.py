@@ -3,9 +3,10 @@ import types
 import UserDict
 import sqlite3
 import gzip
-import bz2file as bz2
+import bz2file
 import zipfile
 import io
+import sys
 
 import DBConstants
 import screedRecord
@@ -44,13 +45,26 @@ def open_reader(filename, *args, **kwargs):
         if file_start.startswith(magic):
             compression = ftype
             break
-    sequencefile = {
-        'gz': lambda: io.BufferedReader(gzip.GzipFile(fileobj=bufferedfile)),
-        'bz2': lambda: io.BufferedReader(bz2.BZ2File(filename=bufferedfile)),
-        'zip': lambda: io.BufferedReader(zipfile.ZipFile(file=bufferedfile)),
-        None: lambda: bufferedfile}[compression]()
-
-    peek = sequencefile.peek(1)
+    if sys.version_info[1] >= 7:
+        sequencefile = {
+            'gz': lambda: io.BufferedReader(gzip.GzipFile(
+                fileobj=bufferedfile)),
+            'bz2': lambda: io.BufferedReader(bz2file.BZ2File(
+                filename=bufferedfile)),
+            'zip': lambda: io.BufferedReader(zipfile.ZipFile(
+                file=bufferedfile)),
+            None: lambda: bufferedfile}[compression]()
+        peek = sequencefile.peek(1)
+    else:
+        sequencefile = {
+            'gz': lambda: gzip.GzipFile(fileobj=bufferedfile),
+            'bz2': lambda: io.BufferedReader(bz2file.BZ2File(
+                filename=bufferedfile)),
+            'zip': lambda: io.BufferedReader(zipfile.ZipFile(
+                file=bufferedfile)),
+            None: lambda: bufferedfile}[compression]()
+        peek = sequencefile.read(1)
+        sequencefile.seek(0)
 
     iter_fn = None
     if peek:
