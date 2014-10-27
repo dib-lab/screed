@@ -5,3 +5,4 @@
 	benchmarks/pgres/pgresCreateTimeit.py, gibtests/__init__.py,
 	doc/screed.html, doc/screed.txt, screed/conversion.py, screed/fastq.py,
 	screed/tests/test_fastq.py: Changed all uses of "accuracy" to "quality"
+	* screed/tests/test_dna.py: Added basic test coverage for screed/dna.py
