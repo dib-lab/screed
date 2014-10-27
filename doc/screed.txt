@@ -130,7 +130,7 @@ that don't modify a dictionary are supported::
 
 Each record in the database contains 'fields' such as name and
 sequence information. If the database was derived from a FASTQ file,
-accuracy and optional annotation strings are included. Conversely,
+quality and optional annotation strings are included. Conversely,
 FASTA-derived databases have a description field.
 
 To retrieve the names of records in the database::
@@ -409,9 +409,9 @@ FASTQ formats require the first line to be repeated after the '+'
 character, but since this adds no new information to the record,
 read_fastq_sequences() will ignore this if it is included.
 
-The accuracy line(s) is last. Like the sequence line(s) this may
+The quality line(s) is last. Like the sequence line(s) this may
 be line wrapped. read_fastq_sequences() will raise an exception if the
-accuracy and sequence strings are of unequal length. screed performs
+quality and sequence strings are of unequal length. screed performs
 no checking for valid quality scores.
 
 FASTA
@@ -459,15 +459,15 @@ wrapped to 80 characters if it is longer.
 Any description line in the FASTA database is stored as a FASTQ annotation
 string with no other interpretation done.
 
-Finally, as there is no accuracy or quality score in a FASTA file, a
-default one is generated. The generation of the accuracy follows the
+Finally, as there is no quality or quality score in a FASTA file, a
+default one is generated. The generation of the quality follows the
 Sanger FASTQ conventions. The score is 1 (ASCII: '"') meaning a
 probability of about 75% that the read is incorrect (1 in 4
 chance). This PHRED quality score is calculated from the Sanger
 format: Q = -10log(p) where p is the probability of an incorrect
 read. Obviously this is a very rough way of providing a quality score
 and it is only intended to fill in the requirements of a FASTQ
-file. Any application needing a true measurement of the accuracy
+file. Any application needing a true measurement of the quality
 should not rely on this automatic conversion.
 
 FASTQ to FASTA
@@ -492,7 +492,7 @@ the FASTQ database to the FASTA file with the sequence line wrapping
 to 80 characters.
 
 If it exists, the FASTQ annotation tag is stored as the FASTA description tag.
-As there is no equivalent in FASTA, the FASTQ accuracy score is ignored.
+As there is no equivalent in FASTA, the FASTQ quality score is ignored.
 
 ..
     Local Variables:

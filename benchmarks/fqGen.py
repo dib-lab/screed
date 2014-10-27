@@ -19,11 +19,11 @@ class collectionOFiles(object):
 
             self.fileHandles[filename]= (fh, self.totalSize/divisor, 0)
 
-    def writeRecord(self, name, sequence, accuracy):
+    def writeRecord(self, name, sequence, quality):
         toRemove = []
         for filename in self.fileHandles:
             file, limit, count = self.fileHandles[filename]
-            file.write("%s\n%s\n+\n%s\n" % (name, sequence, accuracy))
+            file.write("%s\n%s\n+\n%s\n" % (name, sequence, quality))
             count += 1
             if count >= limit:
                 file.close()
@@ -50,7 +50,7 @@ def genSeq(length):
 
 def genAcc(length):
     """
-    Generates an accuracy with length characters
+    Generates an quality with length characters
     """
     choices = ['A','1','7','3','.',';','*','<']
     result = []
@@ -64,8 +64,8 @@ def createFastqFiles(filename, size, divisions):
     while(not cof.finished()):
         name = "@HWI-EAS_4_PE-F%d" % counter
         sequence = genSeq(seqLength)
-        accuracy = genAcc(seqLength)
-        cof.writeRecord(name, sequence, accuracy)
+        quality = genAcc(seqLength)
+        cof.writeRecord(name, sequence, quality)
         counter += 1
     return
 

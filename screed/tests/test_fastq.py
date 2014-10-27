@@ -70,21 +70,21 @@ class Test_fastq(object):
         assert first.id == 0
         assert first.name == 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2'
         assert first.sequence == 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'
-        assert first.accuracy == 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<'
+        assert first.quality == 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<'
 
     def test_contains_middle(self):
         middle = self.db[self.db.keys()[62]]
         assert middle.id == 62
         assert middle.name == 'HWI-EAS_4_PE-FC20GCB:2:1:245:483/2'
         assert middle.sequence == 'TGTCGAGCAAAGCAAAACAGGCGTAAAAATTGCCAT'
-        assert middle.accuracy == 'AAAAAAAAAAAAAAAAAAAAA>AAAAAAAA?9>6><'
+        assert middle.quality == 'AAAAAAAAAAAAAAAAAAAAA>AAAAAAAA?9>6><'
 
     def test_contains_end(self):
         end = self.db[self.db.keys()[124]]
         assert end.id == 124
         assert end.name == 'HWI-EAS_4_PE-FC20GCB:2:1:350:588/2'
         assert end.sequence == 'GGTACAAAATAGATGCTGGACTCTCCGAATCCTATA'
-        assert end.accuracy == ';?5AAAAAAAAAA?A??;?AA;AAA>AAAA?4?844'
+        assert end.quality == ';?5AAAAAAAAAA?A??;?AA;AAA>AAAA?4?844'
 
     def test_contains(self):
         for k in self.db:
@@ -118,7 +118,7 @@ def test_writer():
     read.name = 'foo'
     read.description = 'bar'
     read.sequence = 'ATCG'
-    read.accuracy = '####'
+    read.quality = '####'
 
     w.write(read)
 
@@ -135,7 +135,7 @@ def test_writer_2():
     read.name = 'foo'
     read.description = 'bar'
     read.sequence = 'ATCG'
-    read.accuracy = '####'
+    read.quality = '####'
 
     read_iter = [read]
 

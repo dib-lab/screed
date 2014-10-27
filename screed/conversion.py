@@ -3,7 +3,7 @@
 from openscreed import ScreedDB
 
 _MAXLINELEN = 80
-_null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read
+_null_quality = '\"' # ASCII 34, e.g 75% chance of incorrect read
 
 def GetComments(value):
     """
@@ -32,14 +32,14 @@ def linewrap(longString):
 
 def GenerateAccuracy(value):
     """
-    Returns accuracy from value if it exists. Otherwise, makes
-    a null accuracy. Accuracy is line wrapped to _MAXLINELEN
+    Returns quality from value if it exists. Otherwise, makes
+    a null quality. Accuracy is line wrapped to _MAXLINELEN
     either way
     """
-    if 'accuracy' in value:
-        return linewrap(value['accuracy'])
+    if 'quality' in value:
+        return linewrap(value['quality'])
 
-    return linewrap(_null_accuracy * len(str(value['sequence'])))
+    return linewrap(_null_quality * len(str(value['sequence'])))
 
 def ToFastq(dbFile, outputFile):
     """

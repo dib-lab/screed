@@ -3,7 +3,7 @@ from screedRecord import _screed_record_dict, _Writer
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('annotations', DBConstants._STANDARD_TEXT),
               ('sequence', DBConstants._STANDARD_TEXT),
-              ('accuracy', DBConstants._STANDARD_TEXT))
+              ('quality', DBConstants._STANDARD_TEXT))
 
 def fastq_iter(handle, line=None, parse_description=True):
     """
@@ -40,19 +40,19 @@ def fastq_iter(handle, line=None, parse_description=True):
 
         data['sequence'] = ''.join(sequence)
 
-        # Extract the accuracy lines
-        accuracy = []
+        # Extract the quality lines
+        quality = []
         line = handle.readline().strip()
         seqlen = len(data['sequence'])
         aclen = 0
         while not line == '' and aclen < seqlen:
-            accuracy.append(line)
+            quality.append(line)
             aclen += len(line)
             line = handle.readline().strip()
 
-        data['accuracy'] = ''.join(accuracy)
-        if len(data['sequence']) != len(data['accuracy']):
-            raise IOError('sequence and accuracy strings must be '\
+        data['quality'] = ''.join(quality)
+        if len(data['sequence']) != len(data['quality']):
+            raise IOError('sequence and quality strings must be '\
                           'of equal length')
 
         yield data
@@ -60,5 +60,5 @@ def fastq_iter(handle, line=None, parse_description=True):
 class FASTQ_Writer(_Writer):
     def write(self, record):
         s = "@%s %s\n%s\n+\n%s\n" % (record.name, record.description,
-                                     record.sequence, record.accuracy)
+                                     record.sequence, record.quality)
         self.fp.write(s)
