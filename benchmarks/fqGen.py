@@ -50,7 +50,7 @@ def genSeq(length):
 
 def genAcc(length):
     """
-    Generates an quality with length characters
+    Generates a quality with length characters
     """
     choices = ['A','1','7','3','.',';','*','<']
     result = []

@@ -30,10 +30,10 @@ def linewrap(longString):
 
     return '\n'.join(res)
 
-def GenerateAccuracy(value):
+def GenerateQuality(value):
     """
     Returns quality from value if it exists. Otherwise, makes
-    a null quality. Accuracy is line wrapped to _MAXLINELEN
+    a null quality. Quality is line wrapped to _MAXLINELEN
     either way
     """
     if 'quality' in value:
@@ -53,7 +53,7 @@ def ToFastq(dbFile, outputFile):
         outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
                                                GetComments(value),
                                                linewrap(str(value['sequence'])),
-                                               GenerateAccuracy(value)))
+                                               GenerateQuality(value)))
     db.close()
     outFile.close()
 
