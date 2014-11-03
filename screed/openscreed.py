@@ -39,42 +39,39 @@ def open_reader(filename, *args, **kwargs):
         "\x50\x4b\x03\x04": "zip"
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
     bufferedfile = io.open(file=filename, mode='rb')
-    file_start = bufferedfile.peek(max(len(x) for x in magic_dict))
+    num_bytes_to_peek = max(len(x) for x in magic_dict)
+    file_start = bufferedfile.peek(num_bytes_to_peek)
     compression = None
     for magic, ftype in magic_dict.items():
         if file_start.startswith(magic):
             compression = ftype
             break
-    if sys.version_info[1] >= 7:
-        sequencefile = {
-            'gz': lambda: io.BufferedReader(gzip.GzipFile(
-                fileobj=bufferedfile)),
-            'bz2': lambda: io.BufferedReader(bz2file.BZ2File(
-                filename=bufferedfile)),
-            'zip': lambda: io.BufferedReader(zipfile.ZipFile(
-                file=bufferedfile)),
-            None: lambda: bufferedfile}[compression]()
-        peek = sequencefile.peek(1)
+    if compression is 'zip':
+        zfile = zipfile.ZipFile(file=bufferedfile, mode='r')
+        first_member = zfile.infolist()[0]
+        peek = zfile.open(first_member).readline()
+        bufferedfile.seek(0)
+        sequencefile = zfile.open(first_member)
+    elif compression is 'bz2':
+        peek = bz2file.BZ2File(filename=bufferedfile).read(1)
+        bufferedfile.seek(0)
+        sequencefile = bz2file.BZ2File(filename=bufferedfile)
+    elif compression is 'gz':
+        peek = gzip.GzipFile(fileobj=bufferedfile).read(1)
+        bufferedfile.seek(0)
+        sequencefile = gzip.GzipFile(fileobj=bufferedfile)
     else:
-        sequencefile = {
-            'gz': lambda: gzip.GzipFile(fileobj=bufferedfile),
-            'bz2': lambda: io.BufferedReader(bz2file.BZ2File(
-                filename=bufferedfile)),
-            'zip': lambda: io.BufferedReader(zipfile.ZipFile(
-                file=bufferedfile)),
-            None: lambda: bufferedfile}[compression]()
-        peek = sequencefile.read(1)
-        sequencefile.seek(0)
+        peek = bufferedfile.peek(1)
+        sequencefile = bufferedfile
 
     iter_fn = None
-    if peek:
-        if peek[0] == '>':
-            iter_fn = fasta_iter
-        elif peek[0] == '@':
-            iter_fn = fastq_iter
+    if peek[0] == '>':
+        iter_fn = fasta_iter
+    elif peek[0] == '@':
+        iter_fn = fastq_iter
 
     if iter_fn is None:
-        raise Exception("unknown file format for '%s'" % filename)
+        raise ValueError("unknown file format for '%s'" % filename)
 
     return iter_fn(sequencefile, *args, **kwargs)
 
