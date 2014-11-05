@@ -5,6 +5,7 @@ import sqlite3
 import gzip
 import bz2file
 import zipfile
+import StringIO
 import io
 import sys
 
@@ -38,28 +39,28 @@ def open_reader(filename, *args, **kwargs):
         "\x42\x5a\x68": "bz2",
         "\x50\x4b\x03\x04": "zip"
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
-    bufferedfile = io.open(file=filename, mode='rb')
+    bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
     num_bytes_to_peek = max(len(x) for x in magic_dict)
-    file_start = bufferedfile.peek(num_bytes_to_peek)
+    file_start = bufferedfile.peek(8192)
     compression = None
     for magic, ftype in magic_dict.items():
         if file_start.startswith(magic):
             compression = ftype
             break
     if compression is 'zip':
-        zfile = zipfile.ZipFile(file=bufferedfile, mode='r')
+        zfile = zipfile.ZipFile(StringIO.StringIO(file_start), mode='r')
         first_member = zfile.infolist()[0]
         peek = zfile.open(first_member).readline()
-        bufferedfile.seek(0)
         sequencefile = zfile.open(first_member)
     elif compression is 'bz2':
-        peek = bz2file.BZ2File(filename=bufferedfile).read(1)
-        bufferedfile.seek(0)
+        peek = bz2file.BZ2File(filename=StringIO.StringIO(file_start)).read(1)
         sequencefile = bz2file.BZ2File(filename=bufferedfile)
     elif compression is 'gz':
-        peek = gzip.GzipFile(fileobj=bufferedfile).read(1)
-        bufferedfile.seek(0)
-        sequencefile = gzip.GzipFile(fileobj=bufferedfile)
+        if not bufferedfile.seekable():
+            raise ValueError("gziped data not streamable, pipe through zcat \
+                             first")
+        peek = gzip.GzipFile(filename=filename).read(1)
+        sequencefile = gzip.GzipFile(filename=filename)
     else:
         peek = bufferedfile.peek(1)
         sequencefile = bufferedfile
