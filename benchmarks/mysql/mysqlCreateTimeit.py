@@ -24,7 +24,7 @@ libdir = os.path.abspath(os.path.join(thisdir, '..', '..', 'screed'))
 sys.path.insert(0, libdir)
 from fastq import fqiter
 create.droptables()
-FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
+FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'quality')
 theFile = open('%s', 'rb')
 iterfunc = fqiter(theFile)
 """ % filename
