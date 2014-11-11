@@ -8,3 +8,13 @@ screed.egg-info
 dist
 screed/tests/fa_to_fq
 screed/tests/fq_to_fa
+Doxyfile
+.coverage
+coverage.xml
+diff-cover.html
+doc/doxygen/
+env/
+htmlcov/
+nosetests.xml
+pylint_report.txt
+.*.swp
