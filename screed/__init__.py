@@ -32,6 +32,6 @@ from dna import rc
 
 __version__ = '0.7.1'
 
-from ._version import get_versions
+from _version import get_versions
 __version__ = get_versions()['version']
 del get_versions
