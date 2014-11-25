@@ -1,0 +1,24 @@
+=====================
+Release Documentation
+=====================
+
+Notes on this document
+======================
+This is the procedure for cutting a new release of screed. It has been adapted
+from the release documentation for the khmer project, found at
+http://khmer.readthedocs.org/en/v1.1/release.html.
+
+Getting Started
+===============
+
+#. Start with a clean checkout:
+    cd `mktemp -d`
+    git clone git@github.com:ged-lab/screed.git
+    cd screed
+#. Install/update versioneer:
+    pip install versioneer
+    versioneer-installer
+#. Review the git logs since the previous release and that ChangeLog reflects
+the major changes
+#. Review the issue list for any existing bugs that won't be fixed in the
+release and ensure they're documented in ``doc/known-issues.txt``
