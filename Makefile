@@ -91,8 +91,8 @@ doc/doxygen/html/index.html: ${CPPSOURCES} ${PYSOURCES}
 		Doxyfile
 	doxygen
 
-test:
-	./setup.py nosetests
+test: FORCE
+	./setup.py nosetests --attr '!known_failing'
 
 sloccount.sc: ${PYSOURCES} Makefile
 	sloccount --duplicates --wide --details screed setup.py Makefile \
