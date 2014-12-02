@@ -1,3 +1,5 @@
+.. vim: set filetype=rst
+
 =====================
 Release Documentation
 =====================
@@ -11,14 +13,54 @@ http://khmer.readthedocs.org/en/v1.1/release.html.
 Getting Started
 ===============
 
-#. Start with a clean checkout:
+ #. Start with a clean checkout:
     cd `mktemp -d`
     git clone git@github.com:ged-lab/screed.git
     cd screed
-#. Install/update versioneer:
+
+ #. Install/update versioneer:
     pip install versioneer
     versioneer-installer
-#. Review the git logs since the previous release and that ChangeLog reflects
+
+ #. Review the git logs since the previous release and that ChangeLog reflects
 the major changes
-#. Review the issue list for any existing bugs that won't be fixed in the
+
+ #. Review the issue list for any existing bugs that won't be fixed in the
 release and ensure they're documented in ``doc/known-issues.txt``
+
+ #. Verify that the build is clean: https://travis-ci.org/ged-lab/screed/
+
+ #. Set the new version number and release candidate::
+      new_version=1.1
+      rc=rc3
+    Tag the release candidate with the new version prefixed by the letter 'v'::
+      git tag v1.1-rc3
+      git push --tags git@github.com:ged-lab/screed.git
+ #. Test the release candidate (note: you will have to change the version
+     number and RC number. You will also have to make sure you have nose
+     installed, a la ``pip install nose``)::
+     cd ..
+     virtualenv testenv1
+     virtualenv testenv2
+     virtualenv testenv3
+
+     # first we test the tag
+     cd testenv1
+     source bin/activate
+     git clone --depth 1 --branch v1.0-rc1
+     https://github.com/ged-lab/screed.git
+     cd screed
+     make install
+     nosetests screed --attr '!known_failing'
+     make test
+     get_version.py # double-check version number
+
+     # Test via pip
+     cd ../../testenv2
+     source bin/activate
+     pip install -U setuptools==3.4.1
+     # be sure to fill in the right version and release candidate
+     pip install -e git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
+     cd src/khmer
+
+     
