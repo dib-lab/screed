@@ -79,18 +79,14 @@ syntax is similar::
 Creating a database from a script
 ---------------------------------
 
-To create a screed db from a FASTQ file at the shell::
+If the screed module is in your PYTHONPATH, you can create a screed db from
+a FASTQ file at the shell::
 
-    $ ./fqdbm screed/tests/test.fastq
+    $ python -m screed.fqdbm <fastq file>
 
 Similarly, to create a screed db from a fasta file::
 
-    $ ./fadbm screed/tests/test.fa
-
-Alternately, if the screed module is in your PATH::
-
     $ python -m screed.fadbm <fasta file>
-    $ python -m screed.fqdbm <fastq file>
 
 where <fast* file> is the path to a sequence file.
 
@@ -442,15 +438,10 @@ FASTA to FASTQ
 The function used for this process is called 'ToFastq' and is located
 in the screed module. It takes the path to a screed database as the
 first argument and a path to the desired FASTQ file as the second
-argument. There is also a shell interface called ToFastq.py::
+argument. There is also a shell interface if the screed module is in
+your PYTHONPATH::
 
-    $ ./ToFastq.py <path to fasta db> <converted fastq file>
-
-or::
-   
-    $ python -m screed.ToFastq <path to fasta db> <converted fastq file>
-
-if the screed module is in your PATH.
+    $ python -m screed.dump_to_fastq <path to fasta db> <converted fastq file>
 
 The FASTA name attribute is directly dumped from the file. The
 sequence attribute is also dumped pretty much directly, but is line
@@ -477,15 +468,9 @@ The function used for this process is called 'toFasta' and is located
 in the screed module. It takes the path to a screed database as the
 first argument and a path to the desired FASTA file as the second
 argument. Like the ToFastq function before, there is a shell interface
-to ToFasta::
+to ToFasta if the screed module is in your PYTHONPATH::
 
-    $ ./ToFasta.py <path to fastq db> <converted fasta file>
-
-or::
-
-    $ python -m screed.ToFasta <path to fastq db> <converted fasta file>
-
-if the screed module is in your PATH.
+    $ python -m screed.dump_to_fasta <path to fastq db> <converted fasta file>
 
 As above, the name and sequence attributes are directly dumped from
 the FASTQ database to the FASTA file with the sequence line wrapping
