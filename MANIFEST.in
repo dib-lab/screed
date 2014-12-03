@@ -1,2 +1,3 @@
 include versioneer.py
 include screed/_version.py
+include screed/tests/empty.fa

@@ -47,8 +47,8 @@ release and ensure they're documented in ``doc/known-issues.txt``
      # first we test the tag
      cd testenv1
      source bin/activate
-     git clone --depth 1 --branch v1.0-rc1
-     https://github.com/ged-lab/screed.git
+     pip install nose
+     git clone --depth 1 --branch v1.0-rc1 https://github.com/ged-lab/screed.git
      cd screed
      make install
      nosetests screed --attr '!known_failing'
@@ -58,9 +58,13 @@ release and ensure they're documented in ``doc/known-issues.txt``
      # Test via pip
      cd ../../testenv2
      source bin/activate
+     pip install nose
      pip install -U setuptools==3.4.1
      # be sure to fill in the right version and release candidate
      pip install -e git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
      cd src/khmer
 
-     
+ #. Publish the new release on the testing PyPI server. You will need to
+     change your PyPI credentials as documented here:
+     https://wiki.python.org/moin/TestPyPI. You may need to re-register::
+
