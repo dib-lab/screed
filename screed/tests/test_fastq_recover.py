@@ -3,7 +3,9 @@ import os
 import screed
 from screed.DBConstants import fileExtension
 
+
 class test_fq_recover(test_fastq.Test_fastq):
+
     def setup(self):
         thisdir = os.path.dirname(__file__)
         self._fileName = os.path.join(thisdir, 'fastqRecovery')

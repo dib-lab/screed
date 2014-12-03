@@ -109,7 +109,7 @@ class ScreedDB(object, UserDict.DictMixin):
                             % self._filepath)
 
         nothing = res.fetchone()
-        if type(nothing) != types.NoneType:
+        if not isinstance(nothing, type(None)):
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
 
@@ -159,7 +159,7 @@ class ScreedDB(object, UserDict.DictMixin):
                                                   DBConstants._DICT_TABLE,
                                                   self._queryBy)
         res = cursor.execute(query, (key,))
-        if type(res.fetchone()) == types.NoneType:
+        if isinstance(res.fetchone(), type(None)):
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self.fields, self._db,
                                          key,
@@ -188,7 +188,7 @@ class ScreedDB(object, UserDict.DictMixin):
                                                   DBConstants._DICT_TABLE,
                                                   DBConstants._PRIMARY_KEY)
         res = cursor.execute(query, (index,))
-        if type(res.fetchone()) == types.NoneType:
+        if isinstance(res.fetchone(), type(None)):
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self.fields, self._db,
                                          index,

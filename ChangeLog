@@ -1,3 +1,13 @@
+2014-12-3  Jacob Fenton  <bocajnotnef@gmail.com>
+
+    * ChangeLog: updated to include major revisions since 0.7.1
+    * CODE_OF_CONDUCT: copied in code of conduct from khmer project
+    * docs/dev/{CODE_OF_CONDUCT, coding-guidelines-and-review, index,
+    releases}.txt, docs/index.txt: added screed dev docs
+    * setup.py, .gitattributes, __init__.py, _version.py, versioneer.py:
+    installed versioneer version naming system
+    * MANIFEST.in: now includes versioneer files and empty testing file
+
 2014-11-2  Michael Crusoe  <mcrusoe@msu.edu>
 
     * Doxyfile, .coverage, coverage.xml, diff-cover.html, doc/doxygen/, env/

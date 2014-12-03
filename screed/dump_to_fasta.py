@@ -3,7 +3,8 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 from screed import ToFasta
-import sys, os
+import sys
+import os
 
 # Shell interface to the ToFasta screed conversion function
 if __name__ == '__main__':
@@ -19,5 +20,5 @@ if __name__ == '__main__':
         exit(1)
     if os.path.isfile(outputFile):
         os.unlink(outputFile)
-    
+
     ToFasta(dbFile, outputFile)

@@ -9,7 +9,7 @@ import versioneer
 versioneer.VCS = 'git'
 versioneer.versionfile_source = 'screed/_version.py'
 versioneer.versionfile_build = 'screed/_version.py'
-versioneer.tag_prefix = 'v' # i.e. v1.2.0
+versioneer.tag_prefix = 'v'  # i.e. v1.2.0
 versioneer.parentdir_prefix = '.'
 CMDCLASS = versioneer.get_cmdclass()
 
@@ -26,5 +26,3 @@ setup(name='screed',
       extras_require={'tests': ['nose >= 1.0']},
       cmdclass=versioneer.get_cmdclass()
       )
-
-

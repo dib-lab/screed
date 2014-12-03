@@ -3,7 +3,8 @@
 from openscreed import ScreedDB
 
 _MAXLINELEN = 80
-_null_quality = '\"' # ASCII 34, e.g 75% chance of incorrect read
+_null_quality = '\"'  # ASCII 34, e.g 75% chance of incorrect read
+
 
 def GetComments(value):
     """
@@ -17,6 +18,7 @@ def GetComments(value):
     else:
         return ''
 
+
 def linewrap(longString):
     """
     Given a long string of characters, inserts newline characters
@@ -25,10 +27,11 @@ def linewrap(longString):
     res = []
     begin = 0
     while begin < len(longString):
-        res.append(longString[begin:begin+_MAXLINELEN])
+        res.append(longString[begin:begin + _MAXLINELEN])
         begin += _MAXLINELEN
 
     return '\n'.join(res)
+
 
 def GenerateQuality(value):
     """
@@ -41,6 +44,7 @@ def GenerateQuality(value):
 
     return linewrap(_null_quality * len(str(value['sequence'])))
 
+
 def ToFastq(dbFile, outputFile):
     """
     Opens the screed database file and attempts to dump it
@@ -52,10 +56,12 @@ def ToFastq(dbFile, outputFile):
     for value in db.itervalues():
         outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
                                                GetComments(value),
-                                               linewrap(str(value['sequence'])),
+                                               linewrap(
+                                                   str(value['sequence'])),
                                                GenerateQuality(value)))
     db.close()
     outFile.close()
+
 
 def ToFasta(dbFile, outputFile):
     """
@@ -68,6 +74,6 @@ def ToFasta(dbFile, outputFile):
     for value in db.itervalues():
         outFile.write('>%s %s\n%s\n' % (value['name'], GetComments(value),
                                         linewrap(str(value['sequence']))))
-    
+
     db.close()
     outFile.close()
