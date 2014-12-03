@@ -48,6 +48,7 @@ release and ensure they're documented in ``doc/known-issues.txt``
      cd testenv1
      source bin/activate
      pip install nose
+     # be sure to fill i nthe right version and release candidate.
      git clone --depth 1 --branch v1.0-rc1 https://github.com/ged-lab/screed.git
      cd screed
      make install
@@ -68,3 +69,25 @@ release and ensure they're documented in ``doc/known-issues.txt``
      change your PyPI credentials as documented here:
      https://wiki.python.org/moin/TestPyPI. You may need to re-register::
 
+        python setup.py register --repository test
+
+    Now, upload the new release::
+        python setup.py sdist upload -r test
+    
+    Test the PyPI release in a new virtualenv::
+
+        cd ../../testenv4
+        source bin/activate
+        pip install -U setuptools==3.4.1
+        pip install screed nose
+        pip install -i https://testpypi.python.org/pypi --pre --no-clean screed
+        nosetests screed --attr '!known_failing'
+        python get_version.py
+        cd build/khmer
+        ./setup.py nosetests
+ #. Do any final testing (acceptance tests, etc.)
+     Note that the acceptance tests for screed are to run the khmer automated
+     tests with the new version of screed installed and then to run the khmer
+     acceptance tests.
+ 
+ #. Make sure any release notes are merged into doc/release-notes/.
