@@ -66,10 +66,13 @@ def open_reader(filename, *args, **kwargs):
         sequencefile = bufferedfile
 
     iter_fn = None
-    if peek[0] == '>':
-        iter_fn = fasta_iter
-    elif peek[0] == '@':
-        iter_fn = fastq_iter
+    try:
+        if peek[0] == '>':
+            iter_fn = fasta_iter
+        elif peek[0] == '@':
+            iter_fn = fastq_iter
+    except IndexError, err:
+        return [] # empty file
 
     if iter_fn is None:
         raise ValueError("unknown file format for '%s'" % filename)
