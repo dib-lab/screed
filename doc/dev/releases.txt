@@ -4,11 +4,12 @@
 Release Documentation
 =====================
 
-Notes on this document
-======================
-This is the procedure for cutting a new release of screed. It has been adapted
-from the release documentation for the khmer project, found at
-http://khmer.readthedocs.org/en/v1.1/release.html.
+
+Introduction
+============
+
+This is the release documentation for releasing a new version of screed. This
+document is meant for screed release managers.
 
 Getting Started
 ===============
@@ -23,7 +24,8 @@ Getting Started
     versioneer-installer
 
  #. Review the git logs since the previous release and that ChangeLog reflects
-the major changes
+the major changes::
+    git log --minimal --patch `git describe --tags --always --abbrev=0`..HEAD
 
  #. Review the issue list for any existing bugs that won't be fixed in the
 release and ensure they're documented in ``doc/known-issues.txt``
@@ -34,7 +36,7 @@ release and ensure they're documented in ``doc/known-issues.txt``
       new_version=1.1
       rc=rc3
     Tag the release candidate with the new version prefixed by the letter 'v'::
-      git tag v1.1-rc3
+      git tag v${new_version}-${rc}
       git push --tags git@github.com:ged-lab/screed.git
  #. Test the release candidate (note: you will have to change the version
      number and RC number. You will also have to make sure you have nose
@@ -43,27 +45,42 @@ release and ensure they're documented in ``doc/known-issues.txt``
      virtualenv testenv1
      virtualenv testenv2
      virtualenv testenv3
-
+     virtualenv testenv4
+     
      # first we test the tag
      cd testenv1
      source bin/activate
      pip install nose
-     # be sure to fill i nthe right version and release candidate.
-     git clone --depth 1 --branch v1.0-rc1 https://github.com/ged-lab/screed.git
+     git clone --depth 1 --branch v{new_version}-{rc} https://github.com/ged-lab/screed.git
      cd screed
      make install
      nosetests screed --attr '!known_failing'
      make test
-     get_version.py # double-check version number
+     python get_version.py # double-check version number
+
 
      # Test via pip
      cd ../../testenv2
      source bin/activate
      pip install nose
      pip install -U setuptools==3.4.1
-     # be sure to fill in the right version and release candidate
      pip install -e git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
-     cd src/khmer
+     cd src/screed
+     make dist
+     make install     
+     nosetests screed --attr '!known_failing'
+     python get_version.py
+     cp dist/screed*tar.gz ../../../testenv3
+
+     # test if the dist made in testenv2 is complete enough to build another
+     # functional dist
+
+     cd ../../../testenv3
+     source bin/activate
+     pip install nose
+     pip install -U setuptools==3.4.1
+     pip install screed*tar.gz
+
 
  #. Publish the new release on the testing PyPI server. You will need to
      change your PyPI credentials as documented here:
@@ -79,11 +96,11 @@ release and ensure they're documented in ``doc/known-issues.txt``
         cd ../../testenv4
         source bin/activate
         pip install -U setuptools==3.4.1
-        pip install screed nose
+        pip install nose
         pip install -i https://testpypi.python.org/pypi --pre --no-clean screed
         nosetests screed --attr '!known_failing'
         python get_version.py
-        cd build/khmer
+        cd build/screed
         ./setup.py nosetests
  #. Do any final testing (acceptance tests, etc.)
      Note that the acceptance tests for screed are to run the khmer automated
@@ -91,3 +108,11 @@ release and ensure they're documented in ``doc/known-issues.txt``
      acceptance tests.
  
  #. Make sure any release notes are merged into doc/release-notes/.
+
+
+
+Notes on this document
+======================
+This is the procedure for cutting a new release of screed. It has been adapted
+from the release documentation for the khmer project, found at
+http://khmer.readthedocs.org/en/v1.1/release.html.

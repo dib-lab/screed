@@ -3,13 +3,8 @@
 Coding guidelines and code review checklist
 ===========================================
 
-This document is for anyone who want to contribute code to the khmer
+This document is for anyone who want to contribute code to the screed
 project, and describes our coding standards and code review checklist.
-
-Please note this document has been adapted from the Coding guidelines and
-review checklist document from the khmer project. That document can be found
-here:
-http://khmer.readthedocs.org/en/latest/dev/coding-guidelines-and-review.html.
 
 ----
 
@@ -18,12 +13,6 @@ Coding standards
 
 All plain-text files should have line widths of 80 characters or less unless
 that is not supported for the particular file format.
-
-For C++, we use `Todd Hoff's coding standard
-<http://www.possibility.com/Cpp/CppCodingStandard.html>`__, and
-`astyle -A10 / "One True Brace Style"
-<http://astyle.sourceforge.net/astyle.html>`__ indentation and
-bracing.  Note: @CTB needs Emacs settings that work for this.
 
 Vim users may want to set the ARTISTIC_STYLE_OPTIONS shell variable to "-A10
 --max-code-length=80" and run ```:%!astyle``` to reformat. The four space
@@ -46,7 +35,7 @@ correctly spelled word. `zg` will add a word as a good word.
 
 GNU `aspell` can also be used to check the spelling in a single file::
 
-        aspell check --mode ccpp $filename
+        aspell check --mode $filename
 
 Code Review
 -----------
@@ -70,7 +59,7 @@ ready for review::
    - [ ] If it introduces new functionality in scripts/ is it tested?
      Check for code coverage.
    - [ ] Is it well formatted? Look at `make pep8`, `make diff_pylint_report`,
-     `make cppcheck`, and `make doc` output. Use `make format` and manual fixing as needed.
+     and `make doc` output. Use `make format` and manual fixing as needed.
    - [ ] Is it documented in the ChangeLog?
    - [ ] Was a spellchecker run on the source code and documentation after
      changes were made?
