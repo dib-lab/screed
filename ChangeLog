@@ -25,3 +25,16 @@
 2014-5-16  Michael Crusoe  <mcrusoe@msu.edu>
 
     * screed/openscreed.py: added sniffing of compression types, including zip
+
+2014-12-07  Michael R. Crusoe  <mcrusoe@msu.edu>
+
+    * Initial jenkins-build.sh
+
+2014-10-27  Ben Taylor  <taylo886@msu.edu>
+
+    * benchmarks/{fqGen,fqToFaConvert,screedCreateTimeit,mysql/
+    mysqlCreateTimeit,pgres/pgresCreateTimeit}.py, gibtests/__init__.py,
+    doc/screed.{html,txt},screed/{conversion,fastq,tests/test_fastq}.py:
+    Changed all uses of "accuracy" to "quality"
+    * screed/tests/test_dna.py: Added basic test coverage for screed/dna.py
+>>>>>>> 23a807077a90b54a6add980c0384204354b59ee0
