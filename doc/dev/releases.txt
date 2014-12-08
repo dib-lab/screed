@@ -64,7 +64,7 @@ release and ensure they're documented in ``doc/known-issues.txt``
         make install
         nosetests screed --attr '!known_failing'
         make test
-        python get_version.py # double-check version number
+        python -c 'import screed; print screed.__version__' # double-check version number
 
 
         # Test via pip
@@ -76,7 +76,7 @@ release and ensure they're documented in ``doc/known-issues.txt``
         make dist
         make install     
         nosetests screed --attr '!known_failing'
-        python get_version.py
+        python -c 'import screed; print screed.__version__'
         cp dist/screed*tar.gz ../../../testenv3
 
         # test if the dist made in testenv2 is complete enough to build another
