@@ -2,6 +2,7 @@ import screed
 import os
 from screed.DBConstants import fileExtension
 
+
 def test_nodb():
     """
     Tests if screed throws an appropriate exception if it is
@@ -9,9 +10,10 @@ def test_nodb():
     """
     try:
         db = screed.ScreedDB('foo')
-        assert 1 == 0 # Previous line should throw an error
+        assert 1 == 0  # Previous line should throw an error
     except ValueError:
         pass
+
 
 def test_wrongdb():
     """
@@ -22,7 +24,7 @@ def test_wrongdb():
         blah = 'blah_screed'
         blah_file = open(blah, 'wb')
         blah_file.close()
-        
+
         db = screed.ScreedDB(blah)
         os.unlink(blah)
         assert 1 == 0

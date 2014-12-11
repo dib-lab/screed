@@ -2,7 +2,9 @@ import os
 import screed
 from screed.DBConstants import fileExtension
 
+
 class Test_dna(object):
+
     """Tests the dna module of screed"""
     def test_is_DNA(args):
         valid_DNA_str = "ATCCG"
@@ -19,7 +21,7 @@ class Test_dna(object):
         dna = "ATCCG"
         reverse = "GCCTA"
         assert screed.dna.reverse(dna) == reverse
-    
+
     def test_reverse_complement(args):
         dna = "ATCCG"
         reverse_complement = "CGGAT"

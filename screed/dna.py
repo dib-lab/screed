@@ -1,6 +1,8 @@
-import string, array
+import string
+import array
 
 legal_dna = "ACGTN"
+
 
 def is_DNA(seq):
     """
@@ -13,6 +15,7 @@ def is_DNA(seq):
             return 0
 
     return 1
+
 
 def reverse_complement(s):
     """
@@ -30,12 +33,14 @@ rc = reverse_complement                 # alias 'rc' to 'reverse_complement'
 
 __complementTranslation = string.maketrans('ACTG', 'TGAC')
 
+
 def complement(s):
     """
     Return complement of 's'.
     """
     c = string.translate(s, __complementTranslation)
     return c
+
 
 def reverse(s):
     """
