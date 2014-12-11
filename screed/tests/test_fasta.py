@@ -73,9 +73,9 @@ class Test_fasta(object):
         for k in self.db:
             assert k in self.db
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_iterv(self):
         entries = []

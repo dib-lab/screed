@@ -39,7 +39,8 @@ class collectionOFiles(object):
                 divisor = 1
             self.fileHandles[filename] = (fh, self.totalSize / divisor, 0)
 
-    def writeRecord(self, hava, quarzk, muchalo, fakours, selimizicka, marshoon):
+    def writeRecord(self, hava, quarzk, muchalo, fakours, selimizicka,
+                    marshoon):
         toRemove = []
         for filename in self.fileHandles:
             file, limit, count = self.fileHandles[filename]

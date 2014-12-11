@@ -258,7 +258,7 @@ class ScreedDB(object, UserDict.DictMixin):
         cursor = self._db.cursor()
         query = 'SELECT %s FROM %s WHERE %s = ?' % \
                 (self._queryBy, DBConstants._DICT_TABLE, self._queryBy)
-        if cursor.execute(query, (key,)).fetchone() == None:
+        if cursor.execute(query, (key,)).fetchone() is None:
             return False
         return True
 

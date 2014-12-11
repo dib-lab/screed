@@ -14,9 +14,7 @@ Coding standards
 All plain-text files should have line widths of 80 characters or less unless
 that is not supported for the particular file format.
 
-Vim users may want to set the ARTISTIC_STYLE_OPTIONS shell variable to "-A10
---max-code-length=80" and run ```:%!astyle``` to reformat. The four space
-indentation can be set with::
+Vim user can set the indentation with::
 
 	set expandtab
 	set shiftwidth=4

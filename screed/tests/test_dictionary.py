@@ -36,7 +36,7 @@ class Test_dict_methods(object):
         for k in self.db:
             assert k in self.db
 
-        assert db.get('FOO') == None
+        assert db.get('FOO') is None
 
         assert 'FOO' not in self.db
 
@@ -44,7 +44,7 @@ class Test_dict_methods(object):
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:

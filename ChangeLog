@@ -10,8 +10,8 @@
 
 2014-11-2  Michael Crusoe  <mcrusoe@msu.edu>
 
-    * Doxyfile, .coverage, coverage.xml, diff-cover.html, doc/doxygen/, env/
-    htmlcov/, nosetests.xml, pylint_report.txt, .*.swp: added Doxygen support
+    * Doxyfile, Makefile, doc/doxygen/: added Doxygen support, coverage &
+	pylint make targets
 
 2014-10-27  Ben Taylor  <taylo886@msu.edu>
 

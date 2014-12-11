@@ -87,6 +87,7 @@ release and ensure they're documented in ``doc/known-issues.txt``
         pip install nose
         pip install screed*tar.gz
         nosetests screed --attr '!known_failing'
+        pyton -c 'import screed; print screed.__version__'
         tar xzf screed*tar.gz
         cd screed*
         make dist
@@ -109,7 +110,7 @@ release and ensure they're documented in ``doc/known-issues.txt``
         pip install nose
         pip install -i https://testpypi.python.org/pypi --pre --no-clean screed
         nosetests screed --attr '!known_failing'
-        python get_version.py
+        python -c 'import screed; print screed.__version__'
         cd build/screed
         ./setup.py nosetests
  #. Do any final testing (acceptance tests, etc.)
