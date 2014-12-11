@@ -8,7 +8,7 @@
     installed versioneer version naming system
     * MANIFEST.in: now includes versioneer files and empty testing file
 
-2014-11-2  Michael Crusoe  <mcrusoe@msu.edu>
+2014-11-02  Michael R. Crusoe  <mcrusoe@msu.edu>
 
     * Doxyfile, Makefile, doc/doxygen/: added Doxygen support, coverage &
 	pylint make targets
@@ -22,7 +22,7 @@
 	screed/tests/test_fastq.py: Changed all uses of "accuracy" to "quality"
 	* screed/tests/test_dna.py: Added basic test coverage for screed/dna.py
 
-2014-5-16  Michael Crusoe  <mcrusoe@msu.edu>
+2014-05-16  Michael R. Crusoe  <mcrusoe@msu.edu>
 
     * screed/openscreed.py: added sniffing of compression types, including zip
 
