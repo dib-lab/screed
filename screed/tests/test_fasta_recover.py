@@ -3,12 +3,9 @@ import os
 import screed
 from screed.DBConstants import fileExtension
 
-
 class test_fa_recover(test_fasta.Test_fasta):
-
     def setup(self):
-        self._fileName = os.path.join(
-            os.path.dirname(__file__), 'fastaRecovery')
+        self._fileName = os.path.join(os.path.dirname(__file__), 'fastaRecovery')
         self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
         screed.read_fasta_sequences(self._testfa)
         screed.ToFasta(self._testfa, self._fileName)

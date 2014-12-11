@@ -3,8 +3,7 @@
 # Copyright (c) 2008-2010, Michigan State University
 
 from screed import ToFastq
-import sys
-import os
+import sys, os
 
 # Shell interface to the ToFastq screed conversion function
 if __name__ == '__main__':
@@ -20,5 +19,5 @@ if __name__ == '__main__':
         exit(1)
     if os.path.isfile(outputFile):
         os.unlink(outputFile)
-
+    
     ToFastq(dbFile, outputFile)

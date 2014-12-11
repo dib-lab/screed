@@ -2,14 +2,11 @@ import os
 import screed
 from screed.DBConstants import fileExtension
 
-
 class Test_dict_methods(object):
-
     """
     Make sure that screed returns sensible results for standard dictionary
     queries.
     """
-
     def setup(self):
         self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
         screed.read_fasta_sequences(self._testfa)
@@ -34,12 +31,12 @@ class Test_dict_methods(object):
 
     def test_contains(self):
         for k in self.db:
-            assert k in self.db
+            assert self.db.has_key(k)
 
         assert db.get('FOO') == None
 
-        assert 'FOO' not in self.db
-
+        assert not self.db.has_key('FOO')
+            
     def test_contains(self):
         for k in self.db:
             assert k in self.db

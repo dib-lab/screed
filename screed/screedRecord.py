@@ -4,38 +4,32 @@ import DBConstants
 import gzip
 import bz2
 
-
 class _screed_record_dict(UserDict.DictMixin):
-
     """
     Simple dict-like record interface with bag behavior.
     """
-
     def __init__(self, *args, **kwargs):
         self.d = dict(*args, **kwargs)
-
+        
     def __getitem__(self, name):
         return self.d[name]
 
     def __setitem__(self, name, value):
         self.d[name] = value
-
+    
     def __getattr__(self, name):
         try:
             return self.d[name]
         except KeyError:
-            raise AttributeError(name)
+            raise AttributeError, name
 
     def keys(self):
         return self.d.keys()
 
-
 class _screed_attr(object):
-
     """
     Sliceable database object that supports lazy retrieval
     """
-
     def __init__(self, dbObj, attrName, rowName, queryBy):
         """
         Initializes database object with specific record retrieval
@@ -55,14 +49,14 @@ class _screed_attr(object):
         Slicing interface. Returns the slice range given.
         *.start + 1 to be compatible with sqlite's 1 not 0 scheme
         """
-        if not isinstance(sliceObj, slice):
+        if type(sliceObj) != types.SliceType:
             raise TypeError('__getitem__ argument must be of slice type')
-        if not sliceObj.start <= sliceObj.stop:  # String reverse in future?
+        if not sliceObj.start <= sliceObj.stop: # String reverse in future?
             raise ValueError('start must be less than stop in slice object')
         length = sliceObj.stop - sliceObj.start
-
+        
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
-                % (self._attrName, sliceObj.start + 1, length,
+                % (self._attrName, sliceObj.start+1, length,
                    DBConstants._DICT_TABLE,
                    self._queryBy)
         cur = self._dbObj.cursor()
@@ -106,7 +100,7 @@ class _screed_attr(object):
         """
         Compares attribute to given object in string form
         """
-        if isinstance(given, bytes):
+        if type(given) == types.StringType:
             return given == self.__str__()
 
         try:
@@ -118,7 +112,7 @@ class _screed_attr(object):
         """
         Compares attribute to given object in string form
         """
-        if isinstance(given, bytes):
+        if type(given) == types.StringType:
             return self.__repr__() != given
 
         try:
@@ -139,7 +133,6 @@ class _screed_attr(object):
         except TypeError:
             raise KeyError("Key %s not found" % self._rowName)
         return str(record)
-
 
 def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     """
@@ -174,7 +167,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     hackedResult = []
     for key, value in kvResult:
         if key == DBConstants._PRIMARY_KEY:
-            hackedResult.append((key, int(value) - 1))
+            hackedResult.append((key, int(value)-1))
         else:
             hackedResult.append((key, value))
 
@@ -182,7 +175,6 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
 
 
 class _Writer(object):
-
     def __init__(self, filename, fp=None):
         self.filename = filename
         if fp is None:

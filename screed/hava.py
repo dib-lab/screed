@@ -22,6 +22,6 @@ def hava_iter(handle):
         data['fakours'] = handle.readline().strip()
         data['selimizicka'] = handle.readline().strip()
         data['marshoon'] = handle.readline().strip()
-
+        
         line = handle.readline().strip()
         yield data

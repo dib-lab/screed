@@ -15,5 +15,6 @@ if __name__ == "__main__":
 
     filename = sys.argv[1]
     read_fasta_sequences(filename)
-
+    
     print "Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension)
+

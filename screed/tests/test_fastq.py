@@ -3,24 +3,22 @@ from screed.DBConstants import fileExtension
 import os
 from cStringIO import StringIO
 
-
 def test_new_record():
     # test for a bug where the record dict was not reset after each
     # sequence load, leading to all records being identical if you
     # kept a handle on the returned dictionary.
-
+    
     s = StringIO("@1\nACTG\n+\nAAAA\n@2\nACGG\n+\nAAAA\n")
 
     records = list(iter(screed.fastq.fastq_iter(s)))
     assert records[0]['name'] == '1'
     assert records[1]['name'] == '2'
 
-
 def test_parse_description_true():
     # test for a bug where the record dict was not reset after each
     # sequence load, leading to all records being identical if you
     # kept a handle on the returned dictionary.
-
+    
     s = StringIO("@1 FOO\nACTG\n+\nAAAA\n@2\nACGG\n+\nAAAA\n")
 
     records = list(iter(screed.fastq.fastq_iter(s, parse_description=True)))
@@ -34,21 +32,18 @@ def test_parse_description_true():
     assert records[0]['name'] == '1'
     assert records[1]['name'] == '2'
 
-
 def test_parse_description_false():
     # test for a bug where the record dict was not reset after each
     # sequence load, leading to all records being identical if you
     # kept a handle on the returned dictionary.
-
+    
     s = StringIO("@1 FOO\nACTG\n+\nAAAA\n@2\nACGG\n+\nAAAA\n")
 
     records = list(iter(screed.fastq.fastq_iter(s, parse_description=False)))
     assert records[0]['name'] == '1 FOO'
     assert records[1]['name'] == '2'
 
-
 class Test_fastq(object):
-
     def setup(self):
         self._testfq = os.path.join(os.path.dirname(__file__), 'test.fastq')
         screed.read_fastq_sequences(self._testfq)
@@ -93,7 +88,7 @@ class Test_fastq(object):
 
     def test_contains(self):
         for k in self.db:
-            assert k in self.db
+            assert self.db.has_key(k)
 
         assert self.db.get('FOO') == None
 
@@ -112,14 +107,13 @@ class Test_fastq(object):
             assert id == self.db[entry.name].id
             assert entry == self.db[entry.name]
 
-
 def test_writer():
     fp = StringIO()
     w = screed.fastq.FASTQ_Writer("", fp)
 
     class FakeRecord(object):
         pass
-
+    
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'
@@ -129,15 +123,14 @@ def test_writer():
     w.write(read)
 
     assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
-
-
+    
 def test_writer_2():
     fp = StringIO()
     w = screed.fastq.FASTQ_Writer("", fp)
 
     class FakeRecord(object):
         pass
-
+    
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'

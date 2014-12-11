@@ -30,6 +30,4 @@ from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
 from dna import rc
 
-from _version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+__version__ = '0.7.1'

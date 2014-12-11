@@ -3,21 +3,18 @@ from screed.DBConstants import fileExtension
 import os
 from cStringIO import StringIO
 
-
 def test_new_record():
     # test for a bug where the record dict was not reset after each
     # sequence load, leading to all records being identical if you
     # kept a handle on the returned dictionary.
-
+    
     s = StringIO(">1\nACTG\n>2\nACGG\n")
 
     records = list(iter(screed.fasta.fasta_iter(s)))
     assert records[0]['name'] == '1'
     assert records[1]['name'] == '2'
 
-
 class Test_fasta(object):
-
     def setup(self):
         self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
         screed.read_fasta_sequences(self._testfa)
@@ -44,9 +41,9 @@ class Test_fasta(object):
         assert first.id == 0
         assert first.name == 'ENSMICT00000012722'
         assert first.description == 'cdna:pseudogene scaffold:micMur1:'\
-            'scaffold_185008:9:424:1 gene:ENSMICG00000012730'
-        assert str(first.sequence).startswith('TGCAGAAAATATCAAGAGTCAGC'
-                                              'AGAAAAACTATACAAGGGCTGGT'
+               'scaffold_185008:9:424:1 gene:ENSMICG00000012730'
+        assert str(first.sequence).startswith('TGCAGAAAATATCAAGAGTCAGC'\
+                                              'AGAAAAACTATACAAGGGCTGGT'\
                                               'ATTTTGATTATTCT')
 
     def test_contains_middle(self):
@@ -54,9 +51,9 @@ class Test_fasta(object):
         assert middle.id == 10
         assert middle.name == 'ENSMICT00000012078'
         assert middle.description == 'cdna:pseudogene scaffold:micMur1'\
-            ':scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
-        assert str(middle.sequence).startswith('GCGCACTCCCAGTGGCTACCCA'
-                                               'CGGCAGGAGGCGGCGGCAGTGA'
+               ':scaffold_180699:3:774:-1 gene:ENSMICG00000012085'
+        assert str(middle.sequence).startswith('GCGCACTCCCAGTGGCTACCCA'\
+                                               'CGGCAGGAGGCGGCGGCAGTGA'\
                                                'CTGGGCCGGCGGCCCG')
 
     def test_contains_end(self):
@@ -64,14 +61,14 @@ class Test_fasta(object):
         assert end.id == 21
         assert end.name == 'ENSMICT00000003880'
         assert end.description == 'cdna:novel scaffold:micMur1:scaffol'\
-            'd_175819:130:631:1 gene:ENSMICG00000003884'
-        assert str(end.sequence).startswith('ATGCTGCCTAAGTTTGACCCCAACG'
-                                            'CGATCAAAGTCATGTACCTGAGGTG'
+               'd_175819:130:631:1 gene:ENSMICG00000003884'
+        assert str(end.sequence).startswith('ATGCTGCCTAAGTTTGACCCCAACG'\
+                                            'CGATCAAAGTCATGTACCTGAGGTG'\
                                             'CACGGGTGGC')
 
     def test_contains(self):
         for k in self.db:
-            assert k in self.db
+            assert self.db.has_key(k)
 
         assert self.db.get('FOO') == None
 
@@ -90,9 +87,7 @@ class Test_fasta(object):
             assert id == self.db[entry.name].id
             assert entry == self.db[entry.name]
 
-
 class Test_fasta_whitespace(object):
-
     def setup(self):
         self._testfa = os.path.join(os.path.dirname(__file__),
                                     'test-whitespace.fa')
@@ -105,14 +100,13 @@ class Test_fasta_whitespace(object):
     def teardown(self):
         os.unlink(self._testfa + fileExtension)
 
-
 def test_writer():
     fp = StringIO()
     w = screed.fasta.FASTA_Writer("", fp)
 
     class FakeRecord(object):
         pass
-
+    
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'
@@ -121,15 +115,14 @@ def test_writer():
     w.write(read)
 
     assert fp.getvalue() == '>foo bar\nATCG\n'
-
-
+    
 def test_writer_2():
     fp = StringIO()
     w = screed.fasta.FASTA_Writer("", fp)
 
     class FakeRecord(object):
         pass
-
+    
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'

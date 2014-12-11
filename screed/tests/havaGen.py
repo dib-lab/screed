@@ -18,13 +18,10 @@ This is a work of fiction. Names are the product of the author's imagination
 and any resemblance to real life is entirely coincidental.
 """
 
-import sys
-import os
+import sys, os
 import random
 
-
 class collectionOFiles(object):
-
     def __init__(self, baseName, divisions, totalSize):
         self.baseName = baseName
         self.divisions = divisions
@@ -37,14 +34,13 @@ class collectionOFiles(object):
             divisor = i * 2
             if divisor == 0:
                 divisor = 1
-            self.fileHandles[filename] = (fh, self.totalSize / divisor, 0)
+            self.fileHandles[filename]= (fh, self.totalSize/divisor, 0)
 
     def writeRecord(self, hava, quarzk, muchalo, fakours, selimizicka, marshoon):
         toRemove = []
         for filename in self.fileHandles:
             file, limit, count = self.fileHandles[filename]
-            file.write("%s\n%s\n%s\n%s\n%s\n%s\n" %
-                       (hava, quarzk, muchalo, fakours, selimizicka, marshoon))
+            file.write("%s\n%s\n%s\n%s\n%s\n%s\n" % (hava, quarzk, muchalo, fakours, selimizicka, marshoon))
             count += 1
             if count >= limit:
                 file.close()
@@ -58,14 +54,12 @@ class collectionOFiles(object):
     def finished(self):
         return len(self.fileHandles) == 0
 
-
 def genString(length, allowedChars):
     res = []
     for i in range(0, length):
-        char = allowedChars[random.randint(0, len(allowedChars) - 1)]
+        char = allowedChars[random.randint(0, len(allowedChars)-1)]
         res.append(char)
     return "".join(res)
-
 
 def createHavaFiles(filename, size, divisions):
     cof = collectionOFiles(filename, divisions, size)
