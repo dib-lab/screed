@@ -10,7 +10,7 @@
 
 2014-11-02  Michael R. Crusoe  <mcrusoe@msu.edu>
 
-    * Doxyfile, Makefile, doc/doxygen/: added Doxygen support, coverage &
+    * Doxyfile, Makefile: added Doxygen support, coverage &
 	pylint make targets
 
 2014-10-27  Ben Taylor  <taylo886@msu.edu>
