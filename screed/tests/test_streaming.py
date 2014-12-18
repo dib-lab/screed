@@ -57,10 +57,6 @@ def test_stream_fq():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq'))
 
 
-def test_stream_fa_zip():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fa.zip'))
-
-
 @attr('known_failing')
 def test_stream_fa_gz():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fa.gz'))

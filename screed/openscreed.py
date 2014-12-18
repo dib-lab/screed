@@ -4,7 +4,6 @@ import UserDict
 import sqlite3
 import gzip
 import bz2file
-import zipfile
 import StringIO
 import io
 import sys
@@ -37,7 +36,7 @@ def open_reader(filename, *args, **kwargs):
     magic_dict = {
         "\x1f\x8b\x08": "gz",
         "\x42\x5a\x68": "bz2",
-        "\x50\x4b\x03\x04": "zip"
+        # "\x50\x4b\x03\x04": "zip"
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
     bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
     num_bytes_to_peek = max(len(x) for x in magic_dict)
@@ -47,20 +46,7 @@ def open_reader(filename, *args, **kwargs):
         if file_start.startswith(magic):
             compression = ftype
             break
-    if compression is 'zip':
-        if not bufferedfile.seekable() and sys.version_info[0] == 2 and \
-           sys.version_info[1] < 7:
-            raise ValueError("Streaming zip archives is not supported in "
-                             " Python before version 2.7.")
-        zfile = zipfile.ZipFile(bufferedfile)
-        if len(zfile.infolist()) != 1:
-            raise ValueError("Multifile zip archives are not supported. Please"
-                             " file an issue if you desire this feature: "
-                             "https://github.com/ged-lab/khmer/issues")
-        first_member = zfile.infolist()[0]
-        peek = zfile.open(first_member).readline()
-        sequencefile = zfile.open(first_member)
-    elif compression is 'bz2':
+    if compression is 'bz2':
         sequencefile = bz2file.BZ2File(filename=bufferedfile)
         peek = sequencefile.peek(1)
     elif compression is 'gz':
