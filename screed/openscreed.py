@@ -48,6 +48,10 @@ def open_reader(filename, *args, **kwargs):
             compression = ftype
             break
     if compression is 'zip':
+        if not bufferedfile.seekable() and sys.version_info[0] == 2 and \
+           sys.version_info[1] < 7:
+            raise ValueError("Streaming zip archives is not supported in "
+                             " Python before version 2.7.")
         zfile = zipfile.ZipFile(bufferedfile)
         if len(zfile.infolist()) != 1:
             raise ValueError("Multifile zip archives are not supported. Please"

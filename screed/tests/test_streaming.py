@@ -2,6 +2,7 @@ import test_fasta
 import test_fastq
 import tempfile
 import os
+import sys
 import io
 import threading
 import subprocess
@@ -53,12 +54,25 @@ def test_stream_fq():
 def test_stream_fa_gz():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fa.gz'))
 
+
 @attr('known_failing')
 def test_stream_fq_gz():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.gz'))
 
+
 def test_stream_fa_bz2():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fa.bz2'))
 
+
 def test_stream_fq_bz2():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.bz2'))
+
+
+def test_stream_multifile_zip():
+    try:
+        streamer(os.path.join(os.path.dirname(__file__), 'test-multifile.zip'))
+    except ValueError, err:
+        if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+            return
+        else:
+            assert 0, err
