@@ -5,6 +5,7 @@
 # make coverage-report to check coverage of the python scripts by the tests
 
 PYSOURCES=$(wildcard screed/*.py)
+TESTSOURCES=$(wildcard screed/tests/*.py)
 SOURCES=$(PYSOURCES) setup.py
 DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose
 
@@ -30,16 +31,16 @@ clean: FORCE
 	rm coverage-debug || true
 	rm -Rf .coverage || true
 
-pep8: $(PYSOURCES) $(wildcard tests/*.py)
+pep8: $(PYSOURCES) $(TESTSOURCES)
 	pep8 --exclude=_version.py setup.py screed/ || true
 
-pep8_report.txt: $(PYSOURCES) $(wildcard tests/*.py)
+pep8_report.txt: $(PYSOURCES) $(TESTSOURCES)
 	pep8 --exclude=_version.py setup.py screed/ > pep8_report.txt || true
 
 diff_pep8_report: pep8_report.txt
 	diff-quality --violations=pep8 pep8_report.txt
 
-autopep8: $(PYSOURCES) $(wildcard tests/*.py)
+autopep8: $(PYSOURCES) $(TESTSOURCS)
 	autopep8 --recursive --in-place --exclude _version.py --ignore E309 \
 		setup.py screed
 
@@ -47,20 +48,20 @@ autopep8: $(PYSOURCES) $(wildcard tests/*.py)
 format: autopep8
 	# Do nothing
 
-pylint: $(PYSOURCES) $(wildcard tests/*.py)
+pylint: FORCE
 	pylint --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
 		setup.py screed || true
 
-pylint_report.txt: ${PYSOURCES} $(wildcard tests/*.py)
+pylint_report.txt: ${PYSOURCES} $(TESTSOURCES)
 	pylint --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
 		setup.py screed > pylint_report.txt || true
 
 diff_pylint_report: pylint_report.txt
 	diff-quality --violations=pylint pylint_report.txt
 
-.coverage: $(PYSOURCES) 
+.coverage: $(PYSOURCES) $(TESTSOURCES)
 	./setup.py nosetests --with-coverage --cover-package screed \
-		--cover-erase > /dev/null 2>&1
+		> /dev/null 2>&1
 
 coverage.xml: .coverage
 	coverage xml --omit 'screed/tests/*'

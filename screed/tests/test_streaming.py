@@ -10,9 +10,12 @@ import screed
 from nose.plugins.attrib import attr
 from screed.DBConstants import fileExtension
 
-def streamer_reader(ifilename):
-    for read in screed.open(ifilename):
-        pass
+def streamer_reader(ifilename, exception):
+    try:
+        for read in screed.open(ifilename):
+            pass
+    except Exception, e:
+        exception.append(e)
 
 def streamer(ifilename):
 
@@ -23,10 +26,11 @@ def streamer(ifilename):
     # make a fifo to simulate streaming
     os.mkfifo(fifo)
 
+    exception = []
     # FIFOs MUST BE OPENED FOR READING BEFORE THEY ARE WRITTEN TO
     # If this isn't done, they will BLOCK and things will hang.
     # rvalues will hold the return from the threaded function
-    thread = threading.Thread(target=streamer_reader, args=[fifo])
+    thread = threading.Thread(target=streamer_reader, args=[fifo, exception])
     thread.start()
 
     ifile = io.open(ifilename, 'rb')
@@ -41,6 +45,9 @@ def streamer(ifilename):
 
     thread.join()
 
+    if len(exception) > 0:
+        raise exception[0]
+
 
 def test_stream_fa():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fa'))
@@ -48,6 +55,10 @@ def test_stream_fa():
 
 def test_stream_fq():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq'))
+
+
+def test_stream_fa_zip():
+    streamer(os.path.join(os.path.dirname(__file__), 'test.fa.zip'))
 
 
 @attr('known_failing')
@@ -67,12 +78,3 @@ def test_stream_fa_bz2():
 def test_stream_fq_bz2():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.bz2'))
 
-
-def test_stream_multifile_zip():
-    try:
-        streamer(os.path.join(os.path.dirname(__file__), 'test-multifile.zip'))
-    except ValueError, err:
-        if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-            return
-        else:
-            assert 0, err

@@ -1,4 +1,5 @@
 import os.path
+import sys
 
 import screed, screed.openscreed
 
@@ -69,3 +70,19 @@ def test_get_writer_class_fasta():
     read_iter = screed.open(filename)
     x = screed.openscreed.get_writer_class(read_iter)
     assert x is screed.fasta.FASTA_Writer, x
+
+
+def test_unknown_fileformat():
+
+    try:
+        screed.open(__file__)
+    except ValueError, err:
+        assert "unknown file format" in str(err)
+
+def test_multifile_zip():
+    try:
+        screed.open(os.path.join(os.path.dirname(__file__),
+                                 'test-multifile.zip'))
+        assert 0, "this should fail"
+    except ValueError, err:
+        print str(err)
