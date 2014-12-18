@@ -41,20 +41,24 @@ def open_reader(filename, *args, **kwargs):
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
     bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
     num_bytes_to_peek = max(len(x) for x in magic_dict)
-    file_start = bufferedfile.peek(8192)
+    file_start = bufferedfile.peek(num_bytes_to_peek)
     compression = None
     for magic, ftype in magic_dict.items():
         if file_start.startswith(magic):
             compression = ftype
             break
     if compression is 'zip':
-        zfile = zipfile.ZipFile(StringIO.StringIO(file_start), mode='r')
+        zfile = zipfile.ZipFile(bufferedfile)
+        if len(zfile.infolist()) != 1:
+            raise ValueError("Multifile zip archives are not supported. Please"
+                             " file an issue if you desire this feature: "
+                             "https://github.com/ged-lab/khmer/issues")
         first_member = zfile.infolist()[0]
         peek = zfile.open(first_member).readline()
         sequencefile = zfile.open(first_member)
     elif compression is 'bz2':
-        peek = bz2file.BZ2File(filename=StringIO.StringIO(file_start)).read(1)
         sequencefile = bz2file.BZ2File(filename=bufferedfile)
+        peek = sequencefile.peek(1)
     elif compression is 'gz':
         if not bufferedfile.seekable():
             raise ValueError("gziped data not streamable, pipe through zcat \
