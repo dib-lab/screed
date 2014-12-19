@@ -62,6 +62,14 @@ def test_stream_fa_gz():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fa.gz'))
 
 
+def test_stream_gz_fail():
+    try:
+        streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.gz'))
+        assert 0, "This should not work yet"
+    except ValueError as err:
+        print str(err)
+
+
 @attr('known_failing')
 def test_stream_fq_gz():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.gz'))
