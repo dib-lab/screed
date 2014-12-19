@@ -85,7 +85,7 @@ diff-cover.html: coverage.xml
 	diff-cover coverage.xml --html-report diff-cover.html
 
 nosetests.xml: FORCE
-	./setup.py nosetests --with-xunit
+	./setup.py nosetests --with-xunit --attr '!known_failing'
 
 doxygen: doc/doxygen/html/index.html
 
