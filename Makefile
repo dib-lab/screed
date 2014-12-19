@@ -61,7 +61,7 @@ diff_pylint_report: pylint_report.txt
 
 .coverage: $(PYSOURCES) $(TESTSOURCES)
 	./setup.py nosetests --with-coverage --cover-package screed \
-		--attr '!known_failing' > /dev/null 2>&1
+		--attr '!known_failing' 2>&1 > .coverage.out
 
 coverage.xml: .coverage
 	coverage xml --omit 'screed/tests/*'
