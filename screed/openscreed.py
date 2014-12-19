@@ -3,8 +3,10 @@ import types
 import UserDict
 import sqlite3
 import gzip
-import bz2
-import zipfile
+import bz2file
+import StringIO
+import io
+import sys
 
 import DBConstants
 import screedRecord
@@ -34,37 +36,41 @@ def open_reader(filename, *args, **kwargs):
     magic_dict = {
         "\x1f\x8b\x08": "gz",
         "\x42\x5a\x68": "bz2",
-        "\x50\x4b\x03\x04": "zip"
+        # "\x50\x4b\x03\x04": "zip"
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
-    rawfile = _open(filename)
-    file_start = rawfile.read(max(len(x) for x in magic_dict))
-    rawfile.close()
+    bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
+    num_bytes_to_peek = max(len(x) for x in magic_dict)
+    file_start = bufferedfile.peek(num_bytes_to_peek)
     compression = None
     for magic, ftype in magic_dict.items():
         if file_start.startswith(magic):
             compression = ftype
             break
-    sequencefile = {
-        'gz': lambda: gzip.open(filename),
-        'bz2': lambda: bz2.BZ2File(filename),
-        'zip': lambda: zipfile.ZipFile(filename),
-        None: lambda: _open(filename)}[compression]()
-
-    line = sequencefile.readline()
-
-    if not line:
-        return []
+    if compression is 'bz2':
+        sequencefile = bz2file.BZ2File(filename=bufferedfile)
+        peek = sequencefile.peek(1)
+    elif compression is 'gz':
+        if not bufferedfile.seekable():
+            raise ValueError("gziped data not streamable, pipe through zcat \
+                             first")
+        peek = gzip.GzipFile(filename=filename).read(1)
+        sequencefile = gzip.GzipFile(filename=filename)
+    else:
+        peek = bufferedfile.peek(1)
+        sequencefile = bufferedfile
 
     iter_fn = None
-    if line.startswith('>'):
-        iter_fn = fasta_iter
-    elif line.startswith('@'):
-        iter_fn = fastq_iter
+    try:
+        if peek[0] == '>':
+            iter_fn = fasta_iter
+        elif peek[0] == '@':
+            iter_fn = fastq_iter
+    except IndexError, err:
+        return [] # empty file
 
     if iter_fn is None:
-        raise Exception("unknown file format for '%s'" % filename)
+        raise ValueError("unknown file format for '%s'" % filename)
 
-    sequencefile.seek(0)
     return iter_fn(sequencefile, *args, **kwargs)
 
 _open = open
