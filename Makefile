@@ -21,6 +21,9 @@ install-dependencies:
 install: FORCE
 	./setup.py build install
 
+develop: FORCE
+	./setup.py develop
+
 dist: dist/screed-$(VERSION).tar.gz
 
 dist/screed-$(VERSION).tar.gz: $(SOURCES)
