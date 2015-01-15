@@ -18,3 +18,4 @@ htmlcov/
 nosetests.xml
 pylint_report.txt
 .*.swp
+MANIFEST

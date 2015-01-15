@@ -18,6 +18,7 @@ Contents:
 
    screed
    example
+   releases
 
 Indices and tables
 ==================

@@ -5,6 +5,7 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('sequence', DBConstants._STANDARD_TEXT),
               ('quality', DBConstants._STANDARD_TEXT))
 
+
 def fastq_iter(handle, line=None, parse_description=True):
     """
     Iterator over the given FASTQ file handle returning records. handle
@@ -15,15 +16,15 @@ def fastq_iter(handle, line=None, parse_description=True):
     line = line.strip()
     while line:
         data = _screed_record_dict()
-        
+
         if not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
 
         # Try to grab the name and (optional) annotations
         if parse_description:
             try:
-                data['name'], data['annotations'] = line[1:].split(' ',1)
-            except ValueError: # No optional annotations
+                data['name'], data['annotations'] = line[1:].split(' ', 1)
+            except ValueError:  # No optional annotations
                 data['name'] = line[1:]
                 data['annotations'] = ''
                 pass
@@ -52,12 +53,14 @@ def fastq_iter(handle, line=None, parse_description=True):
 
         data['quality'] = ''.join(quality)
         if len(data['sequence']) != len(data['quality']):
-            raise IOError('sequence and quality strings must be '\
+            raise IOError('sequence and quality strings must be '
                           'of equal length')
 
         yield data
 
+
 class FASTQ_Writer(_Writer):
+
     def write(self, record):
         s = "@%s %s\n%s\n+\n%s\n" % (record.name, record.description,
                                      record.sequence, record.quality)

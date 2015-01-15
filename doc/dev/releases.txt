@@ -1,0 +1,129 @@
+.. vim: set filetype=rst
+
+=====================
+Release Documentation
+=====================
+
+
+Introduction
+============
+
+This is the release documentation for releasing a new version of screed. This
+document is meant for screed release managers. Michael R. Crusoe and C. Titus
+Brown have released screed in the past. Jake Fenton is the first to release
+screed using this checklist.
+
+Getting Started
+===============
+
+ #. Start with a clean checkout:
+    cd `mktemp -d`
+    git clone git@github.com:ged-lab/screed.git
+    cd screed
+
+ #. Install/update versioneer::
+        pip install versioneer
+        versioneer-installer
+    
+    If there is a new version of versioneer::
+        git diff
+        ./setup.py
+        git commit -m -a "new version of versioneer.py"
+        # or
+        git checkout -- versioneer.py screed/_version.py screed/__init.py
+        MANIFEST.in
+
+ #. Review the git logs since the previous release and that ChangeLog reflects
+the major changes::
+        git log --minimal --patch `git describe --tags --always --abbrev=0`..HEAD
+
+ #. Review the issue list for any existing bugs that won't be fixed in the
+release and ensure they're documented in ``doc/known-issues.txt``
+
+ #. Verify that the build is clean: http://ci.ged.msu.edu/job/screed/
+
+ #. Set the new version number and release candidate::
+        new_version=1.1
+        rc=rc3
+    Tag the release candidate with the new version prefixed by the letter 'v'::
+        git tag v${new_version}-${rc}
+        git push --tags git@github.com:ged-lab/screed.git
+ #. Test the release candidate::
+        cd ..
+        virtualenv testenv1
+        virtualenv testenv2
+        virtualenv testenv3
+        virtualenv testenv4
+
+        # first we test the tag
+        cd testenv1
+        source bin/activate
+        pip install nose
+        git clone --depth 1 --branch v${new_version}-${rc} https://github.com/ged-lab/screed.git
+        cd screed
+        make install
+        nosetests screed --attr '!known_failing'
+        make test
+        python -c 'import screed; print screed.__version__' # double-check version number
+
+
+        # Test via pip
+        cd ../../testenv2
+        source bin/activate
+        pip install nose
+        pip install -e git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
+        cd src/screed
+        make dist
+        make install     
+        nosetests screed --attr '!known_failing'
+        python -c 'import screed; print screed.__version__'
+        cp dist/screed*tar.gz ../../../testenv3
+
+        # test if the dist made in testenv2 is complete enough to build another
+        # functional dist
+
+        cd ../../../testenv3
+        source bin/activate
+        pip install nose
+        pip install screed*tar.gz
+        nosetests screed --attr '!known_failing'
+        pyton -c 'import screed; print screed.__version__'
+        tar xzf screed*tar.gz
+        cd screed*
+        make dist
+        make test
+
+ #. Publish the new release on the testing PyPI server. You will need to
+     change your PyPI credentials as documented here:
+     https://wiki.python.org/moin/TestPyPI. You may need to re-register::
+
+        python setup.py register --repository test
+
+    Now, upload the new release::
+        python setup.py sdist upload -r test
+    
+    Test the PyPI release in a new virtualenv::
+
+        cd ../../testenv4
+        source bin/activate
+        pip install -U setuptools
+        pip install nose
+        pip install -i https://testpypi.python.org/pypi --pre --no-clean screed
+        nosetests screed --attr '!known_failing'
+        python -c 'import screed; print screed.__version__'
+        cd build/screed
+        ./setup.py nosetests
+ #. Do any final testing (acceptance tests, etc.)
+     Note that the acceptance tests for screed are to run the khmer automated
+     tests with the new version of screed installed and then to run the khmer
+     acceptance tests.
+ 
+ #. Make sure any release notes are merged into doc/release-notes/.
+
+
+
+Notes on this document
+======================
+This is the procedure for cutting a new release of screed. It has been adapted
+from the release documentation for the khmer project, found at
+http://khmer.readthedocs.org/en/v1.1/release.html.
