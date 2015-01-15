@@ -40,7 +40,7 @@ the major changes::
  #. Review the issue list for any existing bugs that won't be fixed in the
 release and ensure they're documented in ``doc/known-issues.txt``
 
- #. Verify that the build is clean: https://travis-ci.org/ged-lab/screed/
+ #. Verify that the build is clean: http://ci.ged.msu.edu/job/screed/
 
  #. Set the new version number and release candidate::
         new_version=1.1

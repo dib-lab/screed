@@ -1,5 +1,6 @@
 2014-12-3  Jacob Fenton  <bocajnotnef@gmail.com>
 
+    * Initial jenkins-build.sh
     * ChangeLog: updated to include major revisions since 0.7.1
     * CODE_OF_CONDUCT: copied in code of conduct from khmer project
     * docs/dev/{CODE_OF_CONDUCT, coding-guidelines-and-review, index,
