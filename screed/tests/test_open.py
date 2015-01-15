@@ -1,4 +1,5 @@
 import os.path
+import sys
 
 import screed
 import screed.openscreed
@@ -6,7 +7,6 @@ import screed.openscreed
 
 def test_empty_open():
     filename = os.path.join(os.path.dirname(__file__), 'empty.fa')
-
     assert len(list(iter(screed.open(filename)))) == 0
 
 
@@ -68,3 +68,11 @@ def test_get_writer_class_fasta():
     read_iter = screed.open(filename)
     x = screed.openscreed.get_writer_class(read_iter)
     assert x is screed.fasta.FASTA_Writer, x
+
+
+def test_unknown_fileformat():
+
+    try:
+        screed.open(__file__)
+    except ValueError, err:
+        assert "unknown file format" in str(err)

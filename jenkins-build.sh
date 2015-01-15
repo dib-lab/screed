@@ -10,6 +10,7 @@ virtualenv -p ${PYTHON_EXECUTABLE} .env
 
 . .env/bin/activate
 make install-dependencies > install_dependencies.out
+make develop
 make coverage.xml
 make nosetests.xml
 if type doxygen >/dev/null 2>&1

@@ -26,5 +26,6 @@ setup(name='screed',
       license='BSD',
       test_suite='nose.collector',
       extras_require={'tests': ['nose >= 1.0']},
-      cmdclass=versioneer.get_cmdclass()
+      cmdclass=versioneer.get_cmdclass(),
+      install_requires=['bz2file']
       )
