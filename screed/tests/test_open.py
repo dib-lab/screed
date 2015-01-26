@@ -74,5 +74,5 @@ def test_unknown_fileformat():
 
     try:
         screed.open(__file__)
-    except ValueError, err:
+    except ValueError as err:
         assert "unknown file format" in str(err)
