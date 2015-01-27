@@ -10,12 +10,14 @@ import screed
 from nose.plugins.attrib import attr
 from screed.DBConstants import fileExtension
 
+
 def streamer_reader(ifilename, exception):
     try:
         for read in screed.open(ifilename):
             pass
-    except Exception, e:
+    except Exception as e:
         exception.append(e)
+
 
 def streamer(ifilename):
 
@@ -81,4 +83,3 @@ def test_stream_fa_bz2():
 
 def test_stream_fq_bz2():
     streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.bz2'))
-
