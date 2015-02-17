@@ -1,5 +1,3 @@
-import test_fasta
-import test_fastq
 import tempfile
 import os
 import sys
@@ -69,7 +67,7 @@ def test_stream_gz_fail():
         streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.gz'))
         assert 0, "This should not work yet"
     except ValueError as err:
-        print str(err)
+        print(str(err))
 
 
 @attr('known_failing')
