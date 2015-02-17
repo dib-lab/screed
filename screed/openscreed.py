@@ -1,51 +1,89 @@
 import os
 import types
 import UserDict
-import types
 import sqlite3
 import gzip
-import bz2
+import bz2file
+import StringIO
+import io
+import sys
 
 import DBConstants
 import screedRecord
-from fastq import fastq_iter
-from fasta import fasta_iter
+from fastq import fastq_iter, FASTQ_Writer
+from fasta import fasta_iter, FASTA_Writer
 
-def open(filename, *args, **kwargs):
+
+def get_writer_class(read_iter):
+    if read_iter.__name__ == 'fasta_iter':
+        return FASTA_Writer
+    elif read_iter.__name__ == 'fastq_iter':
+        return FASTQ_Writer
+
+
+def open_writer(inp_filename, outp_filename):
+    read_iter = open_reader(inp_filename)
+    klass = get_writer_class(read_iter)
+    return klass(outp_filename)
+
+
+def open_reader(filename, *args, **kwargs):
     """
     Make a best-effort guess as to how to open/parse the given sequence file.
 
     Deals with .gz, FASTA, and FASTQ records.
     """
-    if filename.endswith('.gz'):
-        fp = gzip.open(filename)
-    elif filename.endswith('.bz2'):
-        fp = bz2.BZ2File(filename)
+    magic_dict = {
+        "\x1f\x8b\x08": "gz",
+        "\x42\x5a\x68": "bz2",
+        # "\x50\x4b\x03\x04": "zip"
+    }  # Inspired by http://stackoverflow.com/a/13044946/1585509
+    bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
+    num_bytes_to_peek = max(len(x) for x in magic_dict)
+    file_start = bufferedfile.peek(num_bytes_to_peek)
+    compression = None
+    for magic, ftype in magic_dict.items():
+        if file_start.startswith(magic):
+            compression = ftype
+            break
+    if compression is 'bz2':
+        sequencefile = bz2file.BZ2File(filename=bufferedfile)
+        peek = sequencefile.peek(1)
+    elif compression is 'gz':
+        if not bufferedfile.seekable():
+            raise ValueError("gziped data not streamable, pipe through zcat \
+                             first")
+        peek = gzip.GzipFile(filename=filename).read(1)
+        sequencefile = gzip.GzipFile(filename=filename)
     else:
-        fp = file(filename)
-
-    line = fp.readline()
-
-    if not line:
-        return []
+        peek = bufferedfile.peek(1)
+        sequencefile = bufferedfile
 
     iter_fn = None
-    if line.startswith('>'):
-        iter_fn = fasta_iter
-    elif line.startswith('@'):
-        iter_fn = fastq_iter
+    try:
+        if peek[0] == '>':
+            iter_fn = fasta_iter
+        elif peek[0] == '@':
+            iter_fn = fastq_iter
+    except IndexError as err:
+        return []  # empty file
 
     if iter_fn is None:
-        raise Exception("unknown file format for '%s'" % filename)
+        raise ValueError("unknown file format for '%s'" % filename)
 
-    fp.seek(0)
-    return iter_fn(fp, *args, **kwargs)
+    return iter_fn(sequencefile, *args, **kwargs)
+
+_open = open
+open = open_reader
+
 
 class ScreedDB(object, UserDict.DictMixin):
+
     """
     Core on-disk dictionary interface for reading screed databases. Accepts a
     path string to a screed database
     """
+
     def __init__(self, filepath):
         self._filepath = filepath
         self._db = None
@@ -54,7 +92,7 @@ class ScreedDB(object, UserDict.DictMixin):
 
         if not os.path.exists(self._filepath):
             raise ValueError('No such file: %s' % self._filepath)
-        
+
         self._db = sqlite3.connect(self._filepath)
         cursor = self._db.cursor()
 
@@ -75,17 +113,17 @@ class ScreedDB(object, UserDict.DictMixin):
             self._db.close()
             raise TypeError("Database %s is not a proper screed database"
                             % self._filepath)
-        
+
         nothing = res.fetchone()
-        if type(nothing) != types.NoneType:
+        if not isinstance(nothing, type(None)):
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
-        
+
         # Store the fields of the admin table in a tuple
         query = "SELECT %s, %s FROM %s" % \
-                 (DBConstants._FIELDNAME,
-                 DBConstants._ROLENAME,
-                 DBConstants._SCREEDADMIN)
+            (DBConstants._FIELDNAME,
+             DBConstants._ROLENAME,
+             DBConstants._SCREEDADMIN)
         res = cursor.execute(query)
         self.fields = tuple([(str(field), role) for field, role in res])
 
@@ -122,12 +160,12 @@ class ScreedDB(object, UserDict.DictMixin):
         Retrieves from database the record with the key 'key'
         """
         cursor = self._db.cursor()
-        key = str(key) # So lazy retrieval objectes are evaluated
+        key = str(key)  # So lazy retrieval objectes are evaluated
         query = 'SELECT %s FROM %s WHERE %s=?' % (self._queryBy,
                                                   DBConstants._DICT_TABLE,
                                                   self._queryBy)
         res = cursor.execute(query, (key,))
-        if type(res.fetchone()) == types.NoneType:
+        if isinstance(res.fetchone(), type(None)):
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self.fields, self._db,
                                          key,
@@ -151,17 +189,17 @@ class ScreedDB(object, UserDict.DictMixin):
         Retrieves record from database at the given index
         """
         cursor = self._db.cursor()
-        index = int(index) + 1 # Hack to make indexing start at 0
+        index = int(index) + 1  # Hack to make indexing start at 0
         query = 'SELECT %s FROM %s WHERE %s=?' % (DBConstants._PRIMARY_KEY,
                                                   DBConstants._DICT_TABLE,
                                                   DBConstants._PRIMARY_KEY)
         res = cursor.execute(query, (index,))
-        if type(res.fetchone()) == types.NoneType:
+        if isinstance(res.fetchone(), type(None)):
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self.fields, self._db,
                                          index,
                                          DBConstants._PRIMARY_KEY)
-    
+
     def __len__(self):
         """
         Returns the number of records in the database
@@ -180,12 +218,12 @@ class ScreedDB(object, UserDict.DictMixin):
         """
         return "<%s, '%s'>" % (self.__class__.__name__,
                                self._filepath)
-        
+
     def itervalues(self):
         """
         Iterator over records in the database
         """
-        for index in xrange(1, self.__len__()+1):
+        for index in xrange(1, self.__len__() + 1):
             yield screedRecord._buildRecord(self.fields, self._db,
                                             index,
                                             DBConstants._PRIMARY_KEY)
@@ -195,7 +233,8 @@ class ScreedDB(object, UserDict.DictMixin):
         Iterator over keys in the database
         """
         cursor = self._db.cursor()
-        query = 'SELECT %s FROM %s ORDER BY id' % (self._queryBy, DBConstants._DICT_TABLE)
+        query = 'SELECT %s FROM %s ORDER BY id' % (
+            self._queryBy, DBConstants._DICT_TABLE)
         for key, in cursor.execute(query):
             yield key
 
@@ -225,7 +264,7 @@ class ScreedDB(object, UserDict.DictMixin):
         cursor = self._db.cursor()
         query = 'SELECT %s FROM %s WHERE %s = ?' % \
                 (self._queryBy, DBConstants._DICT_TABLE, self._queryBy)
-        if cursor.execute(query, (key,)).fetchone() == None:
+        if cursor.execute(query, (key,)).fetchone() is None:
             return False
         return True
 

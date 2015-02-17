@@ -21,7 +21,8 @@ file into a screed database.
 Conversion between sequence file types is provided in the ToFastq and
 ToFasta functions
 """
-from openscreed import ScreedDB, open
+from openscreed import ScreedDB, open_writer
+from openscreed import open_reader as open
 from conversion import ToFastq
 from conversion import ToFasta
 from createscreed import create_db
@@ -29,4 +30,6 @@ from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
 from dna import rc
 
-__version__ = '0.7'
+from _version import get_versions
+__version__ = get_versions()['version']
+del get_versions

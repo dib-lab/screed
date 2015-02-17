@@ -33,7 +33,7 @@ class fastaModel(object):
 def convertFastqToFasta(inputFilename, outputFilename):
     """
     Converts the given fastq file (inputFilename) to an equilivalent fasta file
-    (outputFilename). The fastq's accuracy information is converted to a fasta's
+    (outputFilename). The fastq's quality information is converted to a fasta's
     'description' field. Sequence and name fields are left alone
     """
 
@@ -45,9 +45,9 @@ def convertFastqToFasta(inputFilename, outputFilename):
     for line in inputFile:
         if line.startswith("@"): # Line is a name
             model.writeName(line[1:])
-        elif line.startswith('+'): # Next line is the accuracy
-            accuracy = inputFile.next()
-            model.writeDescription(accuracy)
+        elif line.startswith('+'): # Next line is the quality
+            quality = inputFile.next()
+            model.writeDescription(quality)
         else: # Line is the sequence
             model.writeSequence(line)
 

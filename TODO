@@ -12,3 +12,5 @@ db -> text
 PEP-8 noncompliance, e.g. screedDB should be ScreedDB, although
 I kind of agree that screedDB is prettier.
 
+accuracy => quality
+get pairs via a standard api, with/without enforcement

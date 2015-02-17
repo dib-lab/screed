@@ -1,20 +1,24 @@
 import os.path
+import sys
 
 import screed
+import screed.openscreed
+
 
 def test_empty_open():
     filename = os.path.join(os.path.dirname(__file__), 'empty.fa')
-    
     assert len(list(iter(screed.open(filename)))) == 0
+
 
 def test_simple_open():
     filename = os.path.join(os.path.dirname(__file__), 'test.fa')
-    
+
     n = -1
     for n, record in enumerate(screed.open(filename)):
         assert record.name == 'ENSMICT00000012722'
         break
     assert n == 0, n
+
 
 def test_simple_open_fq():
     filename = os.path.join(os.path.dirname(__file__), 'test.fastq')
@@ -25,6 +29,7 @@ def test_simple_open_fq():
         break
     assert n == 0
 
+
 def test_gz_open():
     filename1 = os.path.join(os.path.dirname(__file__), 'test.fa')
     filename2 = os.path.join(os.path.dirname(__file__), 'test.fa.gz')
@@ -34,6 +39,7 @@ def test_gz_open():
 
     assert n > 0
 
+
 def test_bz2_open():
     filename1 = os.path.join(os.path.dirname(__file__), 'test.fa')
     filename2 = os.path.join(os.path.dirname(__file__), 'test.fa.bz2')
@@ -42,7 +48,8 @@ def test_bz2_open():
         assert r1.name == r2.name
 
     assert n > 0
-                            
+
+
 def test_gz_open_fastq():
     filename1 = os.path.join(os.path.dirname(__file__), 'test.fastq')
     filename2 = os.path.join(os.path.dirname(__file__), 'test.fastq.gz')
@@ -51,3 +58,21 @@ def test_gz_open_fastq():
         assert r1.name == r2.name
 
     assert n > 0
+
+
+def test_get_writer_class_fasta():
+    import screed.fasta
+
+    filename = os.path.join(os.path.dirname(__file__), 'test.fa')
+
+    read_iter = screed.open(filename)
+    x = screed.openscreed.get_writer_class(read_iter)
+    assert x is screed.fasta.FASTA_Writer, x
+
+
+def test_unknown_fileformat():
+
+    try:
+        screed.open(__file__)
+    except ValueError as err:
+        assert "unknown file format" in str(err)
