@@ -9,10 +9,12 @@ from . import test_fasta
 from . import test_fastq
 
 class Test_fa_shell(test_fasta.Test_fasta):
+
     """
     Tests the functionality of the script 'fadbm' in creating a
     screed database correctly from the shell
     """
+
     def setup(self):
         thisdir = os.path.dirname(__file__)
         self._testfa = os.path.join(thisdir, 'test.fa')
@@ -24,11 +26,14 @@ class Test_fa_shell(test_fasta.Test_fasta):
     def teardown(self):
         os.unlink(self._testfa + fileExtension)
 
+
 class Test_fq_shell(test_fastq.Test_fastq):
+
     """
     Tests the functionality of the script 'fqdbm' in creating a
     screed database correctly from the shell
     """
+
     def setup(self):
         thisdir = os.path.dirname(__file__)
         self._testfq = os.path.join(thisdir, 'test.fastq')

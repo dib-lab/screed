@@ -23,7 +23,7 @@ libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 import createscreed
 import fastq
-FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'accuracy')
+FASTQFIELDTYPES = ('name', 'annotations', 'sequence', 'quality')
 filename = '%s'
 theFile = open(filename, 'rb')
 iterfunc = fastq.fastq_iter(theFile)

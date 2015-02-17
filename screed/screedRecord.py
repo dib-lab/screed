@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import bz2
+import gzip
 import types
 try:
     from collections import MutableMapping
@@ -13,6 +15,7 @@ class _screed_record_dict(MutableMapping):
     """
     Simple dict-like record interface with bag behavior.
     """
+
     def __init__(self, *args, **kwargs):
         self.d = dict(*args, **kwargs)
 
@@ -42,9 +45,11 @@ class _screed_record_dict(MutableMapping):
 
 
 class _screed_attr(object):
+
     """
     Sliceable database object that supports lazy retrieval
     """
+
     def __init__(self, dbObj, attrName, rowName, queryBy):
         """
         Initializes database object with specific record retrieval
@@ -64,14 +69,14 @@ class _screed_attr(object):
         Slicing interface. Returns the slice range given.
         *.start + 1 to be compatible with sqlite's 1 not 0 scheme
         """
-        if type(sliceObj) != types.SliceType:
+        if not isinstance(sliceObj, slice):
             raise TypeError('__getitem__ argument must be of slice type')
-        if not sliceObj.start <= sliceObj.stop: # String reverse in future?
+        if not sliceObj.start <= sliceObj.stop:  # String reverse in future?
             raise ValueError('start must be less than stop in slice object')
         length = sliceObj.stop - sliceObj.start
 
         query = 'SELECT substr(%s, %d, %d) FROM %s WHERE %s = ?' \
-                % (self._attrName, sliceObj.start+1, length,
+                % (self._attrName, sliceObj.start + 1, length,
                    DBConstants._DICT_TABLE,
                    self._queryBy)
         cur = self._dbObj.cursor()
@@ -121,6 +126,8 @@ class _screed_attr(object):
         except NameError:
             if isinstance(given, str):
                 return given == self.__str__()
+            elif isinstance(given, bytes):
+                return given == self.__str__()
 
         try:
             return str(given) == self.__str__()
@@ -131,7 +138,7 @@ class _screed_attr(object):
         """
         Compares attribute to given object in string form
         """
-        if type(given) == types.StringType:
+        if isinstance(given, bytes):
             return self.__repr__() != given
 
         try:
@@ -152,6 +159,7 @@ class _screed_attr(object):
         except TypeError:
             raise KeyError("Key %s not found" % self._rowName)
         return str(record)
+
 
 def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     """
@@ -186,8 +194,30 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     hackedResult = []
     for key, value in kvResult:
         if key == DBConstants._PRIMARY_KEY:
-            hackedResult.append((key, int(value)-1))
+            hackedResult.append((key, int(value) - 1))
         else:
             hackedResult.append((key, value))
 
     return _screed_record_dict(hackedResult)
+
+
+class _Writer(object):
+
+    def __init__(self, filename, fp=None):
+        self.filename = filename
+        if fp is None:
+            if filename.endswith('.gz'):
+                fp = gzip.open(filename, 'w')
+            elif filename.endswith('.bz2'):
+                fp = bz2.BZ2File(filename, 'w')
+            else:
+                fp = file(filename, 'wb')
+
+        self.fp = fp
+
+    def consume(self, read_iter):
+        for read in read_iter:
+            self.write(read)
+
+    def close(self):
+        self.fp.close()

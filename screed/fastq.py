@@ -1,13 +1,14 @@
 from __future__ import absolute_import
 
 from . import DBConstants
-from .screedRecord import _screed_record_dict
+from .screedRecord import _screed_record_dict, _Writer
 from .utils import to_str
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('annotations', DBConstants._STANDARD_TEXT),
               ('sequence', DBConstants._STANDARD_TEXT),
-              ('accuracy', DBConstants._STANDARD_TEXT))
+              ('quality', DBConstants._STANDARD_TEXT))
+
 
 def fastq_iter(handle, line=None, parse_description=True):
     """
@@ -26,8 +27,8 @@ def fastq_iter(handle, line=None, parse_description=True):
         # Try to grab the name and (optional) annotations
         if parse_description:
             try:
-                data['name'], data['annotations'] = line[1:].split(' ',1)
-            except ValueError: # No optional annotations
+                data['name'], data['annotations'] = line[1:].split(' ', 1)
+            except ValueError:  # No optional annotations
                 data['name'] = line[1:]
                 data['annotations'] = ''
                 pass
@@ -44,19 +45,27 @@ def fastq_iter(handle, line=None, parse_description=True):
 
         data['sequence'] = ''.join(sequence)
 
-        # Extract the accuracy lines
-        accuracy = []
+        # Extract the quality lines
+        quality = []
         line = to_str(handle.readline().strip())
         seqlen = len(data['sequence'])
         aclen = 0
         while not line == '' and aclen < seqlen:
-            accuracy.append(line)
+            quality.append(line)
             aclen += len(line)
             line = to_str(handle.readline().strip())
 
-        data['accuracy'] = ''.join(accuracy)
-        if len(data['sequence']) != len(data['accuracy']):
-            raise IOError('sequence and accuracy strings must be '\
+        data['quality'] = ''.join(quality)
+        if len(data['sequence']) != len(data['quality']):
+            raise IOError('sequence and quality strings must be '
                           'of equal length')
 
         yield data
+
+
+class FASTQ_Writer(_Writer):
+
+    def write(self, record):
+        s = "@%s %s\n%s\n+\n%s\n" % (record.name, record.description,
+                                     record.sequence, record.quality)
+        self.fp.write(s)

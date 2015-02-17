@@ -24,7 +24,8 @@ ToFasta functions
 
 from __future__ import absolute_import
 
-from screed.openscreed import ScreedDB, open
+from screed.openscreed import ScreedDB, open_writer
+from screed.openscreed import open_reader as open
 from screed.conversion import ToFastq
 from screed.conversion import ToFasta
 from screed.createscreed import create_db
@@ -32,4 +33,6 @@ from screed.seqparse import read_fastq_sequences
 from screed.seqparse import read_fasta_sequences
 from screed.dna import rc
 
-__version__ = '0.7.1'
+from _version import get_versions
+__version__ = get_versions()['version']
+del get_versions

@@ -18,11 +18,12 @@ from . import fasta
 from . import hava
 
 # [AN] these functions look strangely similar
+
+
 def read_fastq_sequences(filename):
     """
     Function to parse text from the given FASTQ file into a screed database
     """
-    
     # Will raise an exception if the file doesn't exist
     iterfunc = openscreed.open(filename)
 
@@ -31,11 +32,11 @@ def read_fastq_sequences(filename):
 
     return ScreedDB(filename)
 
+
 def read_fasta_sequences(filename):
     """
     Function to parse text from the given FASTA file into a screed database
     """
-    
     # Will raise an exception if the file doesn't exist
     iterfunc = openscreed.open(filename)
 
@@ -43,6 +44,7 @@ def read_fasta_sequences(filename):
     create_db(filename, fasta.FieldTypes, iterfunc)
 
     return ScreedDB(filename)
+
 
 def read_hava_sequences(filename):
     """

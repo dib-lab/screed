@@ -5,6 +5,7 @@ import os
 import sqlite3
 import itertools
 
+
 def create_db(filepath, fields, rcrditer):
     """
     Creates a screed database in the given filepath. Fields is a tuple
@@ -15,7 +16,7 @@ def create_db(filepath, fields, rcrditer):
     if not filepath.endswith(DBConstants.fileExtension):
         filepath += DBConstants.fileExtension
 
-    if os.path.exists(filepath): # Remove existing files
+    if os.path.exists(filepath):  # Remove existing files
         os.unlink(filepath)
 
     con = sqlite3.connect(filepath)
@@ -26,7 +27,7 @@ def create_db(filepath, fields, rcrditer):
     cur.execute("PRAGMA locking_mode=EXCLUSIVE")
 
     # Create the admin table
-    cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, '\
+    cur.execute('CREATE TABLE %s (%s INTEGER PRIMARY KEY, '
                 '%s TEXT, %s TEXT)' % (DBConstants._SCREEDADMIN,
                                        DBConstants._PRIMARY_KEY,
                                        DBConstants._FIELDNAME,
@@ -59,16 +60,17 @@ def create_db(filepath, fields, rcrditer):
             (DBConstants._DICT_TABLE, fieldsub, qmarks)
     # Pull data from the iterator and store in database
     # Commiting in batches seems faster than a single call to executemany
-    data = (tuple(record[fieldname] for fieldname, role in fields) \
+    data = (tuple(record[fieldname] for fieldname, role in fields)
             for record in rcrditer)
     while True:
         batch = list(itertools.islice(data, 10000))
-        if not batch: break
+        if not batch:
+            break
         cur.executemany(query, batch)
     con.commit()
 
     # Attribute to index
-    queryby = fields[0][0] # Defaults to the first field
+    queryby = fields[0][0]  # Defaults to the first field
     for fieldname, role in fields:
         if role == DBConstants._INDEXED_TEXT_KEY:
             queryby = fieldname

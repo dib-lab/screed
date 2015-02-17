@@ -5,7 +5,8 @@ from __future__ import absolute_import
 from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
-_null_accuracy = '\"' # ASCII 34, e.g 75% chance of incorrect read
+_null_quality = '\"'  # ASCII 34, e.g 75% chance of incorrect read
+
 
 def GetComments(value):
     """
@@ -19,6 +20,7 @@ def GetComments(value):
     else:
         return ''
 
+
 def linewrap(longString):
     """
     Given a long string of characters, inserts newline characters
@@ -27,21 +29,23 @@ def linewrap(longString):
     res = []
     begin = 0
     while begin < len(longString):
-        res.append(longString[begin:begin+_MAXLINELEN])
+        res.append(longString[begin:begin + _MAXLINELEN])
         begin += _MAXLINELEN
 
     return '\n'.join(res)
 
-def GenerateAccuracy(value):
+
+def GenerateQuality(value):
     """
-    Returns accuracy from value if it exists. Otherwise, makes
-    a null accuracy. Accuracy is line wrapped to _MAXLINELEN
+    Returns quality from value if it exists. Otherwise, makes
+    a null quality. Quality is line wrapped to _MAXLINELEN
     either way
     """
-    if 'accuracy' in value:
-        return linewrap(value['accuracy'])
+    if 'quality' in value:
+        return linewrap(value['quality'])
 
-    return linewrap(_null_accuracy * len(str(value['sequence'])))
+    return linewrap(_null_quality * len(str(value['sequence'])))
+
 
 def ToFastq(dbFile, outputFile):
     """
@@ -55,10 +59,11 @@ def ToFastq(dbFile, outputFile):
         line = '@%s %s\n%s\n+\n%s\n' % (value['name'],
                                         GetComments(value),
                                         linewrap(str(value['sequence'])),
-                                        GenerateAccuracy(value))
+                                        GenerateQuality(value))
         outFile.write(line.encode('UTF-8'))
     db.close()
     outFile.close()
+
 
 def ToFasta(dbFile, outputFile):
     """

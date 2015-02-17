@@ -169,35 +169,35 @@ class Test_s22_fastq:
         testcases['HWI-EAS_4_PE-FC20GCB:2:1:492:573/2'] = {
             'id': 0,
             'annotations': '',
-            'accuracy': 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<',
+            'quality': 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<',
             'name' : 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2',
             'sequence': 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:2:162:131:826/2'] = {
             'id': 1895228,
             'annotations': '',
-            'accuracy': 'AAAAAAAAAAAAAAAAAAAAAA+@6=7A<05<*15:',
+            'quality': 'AAAAAAAAAAAAAAAAAAAAAA+@6=7A<05<*15:',
             'name': 'HWI-EAS_4_PE-FC20GCB:2:162:131:826/2',
             'sequence': 'ATGAATACAAACAATGCGGCAGTCATAATGCCCCTC'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:2:330:88:628/2'] = {
             'id': 3790455,
             'annotations': '',
-            'accuracy' : 'AA;AA??A5A;;+AA?AAAA;AA;9AA.AA?????9',
+            'quality' : 'AA;AA??A5A;;+AA?AAAA;AA;9AA.AA?????9',
             'name': 'HWI-EAS_4_PE-FC20GCB:2:330:88:628/2',
             'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:2:4:707:391/2'] = {
             'id': 29999,
             'annotations': '',
-            'accuracy': 'AAAAAAAAAA@<)A*AAA6A::<@AA<>A>-8?>4<',
+            'quality': 'AAAAAAAAAA@<)A*AAA6A::<@AA<>A>-8?>4<',
             'name': 'HWI-EAS_4_PE-FC20GCB:2:4:707:391/2',
             'sequence': 'ATTAATCTCCAGTTTCTGGCAAACATTCAGGCCATT'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:2:36:158:208/2'] = {
             'id': 342842,
             'annotations': '',
-            'accuracy': 'AA5?AAAAA?AAAA5?AAA5A???5A>AAA4?;.;;',
+            'quality': 'AA5?AAAAA?AAAA5?AAA5A???5A>AAA4?;.;;',
             'name': 'HWI-EAS_4_PE-FC20GCB:2:36:158:208/2',
             'sequence': 'TTTCCCTACAGAAGTGTCTGTACCGGTAATAAAGAA'}
 
@@ -308,35 +308,35 @@ class Test_s31_fastq:
         testcases['HWI-EAS_4_PE-FC20GCB:3:1:71:840/1'] = {
             'id': 0,
             'annotations': '',
-            'accuracy': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
+            'quality': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
             'name' : 'HWI-EAS_4_PE-FC20GCB:3:1:71:840/1',
             'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:3:330:957:433/1'] = {
             'id': 4439695,
             'annotations': '',
-            'accuracy': 'AAAAAAAAAAA<A?<AA<AAAAA?AAA?<:*??&::',
+            'quality': 'AAAAAAAAAAA<A?<AA<AAAAA?AAA?<:*??&::',
             'name': 'HWI-EAS_4_PE-FC20GCB:3:330:957:433/1',
             'sequence': 'CTTTGTGGAGAAGAGGGCGTGGGCAAGGCACTGATA'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:3:166:443:410/1'] = {
             'id': 2219847,
             'annotations': '',
-            'accuracy' : 'AAAAAAAAAAAAAAAAAAAAAAAA6<@AA959???%',
+            'quality' : 'AAAAAAAAAAAAAAAAAAAAAAAA6<@AA959???%',
             'name': 'HWI-EAS_4_PE-FC20GCB:3:166:443:410/1',
             'sequence': 'TGGCATTCGCACACATCATGATGGTGCTGACCGTAA'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:3:1:803:878/1'] = {
             'id': 2999,
             'annotations': '',
-            'accuracy': '?6AAA6A<A6AA<<AA?A&A066/6:/&?&1191+0',
+            'quality': '?6AAA6A<A6AA<<AA?A&A066/6:/&?&1191+0',
             'name': 'HWI-EAS_4_PE-FC20GCB:3:1:803:878/1',
             'sequence': 'AAGATGCTGTAGTGGCCGCATGTGTAATAGGCTTTA'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:3:245:54:506/1'] = {
             'id': 3329772,
             'annotations': '',
-            'accuracy': "AAAAAAAAAAAAAAAA>A+AAA+@AA+A>A%8*?'%",
+            'quality': "AAAAAAAAAAAAAAAA>A+AAA+@AA+A>A%8*?'%",
             'name': 'HWI-EAS_4_PE-FC20GCB:3:245:54:506/1',
             'sequence': 'CTTCGTTGCTGTTTATCAGTAACTTTTTCTGGCTAG'}
 
@@ -448,35 +448,35 @@ class Test_s42_fastq:
         testcases['HWI-EAS_4_PE-FC20GCB:4:1:257:604/2'] = {
             'id': 0,
             'annotations': '',
-            'accuracy': 'AAAAAAAA:4>>AAA:44>>->-&4;8+8826;66.',
+            'quality': 'AAAAAAAA:4>>AAA:44>>->-&4;8+8826;66.',
             'name' : 'HWI-EAS_4_PE-FC20GCB:4:1:257:604/2',
             'sequence': 'TGTGGATAGTCGCCCGTGATGGCGTCGAAGTTCCGG'}
         
         testcases['HWI-EAS_4_PE-FC20GCB:4:330:96:902/2'] = {
             'id': 4148632,
             'annotations': '',
-            'accuracy': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA??????',
+            'quality': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA??????',
             'name': 'HWI-EAS_4_PE-FC20GCB:4:330:96:902/2',
             'sequence': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:4:166:158:532/2'] = {
             'id': 2074316,
             'annotations': '',
-            'accuracy' : 'AAAAAAA?A?AAAAAAA?A>A?A?AAAAAA?.<?-?',
+            'quality' : 'AAAAAAA?A?AAAAAAA?A>A?A?AAAAAA?.<?-?',
             'name': 'HWI-EAS_4_PE-FC20GCB:4:166:158:532/2',
             'sequence': 'ATCGCCAATGCCCAGGCCTGGTTCTCTTTAACCTAT'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:4:1:332:634/2'] = {
             'id': 3000,
             'annotations': '',
-            'accuracy': '?A?AAAAAAAAA8>AAAAAA*AA?A?AA.?)<9)9?',
+            'quality': '?A?AAAAAAAAA8>AAAAAA*AA?A?AA.?)<9)9?',
             'name': 'HWI-EAS_4_PE-FC20GCB:4:1:332:634/2',
             'sequence': 'ACCGTGCCAGATCAGAACCTAGTGGCGATTCCAATT'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:4:242:843:13/2'] = {
             'id': 3111474,
             'annotations': '',
-            'accuracy': "ABAAACA?CAAA??%A;2A;/5/&:?-*1-'11%71",
+            'quality': "ABAAACA?CAAA??%A;2A;/5/&:?-*1-'11%71",
             'name': 'HWI-EAS_4_PE-FC20GCB:4:242:843:13/2',
             'sequence': 'GTTTCTATATTCTGGCGTTAGTCGTCGCCGATAATT'}
 
