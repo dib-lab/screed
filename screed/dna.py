@@ -21,7 +21,7 @@ def reverse_complement(s):
     """
     Build reverse complement of 's'.
     """
-    s = string.upper(s)
+    s = s.upper()
     assert is_DNA(s), "Your sequence must be DNA!"
 
     r = reverse(s)
@@ -43,7 +43,7 @@ def complement(s):
     """
     Return complement of 's'.
     """
-    c = string.translate(s, __complementTranslation)
+    c = s.translate(__complementTranslation)
     return c
 
 
@@ -51,8 +51,6 @@ def reverse(s):
     """
     Return reverse of 's'.
     """
-    r = array.array('c', s)
-    r.reverse()
-    r = string.join(r, '')
+    r = "".join(reversed(s))
 
     return r
