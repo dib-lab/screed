@@ -33,6 +33,6 @@ from screed.seqparse import read_fastq_sequences
 from screed.seqparse import read_fasta_sequences
 from screed.dna import rc
 
-from _version import get_versions
+from screed._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
