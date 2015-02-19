@@ -1,5 +1,10 @@
 2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
 
+   * Doxyfile.in: make documentation generation reproducible; removed
+   timestamp
+
+2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
+
    * doc/dev/release.txt: Fix formatting
    * MANIFEST.in: include the MANIFEST.in template, the license and other
    files
@@ -26,8 +31,7 @@
 
 2014-11-02  Michael R. Crusoe  <mcrusoe@msu.edu>
 
-   * Doxyfile, Makefile: added Doxygen support, coverage &
-	pylint make targets
+   * Doxyfile, Makefile: added Doxygen support, coverage & pylint make targets
 
 2014-10-27  Ben Taylor  <taylo886@msu.edu>
 
@@ -41,4 +45,3 @@
 2014-05-16  Michael R. Crusoe  <mcrusoe@msu.edu>
 
    * screed/openscreed.py: added sniffing of compression types, including zip
-
