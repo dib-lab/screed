@@ -21,6 +21,7 @@ Contents:
    
    dev/index
 
+   CODE_OF_CONDUCT
    LICENSE
    
 Indices and tables
