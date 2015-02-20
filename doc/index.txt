@@ -20,9 +20,8 @@ Contents:
    example
    
    dev/index
+   release-notes/index
 
-   RELEASE-0.5
-  
    CODE_OF_CONDUCT
    LICENSE
    

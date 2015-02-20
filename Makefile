@@ -9,22 +9,6 @@ TESTSOURCES=$(wildcard screed/tests/*.py)
 SOURCES=$(PYSOURCES) setup.py
 DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose
 
-# You can set these at the command line
-SPHINXOPTS    =      
-SPHINXBUILD   = sphinx-build
-PAPER		  = 
-BUILDDIR      = doc/_build
-
-# internal vars
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
-
-# Internal variables.
-PAPEROPT_a4     = -D latex_paper_size=a4
-PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
-# the i18n builder cannot share the environment and doctrees with the others
-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
-
 VERSION=$(shell git describe --tags --dirty | sed s/v//)
 all:
 	./setup.py build
@@ -49,6 +33,7 @@ clean: FORCE
 	./setup.py clean --all || true
 	rm coverage-debug || true
 	rm -Rf .coverage || true
+	rm -Rf doc/_build || true
 
 pep8: $(PYSOURCES) $(TESTSOURCES)
 	pep8 --exclude=_version.py setup.py screed/ || true

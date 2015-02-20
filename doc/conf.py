@@ -133,6 +133,7 @@ html_theme = 'default'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_style = 'labibi.css'
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -177,6 +178,14 @@ html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'screeddoc'
+
+html_context = {  
+        "google_analytics_id" : 'UA-51731094-1',
+        "disqus_shortname" : 'screed-docs',
+        #   "github_base_account" : 'ged-lab',
+        "github_project" : 'screed',
+
+}
 
 
 # -- Options for LaTeX output --------------------------------------------------
