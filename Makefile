@@ -9,6 +9,22 @@ TESTSOURCES=$(wildcard screed/tests/*.py)
 SOURCES=$(PYSOURCES) setup.py
 DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose
 
+# You can set these at the command line
+SPHINXOPTS    =      
+SPHINXBUILD   = sphinx-build
+PAPER		  = 
+BUILDDIR      = doc/_build
+
+# internal vars
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+
+# Internal variables.
+PAPEROPT_a4     = -D latex_paper_size=a4
+PAPEROPT_letter = -D latex_paper_size=letter
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+# the i18n builder cannot share the environment and doctrees with the others
+I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+
 VERSION=$(shell git describe --tags --dirty | sed s/v//)
 all:
 	./setup.py build
@@ -88,6 +104,14 @@ nosetests.xml: FORCE
 	./setup.py nosetests --with-xunit --attr '!known_failing'
 
 doxygen: doc/doxygen/html/index.html
+
+doc: build/sphinx/html/index.html
+
+build/sphinx/html/index.html: $(SOURCES) $(wildcard doc/*.txt) doc/conf.py all
+		./setup.py build_sphinx --fresh-env
+		@echo ''
+		@echo '--> docs in build/sphinx/html <--'
+		@echo ''
 
 doc/doxygen/html/index.html: ${CPPSOURCES} ${PYSOURCES}
 	mkdir -p doc/doxygen

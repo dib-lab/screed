@@ -21,6 +21,8 @@ Contents:
    
    dev/index
 
+   RELEASE-0.5
+  
    CODE_OF_CONDUCT
    LICENSE
    

@@ -33,12 +33,12 @@ Getting Started
         git checkout -- versioneer.py screed/_version.py screed/__init.py
         MANIFEST.in
 
- #. Review the git logs since the previous release and that ChangeLog reflects
-the major changes::
+ #. Review the git logs since the previous release and that ChangeLog reflects 
+     the major changes::
         git log --minimal --patch `git describe --tags --always --abbrev=0`..HEAD
 
  #. Review the issue list for any existing bugs that won't be fixed in the
-release and ensure they're documented in ``doc/known-issues.txt``
+     release and ensure they're documented in ``doc/known-issues.txt``
 
  #. Verify that the build is clean: http://ci.ged.msu.edu/job/screed/
 
