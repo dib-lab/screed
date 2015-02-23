@@ -29,9 +29,6 @@ class _screed_record_dict(UserDict.DictMixin):
     def __len__(self):
         return len(self.sequence)
 
-    def __len__(self):
-        return len(self.sequence)
-
     def keys(self):
         return self.d.keys()
 
