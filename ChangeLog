@@ -1,3 +1,7 @@
+2015-02-23  Gabriel Pratt  <gpratt@ucsd.edu>
+
+   * Fixed Issue 705 len(read) != len(read.sequence)
+
 2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
 
    * doc/dev/release.txt: Fix formatting
