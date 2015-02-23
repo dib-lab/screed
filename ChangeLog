@@ -1,5 +1,11 @@
 2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
 
+   * doc/dev/release.txt: Fix formatting
+   * MANIFEST.in: include the MANIFEST.in template, the license and other
+   files
+
+2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
+
    * setup.py: work around versioneer bug:
    https://github.com/warner/python-versioneer/issues/52 
 
