@@ -5,7 +5,10 @@ except ImportError:
     print('(WARNING: importing distutils, not setuptools!)')
     from distutils.core import setup
 
-import versioneer
+import imp
+fp, pathname, description = imp.find_module('versioneer')
+versioneer = imp.load_module('versioneer', fp, pathname, description)
+del imp
 versioneer.VCS = 'git'
 versioneer.versionfile_source = 'screed/_version.py'
 versioneer.versionfile_build = 'screed/_version.py'
