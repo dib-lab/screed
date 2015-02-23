@@ -3,6 +3,7 @@
    * doc/dev/release.txt: Fix formatting
    * MANIFEST.in: include the MANIFEST.in template, the license and other
    files
+   * versioneer.py,screed/{__init__,_version}.py: upgrade versioneer to 0.13
 
 2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
 
