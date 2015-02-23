@@ -98,7 +98,7 @@ Getting Started
         pip install nose
         pip install screed*tar.gz
         nosetests screed --attr '!known_failing'
-        pyton -c 'import screed; print screed.__version__'
+        python -c 'import screed; print screed.__version__'
         tar xzf screed*tar.gz
         cd screed*
         make dist
@@ -124,7 +124,7 @@ Getting Started
         nosetests screed --attr '!known_failing'
         python -c 'import screed; print screed.__version__'
         cd build/screed
-        ./setup.py nosetests
+        ./setup.py nosetests --attr '!known_failing'
 
 #. Do any final testing (acceptance tests, etc.) Note that the acceptance tests
    for screed are to run the khmer automated tests with the new version of
