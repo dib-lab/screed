@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'screed'
-copyright = u'2012, Alex Nolley and Titus Brown'
+copyright = u'2015, Alex Nolley and Titus Brown'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -50,7 +50,7 @@ copyright = u'2012, Alex Nolley and Titus Brown'
 
 # The full version, including alpha/beta/rc tags.
 
-sys.path.insert(0, '../')
+sys.path.insert(0, '.')
 import versioneer
 
 versioneer.VCS = 'git'
@@ -133,7 +133,6 @@ html_theme = 'default'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-html_style = 'labibi.css'
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -178,14 +177,6 @@ html_style = 'labibi.css'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'screeddoc'
-
-html_context = {  
-        "google_analytics_id" : 'UA-51731094-1',
-        "disqus_shortname" : 'screed-docs',
-        #   "github_base_account" : 'ged-lab',
-        "github_project" : 'screed',
-
-}
 
 
 # -- Options for LaTeX output --------------------------------------------------
