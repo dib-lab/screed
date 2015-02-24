@@ -1,4 +1,4 @@
-include versioneer.py
-include screed/_version.py
-include screed/tests/empty.fa
-include Makefile
+include ChangeLog Makefile README.md
+include versioneer.py MANIFEST.in Doxyfile.in
+include TODO doc/LICENSE.txt
+include screed/_version.py screed/tests/empty.fa

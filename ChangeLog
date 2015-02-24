@@ -1,32 +1,48 @@
+2015-02-23  Gabriel Pratt  <gpratt@ucsd.edu>
+
+   * Fixed Issue 705 len(read) != len(read.sequence)
+
+2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
+
+   * doc/dev/release.txt: Fix formatting
+   * MANIFEST.in: include the MANIFEST.in template, the license and other
+   files
+   * versioneer.py,screed/{__init__,_version}.py: upgrade versioneer to 0.13
+
+2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
+
+   * setup.py: work around versioneer bug:
+   https://github.com/warner/python-versioneer/issues/52 
+
 2014-12-07  Michael R. Crusoe  <mcrusoe@msu.edu>
 
-    * Initial jenkins-build.sh
+   * Initial jenkins-build.sh
 
 2014-12-03  Jacob Fenton  <bocajnotnef@gmail.com>
 
-    * ChangeLog: updated to include major revisions since 0.7.1
-    * CODE_OF_CONDUCT: copied in code of conduct from khmer project
-    * docs/dev/{CODE_OF_CONDUCT, coding-guidelines-and-review, index,
-    releases}.txt, docs/index.txt: added screed dev docs
-    * setup.py, .gitattributes, __init__.py, _version.py, versioneer.py:
-    installed versioneer version naming system
-    * MANIFEST.in: now includes versioneer files and empty testing file
+   * ChangeLog: updated to include major revisions since 0.7.1
+   * CODE_OF_CONDUCT: copied in code of conduct from khmer project
+   * docs/dev/{CODE_OF_CONDUCT, coding-guidelines-and-review, index,
+   releases}.txt, docs/index.txt: added screed dev docs
+   * setup.py, .gitattributes, __init__.py, _version.py, versioneer.py:
+   installed versioneer version naming system
+   * MANIFEST.in: now includes versioneer files and empty testing file
 
 2014-11-02  Michael R. Crusoe  <mcrusoe@msu.edu>
 
-    * Doxyfile, Makefile: added Doxygen support, coverage &
+   * Doxyfile, Makefile: added Doxygen support, coverage &
 	pylint make targets
 
 2014-10-27  Ben Taylor  <taylo886@msu.edu>
 
-	* benchmarks/fqGen.py, benchmarks/fqToFaConvert.py,
-	benchmarks/mysql/mysqlCreateTimeit.py, benchmarks/screedCreateTimeit.py,
-	benchmarks/pgres/pgresCreateTimeit.py, gibtests/__init__.py,
-	doc/screed.html, doc/screed.txt, screed/conversion.py, screed/fastq.py,
-	screed/tests/test_fastq.py: Changed all uses of "accuracy" to "quality"
-	* screed/tests/test_dna.py: Added basic test coverage for screed/dna.py
+   * benchmarks/fqGen.py, benchmarks/fqToFaConvert.py,
+   benchmarks/mysql/mysqlCreateTimeit.py, benchmarks/screedCreateTimeit.py,
+   benchmarks/pgres/pgresCreateTimeit.py, gibtests/__init__.py,
+   doc/screed.html, doc/screed.txt, screed/conversion.py, screed/fastq.py,
+   screed/tests/test_fastq.py: Changed all uses of "accuracy" to "quality"
+   * screed/tests/test_dna.py: Added basic test coverage for screed/dna.py
 
 2014-05-16  Michael R. Crusoe  <mcrusoe@msu.edu>
 
-    * screed/openscreed.py: added sniffing of compression types, including zip
+   * screed/openscreed.py: added sniffing of compression types, including zip
 

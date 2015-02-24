@@ -26,6 +26,9 @@ class _screed_record_dict(UserDict.DictMixin):
         except KeyError:
             raise AttributeError(name)
 
+    def __len__(self):
+        return len(self.sequence)
+
     def keys(self):
         return self.d.keys()
 
