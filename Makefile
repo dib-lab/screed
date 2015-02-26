@@ -7,7 +7,7 @@
 PYSOURCES=$(wildcard screed/*.py)
 TESTSOURCES=$(wildcard screed/tests/*.py)
 SOURCES=$(PYSOURCES) setup.py
-DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose
+DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose sphinx
 
 VERSION=$(shell git describe --tags --dirty | sed s/v//)
 all:

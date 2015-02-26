@@ -51,7 +51,11 @@ copyright = u'2012-2015, Michigan State University'
 # The full version, including alpha/beta/rc tags.
 
 sys.path.insert(0, '.')
-import versioneer
+
+import imp
+fp, pathname, description = imp.find_module('versioneer')
+versioneer = imp.load_module('versioneer', fp, pathname, description)
+del imp
 
 versioneer.VCS = 'git'
 versioneer.versionfile_source = '../screed/_version.py'
