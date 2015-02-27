@@ -18,8 +18,13 @@ Contents:
 
    screed
    example
-   releases
+   
+   dev/index
+   release-notes/index
 
+   CODE_OF_CONDUCT
+   LICENSE
+   
 Indices and tables
 ==================
 

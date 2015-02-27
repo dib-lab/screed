@@ -7,7 +7,7 @@
 PYSOURCES=$(wildcard screed/*.py)
 TESTSOURCES=$(wildcard screed/tests/*.py)
 SOURCES=$(PYSOURCES) setup.py
-DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose
+DEVPKGS=pep8==1.5.7 diff_cover autopep8 pylint coverage nose sphinx
 
 VERSION=$(shell git describe --tags --dirty | sed s/v//)
 all:
@@ -33,6 +33,7 @@ clean: FORCE
 	./setup.py clean --all || true
 	rm coverage-debug || true
 	rm -Rf .coverage || true
+	rm -Rf doc/_build || true
 
 pep8: $(PYSOURCES) $(TESTSOURCES)
 	pep8 --exclude=_version.py setup.py screed/ || true
@@ -88,6 +89,14 @@ nosetests.xml: FORCE
 	./setup.py nosetests --with-xunit --attr '!known_failing'
 
 doxygen: doc/doxygen/html/index.html
+
+doc: build/sphinx/html/index.html
+
+build/sphinx/html/index.html: $(SOURCES) $(wildcard doc/*.txt) doc/conf.py all
+		./setup.py build_sphinx --fresh-env
+		@echo ''
+		@echo '--> docs in build/sphinx/html <--'
+		@echo ''
 
 doc/doxygen/html/index.html: ${CPPSOURCES} ${PYSOURCES}
 	mkdir -p doc/doxygen
