@@ -126,7 +126,7 @@ class _screed_attr(object):
 
         try:
             return self.__repr__() != str(given)
-        except AttributError:
+        except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __str__(self):
