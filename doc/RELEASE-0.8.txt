@@ -1,0 +1,20 @@
+============
+Release v0.8
+============
+
+We are pleased to announce the release of screed v0.8. screed is a database
+engine capable of storing and retrieving short-read sequence data. screed is
+designed to be fast and adaptable to different sequence file formats. This is
+the second release of screed that we consider to be stable and complete.
+
+This version of screed contains developer documentation for contributing to the
+screed project and a code of conduct for interacting with other contributors
+and project maintainers. 
+
+Features and Major Changes:
+ - bz2 compressed file streaming
+ - 'accuracy' attribute has been changed to 'quality'
+ - versioneer version string generator has been added
+ - dooxygen documentation engine has been added
+ - code of conduct and developer documentation has been added
+ - detailed changelog has been added

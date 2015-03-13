@@ -18,9 +18,10 @@ Contents:
 
    screed
    example
+   RELEASE-0.8
    
    dev/index
-   release-notes/index
+   old-release-notes/index
 
    CODE_OF_CONDUCT
    LICENSE
