@@ -32,10 +32,6 @@ class _screed_record_dict(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
-    def __getitem__(self, sliced):
-        slicedkeys = self.d.keys()[sliced]
-        d = {i: self.d[i] for key in slicedkeys} # create a new dict from the sliked keys and return the dict
-        return d
 
 class _screed_attr(object):
 
