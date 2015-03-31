@@ -18,11 +18,11 @@ Contents:
 
    screed
    example
-   RELEASE-0.8
    
    dev/index
-   old-release-notes/index
-
+   release-notes/index
+   user/known-issues.txt
+   
    CODE_OF_CONDUCT
    LICENSE
    
