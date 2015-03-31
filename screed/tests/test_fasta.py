@@ -2,6 +2,8 @@ import screed
 from screed.DBConstants import fileExtension
 import os
 from cStringIO import StringIO
+import screed_tst_utils as utils
+import shutil
 
 
 def test_new_record():
@@ -19,7 +21,10 @@ def test_new_record():
 class Test_fasta(object):
 
     def setup(self):
-        self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
+        fileloc = utils.get_temp_filename('test.fa')
+        shutil.copyfile('test.fa', fileloc) 
+        
+        self._testfa = os.path.join(os.path.dirname(__file__), fileloc)
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 
