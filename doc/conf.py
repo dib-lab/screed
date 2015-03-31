@@ -51,6 +51,7 @@ copyright = u'2012-2015, Michigan State University'
 # The full version, including alpha/beta/rc tags.
 
 sys.path.insert(0, '.')
+sys.path.insert(0, '../') # to get the versioneer module
 
 import imp
 fp, pathname, description = imp.find_module('versioneer')
