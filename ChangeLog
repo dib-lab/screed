@@ -1,3 +1,8 @@
+2015-04-01  Jacob Fenton  <bocajnotnef@gmail.com>
+
+   * screed/tests/test_attriberror.py: added tests to check screed db attribute
+   exception throwing
+
 2015-03-06  Kevin Murray  <spam@kdmurray.id.au>
 
    * screed/screedRecord.py: Fix a typo in a try: except: block.
