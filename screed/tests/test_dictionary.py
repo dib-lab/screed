@@ -4,6 +4,7 @@ from screed.DBConstants import fileExtension
 import screed_tst_utils as utils
 import shutil
 
+
 class Test_dict_methods(object):
 
     """
@@ -13,9 +14,9 @@ class Test_dict_methods(object):
 
     def setup(self):
         tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fa'), \
-                tempfa)
-        
+        shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fa'),
+                    tempfa)
+
         self._testfa = tempfa
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)

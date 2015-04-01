@@ -5,6 +5,7 @@ from cStringIO import StringIO
 import screed_tst_utils as utils
 import shutil
 
+
 def test_new_record():
     # test for a bug where the record dict was not reset after each
     # sequence load, leading to all records being identical if you
@@ -53,9 +54,9 @@ class Test_fastq(object):
     def setup(self):
         tempfq = utils.get_temp_filename('test.fastq')
         shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fastq'),
-                tempfq)
+                    tempfq)
         self._testfq = tempfq
-        
+
         screed.read_fastq_sequences(self._testfq)
         self.db = screed.ScreedDB(self._testfq)
 

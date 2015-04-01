@@ -5,6 +5,7 @@ from screed.DBConstants import fileExtension
 import screed_tst_utils as utils
 import shutil
 
+
 class Test_fasta_to_fastq(test_fasta.Test_fasta):
 
     """
@@ -15,7 +16,7 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
 
     def setup(self):
         thisdir = os.path.dirname(__file__)
-        
+
         temp_fa2fq = utils.get_temp_filename('fa_to_fq')
         # shutil.copy(os.path.join(thisdir, 'fa_to_fq'), temp_fa2fq)
         self._fqName = temp_fa2fq
@@ -23,11 +24,11 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
         temp_fq2fa = utils.get_temp_filename('fq_to_fa')
         # shutil.copy(os.path.join(thisdir, 'fq_to_fa'), temp_fq2fa)
         self._faName = temp_fq2fa
-        
+
         tempfasta = utils.get_temp_filename('test.fa')
         shutil.copy(os.path.join(thisdir, 'test.fa'), tempfasta)
         self._testfa = tempfasta
-        
+
         screed.read_fasta_sequences(self._testfa)
         screed.ToFastq(self._testfa, self._fqName)  # Fasta db -> fasta text
         screed.read_fastq_sequences(self._fqName)  # Fastq file -> fastq db
