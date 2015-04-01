@@ -18,13 +18,13 @@ also passes the khmer acceptance tests as per the [eelpond testing
 protocol.]
 (https://github.com/ged-lab/literate-resting/blob/master/kp/README.txt)
 
-This release of screed had renamed the 'accuracy' attribute of read records to
-'quaality;' this API change will need to be adopted by all users wanting to
+This release of screed has renamed the 'accuracy' attribute of read records to
+'quality;' this API change will need to be adopted by all users wanting to
 upgrade to this version. Unlike the khmer project, Screed is not currently
-under semantic versioning. It will be woith the 1.0 release.
+under semantic versioning. It will be with the 1.0 release.
 
- - Screed now has automatic compression detection via magic bit sniffing gzip,
- bzip and zip files (from @mr-c in #432)
+ - Screed now has automatic compression detection via magic bit sniffing for 
+ gzip, bzip files (from @mr-c in #432)
  - Screed now supports streaming of uncompressed FASTA and FASTQ files. Bzip2
  files can also be streamed but not gzip files. (from @mr-c, see #633)
  - Screed now has a Changelog, developer documentation and a code of conduct
