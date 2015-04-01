@@ -21,10 +21,7 @@ def test_new_record():
 class Test_fasta(object):
 
     def setup(self):
-        fileloc = utils.get_temp_filename('test.fa')
-        shutil.copyfile('test.fa', fileloc) 
-        
-        self._testfa = os.path.join(os.path.dirname(__file__), fileloc)
+        self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 
