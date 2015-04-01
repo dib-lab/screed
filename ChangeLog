@@ -1,3 +1,8 @@
+2015-03-31  Jacob Fenton  <bocajnotnef@gmail.com>
+
+   * screed/tests/test_{dictionary, fasta, fasta_recover, fastq, fastq_recover,
+   hava_methods, shell}.py: changed tests to use tempdirs
+
 2015-02-23  Gabriel Pratt  <gpratt@ucsd.edu>
 
    * Fixed Issue 705 len(read) != len(read.sequence)
