@@ -2,6 +2,7 @@
 
    * screed/tests/test_{dictionary, fasta, fasta_recover, fastq, fastq_recover,
    hava_methods, shell}.py: changed tests to use tempdirs
+   * screed/tests/screed_tst_utils.py: copied in khmer test utils
 
 2015-02-23  Gabriel Pratt  <gpratt@ucsd.edu>
 
