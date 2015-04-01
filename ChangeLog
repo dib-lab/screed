@@ -4,6 +4,11 @@
    hava_methods, shell}.py: changed tests to use tempdirs
    * screed/tests/screed_tst_utils.py: copied in khmer test utils
 
+2015-03-06  Kevin Murray  <spam@kdmurray.id.au>
+
+   * screed/screedRecord.py: Fix a typo in a try: except: block.
+   s/AttributError/AttributeError/
+
 2015-02-23  Gabriel Pratt  <gpratt@ucsd.edu>
 
    * Fixed Issue 705 len(read) != len(read.sequence)
