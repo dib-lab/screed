@@ -28,60 +28,54 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 res = (record.sequence == self._ns)
+                assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
-            except:
-                assert False, "should have caught the TypeError"
 
     def test_neq(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence != self._ns)
+                assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
-            except:
-                assert False, "should have caught the TypeError"
 
     def test_comp_greateq(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence >= self._ns)
+                assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
-            except:
-                assert False, "should have caught the TypeError"
 
     def test_comp_lesseq(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence <= self._ns)
+                assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
-            except:
-                assert False, "should have caught the TypeError"
 
     def test_comp_less(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence < self._ns)
+                assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
-            except:
-                assert False, "should have caught the TypeError"
 
     def test_comp_great(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence > self._ns)
+                assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
-            except:
-                assert False, "should have caught the TypeError"
 
     def teardown(self):
         os.unlink(self._testfile + fileExtension)
