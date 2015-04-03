@@ -5,7 +5,7 @@ Known Issues
 ============
 
 This document details the known issues in the current release of screed. All
-issues for screed are tracked at https://github.com/ged-lab/khmer/issues
+issues for screed are tracked at https://github.com/ged-lab/khmer/labels/screed
 
 List of known issues
 ====================
