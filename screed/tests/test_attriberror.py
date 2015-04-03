@@ -6,11 +6,11 @@ import os
 class nostring:
     def __init__(self):
         self.exists = True
-
     def __str__(self):
         raise AttributeError
-
     def __repr__(self):
+        raise AttributeError
+    def __cmp__(self):
         raise AttributeError
 
 
@@ -45,7 +45,8 @@ class test_comparisons():
         for k in self._db:
             record = self._db.get(k)
             try:
-                res = (record.sequence >= self._ns)
+                seq = record.sequence
+                print (seq >= self._ns)
                 assert False, "should have caught the TypeError"
             except TypeError:
                 assert True
