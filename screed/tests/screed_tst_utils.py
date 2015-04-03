@@ -3,7 +3,7 @@
 # Copyright (C) Michigan State University, 2009-2015. It is licensed under
 # the three-clause BSD license; see doc/LICENSE.txt.
 # Contact: khmer-project@idyll.org
-# 
+#
 # This file has been copied over from the khmer project at
 # https://github.com/ged-lab/khmer
 #
