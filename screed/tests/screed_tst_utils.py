@@ -1,12 +1,13 @@
 #
-# This file is part of khmer, http://github.com/ged-lab/screed/, and is
+# This file is part of screed, http://github.com/ged-lab/screed/, and is
 # Copyright (C) Michigan State University, 2009-2015. It is licensed under
 # the three-clause BSD license; see doc/LICENSE.txt.
 # Contact: khmer-project@idyll.org
 #
-# This file has been copied over from the khmer project at
-# https://github.com/ged-lab/khmer
+# This file has been copied from the khmer project at
+# https://github.com/ged-lab/khmer/blob/a8356b7abbebf8540c7656378b1459442b781f87/tests/khmer_tst_utils.py
 #
+
 import tempfile
 import os
 import shutil
