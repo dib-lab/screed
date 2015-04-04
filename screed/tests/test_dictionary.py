@@ -14,7 +14,7 @@ class Test_dict_methods(object):
 
     def setup(self):
         tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fa'),
+        shutil.copy(utils.get_test_data('test.fa'),
                     tempfa)
 
         self._testfa = tempfa

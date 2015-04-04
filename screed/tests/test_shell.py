@@ -19,7 +19,7 @@ class Test_fa_shell(test_fasta.Test_fasta):
         thisdir = os.path.dirname(__file__)
 
         tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(os.path.join(thisdir, 'test.fa'), tempfa)
+        shutil.copy(utils.get_test_data('test.fa'), tempfa)
         self._testfa = tempfa
 
         fadbm = os.path.join(thisdir, '..', 'fadbm.py')
@@ -42,7 +42,7 @@ class Test_fq_shell(test_fastq.Test_fastq):
         thisdir = os.path.dirname(__file__)
 
         tempfq = utils.get_temp_filename('test.fastq')
-        shutil.copy(os.path.join(thisdir, 'test.fastq'), tempfq)
+        shutil.copy(utils.get_test_data('test.fastq'), tempfq)
         self._testfq = tempfq
 
         fqdbm = os.path.join(thisdir, '..', 'fqdbm.py')

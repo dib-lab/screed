@@ -15,7 +15,6 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
     """
 
     def setup(self):
-        thisdir = os.path.dirname(__file__)
 
         temp_fa2fq = utils.get_temp_filename('fa_to_fq')
         # shutil.copy(os.path.join(thisdir, 'fa_to_fq'), temp_fa2fq)
@@ -26,7 +25,7 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
         self._faName = temp_fq2fa
 
         tempfasta = utils.get_temp_filename('test.fa')
-        shutil.copy(os.path.join(thisdir, 'test.fa'), tempfasta)
+        shutil.copy(utils.get_test_data('test.fa'), tempfasta)
         self._testfa = tempfasta
 
         screed.read_fasta_sequences(self._testfa)

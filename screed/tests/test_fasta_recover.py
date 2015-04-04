@@ -13,7 +13,7 @@ class test_fa_recover(test_fasta.Test_fasta):
         self._fileName = tempfile
 
         tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fa'), tempfa)
+        shutil.copy(utils.get_test_data('test.fa'), tempfa)
         self._testfa = tempfa
 
         screed.read_fasta_sequences(self._testfa)

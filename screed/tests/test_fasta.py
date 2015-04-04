@@ -22,7 +22,7 @@ class Test_fasta(object):
 
     def setup(self):
         tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fa'),
+        shutil.copy(utils.get_test_data('test.fa'),
                     tempfa)
 
         self._testfa = tempfa
@@ -106,8 +106,7 @@ class Test_fasta_whitespace(object):
 
     def setup(self):
         tempfile = utils.get_temp_filename('test-whitespace.fa')
-        shutil.copy(os.path.join(os.path.dirname(__file__),
-                                 'test-whitespace.fa'), tempfile)
+        shutil.copy(utils.get_test_data('test-whitespace.fa'), tempfile)
 
         self._testfa = tempfile
 

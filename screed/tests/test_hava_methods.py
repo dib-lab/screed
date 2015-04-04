@@ -6,7 +6,7 @@ import screed_tst_utils as utils
 import shutil
 
 testha = utils.get_temp_filename('test.hava')
-shutil.copy(os.path.join(os.path.dirname(__file__), 'test.hava'), testha)
+shutil.copy(utils.get_test_data('test.hava'), testha)
 
 
 class test_hava(object):

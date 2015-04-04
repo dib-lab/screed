@@ -53,8 +53,7 @@ class Test_fastq(object):
 
     def setup(self):
         tempfq = utils.get_temp_filename('test.fastq')
-        shutil.copy(os.path.join(os.path.dirname(__file__), 'test.fastq'),
-                    tempfq)
+        shutil.copy(utils.get_test_data('test.fastq'), tempfq)
         self._testfq = tempfq
 
         screed.read_fastq_sequences(self._testfq)

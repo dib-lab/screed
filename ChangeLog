@@ -3,6 +3,9 @@
    * screed/tests/test_{dictionary, fasta, fasta_recover, fastq, fastq_recover,
    hava_methods, shell}.py: changed tests to use tempdirs
    * screed/tests/screed_tst_utils.py: copied in khmer test utils
+   * screed/tests/{empty.fa, test-whitespace.fa, test.fa, test.fa.bz2,
+   test.fa.gz, test.fa.zip, test.fastq, test.fastq.bz2, test.hava}: moved test
+   data to screed/tests/test-data/ directory
 
 2015-03-06  Kevin Murray  <spam@kdmurray.id.au>
 

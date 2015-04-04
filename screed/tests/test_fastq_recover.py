@@ -13,7 +13,7 @@ class test_fq_recover(test_fastq.Test_fastq):
         self._fileName = utils.get_temp_filename('fastqRecovery')
 
         tempfile = utils.get_temp_filename('test.fastq')
-        shutil.copy(os.path.join(thisdir, 'test.fastq'), tempfile)
+        shutil.copy(utils.get_test_data('test.fastq'), tempfile)
         self._testfq = tempfile
 
         screed.read_fastq_sequences(self._testfq)
