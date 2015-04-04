@@ -2,6 +2,8 @@
 
    * screed/tests/test_attriberror.py: added tests to check screed db attribute
    exception throwing
+   * screed/screedRecord.py: removed __cmp__ function, explicitly disallowed
+   all rich comparator functions that aren't == or !=
 
 2015-03-06  Kevin Murray  <spam@kdmurray.id.au>
 

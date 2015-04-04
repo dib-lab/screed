@@ -6,10 +6,13 @@ import os
 class nostring:
     def __init__(self):
         self.exists = True
+
     def __str__(self):
         raise AttributeError
+
     def __repr__(self):
         raise AttributeError
+
     def __cmp__(self):
         raise AttributeError
 
@@ -28,7 +31,7 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 res = (record.sequence == self._ns)
-                assert False, "should have caught the TypeError"
+                assert False, "should have thrown a TypeError"
             except TypeError:
                 assert True
 
@@ -37,7 +40,7 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 res = (record.sequence != self._ns)
-                assert False, "should have caught the TypeError"
+                assert False, "should have thrown a TypeError"
             except TypeError:
                 assert True
 
@@ -46,8 +49,8 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 seq = record.sequence
-                print (seq >= self._ns)
-                assert False, "should have caught the TypeError"
+                res = (seq >= self._ns)
+                assert isinstance(res, NotImplementedError)
             except TypeError:
                 assert True
 
@@ -56,7 +59,7 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 res = (record.sequence <= self._ns)
-                assert False, "should have caught the TypeError"
+                assert isinstance(res, NotImplementedError)
             except TypeError:
                 assert True
 
@@ -65,7 +68,7 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 res = (record.sequence < self._ns)
-                assert False, "should have caught the TypeError"
+                assert isinstance(res, NotImplementedError)
             except TypeError:
                 assert True
 
@@ -74,7 +77,7 @@ class test_comparisons():
             record = self._db.get(k)
             try:
                 res = (record.sequence > self._ns)
-                assert False, "should have caught the TypeError"
+                assert isinstance(res, NotImplementedError)
             except TypeError:
                 assert True
 
