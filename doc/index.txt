@@ -21,7 +21,8 @@ Contents:
    
    dev/index
    release-notes/index
-
+   user/known-issues.txt
+   
    CODE_OF_CONDUCT
    LICENSE
    
