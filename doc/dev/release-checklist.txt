@@ -134,6 +134,45 @@ Getting Started
 
 #. Make sure any release notes are merged into doc/release-notes/.
 
+
+How to make a final release
+===========================
+
+When you have a thoroughly tested release candidate, cut a release like so:
+
+#. Create the final tag and publish the new release on PyPI (requires an
+   authorized account) ::
+
+   cd ../../../khmer
+   git tag v${new_version}
+   python setup.py register sdist upload
+
+#. Delete the release candidate tag and push the tag updates to GitHub::
+
+   git tag -d v${new_version}-${rc}
+   git push git@github.com:ged-lab/khmer.git
+   git push --tags git@github.com:ged-lab/khmer.git
+
+#. Add the release on GitHub, using the tag you just pushed. Name it "Version
+   X.Y.Z" and copy/paste in the release notes.
+
+#. Update the Read the Docs to point to the new version. Visit
+   https://readthedocs.org/builds/screed/ and ‘Build Version: master’ to pick up
+   the new tag. Once that build has finished check the “Activate” box next to
+   the new version at https://readthedocs.org/dashboard/screed/versions/ under
+   “Choose Active Versions”. Finally change the default version at
+   https://readthedocs.org/dashboard/screed/advanced/ to the new version.
+
+#. Delete any RC tags created:: 
+   
+   git tag -d ${new_version}-${rc}
+   git push origin :refs/tags/${new_version}-${rc}
+
+#. Tweet about the new release
+
+#. Send email including the release notes to khmer@lists.idyll.org and
+   khmer-announce@lists.idyll.org
+
 Notes on this document
 ======================
 This is the procedure for cutting a new release of screed. It has been adapted

@@ -1,3 +1,7 @@
+2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com>
+
+   * doc/dev/release-checklist.txt: added "making final release" notes
+
 2015-04-04  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * doc/dev/release{.txt,-checklist.txt}: renamed/restored release.txt to
