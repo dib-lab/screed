@@ -21,11 +21,9 @@ def test_new_record():
 class Test_fasta(object):
 
     def setup(self):
-        tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(utils.get_test_data('test.fa'),
-                    tempfa)
+        self._testfa = utils.get_temp_filename('test.fa')
+        shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
-        self._testfa = tempfa
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 
@@ -105,10 +103,8 @@ class Test_fasta(object):
 class Test_fasta_whitespace(object):
 
     def setup(self):
-        tempfile = utils.get_temp_filename('test-whitespace.fa')
-        shutil.copy(utils.get_test_data('test-whitespace.fa'), tempfile)
-
-        self._testfa = tempfile
+        self._testfa = utils.get_temp_filename('test-whitespace.fa')
+        shutil.copy(utils.get_test_data('test-whitespace.fa'), self._testfa)
 
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)

@@ -16,11 +16,8 @@ class Test_fa_shell(test_fasta.Test_fasta):
     """
 
     def setup(self):
-        thisdir = os.path.dirname(__file__)
-
-        tempfa = utils.get_temp_filename('test.fa')
-        shutil.copy(utils.get_test_data('test.fa'), tempfa)
-        self._testfa = tempfa
+        self._testfa = utils.get_temp_filename('test.fa')
+        shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
         fadbm = os.path.join(thisdir, '..', 'fadbm.py')
         subprocess.check_call(['python', fadbm, self._testfa],
@@ -41,8 +38,8 @@ class Test_fq_shell(test_fastq.Test_fastq):
     def setup(self):
         thisdir = os.path.dirname(__file__)
 
-        tempfq = utils.get_temp_filename('test.fastq')
-        shutil.copy(utils.get_test_data('test.fastq'), tempfq)
+        self._testfq = utils.get_temp_filename('test.fastq')
+        shutil.copy(utils.get_test_data('test.fastq'), self._testfq)
         self._testfq = tempfq
 
         fqdbm = os.path.join(thisdir, '..', 'fqdbm.py')

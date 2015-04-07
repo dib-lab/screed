@@ -9,12 +9,10 @@ import shutil
 class test_fa_recover(test_fasta.Test_fasta):
 
     def setup(self):
-        tempfile = utils.get_temp_filename('fastaRecovery')
-        self._fileName = tempfile
+        self._fileName = utils.get_temp_filename('fastaRecovery')
 
-        tempfa = utils.get_temp_filename('test.fa')
+        self._testfa = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), tempfa)
-        self._testfa = tempfa
 
         screed.read_fasta_sequences(self._testfa)
         screed.ToFasta(self._testfa, self._fileName)
