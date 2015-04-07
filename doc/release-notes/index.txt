@@ -9,3 +9,4 @@ Contents:
    :maxdepth: 1
 
    RELEASE-0.5
+   RELEASE-0.8

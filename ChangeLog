@@ -1,6 +1,11 @@
 2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * doc/dev/release-checklist.txt: added "making final release" notes
+   * Makefile: copied over @mr-c's md-to-rst release notes conversion target
+   * doc/dev/release-notes/RELEASE-0.8.txt: added rst version of release notes 
+   for sphinx
+   * doc/dev/release-notes/index.txt: added rst version of 0.8 release notes to
+   toctree
 
 2015-04-04  Jacob Fenton  <bocajnotnef@gmail.com>
 
