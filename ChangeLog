@@ -1,4 +1,4 @@
-2015-03-31  Jacob Fenton  <bocajnotnef@gmail.com>
+2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * screed/tests/test_{dictionary, fasta, fasta_recover, fastq, fastq_recover,
    hava_methods, shell}.py: changed tests to use tempdirs
@@ -6,6 +6,11 @@
    * screed/tests/{empty.fa, test-whitespace.fa, test.fa, test.fa.bz2,
    test.fa.gz, test.fa.zip, test.fastq, test.fastq.bz2, test.hava}: moved test
    data to screed/tests/test-data/ directory
+
+2015-04-04  Jacob Fenton  <bocajnotnef@gmail.com>
+
+   * doc/dev/release{.txt,-checklist.txt}: renamed/restored release.txt to
+   release-checklist.txt
 
 2015-03-06  Kevin Murray  <spam@kdmurray.id.au>
 
