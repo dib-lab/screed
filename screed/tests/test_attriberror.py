@@ -33,7 +33,7 @@ class test_comparisons():
                 res = (record.sequence == self._ns)
                 assert False, "should have thrown a TypeError"
             except TypeError:
-                assert True
+                pass
 
     def test_neq(self):
         for k in self._db:
@@ -42,7 +42,7 @@ class test_comparisons():
                 res = (record.sequence != self._ns)
                 assert False, "should have thrown a TypeError"
             except TypeError:
-                assert True
+                pass
 
     def test_comp_greateq(self):
         for k in self._db:
