@@ -1,7 +1,8 @@
-import test_fasta
 import os
 import screed
 from screed.DBConstants import fileExtension
+
+from . import test_fasta
 
 
 class test_fa_recover(test_fasta.Test_fasta):

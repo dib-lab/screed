@@ -1,3 +1,4 @@
+import operator
 import os
 import screed
 from screed.DBConstants import fileExtension
@@ -26,7 +27,7 @@ class Test_dict_methods(object):
 
         values = db.values()
         ivalues = list(db.itervalues())
-        assert sorted(values) == sorted(ivalues)
+        assert sorted(values, key=operator.itemgetter('id')) == sorted(ivalues, key=operator.itemgetter('id'))
 
         items = db.items()
         iitems = list(db.iteritems())

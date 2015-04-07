@@ -2,7 +2,7 @@
 try:
     from setuptools import setup
 except ImportError:
-    print '(WARNING: importing distutils, not setuptools!)'
+    print('(WARNING: importing distutils, not setuptools!)')
     from distutils.core import setup
 
 import imp

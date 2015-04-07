@@ -1,7 +1,13 @@
+from __future__ import unicode_literals
+
 import screed
 from screed.DBConstants import fileExtension
+import operator
 import os
-from cStringIO import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    from cStringIO import StringIO
 
 
 def test_new_record():
@@ -105,7 +111,7 @@ class Test_fastq(object):
             entries.append(self.db[entry])
 
         ivalues = list(self.db.itervalues())
-        assert sorted(entries) == sorted(ivalues)
+        assert sorted(entries, key=operator.itemgetter('id')) == sorted(ivalues, key=operator.itemgetter('id'))
 
     def test_iteri(self):
         for id, entry in self.db.iteritems():

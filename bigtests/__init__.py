@@ -32,8 +32,8 @@ def getfile(f):
     try:
         up = urllib.urlopen(base_url)
     except IOError:
-        raise IOError, "Error downloading testfiles, are you connected to " +\
-              "the internet?"
+        raise IOError("Error downloading testfiles, are you connected to "
+                      "the internet?")
     fp.write(up.read())
     fp.close()
 
@@ -81,7 +81,7 @@ class Test_s22_fastq:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -220,7 +220,7 @@ class Test_s31_fastq:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -359,7 +359,7 @@ class Test_s42_fastq:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -500,7 +500,7 @@ class Test_po_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -644,7 +644,7 @@ class Test_mus_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -761,7 +761,7 @@ class Test_tri_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -896,7 +896,7 @@ class Test_xeno_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
@@ -1040,7 +1040,7 @@ class Test_sorex_fasta:
         Runs through the database, accessing each element by index and then by
         name
         """
-        for idx in xrange(0, len(self.db)):
+        for idx in range(0, len(self.db)):
             rcrd = self.db.loadRecordByIndex(idx)
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd

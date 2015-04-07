@@ -1,12 +1,17 @@
-import UserDict
-import types
-import DBConstants
-import gzip
+from __future__ import absolute_import
+
 import bz2
+import gzip
+import types
+try:
+    from collections import MutableMapping
+except ImportError:
+    import UserDict
+    MutableMapping = UserDict.DictMixin
 
+from . import DBConstants
 
-class _screed_record_dict(UserDict.DictMixin):
-
+class _screed_record_dict(MutableMapping):
     """
     Simple dict-like record interface with bag behavior.
     """
@@ -31,6 +36,15 @@ class _screed_record_dict(UserDict.DictMixin):
 
     def keys(self):
         return self.d.keys()
+
+    def __delitem__(self, key):
+        del self.d[key]
+
+    def __iter__(self):
+        return iter(self.d)
+
+    def __len__(self):
+        return len(self.d)
 
 
 class _screed_attr(object):
@@ -109,8 +123,14 @@ class _screed_attr(object):
         """
         Compares attribute to given object in string form
         """
-        if isinstance(given, bytes):
-            return given == self.__str__()
+        try:
+            if isinstance(given, basestring):
+                return given == self.__str__()
+        except NameError:
+            if isinstance(given, str):
+                return given == self.__str__()
+            elif isinstance(given, bytes):
+                return given == self.__str__()
 
         try:
             return str(given) == self.__str__()

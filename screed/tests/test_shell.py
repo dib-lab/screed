@@ -1,10 +1,12 @@
-import test_fasta
-import test_fastq
+from __future__ import absolute_import
+
 import os
 import subprocess
 import screed
 from screed.DBConstants import fileExtension
 
+from . import test_fasta
+from . import test_fastq
 
 class Test_fa_shell(test_fasta.Test_fasta):
 
@@ -16,7 +18,7 @@ class Test_fa_shell(test_fasta.Test_fasta):
     def setup(self):
         thisdir = os.path.dirname(__file__)
         self._testfa = os.path.join(thisdir, 'test.fa')
-        fadbm = os.path.join(thisdir, '..', 'fadbm.py')
+        fadbm = os.path.abspath(os.path.join(thisdir, '..', 'fadbm.py'))
         subprocess.check_call(['python', fadbm, self._testfa],
                               stdout=subprocess.PIPE)
         self.db = screed.ScreedDB(self._testfa)
@@ -36,7 +38,7 @@ class Test_fq_shell(test_fastq.Test_fastq):
         thisdir = os.path.dirname(__file__)
         self._testfq = os.path.join(thisdir, 'test.fastq')
 
-        fqdbm = os.path.join(thisdir, '..', 'fqdbm.py')
+        fqdbm = os.path.abspath(os.path.join(thisdir, '..', 'fqdbm.py'))
         subprocess.check_call(['python', fqdbm, self._testfq],
                               stdout=subprocess.PIPE)
         self.db = screed.ScreedDB(self._testfq)
