@@ -16,17 +16,10 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
 
     def setup(self):
 
-        temp_fa2fq = utils.get_temp_filename('fa_to_fq')
-        # shutil.copy(os.path.join(thisdir, 'fa_to_fq'), temp_fa2fq)
-        self._fqName = temp_fa2fq
-
-        temp_fq2fa = utils.get_temp_filename('fq_to_fa')
-        # shutil.copy(os.path.join(thisdir, 'fq_to_fa'), temp_fq2fa)
-        self._faName = temp_fq2fa
-
-        tempfasta = utils.get_temp_filename('test.fa')
-        shutil.copy(utils.get_test_data('test.fa'), tempfasta)
-        self._testfa = tempfasta
+        self._fqName = utils.get_temp_filename('fa_to_fq')
+        self._faName= utils.get_temp_filename('fq_to_fa')
+        self._testfa = utils.get_temp_filename('test.fa')
+        shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
         screed.read_fasta_sequences(self._testfa)
         screed.ToFastq(self._testfa, self._fqName)  # Fasta db -> fasta text
