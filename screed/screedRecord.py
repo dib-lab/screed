@@ -112,17 +112,17 @@ class _screed_attr(object):
         except AttributeError:
             raise TypeError("Cannot compare to given type: %s" % type(given))
 
-    def __lt__(self):
-        return NotImplementedError
+    def __lt__(self, given):
+        raise NotImplementedError
 
-    def __gt__(self):
-        return NotImplementedError
+    def __gt__(self, given):
+        raise NotImplementedError
 
-    def __le__(self):
-        return NotImplementedError
+    def __le__(self, given):
+        raise NotImplementedError
 
-    def __ge__(self):
-        return NotImplementedError
+    def __ge__(self, given):
+        raise NotImplementedError
 
     def __str__(self):
         """

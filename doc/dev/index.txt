@@ -17,5 +17,4 @@ Contents:
    :maxdepth: 1
 
    coding-guidelines-and-review
-   releases
-   known-issues
+   release-checklist

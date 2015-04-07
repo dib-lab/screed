@@ -50,36 +50,36 @@ class test_comparisons():
             try:
                 seq = record.sequence
                 res = (seq >= self._ns)
-                assert isinstance(res, NotImplementedError)
-            except TypeError:
-                assert True
+                assert False, "should have thrown a NotImplementedError"
+            except NotImplementedError:
+                pass
 
     def test_comp_lesseq(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence <= self._ns)
-                assert isinstance(res, NotImplementedError)
-            except TypeError:
-                assert True
+                assert False, "Should hae thrown a NotImplementedError"
+            except NotImplementedError:
+                pass
 
     def test_comp_less(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence < self._ns)
-                assert isinstance(res, NotImplementedError)
-            except TypeError:
-                assert True
+                assert False, "Should have thrown a NotImplementedError"
+            except NotImplementedError:
+                pass
 
     def test_comp_great(self):
         for k in self._db:
             record = self._db.get(k)
             try:
                 res = (record.sequence > self._ns)
-                assert isinstance(res, NotImplementedError)
-            except TypeError:
-                assert True
+                assert False, "Should have thrown a NotImplementedError"
+            except NotImplementedError:
+                pass
 
     def teardown(self):
         os.unlink(self._testfile + fileExtension)
