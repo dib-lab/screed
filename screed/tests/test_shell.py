@@ -17,7 +17,7 @@ class Test_fa_shell(test_fasta.Test_fasta):
 
     def setup(self):
         thisdir = os.path.dirname(__file__)
-        
+
         self._testfa = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 

@@ -17,7 +17,7 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
     def setup(self):
 
         self._fqName = utils.get_temp_filename('fa_to_fq')
-        self._faName= utils.get_temp_filename('fq_to_fa')
+        self._faName = utils.get_temp_filename('fq_to_fa')
         self._testfa = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
