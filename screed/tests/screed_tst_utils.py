@@ -4,7 +4,7 @@
 # the three-clause BSD license; see doc/LICENSE.txt.
 # Contact: khmer-project@idyll.org
 #
-# This file has been copied from the khmer project at
+# This file has been modified from the khmer project at
 # https://github.com/ged-lab/khmer/blob/a8356b7abbebf8540c7656378b1459442b781f87/tests/khmer_tst_utils.py
 #
 
