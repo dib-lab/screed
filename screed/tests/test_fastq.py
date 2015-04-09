@@ -2,6 +2,8 @@ import screed
 from screed.DBConstants import fileExtension
 import os
 from cStringIO import StringIO
+import screed_tst_utils as utils
+import shutil
 
 
 def test_new_record():
@@ -50,7 +52,9 @@ def test_parse_description_false():
 class Test_fastq(object):
 
     def setup(self):
-        self._testfq = os.path.join(os.path.dirname(__file__), 'test.fastq')
+        self._testfq = utils.get_temp_filename('test.fastq')
+        shutil.copy(utils.get_test_data('test.fastq'), self._testfq)
+
         screed.read_fastq_sequences(self._testfq)
         self.db = screed.ScreedDB(self._testfq)
 
