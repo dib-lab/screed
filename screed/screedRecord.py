@@ -94,11 +94,8 @@ class _screed_attr(object):
         """
         if isinstance(given, bytes):
             return given == self.__str__()
-
-        try:
+        else:
             return str(given) == self.__str__()
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __ne__(self, given):
         """
@@ -106,23 +103,20 @@ class _screed_attr(object):
         """
         if isinstance(given, bytes):
             return self.__repr__() != given
-
-        try:
+        else:
             return self.__repr__() != str(given)
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __lt__(self, given):
-        raise NotImplementedError
+        return NotImplemented
 
     def __gt__(self, given):
-        raise NotImplementedError
+        return NotImplemented
 
     def __le__(self, given):
-        raise NotImplementedError
+        return NotImplemented 
 
     def __ge__(self, given):
-        raise NotImplementedError
+        return NotImplemented
 
     def __str__(self):
         """
