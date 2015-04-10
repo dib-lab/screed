@@ -2,6 +2,8 @@ import screed
 from screed.DBConstants import fileExtension
 import os
 from cStringIO import StringIO
+import screed_tst_utils as utils
+import shutil
 
 
 def test_new_record():
@@ -19,7 +21,9 @@ def test_new_record():
 class Test_fasta(object):
 
     def setup(self):
-        self._testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
+        self._testfa = utils.get_temp_filename('test.fa')
+        shutil.copy(utils.get_test_data('test.fa'), self._testfa)
+
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 
@@ -99,8 +103,9 @@ class Test_fasta(object):
 class Test_fasta_whitespace(object):
 
     def setup(self):
-        self._testfa = os.path.join(os.path.dirname(__file__),
-                                    'test-whitespace.fa')
+        self._testfa = utils.get_temp_filename('test-whitespace.fa')
+        shutil.copy(utils.get_test_data('test-whitespace.fa'), self._testfa)
+
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 

@@ -2,14 +2,18 @@ import test_fastq
 import os
 import screed
 from screed.DBConstants import fileExtension
+import screed_tst_utils as utils
+import shutil
 
 
 class test_fq_recover(test_fastq.Test_fastq):
 
     def setup(self):
-        thisdir = os.path.dirname(__file__)
-        self._fileName = os.path.join(thisdir, 'fastqRecovery')
-        self._testfq = os.path.join(thisdir, 'test.fastq')
+        self._fileName = utils.get_temp_filename('fastqRecovery')
+
+        self._testfq = utils.get_temp_filename('test.fastq')
+        shutil.copy(utils.get_test_data('test.fastq'), self._testfq)
+
         screed.read_fastq_sequences(self._testfq)
         screed.ToFastq(self._testfq, self._fileName)
         screed.read_fastq_sequences(self._fileName)

@@ -7,6 +7,7 @@ import io
 import threading
 import subprocess
 import screed
+import screed_tst_utils as utils
 from nose.plugins.attrib import attr
 from screed.DBConstants import fileExtension
 
@@ -52,21 +53,21 @@ def streamer(ifilename):
 
 
 def test_stream_fa():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fa'))
+    streamer(utils.get_test_data('test.fa'))
 
 
 def test_stream_fq():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fastq'))
+    streamer(utils.get_test_data('test.fastq'))
 
 
 @attr('known_failing')
 def test_stream_fa_gz():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fa.gz'))
+    streamer(utils.get_test_data('test.fa.gz'))
 
 
 def test_stream_gz_fail():
     try:
-        streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.gz'))
+        streamer(utils.get_test_data('test.fastq.gz'))
         assert 0, "This should not work yet"
     except ValueError as err:
         print str(err)
@@ -74,12 +75,12 @@ def test_stream_gz_fail():
 
 @attr('known_failing')
 def test_stream_fq_gz():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.gz'))
+    streamer(utils.get_test_data('test.fastq.gz'))
 
 
 def test_stream_fa_bz2():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fa.bz2'))
+    streamer(utils.get_test_data('test.fa.bz2'))
 
 
 def test_stream_fq_bz2():
-    streamer(os.path.join(os.path.dirname(__file__), 'test.fastq.bz2'))
+    streamer(utils.get_test_data('test.fastq.bz2'))
