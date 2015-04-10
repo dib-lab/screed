@@ -132,7 +132,10 @@ Getting Started
    for screed are to run the khmer automated tests with the new version of
    screed installed and then to run the khmer acceptance tests.
 
-#. Make sure any release notes are merged into doc/release-notes/.
+#. Make sure any release notes are merged into doc/release-notes/. Release
+   notes should be written in the `.md` format to allow for GitHub rich text
+   diffs and in-browser editing. The `convert-release-notes` maketarget can be
+   used to generate `.rst` files from the `.md` notes.
 
 
 How to make a final release
