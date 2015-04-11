@@ -2,7 +2,7 @@ from __future__ import absolute_import
 import screed
 from screed.DBConstants import fileExtension
 import os
-from cStringIO import StringIO
+from io import StringIO
 from . import screed_tst_utils as utils
 import shutil
 
