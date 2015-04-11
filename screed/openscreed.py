@@ -59,8 +59,8 @@ class Open(object):
         Deals with .gz, FASTA, and FASTQ records.
         """
         magic_dict = {
-            "\x1f\x8b\x08": "gz",
-            "\x42\x5a\x68": "bz2",
+            b"\x1f\x8b\x08": "gz",
+            b"\x42\x5a\x68": "bz2",
             # "\x50\x4b\x03\x04": "zip"
         }  # Inspired by http://stackoverflow.com/a/13044946/1585509
         filename = _normalize_filename(filename)
@@ -88,12 +88,19 @@ class Open(object):
 
         iter_fn = None
         try:
-            if peek[0] == '>':
-                iter_fn = fasta_iter
-            elif peek[0] == '@':
-                iter_fn = fastq_iter
+            first_char = peek[0]
         except IndexError as err:
             return []  # empty file
+
+        try:
+            first_char = chr(first_char)
+        except TypeError:
+            pass
+
+        if first_char == '>':
+            iter_fn = fasta_iter
+        elif first_char == '@':
+            iter_fn = fastq_iter
 
         if iter_fn is None:
             raise ValueError("unknown file format for '%s'" % filename)
@@ -115,6 +122,7 @@ class Open(object):
     def close(self):
         if self.sequencefile is not None:
             self.sequencefile.close()
+
 
 _open = open
 open = Open
