@@ -27,7 +27,6 @@ fadbm or fqdbm.
 
 CTB 3/20/09
 """
-from __future__ import print_function
 
 import UserDict
 

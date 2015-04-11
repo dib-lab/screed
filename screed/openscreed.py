@@ -4,24 +4,22 @@
 from __future__ import absolute_import
 
 import os
-import types
+import io
+import sys
 import sqlite3
 import gzip
 import bz2file
-import io
-import sys
-
 try:
     from collections import MutableMapping
 except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
 
-
 from . import DBConstants
 from . import screedRecord
 from .fastq import fastq_iter, FASTQ_Writer
 from .fasta import fasta_iter, FASTA_Writer
+from .utils import to_str
 
 
 def get_writer_class(read_iter):
@@ -167,7 +165,7 @@ class ScreedDB(MutableMapping):
                             % self._filepath)
 
         nothing = res.fetchone()
-        if not isinstance(nothing, type(None)):
+        if type(nothing) is not type(None):
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
 
@@ -217,7 +215,7 @@ class ScreedDB(MutableMapping):
                                                   DBConstants._DICT_TABLE,
                                                   self._queryBy)
         res = cursor.execute(query, (key,))
-        if isinstance(res.fetchone(), type(None)):
+        if type(res.fetchone()) is type(None):
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self.fields, self._db,
                                          key,
@@ -246,7 +244,7 @@ class ScreedDB(MutableMapping):
                                                   DBConstants._DICT_TABLE,
                                                   DBConstants._PRIMARY_KEY)
         res = cursor.execute(query, (index,))
-        if isinstance(res.fetchone(), type(None)):
+        if type(res.fetchone()) is type(None):
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self.fields, self._db,
                                          index,
@@ -290,15 +288,15 @@ class ScreedDB(MutableMapping):
         for key, in cursor.execute(query):
             yield key
 
+    def __iter__(self):
+        return self.iterkeys()
+
     def iteritems(self):
         """
         Iterator returning a (index, record) pairs
         """
         for v in self.itervalues():
             yield v[DBConstants._PRIMARY_KEY], v
-
-    def __iter__(self):
-        return self.iterkeys()
 
     def has_key(self, key):
         """

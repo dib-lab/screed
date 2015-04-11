@@ -2,11 +2,9 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
-from __future__ import print_function
-from __future__ import absolute_import
 import sys
-from .__init__ import read_fasta_sequences
-from . import DBConstants
+from __init__ import read_fasta_sequences
+import DBConstants
 
 # A shell interface to the screed FADBM database writing function
 if __name__ == "__main__":
