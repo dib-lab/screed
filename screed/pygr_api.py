@@ -155,7 +155,7 @@ class _ScreedSeqInfoDict_ByIndex(object, UserDict.DictMixin):
         return _ScreedSequenceInfo(k, v)
 
     def keys(self):
-        return xrange(0, len(self.sdb))
+        return range(0, len(self.sdb))
 
     def iterkeys(self):
         i = 0

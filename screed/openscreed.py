@@ -275,7 +275,7 @@ class ScreedDB(MutableMapping):
         """
         Iterator over records in the database
         """
-        for index in xrange(1, self.__len__() + 1):
+        for index in range(1, self.__len__() + 1):
             yield screedRecord._buildRecord(self.fields, self._db,
                                             index,
                                             DBConstants._PRIMARY_KEY)
