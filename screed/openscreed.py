@@ -297,6 +297,9 @@ class ScreedDB(MutableMapping):
         for v in self.itervalues():
             yield v[DBConstants._PRIMARY_KEY], v
 
+    def __iter__(self):
+        return self.iterkeys()
+
     def has_key(self, key):
         """
         Returns true if given key exists in database, false otherwise
@@ -323,6 +326,12 @@ class ScreedDB(MutableMapping):
     # Here follow the methods that are not implemented
 
     def __setitem__(self, something):
+        """
+        Not implemented (Read-only database)
+        """
+        raise AttributeError
+
+    def __delitem__(self, something):
         """
         Not implemented (Read-only database)
         """
