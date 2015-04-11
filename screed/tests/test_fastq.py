@@ -110,7 +110,7 @@ class Test_fastq(object):
             entries.append(self.db[entry])
 
         ivalues = list(self.db.itervalues())
-        assert sorted(entries) == sorted(ivalues)
+        assert all(entry in ivalues for entry in entries)
 
     def test_iteri(self):
         for id, entry in self.db.iteritems():

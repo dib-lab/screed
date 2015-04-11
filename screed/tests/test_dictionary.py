@@ -27,15 +27,15 @@ class Test_dict_methods(object):
         db = self.db
         keys = db.keys()
         ikeys = list(db.iterkeys())
-        assert sorted(keys) == sorted(ikeys)
+        assert all(key in ikeys for key in keys)
 
         values = db.values()
         ivalues = list(db.itervalues())
-        assert sorted(values) == sorted(ivalues)
+        assert all(value in ivalues for value in values)
 
         items = db.items()
         iitems = list(db.iteritems())
-        assert sorted(items) == sorted(iitems)
+        assert all(item in iitems for item in items)
 
     def test_contains(self):
         for k in self.db:
