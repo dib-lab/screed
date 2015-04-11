@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 import UserDict
 import types
-import DBConstants
+from . import DBConstants
 import gzip
 import bz2
 

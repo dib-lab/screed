@@ -2,9 +2,11 @@
 
 # Copyright (c) 2008-2010, Michigan State University
 
+from __future__ import print_function
+from __future__ import absolute_import
 import sys
-from __init__ import read_fastq_sequences
-import DBConstants
+from .__init__ import read_fastq_sequences
+from . import DBConstants
 
 # A shell interface to the screed FQDBM database writing function
 if __name__ == "__main__":
@@ -16,5 +18,5 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     read_fastq_sequences(filename)
 
-    print "Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension)
+    print("Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension))
     exit(0)

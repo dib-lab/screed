@@ -1,9 +1,12 @@
 # Copyright (c) 2008-2015, Michigan State University
 
+from __future__ import absolute_import
+
 import os.path
 import sys
 import subprocess
-import screed_tst_utils as utils
+
+from . import screed_tst_utils as utils
 import screed
 import screed.openscreed
 

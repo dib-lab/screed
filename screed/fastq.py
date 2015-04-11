@@ -1,5 +1,8 @@
-import DBConstants
-from screedRecord import Record, _Writer
+from __future__ import absolute_import
+
+from . import DBConstants
+from .screedRecord import Record, _Writer
+
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('annotations', DBConstants._STANDARD_TEXT),
               ('sequence', DBConstants._STANDARD_TEXT),

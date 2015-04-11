@@ -27,6 +27,7 @@ fadbm or fqdbm.
 
 CTB 3/20/09
 """
+from __future__ import print_function
 
 import UserDict
 
@@ -171,8 +172,8 @@ if __name__ == '__main__':
 
     db = ScreedSequenceDB(filename)
     for k in db:
-        print k, repr(db[k]), db[k].name
+        print(k, repr(db[k]), db[k].name)
 
     db = ScreedSequenceDB_ByIndex(filename)
     for k in db:
-        print k, repr(db[k]), db[k].name
+        print(k, repr(db[k]), db[k].name)
