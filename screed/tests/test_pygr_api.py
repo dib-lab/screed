@@ -2,6 +2,8 @@
 Test the pygr API.
 """
 
+from __future__ import absolute_import, unicode_literals
+
 try:
     import pygr
 except ImportError:
