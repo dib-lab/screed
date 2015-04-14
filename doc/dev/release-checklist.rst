@@ -134,7 +134,7 @@ Getting Started
 
 #. Make sure any release notes are merged into doc/release-notes/. Release
    notes should be written in the `.md` format to satisfy the requirements for
-   GitHub release notes. The `convert-release-notes` maketarget can be used to 
+   GitHub release notes. The `convert-release-notes` make target can be used to 
    generate `.rst` files from the `.md` notes.
 
 
