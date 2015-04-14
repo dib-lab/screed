@@ -92,6 +92,11 @@ doxygen: doc/doxygen/html/index.html
 
 doc: build/sphinx/html/index.html
 
+convert-release-notes:
+		for file in doc/release-notes/*.md; do \
+				pandoc --from=markdown --to=rst $${file} > $${file%%.md}.rst; \
+				done
+
 build/sphinx/html/index.html: $(SOURCES) $(wildcard doc/*.txt) doc/conf.py all
 		./setup.py build_sphinx --fresh-env
 		@echo ''
