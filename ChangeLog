@@ -1,3 +1,10 @@
+2015-04-09  Sarah Guermond  <sarah.guermond@gmail.com>
+
+   * screed/screedRecord.py: renamed _screed_record_dict() to Rename()
+   * screed/__init__.py: added import for Record
+   * screed/fasta.py: changed _screed_record_dict() to Rename()
+   * screed/fastq.py: changed _screed_record_dict() to Rename()
+
 2015-04-09  Jacob Fenton  <bocajnotnef@gmail.com>
    
    * doc/dev/release-checklist.txt: added "making final release" notes

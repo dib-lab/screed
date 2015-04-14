@@ -1,5 +1,5 @@
 import DBConstants
-from screedRecord import _screed_record_dict, _Writer
+from screedRecord import Record, _Writer
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('description', DBConstants._STANDARD_TEXT),
@@ -15,7 +15,7 @@ def fasta_iter(handle, parse_description=True, line=None):
         line = handle.readline()
 
     while line:
-        data = _screed_record_dict()
+        data = Record()
 
         line = line.strip()
         if not line.startswith('>'):
