@@ -146,15 +146,15 @@ When you have a thoroughly tested release candidate, cut a release like so:
 #. Create the final tag and publish the new release on PyPI (requires an
    authorized account) ::
 
-   cd ../../../screed
-   git tag v${new_version}
-   python setup.py register sdist upload
+       cd ../../../screed
+       git tag v${new_version}
+       python setup.py register sdist upload
 
 #. Delete the release candidate tag and push the tag updates to GitHub::
 
-   git tag -d v${new_version}-${rc}
-   git push git@github.com:ged-lab/screed.git
-   git push --tags git@github.com:ged-lab/screed.git
+       git tag -d v${new_version}-${rc}
+       git push git@github.com:ged-lab/screed.git
+       git push --tags git@github.com:ged-lab/screed.git
 
 #. Add the release on GitHub, using the tag you just pushed. Name it "Version
    X.Y.Z" and copy/paste in the release notes.
@@ -168,8 +168,8 @@ When you have a thoroughly tested release candidate, cut a release like so:
 
 #. Delete any RC tags created:: 
    
-   git tag -d ${new_version}-${rc}
-   git push origin :refs/tags/${new_version}-${rc}
+       git tag -d ${new_version}-${rc}
+       git push origin :refs/tags/${new_version}-${rc}
 
 #. Tweet about the new release
 
