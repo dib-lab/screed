@@ -1,3 +1,8 @@
+2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
+
+   * Makefile: added setup.py develop to test goal
+   * screed/openscreed.py,screed/tests/test_open.py: added handling of '-'
+
 2015-04-09  Sarah Guermond  <sarah.guermond@gmail.com>
 
    * screed/screedRecord.py: renamed _screed_record_dict() to Rename()
