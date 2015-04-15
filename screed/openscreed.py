@@ -1,4 +1,5 @@
 # Copyright (c) 2008-2015, Michigan State University
+"""Reader and writer for screed."""
 
 import os
 import types

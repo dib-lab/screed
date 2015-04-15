@@ -1,5 +1,12 @@
 2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
 
+   * screed/tests/screed_tst_utils.py: removed unnecessary import
+   * screed/tests/test_streaming.py: changed execution order to handle
+   missing import files better
+   * screed/openscreed.py: pylint-ified
+
+2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
+
    * Makefile: added setup.py develop to test goal
    * screed/openscreed.py,screed/tests/test_open.py: added handling of '-'
 
