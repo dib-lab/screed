@@ -16,7 +16,6 @@ from cStringIO import StringIO
 import nose
 import sys
 import traceback
-import subprocess
 
 
 def get_test_data(filename):
