@@ -1,5 +1,8 @@
+# Copyright (c) 2008-2015, Michigan State University
+
 import os.path
 import sys
+import subprocess
 import screed_tst_utils as utils
 import screed
 import screed.openscreed
@@ -7,7 +10,29 @@ import screed.openscreed
 
 def test_empty_open():
     filename = utils.get_test_data('empty.fa')
-    assert len(list(iter(screed.open(filename)))) == 0
+    assert len(list(screed.open(filename))) == 0
+
+
+def test_open_maps_dash():
+    """Test mapping of '-'."""
+    #  pylint: disable=protected-access
+    filename = '-'
+    mapped = screed.openscreed._normalize_filename(filename)
+
+    assert '/dev/stdin' == mapped
+
+
+def test_open_stdin():
+    """Test feeding data through stdin.
+
+    Uses a subprocess with the data file directlyused as stdin."""
+    filename1 = utils.get_test_data('test.fa')
+    command = ["python", "-c", "import screed; print list(screed.open('-'))"]
+    with open(filename1, 'rb') as data_file:
+        output = subprocess.Popen(command,
+                                  stdin=data_file,
+                                  stdout=subprocess.PIPE).communicate()[0]
+        assert "'name': 'ENSMICT00000012722'" in output
 
 
 def test_simple_open():
