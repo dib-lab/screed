@@ -1,3 +1,7 @@
+ 2015-04-16  en zyme  <en_zyme@outlook.com>
+  2 
+  3    * screed/tests/fastq.py: check for empty line in two places
+
 2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
 
    * screed/tests/screed_tst_utils.py: removed unnecessary import
