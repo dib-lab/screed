@@ -17,7 +17,7 @@ def fastq_iter(handle, line=None, parse_description=True):
     while line:
         data = Record()
 
-        if not line.startswith('@'):
+        if  line and not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
 
         # Try to grab the name and (optional) annotations
