@@ -29,6 +29,7 @@ from createscreed import create_db
 from seqparse import read_fastq_sequences
 from seqparse import read_fasta_sequences
 from dna import rc
+from screedRecord import Record
 
 from _version import get_versions
 __version__ = get_versions()['version']

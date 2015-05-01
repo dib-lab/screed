@@ -1,3 +1,5 @@
+# Copyright (c) 2008-2015, Michigan State University
+
 import test_fasta
 import test_fastq
 import tempfile
@@ -25,6 +27,7 @@ def streamer(ifilename):
     # Get temp filenames, etc.
     in_dir = tempfile.mkdtemp(prefix="screedtest_")
     fifo = os.path.join(in_dir, 'fifo')
+    ifile = io.open(ifilename, 'rb')
 
     # make a fifo to simulate streaming
     os.mkfifo(fifo)
@@ -36,7 +39,6 @@ def streamer(ifilename):
     thread = threading.Thread(target=streamer_reader, args=[fifo, exception])
     thread.start()
 
-    ifile = io.open(ifilename, 'rb')
     fifofile = io.open(fifo, 'wb')
     # read binary to handle compressed files
     chunk = ifile.read(8192)

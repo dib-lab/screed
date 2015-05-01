@@ -132,7 +132,49 @@ Getting Started
    for screed are to run the khmer automated tests with the new version of
    screed installed and then to run the khmer acceptance tests.
 
-#. Make sure any release notes are merged into doc/release-notes/.
+#. Make sure any release notes are merged into doc/release-notes/. Release
+   notes should be written in the `.md` format to satisfy the requirements for
+   GitHub release notes. The `convert-release-notes` make target can be used to 
+   generate `.rst` files from the `.md` notes.
+
+
+How to make a final release
+===========================
+
+When you have a thoroughly tested release candidate, cut a release like so:
+
+#. Create the final tag and publish the new release on PyPI (requires an
+   authorized account) ::
+
+       cd ../../../screed
+       git tag v${new_version}
+       python setup.py register sdist upload
+
+#. Delete the release candidate tag and push the tag updates to GitHub::
+
+       git tag -d v${new_version}-${rc}
+       git push git@github.com:ged-lab/screed.git
+       git push --tags git@github.com:ged-lab/screed.git
+
+#. Add the release on GitHub, using the tag you just pushed. Name it "Version
+   X.Y.Z" and copy/paste in the release notes.
+
+#. Update the Read the Docs to point to the new version. Visit
+   https://readthedocs.org/builds/screed/ and ‘Build Version: master’ to pick up
+   the new tag. Once that build has finished check the “Activate” box next to
+   the new version at https://readthedocs.org/dashboard/screed/versions/ under
+   “Choose Active Versions”. Finally change the default version at
+   https://readthedocs.org/dashboard/screed/advanced/ to the new version.
+
+#. Delete any RC tags created:: 
+   
+       git tag -d ${new_version}-${rc}
+       git push origin :refs/tags/${new_version}-${rc}
+
+#. Tweet about the new release
+
+#. Send email including the release notes to khmer@lists.idyll.org and
+   khmer-announce@lists.idyll.org
 
 Notes on this document
 ======================

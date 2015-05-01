@@ -5,7 +5,7 @@ import gzip
 import bz2
 
 
-class _screed_record_dict(UserDict.DictMixin):
+class Record(UserDict.DictMixin):
 
     """
     Simple dict-like record interface with bag behavior.
@@ -170,7 +170,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
         else:
             hackedResult.append((key, value))
 
-    return _screed_record_dict(hackedResult)
+    return Record(hackedResult)
 
 
 class _Writer(object):

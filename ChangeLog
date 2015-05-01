@@ -1,3 +1,31 @@
+2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
+
+   * screed/tests/screed_tst_utils.py: removed unnecessary import
+   * screed/tests/test_streaming.py: changed execution order to handle
+   missing import files better
+   * screed/openscreed.py: pylint-ified
+
+2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
+
+   * Makefile: added setup.py develop to test goal
+   * screed/openscreed.py,screed/tests/test_open.py: added handling of '-'
+
+2015-04-09  Sarah Guermond  <sarah.guermond@gmail.com>
+
+   * screed/screedRecord.py: renamed _screed_record_dict() to Rename()
+   * screed/__init__.py: added import for Record
+   * screed/fasta.py: changed _screed_record_dict() to Rename()
+   * screed/fastq.py: changed _screed_record_dict() to Rename()
+
+2015-04-09  Jacob Fenton  <bocajnotnef@gmail.com>
+   
+   * doc/dev/release-checklist.txt: added "making final release" notes
+   * Makefile: copied over @mr-c's md-to-rst release notes conversion target
+   * doc/dev/release-notes/RELEASE-0.8.txt: added rst version of release notes 
+   for sphinx
+   * doc/dev/release-notes/index.txt: added rst version of 0.8 release notes to
+   toctree
+
 2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * screed/tests/test_attriberror.py: added tests to check screed db attribute

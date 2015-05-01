@@ -1,3 +1,6 @@
+# Copyright (c) 2008-2015, Michigan State University
+"""Reader and writer for screed."""
+
 import os
 import types
 import UserDict
@@ -27,10 +30,18 @@ def open_writer(inp_filename, outp_filename):
     return klass(outp_filename)
 
 
+def _normalize_filename(filename):
+    """Map '-' to '/dev/stdin' to handle the usual shortcut."""
+    if filename == '-':
+        filename = '/dev/stdin'
+    return filename
+
+
 def open_reader(filename, *args, **kwargs):
     """
     Make a best-effort guess as to how to open/parse the given sequence file.
 
+    Handles '-' as shortcut for stdin.
     Deals with .gz, FASTA, and FASTQ records.
     """
     magic_dict = {
@@ -38,6 +49,7 @@ def open_reader(filename, *args, **kwargs):
         "\x42\x5a\x68": "bz2",
         # "\x50\x4b\x03\x04": "zip"
     }  # Inspired by http://stackoverflow.com/a/13044946/1585509
+    filename = _normalize_filename(filename)
     bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
     num_bytes_to_peek = max(len(x) for x in magic_dict)
     file_start = bufferedfile.peek(num_bytes_to_peek)
