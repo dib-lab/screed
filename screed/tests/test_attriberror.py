@@ -4,6 +4,7 @@ import os
 import screed_tst_utils as utils
 import shutil
 
+
 class nostring:
     def __init__(self):
         self.exists = True
@@ -29,7 +30,7 @@ class test_comparisons():
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence == self._ns)
-            assert res == False, res 
+            assert res == False, res
 
     def test_neq(self):
         for k in self._db:
@@ -66,7 +67,7 @@ class test_comparisons():
             record = self._db.get(k)
             res = record.sequence.__le__(self._ns)
             assert res == NotImplemented, res
-    
+
     def test_ge__(self):
         for k in self._db:
             record = self._db.get(k)
@@ -85,6 +86,5 @@ class test_comparisons():
             res = record.sequence.__gt__(self._ns)
             assert res == NotImplemented, res
 
-    
     def teardown(self):
         os.unlink(self._testfile + fileExtension)

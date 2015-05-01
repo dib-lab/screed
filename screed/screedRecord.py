@@ -113,7 +113,7 @@ class _screed_attr(object):
         return NotImplemented
 
     def __le__(self, given):
-        return NotImplemented 
+        return NotImplemented
 
     def __ge__(self, given):
         return NotImplemented
