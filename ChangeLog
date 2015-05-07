@@ -1,3 +1,10 @@
+2015-05-07  Jacob Fenton  <bocajnotnef@gmail.com>
+
+   * screed/tests/test_attriberror.py: added tests to check screed db attribute
+   exception throwing
+   * screed/screedRecord.py: removed __cmp__ function, explicitly disallowed
+   all rich comparator functions that aren't == or !=
+
 2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
 
    * screed/tests/screed_tst_utils.py: removed unnecessary import
@@ -25,13 +32,6 @@
    for sphinx
    * doc/dev/release-notes/index.txt: added rst version of 0.8 release notes to
    toctree
-
-2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com>
-
-   * screed/tests/test_attriberror.py: added tests to check screed db attribute
-   exception throwing
-   * screed/screedRecord.py: removed __cmp__ function, explicitly disallowed
-   all rich comparator functions that aren't == or !=
 
 2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com> 
 

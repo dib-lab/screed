@@ -6,9 +6,6 @@ import shutil
 
 
 class nostring:
-    def __init__(self):
-        self.exists = True
-
     def __str__(self):
         return ""
 
