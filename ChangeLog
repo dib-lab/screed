@@ -1,3 +1,10 @@
+2015-05-12  Luiz Irber  <screed@luizirber.org>
+
+   * screed/openscreed.py: Implement open as a context manager, keep backward
+   compatibility.
+   * screed/tests/test_open_cm.py: Add same tests as test_open.py, but using
+   a context manager to make sure file is closed after being used.
+
 2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
 
    * screed/tests/screed_tst_utils.py: removed unnecessary import
