@@ -1,8 +1,5 @@
 # Copyright (c) 2008-2015, Michigan State University
 
-import os.path
-import sys
-import subprocess
 import screed_tst_utils as utils
 import screed
 import screed.openscreed
