@@ -37,56 +37,79 @@ def _normalize_filename(filename):
     return filename
 
 
-def open_reader(filename, *args, **kwargs):
-    """
-    Make a best-effort guess as to how to open/parse the given sequence file.
+class Open(object):
+    def __init__(self, filename, *args, **kwargs):
+        self.sequencefile = None
+        self.iter_fn = self.open_reader(filename, *args, **kwargs)
+        if self.iter_fn:
+            self.__name__ = self.iter_fn.__name__
 
-    Handles '-' as shortcut for stdin.
-    Deals with .gz, FASTA, and FASTQ records.
-    """
-    magic_dict = {
-        "\x1f\x8b\x08": "gz",
-        "\x42\x5a\x68": "bz2",
-        # "\x50\x4b\x03\x04": "zip"
-    }  # Inspired by http://stackoverflow.com/a/13044946/1585509
-    filename = _normalize_filename(filename)
-    bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
-    num_bytes_to_peek = max(len(x) for x in magic_dict)
-    file_start = bufferedfile.peek(num_bytes_to_peek)
-    compression = None
-    for magic, ftype in magic_dict.items():
-        if file_start.startswith(magic):
-            compression = ftype
-            break
-    if compression is 'bz2':
-        sequencefile = bz2file.BZ2File(filename=bufferedfile)
-        peek = sequencefile.peek(1)
-    elif compression is 'gz':
-        if not bufferedfile.seekable():
-            raise ValueError("gziped data not streamable, pipe through zcat \
-                             first")
-        peek = gzip.GzipFile(filename=filename).read(1)
-        sequencefile = gzip.GzipFile(filename=filename)
-    else:
-        peek = bufferedfile.peek(1)
-        sequencefile = bufferedfile
+    def open_reader(self, filename, *args, **kwargs):
+        """
+        Make a best-effort guess as to how to open/parse the given sequence file.
 
-    iter_fn = None
-    try:
-        if peek[0] == '>':
-            iter_fn = fasta_iter
-        elif peek[0] == '@':
-            iter_fn = fastq_iter
-    except IndexError as err:
-        return []  # empty file
+        Handles '-' as shortcut for stdin.
+        Deals with .gz, FASTA, and FASTQ records.
+        """
+        magic_dict = {
+            "\x1f\x8b\x08": "gz",
+            "\x42\x5a\x68": "bz2",
+            # "\x50\x4b\x03\x04": "zip"
+        }  # Inspired by http://stackoverflow.com/a/13044946/1585509
+        filename = _normalize_filename(filename)
+        bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
+        num_bytes_to_peek = max(len(x) for x in magic_dict)
+        file_start = bufferedfile.peek(num_bytes_to_peek)
+        compression = None
+        for magic, ftype in magic_dict.items():
+            if file_start.startswith(magic):
+                compression = ftype
+                break
+        if compression is 'bz2':
+            sequencefile = bz2file.BZ2File(filename=bufferedfile)
+            peek = sequencefile.peek(1)
+        elif compression is 'gz':
+            if not bufferedfile.seekable():
+                bufferedfile.close()
+                raise ValueError("gziped data not streamable, pipe through zcat \
+                                first")
+            peek = gzip.GzipFile(filename=filename).read(1)
+            sequencefile = gzip.GzipFile(filename=filename)
+        else:
+            peek = bufferedfile.peek(1)
+            sequencefile = bufferedfile
 
-    if iter_fn is None:
-        raise ValueError("unknown file format for '%s'" % filename)
+        iter_fn = None
+        try:
+            if peek[0] == '>':
+                iter_fn = fasta_iter
+            elif peek[0] == '@':
+                iter_fn = fastq_iter
+        except IndexError as err:
+            return []  # empty file
 
-    return iter_fn(sequencefile, *args, **kwargs)
+        if iter_fn is None:
+            raise ValueError("unknown file format for '%s'" % filename)
+
+        self.sequencefile = sequencefile
+        return iter_fn(sequencefile, *args, **kwargs)
+
+    def __enter__(self):
+        return self.iter_fn
+
+    def __exit__(self, *exc_info):
+        if self.sequencefile is not None:
+            self.sequencefile.close()
+
+    def __iter__(self):
+        if self.iter_fn:
+            return self.iter_fn
+        return iter(())
+
 
 _open = open
-open = open_reader
+open = Open
+open_reader = open
 
 
 class ScreedDB(object, UserDict.DictMixin):
