@@ -53,8 +53,9 @@ Reading FASTA/FASTQ files
 At the Python prompt, type::
 
    >>> import screed
-   >>> for read in screed.open(filename):
-   ...   print read.name, read.sequence
+   >>> with screed.open(filename) as seqfile:
+   >>>     for read in seqfile:
+   ...         print read.name, read.sequence
 
 Here, 'filename' can be a FASTA or FASTQ file, and can be
 uncompressed, gzipped, or bz2-zipped.
