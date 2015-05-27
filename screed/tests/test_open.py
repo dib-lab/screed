@@ -30,10 +30,11 @@ def test_open_stdin():
 
     Uses a subprocess with the data file directlyused as stdin."""
     filename1 = utils.get_test_data('test.fa')
-    command = ["python", "-c", "import screed; print list(screed.open('-'))"]
+    command = ["python", "-c", "from __future__ import print_function;"
+               "import screed; print(list(screed.open('-')))"]
     with open(filename1, 'rb') as data_file:
         output = subprocess.Popen(command,
-                                  stdin=data_file,
+                                  stdin=data_file, universal_newlines=True,
                                   stdout=subprocess.PIPE).communicate()[0]
         assert "'name': 'ENSMICT00000012722'" in output, output
 

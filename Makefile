@@ -14,9 +14,7 @@ all:
 	./setup.py build
 
 install-dependencies:
-	pip2 install --user --upgrade $(DEVPKGS) || pip2 install --upgrade \
-		$(DEVPKGS) || pip install --user --upgrade $(DEVPKGS) || pip \
-		install --upgrade $(DEVPKGS)
+	pip install --upgrade $(DEVPKGS) || pip2 install --upgrade $(DEVPKGS)
 
 install: FORCE
 	./setup.py build install
