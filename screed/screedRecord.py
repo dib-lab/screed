@@ -32,6 +32,7 @@ class Record(UserDict.DictMixin):
     def keys(self):
         return self.d.keys()
 
+_screed_record_dict=Record #  TODO: delete for 1.0 release
 
 class _screed_attr(object):
 
