@@ -42,6 +42,9 @@ class Record(MutableMapping):
     def __iter__(self):
         return iter(self.d)
 
+    def __repr__(self):
+        return repr(self.d)
+
 
 class _screed_attr(object):
 
