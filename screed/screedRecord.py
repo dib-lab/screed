@@ -10,6 +10,7 @@ except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
 
+
 class Record(MutableMapping):
     """
     Simple dict-like record interface with bag behavior.

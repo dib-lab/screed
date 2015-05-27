@@ -36,7 +36,8 @@ def test_open_stdin():
         output = subprocess.Popen(command,
                                   stdin=data_file, universal_newlines=True,
                                   stdout=subprocess.PIPE).communicate()[0]
-        assert "'name': 'ENSMICT00000012722'" in output, output
+        assert "'name': 'ENSMICT00000012722'" \
+            or "'name': u'ENSMICT00000012722'" in output, output
 
 
 def test_simple_open():

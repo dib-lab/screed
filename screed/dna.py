@@ -38,7 +38,6 @@ except AttributeError:
     __complementTranslation = string.maketrans('ACTG', 'TGAC')
 
 
-
 def complement(s):
     """
     Return complement of 's'.
