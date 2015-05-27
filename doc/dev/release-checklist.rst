@@ -83,8 +83,7 @@ Getting Started
         cd ../../testenv2
         source bin/activate
         pip install nose
-        pip install -e
-        git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
+        pip install -e git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
         cd src/screed
         make dist
         make install
