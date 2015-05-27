@@ -1,3 +1,10 @@
+2015-05-27  Michael R. Crusoe  <mcrusoe@msu.edu>
+
+   * MANIFEST.in: ship the recently relocated test data, fixed reference to
+   renamed LICENSE file
+   * doc/dev/CODE_OF_CONDUCT.rst: drop unused symlink
+   * doc/dev/release-checklist.rst: fix line wrap
+
 2015-05-12  Luiz Irber  <screed@luizirber.org>
 
    * screed/openscreed.py: Implement open as a context manager, keep backward
