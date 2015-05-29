@@ -74,29 +74,29 @@ class Test_dict_methods(object):
         try:
             db.clear()
             assert 0
-        except AttributeError:
+        except NotImplementedError:
             pass
 
         try:
             db.update({})
             assert 0
-        except AttributeError:
+        except NotImplementedError:
             pass
 
         try:
             db.setdefault(None)
             assert 0
-        except AttributeError:
+        except NotImplementedError:
             pass
 
         try:
             db.pop()
             assert 0
-        except AttributeError:
+        except NotImplementedError:
             pass
 
         try:
             db.popitem()
             assert 0
-        except AttributeError:
+        except NotImplementedError:
             pass
