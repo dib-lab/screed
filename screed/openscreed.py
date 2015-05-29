@@ -327,40 +327,40 @@ class ScreedDB(MutableMapping):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def __delitem__(self, something):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def clear(self):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def update(self, something):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def setdefault(self, something):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def pop(self):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def popitem(self):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
