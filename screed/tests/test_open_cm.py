@@ -23,6 +23,19 @@ def test_simple_open():
         assert n == 0, n
 
 
+def test_simple_close():
+    filename = utils.get_test_data('test.fa')
+
+    n = -1
+    f = screed.open(filename)
+    for n, record in enumerate(f):
+        assert record.name == 'ENSMICT00000012722'
+        break
+
+    assert n == 0, n
+    f.close()
+
+
 def test_simple_open_fq():
     filename = utils.get_test_data('test.fastq')
 

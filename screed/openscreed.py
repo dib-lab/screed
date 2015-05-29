@@ -98,14 +98,16 @@ class Open(object):
         return self.iter_fn
 
     def __exit__(self, *exc_info):
-        if self.sequencefile is not None:
-            self.sequencefile.close()
+        self.close()
 
     def __iter__(self):
         if self.iter_fn:
             return self.iter_fn
         return iter(())
 
+    def close(self):
+        if self.sequencefile is not None:
+            self.sequencefile.close()
 
 _open = open
 open = Open
