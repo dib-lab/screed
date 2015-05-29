@@ -31,7 +31,7 @@ Downloading
 
 You will need git to download a copy from the public git repository:
 
-    git clone git://github.com/ged-lab/screed.git
+    git clone git://github.com/dib-lab/screed.git
 
 Installing
 ----------
