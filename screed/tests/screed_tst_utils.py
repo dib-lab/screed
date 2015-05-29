@@ -12,7 +12,7 @@ import tempfile
 import os
 import shutil
 from pkg_resources import Requirement, resource_filename, ResolutionError
-from cStringIO import StringIO
+from io import StringIO
 import nose
 import sys
 import traceback

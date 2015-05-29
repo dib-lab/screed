@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 # Copyright (c) 2008-2010, Michigan State University
 
-from openscreed import ScreedDB
+from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
 _null_quality = '\"'  # ASCII 34, e.g 75% chance of incorrect read
@@ -54,11 +55,11 @@ def ToFastq(dbFile, outputFile):
     db = ScreedDB(dbFile)
 
     for value in db.itervalues():
-        outFile.write('@%s %s\n%s\n+\n%s\n' % (value['name'],
-                                               GetComments(value),
-                                               linewrap(
-                                                   str(value['sequence'])),
-                                               GenerateQuality(value)))
+        line = '@%s %s\n%s\n+\n%s\n' % (value['name'],
+                                        GetComments(value),
+                                        linewrap(str(value['sequence'])),
+                                        GenerateQuality(value))
+        outFile.write(line.encode('UTF-8'))
     db.close()
     outFile.close()
 
@@ -72,8 +73,9 @@ def ToFasta(dbFile, outputFile):
     db = ScreedDB(dbFile)
 
     for value in db.itervalues():
-        outFile.write('>%s %s\n%s\n' % (value['name'], GetComments(value),
-                                        linewrap(str(value['sequence']))))
+        line = '>%s %s\n%s\n' % (value['name'], GetComments(value),
+                                 linewrap(str(value['sequence'])))
+        outFile.write(line.encode('UTF-8'))
 
     db.close()
     outFile.close()

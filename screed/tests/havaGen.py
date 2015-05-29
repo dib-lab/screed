@@ -17,6 +17,7 @@ the nosetests.
 This is a work of fiction. Names are the product of the author's imagination
 and any resemblance to real life is entirely coincidental.
 """
+from __future__ import print_function
 
 import sys
 import os
@@ -90,7 +91,7 @@ def createHavaFiles(filename, size, divisions):
 
 if __name__ == '__main__':
     if len(sys.argv) != 4:
-        print "Usage: <filename> <size> <divisions>"
+        print("Usage: <filename> <size> <divisions>")
         exit(1)
 
     filename = sys.argv[1]

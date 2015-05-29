@@ -154,7 +154,7 @@ class _ScreedSeqInfoDict_ByIndex(object, UserDict.DictMixin):
         return _ScreedSequenceInfo(k, v)
 
     def keys(self):
-        return xrange(0, len(self.sdb))
+        return range(0, len(self.sdb))
 
     def iterkeys(self):
         i = 0
@@ -171,8 +171,8 @@ if __name__ == '__main__':
 
     db = ScreedSequenceDB(filename)
     for k in db:
-        print k, repr(db[k]), db[k].name
+        print(k, repr(db[k]), db[k].name)
 
     db = ScreedSequenceDB_ByIndex(filename)
     for k in db:
-        print k, repr(db[k]), db[k].name
+        print(k, repr(db[k]), db[k].name)

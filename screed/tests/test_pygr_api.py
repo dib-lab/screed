@@ -2,6 +2,8 @@
 Test the pygr API.
 """
 
+from __future__ import absolute_import, unicode_literals
+
 try:
     import pygr
 except ImportError:
@@ -12,7 +14,7 @@ import screed
 from screed.DBConstants import fileExtension
 from screed.pygr_api import ScreedSequenceDB, ScreedSequenceDB_ByIndex
 from pickle import dump, load
-from cStringIO import StringIO
+from io import StringIO
 import os
 
 testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
