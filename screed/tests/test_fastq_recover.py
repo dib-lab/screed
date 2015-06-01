@@ -1,8 +1,9 @@
-import test_fastq
+from __future__ import absolute_import
+from . import test_fastq
 import os
 import screed
 from screed.DBConstants import fileExtension
-import screed_tst_utils as utils
+from . import screed_tst_utils as utils
 import shutil
 
 

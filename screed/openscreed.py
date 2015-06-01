@@ -1,20 +1,25 @@
 # Copyright (c) 2008-2015, Michigan State University
 """Reader and writer for screed."""
 
+from __future__ import absolute_import
+
 import os
-import types
-import UserDict
+import io
+import sys
 import sqlite3
 import gzip
 import bz2file
-import StringIO
-import io
-import sys
+try:
+    from collections import MutableMapping
+except ImportError:
+    import UserDict
+    MutableMapping = UserDict.DictMixin
 
-import DBConstants
-import screedRecord
-from fastq import fastq_iter, FASTQ_Writer
-from fasta import fasta_iter, FASTA_Writer
+from . import DBConstants
+from . import screedRecord
+from .fastq import fastq_iter, FASTQ_Writer
+from .fasta import fasta_iter, FASTA_Writer
+from .utils import to_str
 
 
 def get_writer_class(read_iter):
@@ -37,59 +42,92 @@ def _normalize_filename(filename):
     return filename
 
 
-def open_reader(filename, *args, **kwargs):
-    """
-    Make a best-effort guess as to how to open/parse the given sequence file.
+class Open(object):
+    def __init__(self, filename, *args, **kwargs):
+        self.sequencefile = None
+        self.iter_fn = self.open_reader(filename, *args, **kwargs)
+        if self.iter_fn:
+            self.__name__ = self.iter_fn.__name__
 
-    Handles '-' as shortcut for stdin.
-    Deals with .gz, FASTA, and FASTQ records.
-    """
-    magic_dict = {
-        "\x1f\x8b\x08": "gz",
-        "\x42\x5a\x68": "bz2",
-        # "\x50\x4b\x03\x04": "zip"
-    }  # Inspired by http://stackoverflow.com/a/13044946/1585509
-    filename = _normalize_filename(filename)
-    bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
-    num_bytes_to_peek = max(len(x) for x in magic_dict)
-    file_start = bufferedfile.peek(num_bytes_to_peek)
-    compression = None
-    for magic, ftype in magic_dict.items():
-        if file_start.startswith(magic):
-            compression = ftype
-            break
-    if compression is 'bz2':
-        sequencefile = bz2file.BZ2File(filename=bufferedfile)
-        peek = sequencefile.peek(1)
-    elif compression is 'gz':
-        if not bufferedfile.seekable():
-            raise ValueError("gziped data not streamable, pipe through zcat \
-                             first")
-        peek = gzip.GzipFile(filename=filename).read(1)
-        sequencefile = gzip.GzipFile(filename=filename)
-    else:
-        peek = bufferedfile.peek(1)
-        sequencefile = bufferedfile
+    def open_reader(self, filename, *args, **kwargs):
+        """
+        Make a best-effort guess as to how to open/parse the given sequence file.
 
-    iter_fn = None
-    try:
-        if peek[0] == '>':
+        Handles '-' as shortcut for stdin.
+        Deals with .gz, FASTA, and FASTQ records.
+        """
+        magic_dict = {
+            b"\x1f\x8b\x08": "gz",
+            b"\x42\x5a\x68": "bz2",
+            # "\x50\x4b\x03\x04": "zip"
+        }  # Inspired by http://stackoverflow.com/a/13044946/1585509
+        filename = _normalize_filename(filename)
+        bufferedfile = io.open(file=filename, mode='rb', buffering=8192)
+        num_bytes_to_peek = max(len(x) for x in magic_dict)
+        file_start = bufferedfile.peek(num_bytes_to_peek)
+        compression = None
+        for magic, ftype in magic_dict.items():
+            if file_start.startswith(magic):
+                compression = ftype
+                break
+        if compression is 'bz2':
+            sequencefile = bz2file.BZ2File(filename=bufferedfile)
+            peek = sequencefile.peek(1)
+        elif compression is 'gz':
+            if not bufferedfile.seekable():
+                bufferedfile.close()
+                raise ValueError("gziped data not streamable, pipe through zcat \
+                                first")
+            peek = gzip.GzipFile(filename=filename).read(1)
+            sequencefile = gzip.GzipFile(filename=filename)
+        else:
+            peek = bufferedfile.peek(1)
+            sequencefile = bufferedfile
+
+        iter_fn = None
+        try:
+            first_char = peek[0]
+        except IndexError as err:
+            return []  # empty file
+
+        try:
+            first_char = chr(first_char)
+        except TypeError:
+            pass
+
+        if first_char == '>':
             iter_fn = fasta_iter
-        elif peek[0] == '@':
+        elif first_char == '@':
             iter_fn = fastq_iter
-    except IndexError as err:
-        return []  # empty file
 
-    if iter_fn is None:
-        raise ValueError("unknown file format for '%s'" % filename)
+        if iter_fn is None:
+            raise ValueError("unknown file format for '%s'" % filename)
 
-    return iter_fn(sequencefile, *args, **kwargs)
+        self.sequencefile = sequencefile
+        return iter_fn(sequencefile, *args, **kwargs)
+
+    def __enter__(self):
+        return self.iter_fn
+
+    def __exit__(self, *exc_info):
+        self.close()
+
+    def __iter__(self):
+        if self.iter_fn:
+            return self.iter_fn
+        return iter(())
+
+    def close(self):
+        if self.sequencefile is not None:
+            self.sequencefile.close()
+
 
 _open = open
-open = open_reader
+open = Open
+open_reader = open
 
 
-class ScreedDB(object, UserDict.DictMixin):
+class ScreedDB(MutableMapping):
 
     """
     Core on-disk dictionary interface for reading screed databases. Accepts a
@@ -127,7 +165,7 @@ class ScreedDB(object, UserDict.DictMixin):
                             % self._filepath)
 
         nothing = res.fetchone()
-        if not isinstance(nothing, type(None)):
+        if type(nothing) is not type(None):
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
 
@@ -177,7 +215,7 @@ class ScreedDB(object, UserDict.DictMixin):
                                                   DBConstants._DICT_TABLE,
                                                   self._queryBy)
         res = cursor.execute(query, (key,))
-        if isinstance(res.fetchone(), type(None)):
+        if type(res.fetchone()) is type(None):
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self.fields, self._db,
                                          key,
@@ -206,7 +244,7 @@ class ScreedDB(object, UserDict.DictMixin):
                                                   DBConstants._DICT_TABLE,
                                                   DBConstants._PRIMARY_KEY)
         res = cursor.execute(query, (index,))
-        if isinstance(res.fetchone(), type(None)):
+        if type(res.fetchone()) is type(None):
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self.fields, self._db,
                                          index,
@@ -235,7 +273,7 @@ class ScreedDB(object, UserDict.DictMixin):
         """
         Iterator over records in the database
         """
-        for index in xrange(1, self.__len__() + 1):
+        for index in range(1, self.__len__() + 1):
             yield screedRecord._buildRecord(self.fields, self._db,
                                             index,
                                             DBConstants._PRIMARY_KEY)
@@ -249,6 +287,9 @@ class ScreedDB(object, UserDict.DictMixin):
             self._queryBy, DBConstants._DICT_TABLE)
         for key, in cursor.execute(query):
             yield key
+
+    def __iter__(self):
+        return self.iterkeys()
 
     def iteritems(self):
         """
@@ -286,34 +327,40 @@ class ScreedDB(object, UserDict.DictMixin):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
+
+    def __delitem__(self, something):
+        """
+        Not implemented (Read-only database)
+        """
+        raise NotImplementedError
 
     def clear(self):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def update(self, something):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def setdefault(self, something):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def pop(self):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError
 
     def popitem(self):
         """
         Not implemented (Read-only database)
         """
-        raise AttributeError
+        raise NotImplementedError

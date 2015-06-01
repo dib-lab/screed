@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 import screed
 import screed.seqparse
 from screed.DBConstants import fileExtension
 import os
-import screed_tst_utils as utils
+from . import screed_tst_utils as utils
 import shutil
 
 testha = utils.get_temp_filename('test.hava')

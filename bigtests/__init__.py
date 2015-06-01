@@ -32,8 +32,8 @@ def getfile(f):
     try:
         up = urllib.urlopen(base_url)
     except IOError:
-        raise IOError, "Error downloading testfiles, are you connected to " +\
-              "the internet?"
+        raise IOError("Error downloading testfiles, are you connected to " +\
+              "the internet?")
     fp.write(up.read())
     fp.close()
 

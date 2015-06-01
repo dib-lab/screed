@@ -19,7 +19,7 @@ Getting Started
 #. Start with a clean checkout::
 
         cd `mktemp -d`
-        git clone git@github.com:ged-lab/screed.git
+        git clone git@github.com:dib-lab/screed.git
         cd screed
 
 #. Install/update versioneer::
@@ -55,7 +55,7 @@ Getting Started
    Tag the release candidate with the new version prefixed by the letter 'v'::
 
         git tag v${new_version}-${rc}
-        git push --tags git@github.com:ged-lab/screed.git
+        git push --tags git@github.com:dib-lab/screed.git
 
 #. Test the release candidate::
 
@@ -70,7 +70,7 @@ Getting Started
         source bin/activate
         pip install nose
         git clone --depth 1 --branch v${new_version}-${rc} \
-                https://github.com/ged-lab/screed.git
+                https://github.com/dib-lab/screed.git
         cd screed
         make install
         nosetests screed --attr '!known_failing'
@@ -83,8 +83,7 @@ Getting Started
         cd ../../testenv2
         source bin/activate
         pip install nose
-        pip install -e
-        git+https://github.com/ged-lab/screed.git@v${new_version}-${rc}#egg=screed
+        pip install -e git+https://github.com/dib-lab/screed.git@v${new_version}-${rc}#egg=screed
         cd src/screed
         make dist
         make install
@@ -153,8 +152,8 @@ When you have a thoroughly tested release candidate, cut a release like so:
 #. Delete the release candidate tag and push the tag updates to GitHub::
 
        git tag -d v${new_version}-${rc}
-       git push git@github.com:ged-lab/screed.git
-       git push --tags git@github.com:ged-lab/screed.git
+       git push git@github.com:dib-lab/screed.git
+       git push --tags git@github.com:dib-lab/screed.git
 
 #. Add the release on GitHub, using the tag you just pushed. Name it "Version
    X.Y.Z" and copy/paste in the release notes.

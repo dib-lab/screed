@@ -1,9 +1,12 @@
 # Copyright (c) 2008-2015, Michigan State University
 
+from __future__ import absolute_import
+
 import os.path
 import sys
 import subprocess
-import screed_tst_utils as utils
+
+from . import screed_tst_utils as utils
 import screed
 import screed.openscreed
 
@@ -27,12 +30,14 @@ def test_open_stdin():
 
     Uses a subprocess with the data file directlyused as stdin."""
     filename1 = utils.get_test_data('test.fa')
-    command = ["python", "-c", "import screed; print list(screed.open('-'))"]
+    command = ["python", "-c", "from __future__ import print_function;"
+               "import screed; print(list(screed.open('-')))"]
     with open(filename1, 'rb') as data_file:
         output = subprocess.Popen(command,
-                                  stdin=data_file,
+                                  stdin=data_file, universal_newlines=True,
                                   stdout=subprocess.PIPE).communicate()[0]
-        assert "'name': 'ENSMICT00000012722'" in output
+        assert "'name': 'ENSMICT00000012722'" \
+            or "'name': u'ENSMICT00000012722'" in output, output
 
 
 def test_simple_open():

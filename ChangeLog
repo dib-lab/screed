@@ -1,9 +1,27 @@
-2015-05-07  Jacob Fenton  <bocajnotnef@gmail.com>
+2015-06-01  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * screed/tests/test_attriberror.py: added tests to check screed db attribute
    exception throwing
    * screed/screedRecord.py: removed __cmp__ function, explicitly disallowed
    all rich comparator functions that aren't == or !=
+
+2015-05-29  Luiz Irber  <screed@luizirber.org>
+
+   * screed/openscreed.py: Add missing "close" method to context manager.
+
+2015-05-27  Michael R. Crusoe  <mcrusoe@msu.edu>
+
+   * MANIFEST.in: ship the recently relocated test data, fixed reference to
+   renamed LICENSE file
+   * doc/dev/CODE_OF_CONDUCT.rst: drop unused symlink
+   * doc/dev/release-checklist.rst: fix line wrap
+
+2015-05-12  Luiz Irber  <screed@luizirber.org>
+
+   * screed/openscreed.py: Implement open as a context manager, keep backward
+   compatibility.
+   * screed/tests/test_open_cm.py: Add same tests as test_open.py, but using
+   a context manager to make sure file is closed after being used.
 
 2015-04-15  Thomas Fenzl  <thomas.fenzl@gmx.net>
 

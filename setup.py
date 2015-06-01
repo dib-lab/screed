@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+from __future__ import print_function
 try:
     from setuptools import setup
 except ImportError:
-    print '(WARNING: importing distutils, not setuptools!)'
+    print('(WARNING: importing distutils, not setuptools!)')
     from distutils.core import setup
 
 import imp
@@ -21,7 +22,7 @@ setup(name='screed',
       description='A short read database',
       author='Alex Nolley, C. Titus Brown',
       author_email='ctb@msu.edu',
-      url='http://github.com/ged-lab/screed/',
+      url='http://github.com/dib-lab/screed/',
       include_package_data=True,
       packages=['screed', 'screed.tests'],
       package_data={

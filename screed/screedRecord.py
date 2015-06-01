@@ -1,12 +1,17 @@
-import UserDict
+from __future__ import absolute_import
 import types
-import DBConstants
+from . import DBConstants
 import gzip
 import bz2
 
+try:
+    from collections import MutableMapping
+except ImportError:
+    import UserDict
+    MutableMapping = UserDict.DictMixin
 
-class Record(UserDict.DictMixin):
 
+class Record(MutableMapping):
     """
     Simple dict-like record interface with bag behavior.
     """
@@ -31,6 +36,15 @@ class Record(UserDict.DictMixin):
 
     def keys(self):
         return self.d.keys()
+
+    def __delitem__(self, key):
+        del self.d[key]
+
+    def __iter__(self):
+        return iter(self.d)
+
+    def __repr__(self):
+        return repr(self.d)
 
 
 class _screed_attr(object):

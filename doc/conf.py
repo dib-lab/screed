@@ -188,7 +188,7 @@ htmlhelp_basename = 'screeddoc'
 html_context = {
         "google_analytics_id" : 'UA-51731094-1',
         "disqus_shortname" : 'screed-docs',
-        #   "github_base_account" : 'ged-lab',
+        #   "github_base_account" : 'dib-lab',
         "github_project" : 'screed',
 }
 
