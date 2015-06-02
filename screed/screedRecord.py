@@ -37,6 +37,16 @@ class Record(MutableMapping):
     def keys(self):
         return self.d.keys()
 
+    def __getitem__(self, idx):
+        if isinstance(idx, slice):
+            new_read = _screed_record_dict(self)
+            new_read['sequence'] = new_read.sequence[idx]
+            if hasattr(new_read, 'quality'):
+                new_read['quality'] = new_read.quality[idx]
+            return new_read
+        else:
+            return self.d[idx]
+
     def __delitem__(self, key):
         del self.d[key]
 

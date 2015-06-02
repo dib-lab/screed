@@ -151,3 +151,28 @@ def test_writer_2():
     w.consume(read_iter)
 
     assert fp.getvalue() == '>foo bar\nATCG\n'
+
+
+class Test_fasta_slicing(object):
+
+    def setup(self):
+        self._testfa = os.path.join(os.path.dirname(__file__),
+                                    'test.fa')
+        self._index = screed.open(self._testfa)
+        self._record = self._index.next()
+
+    def test_slicing(self):
+        test_slice = self._record[:10]['name']
+        assert test_slice == "ENSMICT00000012722"
+
+
+class Test_fastq_slicing(object):
+    def setup(self):
+        self._testfq = os.path.join(os.path.dirname(__file__),
+                                    'test.fastq')
+        self._index = screed.open(self._testfq)
+
+    def test_slicing(self):
+        self._record = self._index.next()
+        test_slice = self._record['quality'][:10]
+        assert test_slice == "AA7AAA3+AA"
