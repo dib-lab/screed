@@ -44,7 +44,7 @@ def test_simple_open():
     filename = utils.get_test_data('test.fa')
 
     n = -1
-    for n, record in enumerate(screed.open(filename)):
+    for n, record in enumerate(screed.open(filename, parse_description=True)):
         assert record.name == 'ENSMICT00000012722'
         break
     assert n == 0, n

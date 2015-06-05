@@ -15,7 +15,7 @@ def test_simple_open():
     filename = utils.get_test_data('test.fa')
 
     n = -1
-    with screed.open(filename) as f:
+    with screed.open(filename, parse_description=True) as f:
         for n, record in enumerate(f):
             assert record.name == 'ENSMICT00000012722'
             break
@@ -27,7 +27,7 @@ def test_simple_close():
     filename = utils.get_test_data('test.fa')
 
     n = -1
-    f = screed.open(filename)
+    f = screed.open(filename, parse_description=True)
     for n, record in enumerate(f):
         assert record.name == 'ENSMICT00000012722'
         break
