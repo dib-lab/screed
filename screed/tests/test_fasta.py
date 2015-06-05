@@ -157,12 +157,21 @@ def test_fasta_slicing():
     testfa = utils.get_temp_filename('test.fa')
     shutil.copy(utils.get_test_data('test.fa'), testfa)
 
-    with screed.open(testfa) as index:
-        record = next(index)
-        trimmed = record[:10]
+    with screed.open(testfa) as sequences:
+        record = next(sequences)
 
-    for k in set(record.keys()) - {'sequence'}:
-        assert trimmed[k] == record[k]
+    trimmed = record[:10]
+    assert trimmed['sequence'] == "TGCAGAAAAT"
 
-    assert trimmed['sequence'] == record['sequence'][:10]
-    assert trimmed.sequence == record.sequence[:10]
+    for s in (slice(5, 10), slice(2, 26), slice(5, -1, 2),
+              slice(-2, -10, 1), slice(-1, 5, 2), slice(5)):
+        trimmed = record[s]
+
+        assert trimmed['name'] == record['name']
+        assert trimmed.name == record.name
+
+        assert trimmed['description'] == record['description']
+        assert trimmed.description == record.description
+
+        assert trimmed['sequence'] == record['sequence'][s]
+        assert trimmed.sequence == record.sequence[s]

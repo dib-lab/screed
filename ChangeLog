@@ -4,6 +4,11 @@
    to False.
    * screed/tests/test*.py: updated tests appropriately.
 
+2015-06-05  Luiz Irber  <screed@luizirber.org>
+
+   * screed/screedRecord.py: Simplify implementation of record slicing.
+   * screed/tests/test_fast{a,q}.py: Loop over distinct slices during test.
+
 2015-06-05  Michael Wright  <wrigh517@msu.edu>
 
    * screed/screedRecord.py: Allow slicing of screed records to fix issue #768

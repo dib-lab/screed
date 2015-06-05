@@ -36,16 +36,12 @@ class Record(MutableMapping):
 
     def __getitem__(self, idx):
         if isinstance(idx, slice):
-            new_read = {k: self.d[k] for k in self.d
-                        if k not in ('sequence', 'quality')}
-
-            new_read['sequence'] = self.d['sequence'][idx]
-            if 'quality' in self.d:
-                new_read['quality'] = self.d['quality'][idx]
-
-            return Record(new_read)
-        else:
-            return self.d[idx]
+            trimmed = Record(self.d)
+            trimmed['sequence'] = trimmed['sequence'][idx]
+            if 'quality' in trimmed:
+                trimmed['quality'] = trimmed['quality'][idx]
+            return Record(trimmed)
+        return self.d[idx]
 
     def __delitem__(self, key):
         del self.d[key]

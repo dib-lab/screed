@@ -160,15 +160,22 @@ def test_fastq_slicing():
     testfq = utils.get_temp_filename('test.fastq')
     shutil.copy(utils.get_test_data('test.fastq'), testfq)
 
-    with screed.open(testfq) as index:
-        record = next(index)
-        trimmed = record[:10]
+    with screed.open(testfq) as sequences:
+        record = next(sequences)
 
-    for k in set(record.keys()) - {'sequence', 'quality'}:
-        assert trimmed[k] == record[k]
+    trimmed = record[:10]
+    assert trimmed['sequence'] == "ACAGCAAAAT"
+    assert trimmed['quality'] == "AA7AAA3+AA"
 
-    assert trimmed['sequence'] == record['sequence'][:10]
-    assert trimmed.sequence == record.sequence[:10]
+    for s in (slice(5, 10), slice(2, 26), slice(5, -1, 2),
+              slice(-2, -10, 1), slice(-1, 5, 2), slice(5)):
+        trimmed = record[s]
 
-    assert trimmed['quality'] == record['quality'][:10]
-    assert trimmed.quality == record.quality[:10]
+        assert trimmed['name'] == record['name']
+        assert trimmed.name == record.name
+
+        assert trimmed['sequence'] == record['sequence'][s]
+        assert trimmed.sequence == record.sequence[s]
+
+        assert trimmed['quality'] == record['quality'][s]
+        assert trimmed.quality == record.quality[s]
