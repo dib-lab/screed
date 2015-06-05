@@ -1,3 +1,7 @@
+2015-06-05  Michael Wright  <wrigh517@msu.edu>
+
+   * screedRecord.py: Allow slicing of screed records to fix issue #768
+
 2015-06-05  en zyme  <en_zyme@outlook.com>
 
    * screed/tests/fastq.py: check for empty line in two places

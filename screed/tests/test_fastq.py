@@ -154,3 +154,21 @@ def test_writer_2():
     w.consume(read_iter)
 
     assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
+
+
+def test_fastq_slicing():
+    testfq = utils.get_temp_filename('test.fastq')
+    shutil.copy(utils.get_test_data('test.fastq'), testfq)
+
+    with screed.open(testfq) as index:
+        record = next(index)
+        trimmed = record[:10]
+
+    for k in set(record.keys()) - {'sequence', 'quality'}:
+        assert trimmed[k] == record[k]
+
+    assert trimmed['sequence'] == record['sequence'][:10]
+    assert trimmed.sequence == record.sequence[:10]
+
+    assert trimmed['quality'] == record['quality'][:10]
+    assert trimmed.quality == record.quality[:10]
