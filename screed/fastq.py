@@ -21,7 +21,7 @@ def fastq_iter(handle, line=None, parse_description=True):
     while line:
         data = Record()
 
-        if not line.startswith('@'):
+        if line and not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
 
         # Try to grab the name and (optional) annotations
@@ -39,7 +39,7 @@ def fastq_iter(handle, line=None, parse_description=True):
         # Extract the sequence lines
         sequence = []
         line = to_str(handle.readline().strip())
-        while not line.startswith('+') and not line.startswith('#'):
+        while line and not line.startswith('+') and not line.startswith('#'):
             sequence.append(line)
             line = to_str(handle.readline().strip())
 
