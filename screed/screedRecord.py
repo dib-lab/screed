@@ -19,9 +19,6 @@ class Record(MutableMapping):
     def __init__(self, *args, **kwargs):
         self.d = dict(*args, **kwargs)
 
-    def __getitem__(self, name):
-        return self.d[name]
-
     def __setitem__(self, name, value):
         self.d[name] = value
 
@@ -39,11 +36,14 @@ class Record(MutableMapping):
 
     def __getitem__(self, idx):
         if isinstance(idx, slice):
-            new_read = Record(self)
-            new_read['sequence'] = new_read.sequence[idx]
-            if hasattr(new_read, 'quality'):
-                new_read['quality'] = new_read.quality[idx]
-            return new_read
+            new_read = {k: self.d[k] for k in self.d
+                        if k not in ('sequence', 'quality')}
+
+            new_read['sequence'] = self.d['sequence'][idx]
+            if 'quality' in self.d:
+                new_read['quality'] = self.d['quality'][idx]
+
+            return Record(new_read)
         else:
             return self.d[idx]
 
