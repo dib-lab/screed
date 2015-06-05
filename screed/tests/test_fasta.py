@@ -44,7 +44,7 @@ class Test_fasta(object):
             intRcrd = self.db.loadRecordByIndex(record.id)
             assert record == intRcrd
 
-    def test_length(self):
+    def test_length_2(self):
         read = self.db[self.db.keys()[0]]
 
         assert len(read) == len(read.sequence)
