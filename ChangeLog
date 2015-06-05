@@ -1,6 +1,12 @@
+2015-06-05  Titus Brown  <titus@idyll.org>
+
+   * screed/{fasta.py,fastq.py,seqparse.py}: Set parse_description default
+   to False.
+   * screed/tests/test*.py: updated tests appropriately.
+
 2015-06-05  Michael Wright  <wrigh517@msu.edu>
 
-   * screedRecord.py: Allow slicing of screed records to fix issue #768
+   * screed/screedRecord.py: Allow slicing of screed records to fix issue #768
 
 2015-06-05  en zyme  <en_zyme@outlook.com>
 
