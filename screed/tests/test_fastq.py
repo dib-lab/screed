@@ -30,6 +30,7 @@ def test_parse_description_true():
     assert records[0]['name'] == '1'
     assert records[1]['name'] == '2'
 
+
 def test_parse_description_false():
     # test for a bug where the record dict was not reset after each
     # sequence load, leading to all records being identical if you
@@ -47,7 +48,6 @@ def test_parse_description_false():
     records = list(iter(screed.fastq.fastq_iter(s)))
     assert records[0]['name'] == '1 FOO'
     assert records[1]['name'] == '2'
-
 
 
 class Test_fastq(object):

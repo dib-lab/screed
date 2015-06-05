@@ -51,7 +51,7 @@ class Open(object):
 
     def open_reader(self, filename, *args, **kwargs):
         """
-        Make a best-effort guess as to how to open/parse the given sequence file.
+        Make a best-effort guess as to how to parse the given sequence file.
 
         Handles '-' as shortcut for stdin.
         Deals with .gz, FASTA, and FASTQ records.
