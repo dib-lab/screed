@@ -39,7 +39,7 @@ class Record(MutableMapping):
 
     def __getitem__(self, idx):
         if isinstance(idx, slice):
-            new_read = _screed_record_dict(self)
+            new_read = Record(self)
             new_read['sequence'] = new_read.sequence[idx]
             if hasattr(new_read, 'quality'):
                 new_read['quality'] = new_read.quality[idx]
