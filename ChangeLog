@@ -1,3 +1,7 @@
+2015-06-05  en zyme  <en_zyme@outlook.com>
+
+   * screed/tests/fastq.py: check for empty line in two places
+
 2015-05-29  Luiz Irber  <screed@luizirber.org>
 
    * screed/openscreed.py: Add missing "close" method to context manager.
@@ -36,7 +40,7 @@
    * screed/fastq.py: changed _screed_record_dict() to Rename()
 
 2015-04-09  Jacob Fenton  <bocajnotnef@gmail.com>
-   
+
    * doc/dev/release-checklist.txt: added "making final release" notes
    * Makefile: copied over @mr-c's md-to-rst release notes conversion target
    * doc/dev/release-notes/RELEASE-0.8.txt: added rst version of release notes 
