@@ -10,7 +10,7 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('quality', DBConstants._STANDARD_TEXT))
 
 
-def fastq_iter(handle, line=None, parse_description=True):
+def fastq_iter(handle, line=None, parse_description=False):
     """
     Iterator over the given FASTQ file handle returning records. handle
     is a handle to a file opened for reading
