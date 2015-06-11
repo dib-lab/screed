@@ -1,3 +1,8 @@
+2015-06-10  Michael R. Crusoe  <crusoe@ucdavis.edu>
+
+   * screed/_version.py,setup.{py,cfg},versioneer.py: update versioneer to 0.15
+   * doc/user/known-issues.rst: remove two fixes issues
+
 2015-06-05  Titus Brown  <titus@idyll.org>
 
    * screed/{fasta.py,fastq.py,seqparse.py}: Set parse_description default
