@@ -26,23 +26,16 @@ The following software packages are required to run screed:
 * Python 2.4 or newer
 * nose (for testing)
 
-Downloading
+Installing
 -----------
 
-You will need git to download a copy from the public git repository:
+Use pip to download, and install Screed and its dependencies::
 
-    git clone git://github.com/dib-lab/screed.git
-
-Installing
-----------
-
-Assuming you have already downloaded the package, this is how to install::
-
-    $ python setup.py install
+    pip install screed
 
 To run the optional tests type::
 
-    $ python -m screed.tests.__main__
+    nosetests screed --attr '!known_failing'
 
 Quick-Start
 ===========
