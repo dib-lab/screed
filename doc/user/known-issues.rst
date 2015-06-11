@@ -16,11 +16,3 @@ releases. https://github.com/dib-lab/khmer/issues/700
 
 Screed is overly tolerant of spaces in fast{q,a} which is against
 spec. https://github.com/dib-lab/khmer/issues/108
-
-Screed records cannot be sliced requiring un-Pythonic techniques
-to achieve the same behavior This will be included in a future
-release. https://github.com/dib-lab/khmer/issues/768
-
-Screed self-tests do not use a temporary directory which causes tests run
-from package-based installs to fail https://github.com/dib-lab/khmer/issues/748
-
