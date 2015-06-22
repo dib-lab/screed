@@ -9,7 +9,7 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('sequence', DBConstants._SLICEABLE_TEXT))
 
 
-def fasta_iter(handle, parse_description=True, line=None):
+def fasta_iter(handle, parse_description=False, line=None):
     """
     Iterator over the given FASTA file handle, returning records. handle
     is a handle to a file opened for reading

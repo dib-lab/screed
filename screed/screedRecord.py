@@ -19,9 +19,6 @@ class Record(MutableMapping):
     def __init__(self, *args, **kwargs):
         self.d = dict(*args, **kwargs)
 
-    def __getitem__(self, name):
-        return self.d[name]
-
     def __setitem__(self, name, value):
         self.d[name] = value
 
@@ -36,6 +33,15 @@ class Record(MutableMapping):
 
     def keys(self):
         return self.d.keys()
+
+    def __getitem__(self, idx):
+        if isinstance(idx, slice):
+            trimmed = Record(self.d)
+            trimmed['sequence'] = trimmed['sequence'][idx]
+            if 'quality' in trimmed:
+                trimmed['quality'] = trimmed['quality'][idx]
+            return Record(trimmed)
+        return self.d[idx]
 
     def __delitem__(self, key):
         del self.d[key]

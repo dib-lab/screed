@@ -10,7 +10,7 @@ FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
               ('quality', DBConstants._STANDARD_TEXT))
 
 
-def fastq_iter(handle, line=None, parse_description=True):
+def fastq_iter(handle, line=None, parse_description=False):
     """
     Iterator over the given FASTQ file handle returning records. handle
     is a handle to a file opened for reading
@@ -21,7 +21,7 @@ def fastq_iter(handle, line=None, parse_description=True):
     while line:
         data = Record()
 
-        if not line.startswith('@'):
+        if line and not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
 
         # Try to grab the name and (optional) annotations
@@ -39,7 +39,7 @@ def fastq_iter(handle, line=None, parse_description=True):
         # Extract the sequence lines
         sequence = []
         line = to_str(handle.readline().strip())
-        while not line.startswith('+') and not line.startswith('#'):
+        while line and not line.startswith('+') and not line.startswith('#'):
             sequence.append(line)
             line = to_str(handle.readline().strip())
 

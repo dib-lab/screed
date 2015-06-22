@@ -44,7 +44,7 @@ class Test_fasta(object):
             intRcrd = self.db.loadRecordByIndex(record.id)
             assert record == intRcrd
 
-    def test_length(self):
+    def test_length_2(self):
         read = self.db[self.db.keys()[0]]
 
         assert len(read) == len(read.sequence)
@@ -151,3 +151,27 @@ def test_writer_2():
     w.consume(read_iter)
 
     assert fp.getvalue() == '>foo bar\nATCG\n'
+
+
+def test_fasta_slicing():
+    testfa = utils.get_temp_filename('test.fa')
+    shutil.copy(utils.get_test_data('test.fa'), testfa)
+
+    with screed.open(testfa) as sequences:
+        record = next(sequences)
+
+    trimmed = record[:10]
+    assert trimmed['sequence'] == "TGCAGAAAAT"
+
+    for s in (slice(5, 10), slice(2, 26), slice(5, -1, 2),
+              slice(-2, -10, 1), slice(-1, 5, 2), slice(5)):
+        trimmed = record[s]
+
+        assert trimmed['name'] == record['name']
+        assert trimmed.name == record.name
+
+        assert trimmed['description'] == record['description']
+        assert trimmed.description == record.description
+
+        assert trimmed['sequence'] == record['sequence'][s]
+        assert trimmed.sequence == record.sequence[s]

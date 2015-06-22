@@ -1,9 +1,34 @@
-2015-06-01  Jacob Fenton  <bocajnotnef@gmail.com>
+2015-06-22  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * screed/tests/test_attriberror.py: added tests to check screed db attribute
    exception throwing
    * screed/screedRecord.py: removed __cmp__ function, explicitly disallowed
    all rich comparator functions that aren't == or !=
+
+2015-06-10  Michael R. Crusoe  <crusoe@ucdavis.edu>
+
+   * doc/user/known-issues.rst: removed two fixed issues
+   * doc/screed.rst: updated install & test instructions
+   * doc/screed.html: removed un-needed file
+
+2015-06-05  Titus Brown  <titus@idyll.org>
+
+   * screed/{fasta.py,fastq.py,seqparse.py}: Set parse_description default
+   to False.
+   * screed/tests/test*.py: updated tests appropriately.
+
+2015-06-05  Luiz Irber  <screed@luizirber.org>
+
+   * screed/screedRecord.py: Simplify implementation of record slicing.
+   * screed/tests/test_fast{a,q}.py: Loop over distinct slices during test.
+
+2015-06-05  Michael Wright  <wrigh517@msu.edu>
+
+   * screed/screedRecord.py: Allow slicing of screed records to fix issue #768
+
+2015-06-05  en zyme  <en_zyme@outlook.com>
+
+   * screed/tests/fastq.py: check for empty line in two places
 
 2015-05-29  Luiz Irber  <screed@luizirber.org>
 
@@ -43,7 +68,7 @@
    * screed/fastq.py: changed _screed_record_dict() to Rename()
 
 2015-04-09  Jacob Fenton  <bocajnotnef@gmail.com>
-   
+
    * doc/dev/release-checklist.txt: added "making final release" notes
    * Makefile: copied over @mr-c's md-to-rst release notes conversion target
    * doc/dev/release-notes/RELEASE-0.8.txt: added rst version of release notes 
@@ -51,7 +76,7 @@
    * doc/dev/release-notes/index.txt: added rst version of 0.8 release notes to
    toctree
 
-2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com> 
+2015-04-07  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * screed/tests/test_{dictionary, fasta, fasta_recover, fastq, fastq_recover,
    hava_methods, shell}.py: changed tests to use tempdirs

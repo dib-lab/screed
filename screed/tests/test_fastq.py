@@ -30,13 +30,6 @@ def test_parse_description_true():
     assert records[0]['name'] == '1'
     assert records[1]['name'] == '2'
 
-    # also is default behavior
-    s = StringIO("@1 FOO\nACTG\n+\nAAAA\n@2\nACGG\n+\nAAAA\n")
-
-    records = list(iter(screed.fastq.fastq_iter(s)))
-    assert records[0]['name'] == '1'
-    assert records[1]['name'] == '2'
-
 
 def test_parse_description_false():
     # test for a bug where the record dict was not reset after each
@@ -46,6 +39,13 @@ def test_parse_description_false():
     s = StringIO("@1 FOO\nACTG\n+\nAAAA\n@2\nACGG\n+\nAAAA\n")
 
     records = list(iter(screed.fastq.fastq_iter(s, parse_description=False)))
+    assert records[0]['name'] == '1 FOO'
+    assert records[1]['name'] == '2'
+
+    # also is default behavior
+    s = StringIO("@1 FOO\nACTG\n+\nAAAA\n@2\nACGG\n+\nAAAA\n")
+
+    records = list(iter(screed.fastq.fastq_iter(s)))
     assert records[0]['name'] == '1 FOO'
     assert records[1]['name'] == '2'
 
@@ -154,3 +154,28 @@ def test_writer_2():
     w.consume(read_iter)
 
     assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
+
+
+def test_fastq_slicing():
+    testfq = utils.get_temp_filename('test.fastq')
+    shutil.copy(utils.get_test_data('test.fastq'), testfq)
+
+    with screed.open(testfq) as sequences:
+        record = next(sequences)
+
+    trimmed = record[:10]
+    assert trimmed['sequence'] == "ACAGCAAAAT"
+    assert trimmed['quality'] == "AA7AAA3+AA"
+
+    for s in (slice(5, 10), slice(2, 26), slice(5, -1, 2),
+              slice(-2, -10, 1), slice(-1, 5, 2), slice(5)):
+        trimmed = record[s]
+
+        assert trimmed['name'] == record['name']
+        assert trimmed.name == record.name
+
+        assert trimmed['sequence'] == record['sequence'][s]
+        assert trimmed.sequence == record.sequence[s]
+
+        assert trimmed['quality'] == record['quality'][s]
+        assert trimmed.quality == record.quality[s]
