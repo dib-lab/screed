@@ -108,34 +108,14 @@ class _screed_attr(object):
         """
         return "<%s '%s'>" % (self.__class__.__name__, self._attrName)
 
-    def __cmp__(self, given):
-        """
-        Handles comparisons other than == and !=
-        """
-        ownString = __str__()
-        if isinstance(given, _screed_attr):
-            given = str(given)
-        elif not isinstance(given, str):
-            raise TypeError("Cannot compare to given type: %s" % type(given))
-
-        if ownString < given:
-            return -1
-        elif ownString > given:
-            return 1
-        else:
-            return 0
-
     def __eq__(self, given):
         """
         Compares attribute to given object in string form
         """
         if isinstance(given, bytes):
             return given == self.__str__()
-
-        try:
+        else:
             return str(given) == self.__str__()
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
 
     def __ne__(self, given):
         """
@@ -143,11 +123,20 @@ class _screed_attr(object):
         """
         if isinstance(given, bytes):
             return self.__repr__() != given
-
-        try:
+        else:
             return self.__repr__() != str(given)
-        except AttributeError:
-            raise TypeError("Cannot compare to given type: %s" % type(given))
+
+    def __lt__(self, given):
+        return NotImplemented
+
+    def __gt__(self, given):
+        return NotImplemented
+
+    def __le__(self, given):
+        return NotImplemented
+
+    def __ge__(self, given):
+        return NotImplemented
 
     def __str__(self):
         """
