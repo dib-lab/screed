@@ -1,3 +1,7 @@
+2016-06-10  Titus Brown  <titus@idyll.org>
+
+   * screed/dna.py: Fix reverse complement calculation for Python 2.7
+
 2015-06-22  Jacob Fenton  <bocajnotnef@gmail.com>
 
    * screed/tests/test_attriberror.py: added tests to check screed db attribute

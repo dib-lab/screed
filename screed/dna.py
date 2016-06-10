@@ -32,17 +32,12 @@ def reverse_complement(s):
 
 rc = reverse_complement                 # alias 'rc' to 'reverse_complement'
 
-try:
-    __complementTranslation = str.maketrans('ACTG', 'TGAC')
-except AttributeError:
-    __complementTranslation = string.maketrans('ACTG', 'TGAC')
-
-
+__complementTranslation = { "A": "T", "C": "G", "G": "C", "T": "A", "N": "N" }
 def complement(s):
     """
     Return complement of 's'.
     """
-    c = s.translate(__complementTranslation)
+    c = "".join(__complementTranslation[n] for n in s)
     return c
 
 
