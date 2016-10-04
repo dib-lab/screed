@@ -1,3 +1,10 @@
+2016-10-04  Luiz Irber  <khmer@luizirber.org>
+
+   * screed/screedRecord.py: Implement comparison using total_ordering
+   decorator from functools.
+   * screed/tests/test_attriberror.py: Fix syntax errors for Python 3 and
+   remove tests for not implemented methods (they are implemented now).
+
 2016-06-10  Titus Brown  <titus@idyll.org>
 
    * screed/dna.py: Fix reverse complement calculation for Python 2.7
