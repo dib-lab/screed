@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from functools import total_ordering
 import types
 from . import DBConstants
 import gzip
@@ -53,6 +54,7 @@ class Record(MutableMapping):
         return repr(self.d)
 
 
+@total_ordering
 class _screed_attr(object):
 
     """
@@ -117,26 +119,11 @@ class _screed_attr(object):
         else:
             return str(given) == self.__str__()
 
-    def __ne__(self, given):
-        """
-        Compares attribute to given object in string form
-        """
-        if isinstance(given, bytes):
-            return self.__repr__() != given
-        else:
-            return self.__repr__() != str(given)
-
     def __lt__(self, given):
-        return NotImplemented
-
-    def __gt__(self, given):
-        return NotImplemented
-
-    def __le__(self, given):
-        return NotImplemented
-
-    def __ge__(self, given):
-        return NotImplemented
+        if isinstance(given, bytes):
+            return self.__str__() < given
+        else:
+            return self.__str__() < str(given)
 
     def __str__(self):
         """
