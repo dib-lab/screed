@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2008-2010, Michigan State University
+# Copyright (C) 2008-2010, 2014-2015 Michigan State University
+# Copyright (C) 2016, The Regents of the University of California.
+
+from __future__ import absolute_import
 
 import sys
-from __init__ import read_fasta_sequences
-import DBConstants
+from screed import read_fasta_sequences
+from screed import DBConstants
 
 # A shell interface to the screed FADBM database writing function
 if __name__ == "__main__":
@@ -17,3 +20,4 @@ if __name__ == "__main__":
     read_fasta_sequences(filename)
 
     print("Database saved in %s%s" % (sys.argv[1], DBConstants.fileExtension))
+    exit(0)
