@@ -1,7 +1,7 @@
 import screed
 from screed.DBConstants import fileExtension
 import os
-import screed_tst_utils as utils
+from . import screed_tst_utils as utils
 import shutil
 
 
@@ -32,7 +32,7 @@ class test_comparisons():
     def test_neq(self):
         for k in self._db:
             record = self._db.get(k)
-            res = (record.sequence <> self._ns)
+            res = (record.sequence != self._ns)
             assert res == True, res
 
     def test_comp_greateq(self):
@@ -58,30 +58,6 @@ class test_comparisons():
             record = self._db.get(k)
             res = (record.sequence > self._ns)
             assert res == True, res
-
-    def test_le__(self):
-        for k in self._db:
-            record = self._db.get(k)
-            res = record.sequence.__le__(self._ns)
-            assert res == NotImplemented, res
-
-    def test_ge__(self):
-        for k in self._db:
-            record = self._db.get(k)
-            res = record.sequence.__ge__(self._ns)
-            assert res == NotImplemented, res
-
-    def test_lt__(self):
-        for k in self._db:
-            record = self._db.get(k)
-            res = record.sequence.__lt__(self._ns)
-            assert res == NotImplemented, res
-
-    def test_gt__(self):
-        for k in self._db:
-            record = self._db.get(k)
-            res = record.sequence.__gt__(self._ns)
-            assert res == NotImplemented, res
 
     def teardown(self):
         os.unlink(self._testfile + fileExtension)
