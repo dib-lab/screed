@@ -1,3 +1,8 @@
+2016-10-06  Luiz Irber  <khmer@luizirber.org>
+
+   * tox.ini: Use codecov for coverage reports, add Python 3.5 to builds.
+   * .travis.yml: Activate Python 3.5 build.
+
 2016-10-04  Luiz Irber  <khmer@luizirber.org>
 
    * screed/screedRecord.py: Implement comparison using total_ordering
