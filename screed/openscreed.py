@@ -165,7 +165,7 @@ class ScreedDB(MutableMapping):
                             % self._filepath)
 
         nothing = res.fetchone()
-        if type(nothing) is not type(None):
+        if nothing is not None:
             self._db.close()
             raise TypeError("Database %s has too many tables." % filename)
 
@@ -215,7 +215,7 @@ class ScreedDB(MutableMapping):
                                                   DBConstants._DICT_TABLE,
                                                   self._queryBy)
         res = cursor.execute(query, (key,))
-        if type(res.fetchone()) is type(None):
+        if res.fetchone() is None:
             raise KeyError("Key %s not found" % key)
         return screedRecord._buildRecord(self.fields, self._db,
                                          key,
@@ -244,7 +244,7 @@ class ScreedDB(MutableMapping):
                                                   DBConstants._DICT_TABLE,
                                                   DBConstants._PRIMARY_KEY)
         res = cursor.execute(query, (index,))
-        if type(res.fetchone()) is type(None):
+        if res.fetchone() is None:
             raise KeyError("Index %d not found" % index)
         return screedRecord._buildRecord(self.fields, self._db,
                                          index,
