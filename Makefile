@@ -34,7 +34,7 @@ clean: FORCE
 	rm -Rf doc/_build || true
 
 pep8: $(PYSOURCES) $(TESTSOURCES)
-	pep8 --exclude=_version.py setup.py screed/ || true
+	pep8 --exclude=_version.py setup.py screed/
 
 pep8_report.txt: $(PYSOURCES) $(TESTSOURCES)
 	pep8 --exclude=_version.py setup.py screed/ > pep8_report.txt || true
