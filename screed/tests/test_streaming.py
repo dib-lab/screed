@@ -10,7 +10,7 @@ import io
 import threading
 import subprocess
 
-from nose.plugins.attrib import attr
+import pytest
 
 import screed
 from . import screed_tst_utils as utils
@@ -67,7 +67,7 @@ def test_stream_fq():
     streamer(utils.get_test_data('test.fastq'))
 
 
-@attr('known_failing')
+@pytest.mark.known_failing
 def test_stream_fa_gz():
     streamer(utils.get_test_data('test.fa.gz'))
 
@@ -80,7 +80,7 @@ def test_stream_gz_fail():
         print(str(err))
 
 
-@attr('known_failing')
+@pytest.mark.known_failing
 def test_stream_fq_gz():
     streamer(utils.get_test_data('test.fastq.gz'))
 
