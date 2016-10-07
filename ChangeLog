@@ -1,3 +1,9 @@
+2016-10-07  Luiz Irber  <khmer@luizirber.org>
+
+   * screed/f{a,q}dbm.py: Fix import errors on Python 3.
+   * screed/tests/test_shell.py: check for return code and rewrite the test to
+   work more like the expected usage in the shell.
+
 2016-10-04  Luiz Irber  <khmer@luizirber.org>
 
    * screed/screedRecord.py: Implement comparison using total_ordering
