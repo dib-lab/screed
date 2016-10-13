@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2008-2010, 2014-2015 Michigan State University
+# Copyright (C) 2008-2015, Michigan State University.
 # Copyright (C) 2016, The Regents of the University of California.
 
 from __future__ import absolute_import
