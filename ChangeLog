@@ -4,6 +4,15 @@
    * screed/tests/test_shell.py: check for return code and rewrite the test to
    work more like the expected usage in the shell.
 
+2016-10-06  Luiz Irber  <khmer@luizirber.org>
+
+   * tox.ini: Use codecov for coverage reports, add Python 3.5 to builds.
+   * .travis.yml: Activate Python 3.5 build.
+   * .github/{CONTRIBUTING,PULL_REQUEST_TEMPLATE}.md: Add GitHub templates.
+   * Makefile: Throw an error If there are pep8 warnings.
+   * doc/dev/coding-guidelinbes-and-review.rst: Update checklist
+   * screed/{dna,openscreed,tests/test_attriberror}.py: Fix pep8 warnings.
+
 2016-10-04  Luiz Irber  <khmer@luizirber.org>
 
    * screed/screedRecord.py: Implement comparison using total_ordering
@@ -88,7 +97,7 @@
 
    * doc/dev/release-checklist.txt: added "making final release" notes
    * Makefile: copied over @mr-c's md-to-rst release notes conversion target
-   * doc/dev/release-notes/RELEASE-0.8.txt: added rst version of release notes 
+   * doc/dev/release-notes/RELEASE-0.8.txt: added rst version of release notes
    for sphinx
    * doc/dev/release-notes/index.txt: added rst version of 0.8 release notes to
    toctree
@@ -131,7 +140,7 @@
 2015-02-23  Michael R. Crusoe  <mcrusoe@msu.edu>
 
    * setup.py: work around versioneer bug:
-   https://github.com/warner/python-versioneer/issues/52 
+   https://github.com/warner/python-versioneer/issues/52
 
 2014-12-07  Michael R. Crusoe  <mcrusoe@msu.edu>
 

@@ -27,37 +27,37 @@ class test_comparisons():
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence == self._ns)
-            assert res == False, res
+            assert res is False, res
 
     def test_neq(self):
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence != self._ns)
-            assert res == True, res
+            assert res is True, res
 
     def test_comp_greateq(self):
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence >= self._ns)
-            assert res == True, res
+            assert res is True, res
 
     def test_comp_lesseq(self):
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence <= self._ns)
-            assert res == False, res
+            assert res is False, res
 
     def test_comp_less(self):
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence < self._ns)
-            assert res == False, res
+            assert res is False, res
 
     def test_comp_great(self):
         for k in self._db:
             record = self._db.get(k)
             res = (record.sequence > self._ns)
-            assert res == True, res
+            assert res is True, res
 
     def teardown(self):
         os.unlink(self._testfile + fileExtension)
