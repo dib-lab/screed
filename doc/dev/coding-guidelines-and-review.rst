@@ -52,12 +52,12 @@ Checklist
 Copy and paste the following into a pull request comment when it is
 ready for review::
    
-   - [ ] Is it mergable?
-   - [ ] Did it pass the tests?
-   - [ ] If it introduces new functionality, is it tested?
-   - [ ] Is it well formatted? Look at `make pep8`, `make diff_pylint_report`,
-     and `make doc` output. Use `make format` and manual fixing as needed.
-   - [ ] Is it documented in the ChangeLog?
+   - [ ] Is it mergeable?
+   - [ ] `make test` Did it pass the tests?
+   - [ ] `make clean diff-cover` If it introduces new functionality, is it tested?
+   - [ ] `make format diff_pylint_report doc` Is it well formatted?
+   - [ ] Is it documented in the `ChangeLog`?
+     http://en.wikipedia.org/wiki/Changelog#Format
    - [ ] Was a spellchecker run on the source code and documentation after
      changes were made?
 

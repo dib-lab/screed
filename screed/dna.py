@@ -32,7 +32,9 @@ def reverse_complement(s):
 
 rc = reverse_complement                 # alias 'rc' to 'reverse_complement'
 
-__complementTranslation = { "A": "T", "C": "G", "G": "C", "T": "A", "N": "N" }
+__complementTranslation = {"A": "T", "C": "G", "G": "C", "T": "A", "N": "N"}
+
+
 def complement(s):
     """
     Return complement of 's'.
