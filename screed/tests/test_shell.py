@@ -22,9 +22,9 @@ class Test_fa_shell(test_fasta.Test_fasta):
         self._testfa = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
-        fadbm = os.path.join(thisdir, '..', 'fadbm.py')
-        subprocess.check_call(['python', fadbm, self._testfa],
-                              stdout=subprocess.PIPE)
+        cmd = ['python', '-m', 'screed.fadbm', self._testfa]
+        ret = subprocess.check_call(cmd, stdout=subprocess.PIPE)
+        assert ret == 0, ret
         self.db = screed.ScreedDB(self._testfa)
 
     def teardown(self):
@@ -44,9 +44,9 @@ class Test_fq_shell(test_fastq.Test_fastq):
         self._testfq = utils.get_temp_filename('test.fastq')
         shutil.copy(utils.get_test_data('test.fastq'), self._testfq)
 
-        fqdbm = os.path.join(thisdir, '..', 'fqdbm.py')
-        subprocess.check_call(['python', fqdbm, self._testfq],
-                              stdout=subprocess.PIPE)
+        cmd = ['python', '-m', 'screed.fqdbm', self._testfq]
+        ret = subprocess.check_call(cmd, stdout=subprocess.PIPE)
+        assert ret == 0, ret
         self.db = screed.ScreedDB(self._testfq)
 
     def teardown(self):
