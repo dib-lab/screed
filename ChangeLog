@@ -1,3 +1,7 @@
+2016-10-13  Daniel Standage  <daniel.standage@gmail.com>
+
+   * .travis.yml: Reduce the size of the CI build.
+
 2016-10-07  Luiz Irber  <khmer@luizirber.org>
 
    * screed/f{a,q}dbm.py: Fix import errors on Python 3.
