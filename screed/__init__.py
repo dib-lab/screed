@@ -24,7 +24,7 @@ ToFasta functions
 
 from __future__ import absolute_import
 
-from screed.openscreed import ScreedDB, open_writer
+from screed.openscreed import ScreedDB
 from screed.openscreed import open_reader as open
 from screed.conversion import ToFastq
 from screed.conversion import ToFasta

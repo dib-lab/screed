@@ -117,42 +117,6 @@ class Test_fasta_whitespace(object):
         os.unlink(self._testfa + fileExtension)
 
 
-def test_writer():
-    fp = StringIO()
-    w = screed.fasta.FASTA_Writer("", fp)
-
-    class FakeRecord(object):
-        pass
-
-    read = FakeRecord()
-    read.name = 'foo'
-    read.description = 'bar'
-    read.sequence = 'ATCG'
-
-    w.write(read)
-
-    assert fp.getvalue() == '>foo bar\nATCG\n'
-
-
-def test_writer_2():
-    fp = StringIO()
-    w = screed.fasta.FASTA_Writer("", fp)
-
-    class FakeRecord(object):
-        pass
-
-    read = FakeRecord()
-    read.name = 'foo'
-    read.description = 'bar'
-    read.sequence = 'ATCG'
-
-    read_iter = [read]
-
-    w.consume(read_iter)
-
-    assert fp.getvalue() == '>foo bar\nATCG\n'
-
-
 def test_fasta_slicing():
     testfa = utils.get_temp_filename('test.fa')
     shutil.copy(utils.get_test_data('test.fa'), testfa)

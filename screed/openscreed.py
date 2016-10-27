@@ -17,22 +17,9 @@ except ImportError:
 
 from . import DBConstants
 from . import screedRecord
-from .fastq import fastq_iter, FASTQ_Writer
-from .fasta import fasta_iter, FASTA_Writer
+from .fastq import fastq_iter
+from .fasta import fasta_iter
 from .utils import to_str
-
-
-def get_writer_class(read_iter):
-    if read_iter.__name__ == 'fasta_iter':
-        return FASTA_Writer
-    elif read_iter.__name__ == 'fastq_iter':
-        return FASTQ_Writer
-
-
-def open_writer(inp_filename, outp_filename):
-    read_iter = open_reader(inp_filename)
-    klass = get_writer_class(read_iter)
-    return klass(outp_filename)
 
 
 def _normalize_filename(filename):

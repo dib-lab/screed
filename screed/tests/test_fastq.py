@@ -118,44 +118,6 @@ class Test_fastq(object):
             assert entry == self.db[entry.name]
 
 
-def test_writer():
-    fp = StringIO()
-    w = screed.fastq.FASTQ_Writer("", fp)
-
-    class FakeRecord(object):
-        pass
-
-    read = FakeRecord()
-    read.name = 'foo'
-    read.description = 'bar'
-    read.sequence = 'ATCG'
-    read.quality = '####'
-
-    w.write(read)
-
-    assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
-
-
-def test_writer_2():
-    fp = StringIO()
-    w = screed.fastq.FASTQ_Writer("", fp)
-
-    class FakeRecord(object):
-        pass
-
-    read = FakeRecord()
-    read.name = 'foo'
-    read.description = 'bar'
-    read.sequence = 'ATCG'
-    read.quality = '####'
-
-    read_iter = [read]
-
-    w.consume(read_iter)
-
-    assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
-
-
 def test_fastq_slicing():
     testfq = utils.get_temp_filename('test.fastq')
     shutil.copy(utils.get_test_data('test.fastq'), testfq)
