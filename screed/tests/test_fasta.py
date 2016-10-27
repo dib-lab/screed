@@ -149,7 +149,7 @@ def test_output_two_reads():
     for i in range(2):
         read = FakeRecord()
         read.name = 'seq{}'.format(i)
-        read.sequence = 'GATTACA' * (i+1)
+        read.sequence = 'GATTACA' * (i + 1)
         write_fastx(read, fileobj)
     assert fileobj.getvalue() == '>seq0\nGATTACA\n>seq1\nGATTACAGATTACA\n'
 
