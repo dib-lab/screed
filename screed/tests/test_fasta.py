@@ -127,22 +127,22 @@ def test_output_sans_desc():
     read = FakeRecord()
     read.name = 'foo'
     read.sequence = 'ATCG'
-    read.quality = '####'
 
     fileobj = StringIO()
     write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '@foo\nATCG\n+\n####\n'
+    assert fileobj.getvalue() == '>foo\nATCG\n'
+
 
 def test_output_with_desc():
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'
     read.sequence = 'ATCG'
-    read.quality = '####'
 
     fileobj = StringIO()
     write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '@foo bar\nATCG\n+\n####\n'
+    assert fileobj.getvalue() == '>foo bar\nATCG\n'
+
 
 def test_output_two_reads():
     fileobj = StringIO()
@@ -150,10 +150,8 @@ def test_output_two_reads():
         read = FakeRecord()
         read.name = 'seq{}'.format(i)
         read.sequence = 'GATTACA' * (i+1)
-        read.quality = '#######' * (i+1)
         write_fastx(read, fileobj)
-    assert fileobj.getvalue() == ('@seq0\nGATTACA\n+\n#######\n'
-                                  '@seq1\nGATTACAGATTACA\n+\n##############\n')
+    assert fileobj.getvalue() == '>seq0\nGATTACA\n>seq1\nGATTACAGATTACA\n'
 
 
 def test_fasta_slicing():
