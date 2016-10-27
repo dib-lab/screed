@@ -178,3 +178,33 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
             hackedResult.append((key, value))
 
     return Record(hackedResult)
+
+
+def write_fastx(record, fileobj):
+    """Write sequence record to 'fileobj' in FASTA/FASTQ format."""
+    defline = record.name
+    if hasattr(record, 'description'):
+        defline += ' ' + record.description
+
+    if hasattr(record, 'quality'):
+        recstr = '@{defline}\n{sequence}\n+\n{quality}\n'.format(
+            defline=defline,
+            sequence=record.sequence,
+            quality=record.quality)
+    else:
+        recstr = '>{defline}\n{sequence}\n'.format(
+            defline=defline,
+            sequence=record.sequence)
+
+    try:
+        fileobj.write(bytes(recstr, 'utf-8'))
+    except TypeError:
+        fileobj.write(recstr)
+
+
+def write_fastx_pair(read1, read2, fileobj):
+    """Write a pair of sequence records to 'fileobj' in FASTA/FASTQ format."""
+    if hasattr(read1, 'quality'):
+        assert hasattr(read2, 'quality')
+    write_record(read1, fileobj)
+    write_record(read2, fileobj)
