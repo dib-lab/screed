@@ -1,10 +1,17 @@
-2016-10-27  Daniel Standage  <daniel.standage@gmail.com>
+2016-11-14  Daniel Standage  <daniel.standage@gmail.com>
 
    * screed/{__init__.py,fasta.py,fastq.py,openscreed.py}: Remove implementation
      (and related references) of Writer classes.
    * screed/tests/{test_open.py,test_open_cm.py}: Remove Writer tests.
    * screed/{screedRecord.py,{tests/test_{fasta,fastq}.py}}: New write_fastx
      implementation and associated tests.
+
+2016-11-14  Luiz Irber  <khmer@luizirber.org>
+
+   * Makefile,doc/dev/release-checklist.rst,doc/screed.rst,jenkins-build.sh,
+     pytest.ini, setup.{cfg,py}, tox.ini, screed/tests/{__main__,havaGen,
+     screed_tst_utils,test_pygr_api, test_streaming}: Replace nose and adapt
+     for pytest.
 
 2016-10-13  Daniel Standage  <daniel.standage@gmail.com>
 

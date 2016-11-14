@@ -24,7 +24,7 @@ Getting Going
 The following software packages are required to run screed:
 
 * Python 2.4 or newer
-* nose (for testing)
+* pytest (for testing)
 
 Installing
 -----------

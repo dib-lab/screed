@@ -28,8 +28,8 @@ setup(name='screed',
       package_data={
           'screed.tests': ['test.*', 'test-whitespace.fa', 'empty.fa']},
       license='BSD',
-      test_suite='nose.collector',
-      extras_require={'tests': ['nose >= 1.0']},
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest >= 3.0', 'pytest-cov'],
       cmdclass=versioneer.get_cmdclass(),
       install_requires=['bz2file']
       )

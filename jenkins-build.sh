@@ -12,7 +12,7 @@ virtualenv -p ${PYTHON_EXECUTABLE} .env
 make install-dependencies > install_dependencies.out
 make develop
 make coverage.xml
-make nosetests.xml
+make tests.xml
 if type doxygen >/dev/null 2>&1
 then
         make doxygen 2>&1 > doxygen.out
