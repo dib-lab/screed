@@ -68,12 +68,11 @@ Getting Started
         # first we test the tag
         cd testenv1
         source bin/activate
-        pip install nose
         git clone --depth 1 --branch v${new_version}-${rc} \
                 https://github.com/dib-lab/screed.git
         cd screed
+        make install-dependencies
         make install
-        nosetests screed --attr '!known_failing'
         make test
         python -c 'import screed; print screed.__version__' # double-check version number
 
@@ -81,7 +80,6 @@ Getting Started
         # Test via pip
         cd ../../testenv2
         source bin/activate
-        pip install nose
         pip install -e \
                 git+https://github.com/dib-lab/screed.git@v${new_version}-${rc}#egg=screed
         cd src/screed
