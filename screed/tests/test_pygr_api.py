@@ -4,11 +4,8 @@ Test the pygr API.
 
 from __future__ import absolute_import, unicode_literals
 
-try:
-    import pygr
-except ImportError:
-    import nose
-    raise nose.SkipTest("pygr is required for these tests")
+import pytest
+pygr = pytest.importorskip("pygr")
 
 import screed
 from screed.DBConstants import fileExtension

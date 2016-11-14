@@ -1,3 +1,10 @@
+2016-11-14  Luiz Irber  <khmer@luizirber.org>
+
+   * Makefile,doc/dev/release-checklist.rst,doc/screed.rst,jenkins-build.sh,
+     pytest.ini, setup.{cfg,py}, tox.ini, screed/tests/{__main__,havaGen,
+     screed_tst_utils,test_pygr_api, test_streaming}: Replace nose and adapt
+     for pytest.
+
 2016-10-13  Daniel Standage  <daniel.standage@gmail.com>
 
    * .travis.yml: Reduce the size of the CI build.

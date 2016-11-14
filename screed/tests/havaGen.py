@@ -12,7 +12,7 @@ marshoon
 
 Since this 'sequence' has absolutely no utility outside of screed, it's only
 purpose is to make sure screed can work with arbitrary fields when running
-the nosetests.
+the tests.
 
 This is a work of fiction. Names are the product of the author's imagination
 and any resemblance to real life is entirely coincidental.

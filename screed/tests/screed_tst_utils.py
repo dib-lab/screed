@@ -13,7 +13,6 @@ import os
 import shutil
 from pkg_resources import Requirement, resource_filename, ResolutionError
 from io import StringIO
-import nose
 import sys
 import traceback
 
