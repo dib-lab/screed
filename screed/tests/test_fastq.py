@@ -4,6 +4,7 @@ from screed.DBConstants import fileExtension
 from screed.screedRecord import write_fastx
 import os
 from io import StringIO
+from io import BytesIO
 from . import screed_tst_utils as utils
 import shutil
 
@@ -130,9 +131,9 @@ def test_output_sans_desc():
     read.sequence = 'ATCG'
     read.quality = '####'
 
-    fileobj = StringIO()
+    fileobj = BytesIO()
     write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '@foo\nATCG\n+\n####\n'
+    assert fileobj.getvalue().decode('utf-8') == '@foo\nATCG\n+\n####\n'
 
 
 def test_output_with_desc():
@@ -142,21 +143,22 @@ def test_output_with_desc():
     read.sequence = 'ATCG'
     read.quality = '####'
 
-    fileobj = StringIO()
+    fileobj = BytesIO()
     write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '@foo bar\nATCG\n+\n####\n'
+    assert fileobj.getvalue().decode('utf-8') == '@foo bar\nATCG\n+\n####\n'
 
 
 def test_output_two_reads():
-    fileobj = StringIO()
+    fileobj = BytesIO()
     for i in range(2):
         read = FakeRecord()
         read.name = 'seq{}'.format(i)
         read.sequence = 'GATTACA' * (i + 1)
         read.quality = '#######' * (i + 1)
         write_fastx(read, fileobj)
-    assert fileobj.getvalue() == ('@seq0\nGATTACA\n+\n#######\n'
-                                  '@seq1\nGATTACAGATTACA\n+\n##############\n')
+    testoutput = ('@seq0\nGATTACA\n+\n#######\n'
+                  '@seq1\nGATTACAGATTACA\n+\n##############\n')
+    assert fileobj.getvalue().decode('utf-8') == testoutput
 
 
 def test_fastq_slicing():

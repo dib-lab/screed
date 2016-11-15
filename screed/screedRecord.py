@@ -196,10 +196,7 @@ def write_fastx(record, fileobj):
             defline=defline,
             sequence=record.sequence)
 
-    try:
-        fileobj.write(bytes(recstr, 'utf-8'))
-    except TypeError:
-        fileobj.write(recstr)
+    fileobj.write(recstr.encode('utf-8'))
 
 
 def write_fastx_pair(read1, read2, fileobj):

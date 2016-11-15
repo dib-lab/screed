@@ -4,6 +4,7 @@ from screed.DBConstants import fileExtension
 from screed.screedRecord import write_fastx
 import os
 from io import StringIO
+from io import BytesIO
 from . import screed_tst_utils as utils
 import shutil
 
@@ -128,9 +129,9 @@ def test_output_sans_desc():
     read.name = 'foo'
     read.sequence = 'ATCG'
 
-    fileobj = StringIO()
+    fileobj = BytesIO()
     write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '>foo\nATCG\n'
+    assert fileobj.getvalue().decode('utf-8') == '>foo\nATCG\n'
 
 
 def test_output_with_desc():
@@ -139,19 +140,20 @@ def test_output_with_desc():
     read.description = 'bar'
     read.sequence = 'ATCG'
 
-    fileobj = StringIO()
+    fileobj = BytesIO()
     write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '>foo bar\nATCG\n'
+    assert fileobj.getvalue().decode('utf-8') == '>foo bar\nATCG\n'
 
 
 def test_output_two_reads():
-    fileobj = StringIO()
+    fileobj = BytesIO()
     for i in range(2):
         read = FakeRecord()
         read.name = 'seq{}'.format(i)
         read.sequence = 'GATTACA' * (i + 1)
         write_fastx(read, fileobj)
-    assert fileobj.getvalue() == '>seq0\nGATTACA\n>seq1\nGATTACAGATTACA\n'
+    testoutput = '>seq0\nGATTACA\n>seq1\nGATTACAGATTACA\n'
+    assert fileobj.getvalue().decode('utf-8') == testoutput
 
 
 def test_fasta_slicing():
