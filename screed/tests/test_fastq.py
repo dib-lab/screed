@@ -1,10 +1,18 @@
 from __future__ import absolute_import, unicode_literals
 import screed
 from screed.DBConstants import fileExtension
+from screed.screedRecord import write_fastx
 import os
 from io import StringIO
+from io import BytesIO
 from . import screed_tst_utils as utils
 import shutil
+import pytest
+
+
+class FakeRecord(object):
+    """Empty extensible object"""
+    pass
 
 
 def test_new_record():
@@ -118,42 +126,53 @@ class Test_fastq(object):
             assert entry == self.db[entry.name]
 
 
-def test_writer():
-    fp = StringIO()
-    w = screed.fastq.FASTQ_Writer("", fp)
+def test_output_sans_desc():
+    read = FakeRecord()
+    read.name = 'foo'
+    read.sequence = 'ATCG'
+    read.quality = '####'
 
-    class FakeRecord(object):
-        pass
+    fileobj = BytesIO()
+    write_fastx(read, fileobj)
+    assert fileobj.getvalue().decode('utf-8') == '@foo\nATCG\n+\n####\n'
 
+
+def test_output_with_desc():
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'
     read.sequence = 'ATCG'
     read.quality = '####'
 
-    w.write(read)
+    fileobj = BytesIO()
+    write_fastx(read, fileobj)
+    assert fileobj.getvalue().decode('utf-8') == '@foo bar\nATCG\n+\n####\n'
 
-    assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
+
+def test_output_two_reads():
+    fileobj = BytesIO()
+    for i in range(2):
+        read = FakeRecord()
+        read.name = 'seq{}'.format(i)
+        read.sequence = 'GATTACA' * (i + 1)
+        read.quality = '#######' * (i + 1)
+        write_fastx(read, fileobj)
+    testoutput = ('@seq0\nGATTACA\n+\n#######\n'
+                  '@seq1\nGATTACAGATTACA\n+\n##############\n')
+    assert fileobj.getvalue().decode('utf-8') == testoutput
 
 
-def test_writer_2():
-    fp = StringIO()
-    w = screed.fastq.FASTQ_Writer("", fp)
-
-    class FakeRecord(object):
-        pass
-
+def test_output_bad_mode():
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'
     read.sequence = 'ATCG'
     read.quality = '####'
 
-    read_iter = [read]
-
-    w.consume(read_iter)
-
-    assert fp.getvalue() == '@foo bar\nATCG\n+\n####\n'
+    fileobj = StringIO()
+    with pytest.raises(AttributeError) as ae:
+        write_fastx(read, fileobj)
+    assert 'cannot call "write_fastx" on object' in str(ae)
 
 
 def test_fastq_slicing():

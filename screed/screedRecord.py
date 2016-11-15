@@ -4,6 +4,7 @@ import types
 from . import DBConstants
 import gzip
 import bz2
+from io import BytesIO
 
 try:
     from collections import MutableMapping
@@ -180,23 +181,36 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
     return Record(hackedResult)
 
 
-class _Writer(object):
+def write_fastx(record, fileobj):
+    """Write sequence record to 'fileobj' in FASTA/FASTQ format."""
+    isbytesio = isinstance(fileobj, BytesIO)
+    iswb = hasattr(fileobj, 'mode') and fileobj.mode == 'wb'
+    outputvalid = isbytesio or iswb
+    if not outputvalid:
+        message = ('cannot call "write_fastx" on object, must be of a file '
+                   'handle with mode "wb" or an instance of "BytesIO"')
+        raise AttributeError(message)
 
-    def __init__(self, filename, fp=None):
-        self.filename = filename
-        if fp is None:
-            if filename.endswith('.gz'):
-                fp = gzip.open(filename, 'w')
-            elif filename.endswith('.bz2'):
-                fp = bz2.BZ2File(filename, 'w')
-            else:
-                fp = file(filename, 'wb')
+    defline = record.name
+    if hasattr(record, 'description'):
+        defline += ' ' + record.description
 
-        self.fp = fp
+    if hasattr(record, 'quality'):
+        recstr = '@{defline}\n{sequence}\n+\n{quality}\n'.format(
+            defline=defline,
+            sequence=record.sequence,
+            quality=record.quality)
+    else:
+        recstr = '>{defline}\n{sequence}\n'.format(
+            defline=defline,
+            sequence=record.sequence)
 
-    def consume(self, read_iter):
-        for read in read_iter:
-            self.write(read)
+    fileobj.write(recstr.encode('utf-8'))
 
-    def close(self):
-        self.fp.close()
+
+def write_fastx_pair(read1, read2, fileobj):
+    """Write a pair of sequence records to 'fileobj' in FASTA/FASTQ format."""
+    if hasattr(read1, 'quality'):
+        assert hasattr(read2, 'quality')
+    write_record(read1, fileobj)
+    write_record(read2, fileobj)

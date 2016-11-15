@@ -1,10 +1,17 @@
 from __future__ import absolute_import, unicode_literals
 import screed
 from screed.DBConstants import fileExtension
+from screed.screedRecord import write_fastx
 import os
 from io import StringIO
+from io import BytesIO
 from . import screed_tst_utils as utils
 import shutil
+
+
+class FakeRecord(object):
+    """Empty extensible object"""
+    pass
 
 
 def test_new_record():
@@ -117,40 +124,36 @@ class Test_fasta_whitespace(object):
         os.unlink(self._testfa + fileExtension)
 
 
-def test_writer():
-    fp = StringIO()
-    w = screed.fasta.FASTA_Writer("", fp)
+def test_output_sans_desc():
+    read = FakeRecord()
+    read.name = 'foo'
+    read.sequence = 'ATCG'
 
-    class FakeRecord(object):
-        pass
+    fileobj = BytesIO()
+    write_fastx(read, fileobj)
+    assert fileobj.getvalue().decode('utf-8') == '>foo\nATCG\n'
 
+
+def test_output_with_desc():
     read = FakeRecord()
     read.name = 'foo'
     read.description = 'bar'
     read.sequence = 'ATCG'
 
-    w.write(read)
+    fileobj = BytesIO()
+    write_fastx(read, fileobj)
+    assert fileobj.getvalue().decode('utf-8') == '>foo bar\nATCG\n'
 
-    assert fp.getvalue() == '>foo bar\nATCG\n'
 
-
-def test_writer_2():
-    fp = StringIO()
-    w = screed.fasta.FASTA_Writer("", fp)
-
-    class FakeRecord(object):
-        pass
-
-    read = FakeRecord()
-    read.name = 'foo'
-    read.description = 'bar'
-    read.sequence = 'ATCG'
-
-    read_iter = [read]
-
-    w.consume(read_iter)
-
-    assert fp.getvalue() == '>foo bar\nATCG\n'
+def test_output_two_reads():
+    fileobj = BytesIO()
+    for i in range(2):
+        read = FakeRecord()
+        read.name = 'seq{}'.format(i)
+        read.sequence = 'GATTACA' * (i + 1)
+        write_fastx(read, fileobj)
+    testoutput = '>seq0\nGATTACA\n>seq1\nGATTACAGATTACA\n'
+    assert fileobj.getvalue().decode('utf-8') == testoutput
 
 
 def test_fasta_slicing():

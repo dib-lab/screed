@@ -78,16 +78,6 @@ def test_gz_open_fastq():
         assert n > 0
 
 
-def test_get_writer_class_fasta():
-    import screed.fasta
-
-    filename = utils.get_test_data('test.fa')
-
-    with screed.open(filename) as f:
-        x = screed.openscreed.get_writer_class(f)
-        assert x is screed.fasta.FASTA_Writer, x
-
-
 def test_unknown_fileformat():
     try:
         with screed.open(__file__):

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from . import DBConstants
-from .screedRecord import Record, _Writer
+from .screedRecord import Record
 from .utils import to_str
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
@@ -61,11 +61,3 @@ def fastq_iter(handle, line=None, parse_description=False):
                           'of equal length')
 
         yield data
-
-
-class FASTQ_Writer(_Writer):
-
-    def write(self, record):
-        s = "@%s %s\n%s\n+\n%s\n" % (record.name, record.description,
-                                     record.sequence, record.quality)
-        self.fp.write(s)

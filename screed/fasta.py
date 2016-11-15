@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from . import DBConstants
-from .screedRecord import Record, _Writer
+from .screedRecord import Record
 from .utils import to_str
 
 FieldTypes = (('name', DBConstants._INDEXED_TEXT_KEY),
@@ -46,11 +46,3 @@ def fasta_iter(handle, parse_description=False, line=None):
 
         data['sequence'] = ''.join(sequenceList)
         yield data
-
-
-class FASTA_Writer(_Writer):
-
-    def write(self, record):
-        s = ">%s %s\n%s\n" % (record.name, record.description,
-                              record.sequence,)
-        self.fp.write(s)
