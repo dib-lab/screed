@@ -7,6 +7,7 @@ from io import StringIO
 from io import BytesIO
 from . import screed_tst_utils as utils
 import shutil
+import pytest
 
 
 class FakeRecord(object):
@@ -159,6 +160,19 @@ def test_output_two_reads():
     testoutput = ('@seq0\nGATTACA\n+\n#######\n'
                   '@seq1\nGATTACAGATTACA\n+\n##############\n')
     assert fileobj.getvalue().decode('utf-8') == testoutput
+
+
+def test_output_bad_mode():
+    read = FakeRecord()
+    read.name = 'foo'
+    read.description = 'bar'
+    read.sequence = 'ATCG'
+    read.quality = '####'
+
+    fileobj = StringIO()
+    with pytest.raises(AttributeError) as ae:
+        write_fastx(read, fileobj)
+    assert 'cannot call "write_fastx" on object' in str(ae)
 
 
 def test_fastq_slicing():

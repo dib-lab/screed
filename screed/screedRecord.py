@@ -4,6 +4,7 @@ import types
 from . import DBConstants
 import gzip
 import bz2
+from io import BytesIO
 
 try:
     from collections import MutableMapping
@@ -182,6 +183,14 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
 
 def write_fastx(record, fileobj):
     """Write sequence record to 'fileobj' in FASTA/FASTQ format."""
+    isbytesio = isinstance(fileobj, BytesIO)
+    iswb = hasattr(fileobj, 'mode') and fileobj.mode == 'wb'
+    outputvalid = isbytesio or iswb
+    if not outputvalid:
+        message = ('cannot call "write_fastx" on object, must be of a file '
+                   'handle with mode "wb" or an instance of "BytesIO"')
+        raise AttributeError(message)
+
     defline = record.name
     if hasattr(record, 'description'):
         defline += ' ' + record.description
