@@ -21,15 +21,11 @@ class ScreedCommands(object):
 
 Commands can be:
 
-    createdb <filename> "Creates a screed database."
-    fadbm <filename>    "Creates a screed FADBM database."
-    fqdbm <filename>    "Creates a screed FQDBM database."
+    db <filename> "Creates a screed database."
 ''')
 
         commands = {
-            'fadbm': fadbm.main,
-            'fqdbm': fqdbm.main,
-            'createdb': createscreed.main,
+            'db': createscreed.main,
         }
 
         parser.add_argument('command')
