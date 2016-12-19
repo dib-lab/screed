@@ -18,12 +18,19 @@ class Record(MutableMapping):
     Simple dict-like record interface with bag behavior.
     """
 
-    def __init__(self, *args, **kwargs):
-        d = dict(*args, **kwargs)
+    def __init__(self, name=None, sequence=None, **kwargs):
+        d = dict()
+        if name is not None:
+            d['name'] = name
+        if sequence is not None:
+            d['sequence'] = sequence
+
+        d.update(kwargs)
+
         if not 'name' in d:
-            raise ValueError("'name' must be specified")
+            raise TypeError("'name' must be specified")
         if not 'sequence' in d:
-            raise ValueError("'sequence' must be specified")
+            raise TypeError("'sequence' must be specified")
         self.d = d
 
     def __setitem__(self, name, value):
@@ -43,11 +50,11 @@ class Record(MutableMapping):
 
     def __getitem__(self, idx):
         if isinstance(idx, slice):
-            trimmed = Record(self.d)
+            trimmed = dict(self.d)
             trimmed['sequence'] = trimmed['sequence'][idx]
             if 'quality' in trimmed:
                 trimmed['quality'] = trimmed['quality'][idx]
-            return Record(trimmed)
+            return Record(**trimmed)
         return self.d[idx]
 
     def __delitem__(self, key):
@@ -183,7 +190,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
         else:
             hackedResult.append((key, value))
 
-    return Record(hackedResult)
+    return Record(**dict(hackedResult))
 
 
 def write_fastx(record, fileobj):
