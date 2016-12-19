@@ -29,11 +29,29 @@ To run the optional tests type::
     pip install pytest-cov
     python -m screed.tests
 
-Quick Start
-===========
+Command-line Quick Start
+========================
 
-Reading FASTA/FASTQ files in Python
------------------------------------
+Creating a database
+-------------------
+
+.. code::
+
+    $ screed db <fasta/fastq file>
+
+Dumping a database to a file
+----------------------------
+
+.. code::
+
+    $ screed dump_to_fasta <screed database file>
+    $ screed dump_to_fastq <screed database file>
+
+Python Quick Start
+==================
+
+Reading FASTA/FASTQ files
+-------------------------
 
    >>> import screed
    >>> with screed.open(filename) as seqfile:
@@ -41,10 +59,12 @@ Reading FASTA/FASTQ files in Python
    ...         print(read.name, read.sequence)
 
 Here, :code:`filename` can be a FASTA or FASTQ file, and can be uncompressed,
-gzip-compressed, or bzip2-compressed.
+gzip-compressed, or bzip2-compressed. screed natively supports FASTA and FASTQ
+databases creation. If your sequences are in a different format see the
+developer documentation on :doc:`dev/parsers`.
 
-Creating a database in Python
------------------------------
+Creating a database
+-------------------
 
     >>> import screed
     >>> screed.read_fasta_sequences('screed/tests/test.fa')
@@ -57,25 +77,12 @@ To create a screed database from a FASTQ file the syntax is similar::
 
     >>> screed.read_fastq_sequences('screed/tests/test.fastq')
 
-Creating a database from the command line
------------------------------------------
-
-.. code::
-
-    $ python -m screed.db <fasta/fastq file>
-
-screed natively supports FASTA and FASTQ database creation. If your sequences
-are in a different format see the developer documentation on :doc:`dev/parsers`.
-
-Reading Databases
-=================
+Opening a database
+------------------
 
 The class :code:`ScreedDB` is used to read screed databases, regardless of what
 file format they were derived from (FASTA/FASTQ/hava/etc.). One reader to rule
 them all!
-
-Opening a database
-------------------
 
 From the Python prompt, import the ScreedDB class and load some databases::
 
