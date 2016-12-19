@@ -34,5 +34,5 @@ setup(name='screed',
       install_requires=['bz2file'],
       entry_points={'console_scripts': [
           'screed = screed.__main__:main'
-      ]
+          ]
       })

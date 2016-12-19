@@ -4,10 +4,12 @@
 # Copyright (C) 2016, The Regents of the University of California.
 
 from __future__ import print_function
-from screed import ToFasta
+
 import argparse
-import sys
 import os
+import sys
+
+from screed import ToFasta
 
 
 # Shell interface to the ToFasta screed conversion function

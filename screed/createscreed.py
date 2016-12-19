@@ -1,10 +1,12 @@
 from __future__ import absolute_import
-from . import DBConstants, openscreed, fasta, fastq
+
 import argparse
+import itertools
 import os
 import sqlite3
-import itertools
 import sys
+
+from . import DBConstants, openscreed, fasta, fastq
 
 
 def create_db(filepath, fields, rcrditer):

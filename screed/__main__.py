@@ -7,8 +7,6 @@ from __future__ import absolute_import, print_function
 import argparse
 import sys
 
-from . import fqdbm
-from . import fadbm
 from . import createscreed
 from . import dump_to_fasta
 from . import dump_to_fastq
@@ -23,7 +21,9 @@ class ScreedCommands(object):
 
 Commands can be:
 
-    db <filename> "Creates a screed database."
+    db <filename>                 "Creates a screed database."
+    dump_to_fasta <db> <output>   "Convert a screed database to a FASTA file"
+    dump_to_fasta <db> <output>   "Convert a screed database to a FASTQ file"
 ''')
 
         commands = {
