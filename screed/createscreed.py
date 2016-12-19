@@ -101,13 +101,15 @@ def make_db(filename):
 
 def main(args):
     parser = argparse.ArgumentParser(
-        description="A shell interface to the screed database writing function")
+                 description="A shell interface to the screed database "
+                             "writing function")
     parser.add_argument('filename')
     args = parser.parse_args(args)
 
     make_db(args.filename)
 
-    print("Database saved in {}{}".format(args.filename, DBConstants.fileExtension))
+    print("Database saved in {}{}".format(args.filename,
+                                          DBConstants.fileExtension))
     exit(0)
 
 
