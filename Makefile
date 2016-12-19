@@ -29,9 +29,10 @@ dist/screed-$(VERSION).tar.gz: $(SOURCES)
 
 clean: FORCE
 	./setup.py clean --all || true
+	rm -rf build/
 	rm -rf coverage-debug .coverage coverage.xml
 	rm -rf doc/_build
-	rm -rf .eggs/ .egg-info/ .cache/ __pycache__/ *.pyc */*.pyc */*/*.pyc
+	rm -rf .eggs/ *.egg-info/ .cache/ __pycache__/ *.pyc */*.pyc */*/*.pyc
 
 pep8: $(PYSOURCES) $(TESTSOURCES)
 	pep8 --exclude=_version.py setup.py screed/
