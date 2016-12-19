@@ -15,7 +15,7 @@ def main(args):
     parser = argparse.ArgumentParser(
         description="Convert a screed database to a FASTA file")
     parser.add_argument('dbfile')
-    parser.add_argument('outputfile')
+    parser.add_argument('outputfile', default='/dev/stdout')
     args = parser.parse_args(args)
 
     if not os.path.isfile(args.dbfile):
