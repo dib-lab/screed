@@ -1,8 +1,10 @@
 from __future__ import absolute_import
-from . import DBConstants
+from . import DBConstants, openscreed, fasta, fastq
+import argparse
 import os
 import sqlite3
 import itertools
+import sys
 
 
 def create_db(filepath, fields, rcrditer):
@@ -81,3 +83,29 @@ def create_db(filepath, fields, rcrditer):
 
     con.commit()
     con.close()
+
+
+def main(args):
+    parser = argparse.ArgumentParser(
+        description="A shell interface to the screed database writing function")
+    parser.add_argument('filename')
+    args = parser.parse_args(args)
+
+    iterfunc = openscreed.open(args.filename, parse_description=True)
+
+    field_mapping = {
+        fastq.fastq_iter.__name__: fastq.FieldTypes,
+        fasta.fasta_iter.__name__: fasta.FieldTypes
+    }
+
+    fieldTypes = field_mapping[iterfunc.iter_fn.__name__]
+
+    # Create the screed db
+    create_db(args.filename, fieldTypes, iterfunc)
+
+    print("Database saved in {}{}".format(args.filename, DBConstants.fileExtension))
+    exit(0)
+
+
+if __name__ == "__main__":
+	main(sys.argv[1:])
