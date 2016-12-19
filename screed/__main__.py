@@ -24,6 +24,7 @@ Commands can be:
     db <filename>                 "Creates a screed database."
     dump_to_fasta <db> <output>   "Convert a screed database to a FASTA file"
     dump_to_fasta <db> <output>   "Convert a screed database to a FASTQ file"
+.
 ''')
 
         commands = {
