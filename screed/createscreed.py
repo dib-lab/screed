@@ -1,7 +1,10 @@
 from __future__ import absolute_import
 from . import DBConstants
 import os
-import sqlite3
+try:
+    import sqlite3
+except ImportError:
+    pass
 import itertools
 
 
@@ -12,6 +15,12 @@ def create_db(filepath, fields, rcrditer):
     record. rcrditer is an iterator returning records over a
     sequence dataset. Records yielded are in dictionary form
     """
+    try:
+        sqlite3
+    except NameError:
+        raise Exception("error: sqlite3 is needed for this functionality" + \
+                        " but is not installed.")
+
     if not filepath.endswith(DBConstants.fileExtension):
         filepath += DBConstants.fileExtension
 
