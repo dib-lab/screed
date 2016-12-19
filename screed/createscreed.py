@@ -18,7 +18,7 @@ def create_db(filepath, fields, rcrditer):
     try:
         sqlite3
     except NameError:
-        raise Exception("error: sqlite3 is needed for this functionality" + \
+        raise Exception("error: sqlite3 is needed for this functionality" +
                         " but is not installed.")
 
     if not filepath.endswith(DBConstants.fileExtension):

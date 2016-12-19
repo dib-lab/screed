@@ -129,7 +129,7 @@ class ScreedDB(MutableMapping):
         try:
             sqlite3
         except NameError:
-            raise Exception("error: sqlite3 is needed for this " + \
+            raise Exception("error: sqlite3 is needed for this " +
                             "functionality, but is not installed.")
 
         self._filepath = filepath
