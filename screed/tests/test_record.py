@@ -27,3 +27,12 @@ def test_read_type_basic():
     assert r.sequence == sequence
     assert not hasattr(r, 'quality'), x
     assert not hasattr(r, 'annotations'), x
+
+
+# copied over from khmer tests/test_read_parsers.py
+def test_read_type_attributes():
+    r = Record(sequence='ACGT', quality='good', name='1234', annotations='ann')
+    assert r.sequence == 'ACGT'
+    assert r.quality == 'good'
+    assert r.name == '1234'
+    assert r.annotations == 'ann'
