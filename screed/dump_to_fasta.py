@@ -13,7 +13,7 @@ import os
 # Shell interface to the ToFasta screed conversion function
 def main(args):
     parser = argparse.ArgumentParser(
-                 description="Convert a screed database to a FASTA file")
+        description="Convert a screed database to a FASTA file")
     parser.add_argument('dbfile')
     parser.add_argument('outputfile')
     args = parser.parse_args(args)

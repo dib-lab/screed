@@ -101,7 +101,7 @@ def make_db(filename):
 
 def main(args):
     parser = argparse.ArgumentParser(description="A shell interface to the "
-        "screed database writing function")
+                                     "screed database writing function")
     parser.add_argument('filename')
     args = parser.parse_args(args)
 
