@@ -98,7 +98,7 @@ def make_db(filename):
     fieldTypes = field_mapping[iterfunc.iter_fn.__name__]
 
     # Create the screed db
-    create_db(filename, fieldTypes, iterfunc)
+    return create_db(filename, fieldTypes, iterfunc)
 
 
 def main(args):
