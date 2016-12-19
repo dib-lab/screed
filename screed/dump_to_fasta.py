@@ -24,7 +24,9 @@ def main(args):
         print("No such file: %s" % args.dbfile)
         exit(1)
 
-    ToFasta(args.dbfile, args.outputfile)
+    n = ToFasta(args.dbfile, args.outputfile)
+
+    sys.stderr.write('Wrote {} records in FASTA format.\n'.format(n))
 
 
 if __name__ == '__main__':

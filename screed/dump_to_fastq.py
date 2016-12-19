@@ -22,7 +22,9 @@ def main(args):
         print("No such file: %s" % args.dbfile)
         exit(1)
 
-    ToFastq(args.dbfile, args.outputfile)
+    n = ToFastq(args.dbfile, args.outputfile)
+
+    sys.stderr.write('Wrote {} records in FASTQ format.\n'.format(n))
 
 
 if __name__ == '__main__':
