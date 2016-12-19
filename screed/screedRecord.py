@@ -19,7 +19,12 @@ class Record(MutableMapping):
     """
 
     def __init__(self, *args, **kwargs):
-        self.d = dict(*args, **kwargs)
+        d = dict(*args, **kwargs)
+        if not 'name' in d:
+            raise ValueError("'name' must be specified")
+        if not 'sequence' in d:
+            raise ValueError("'sequence' must be specified")
+        self.d = d
 
     def __setitem__(self, name, value):
         self.d[name] = value
