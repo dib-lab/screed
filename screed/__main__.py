@@ -2,7 +2,7 @@
 
 # Copyright (C) 2016, The Regents of the University of California.
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 
 import argparse
 import sys
