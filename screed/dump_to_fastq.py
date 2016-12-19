@@ -1,25 +1,31 @@
 #!/usr/bin/env python
 
 # Copyright (c) 2008-2010, Michigan State University
+# Copyright (C) 2016, The Regents of the University of California.
 
 from __future__ import print_function
 from screed import ToFastq
+import argparse
 import sys
 import os
 
+
 # Shell interface to the ToFastq screed conversion function
+def main(args):
+    parser = argparse.ArgumentParser(
+                 description="Convert a screed database to a FASTA file")
+    parser.add_argument('dbfile')
+    parser.add_argument('outputfile')
+    args = parser.parse_args(args)
+
+    if not os.path.isfile(args.dbfile):
+        print("No such file: %s" % args.dbfile)
+        exit(1)
+    if os.path.isfile(args.outputfile):
+        os.unlink(args.outputfile)
+
+    ToFastq(args.dbfile, args.outputfile)
+
+
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Usage: %s <dbfilename> <outputfilename>" % sys.argv[0])
-        exit(1)
-
-    dbFile = sys.argv[1]
-    outputFile = sys.argv[2]
-
-    if not os.path.isfile(dbFile):
-        print("No such file: %s" % dbFile)
-        exit(1)
-    if os.path.isfile(outputFile):
-        os.unlink(outputFile)
-
-    ToFastq(dbFile, outputFile)
+    main(sys.argv[1])

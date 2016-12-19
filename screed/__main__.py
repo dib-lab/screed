@@ -10,6 +10,8 @@ import sys
 from . import fqdbm
 from . import fadbm
 from . import createscreed
+from . import dump_to_fasta
+from . import dump_to_fastq
 
 
 class ScreedCommands(object):
@@ -26,6 +28,8 @@ Commands can be:
 
         commands = {
             'db': createscreed.main,
+            'dump_to_fasta': dump_to_fasta.main,
+            'dump_to_fastq': dump_to_fastq.main,
         }
 
         parser.add_argument('command')
