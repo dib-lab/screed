@@ -13,6 +13,11 @@ def test_create_noseq():
     r = Record(name='somename')
 
 
+def test_create_quality_none():
+    r = Record(name='foo', sequence='ATGACG', quality=None)
+    assert not hasattr(r, 'quality')
+
+
 # copied over from khmer tests/test_read_parsers.py
 def test_read_type_basic():
     # Constructing without mandatory arguments should raise an exception

@@ -31,6 +31,8 @@ class Record(MutableMapping):
             raise TypeError("'name' must be specified")
         if not 'sequence' in d:
             raise TypeError("'sequence' must be specified")
+        if 'quality' in d and d['quality'] is None:
+            del d['quality']
         self.d = d
 
     def __setitem__(self, name, value):
