@@ -1,33 +1,24 @@
-===================
-Basic Documentation
-===================
+===========
+User Manual
+===========
 
-.. contents:
+.. note::
 
-Notes on this document
-======================
-This is the default documentation for screed. Some doctests are included
-in the file 'example.txt'. The examples in this file are meant for humans
-only: they will not work in doctests.
+   Some doctests are included in :doc:`example`. The examples in this
+   document are meant for human consumption only. They will not work in
+   doctests!
 
-Introduction
+screed parses FASTA and FASTQ files, generates databases, and lets you query
+these databases. Values such as sequence name, sequence description, sequence
+quality, and the sequence itself can be retrieved from these databases.
+
+Installation
 ============
-
-screed parses FASTA and FASTQ files, generates databases, and lets you
-query these databases.  Values such as sequence name, sequence
-description, sequence quality, and the sequence itself can be
-retrieved from these databases.
-
-Getting Going
-=============
 
 The following software packages are required to run screed:
 
-* Python 2.4 or newer
-* pytest (for testing)
-
-Installing
------------
+* Python 2 (2.7) or Python 3 (3.3 or newer)
+* pytest (only required to running tests)
 
 Use pip to download, and install Screed and its dependencies::
 
@@ -35,99 +26,84 @@ Use pip to download, and install Screed and its dependencies::
 
 To run the optional tests type::
 
-    nosetests screed --attr '!known_failing'
+    pip install pytest-cov
+    python -m screed.tests
 
-Quick-Start
+Quick Start
 ===========
 
-Reading FASTA/FASTQ files
--------------------------
-
-At the Python prompt, type::
+Reading FASTA/FASTQ files in Python
+-----------------------------------
 
    >>> import screed
    >>> with screed.open(filename) as seqfile:
    >>>     for read in seqfile:
-   ...         print read.name, read.sequence
+   ...         print(read.name, read.sequence)
 
-Here, 'filename' can be a FASTA or FASTQ file, and can be
-uncompressed, gzipped, or bz2-zipped.
+Here, :code:`filename` can be a FASTA or FASTQ file, and can be uncompressed,
+gzip-compressed, or bzip2-compressed.
 
-Creating a database from the API
---------------------------------
-
-From a Python prompt type::
+Creating a database in Python
+-----------------------------
 
     >>> import screed
     >>> screed.read_fasta_sequences('screed/tests/test.fa')
 
-That command just parsed the FASTA file 'screed/tests/test.fa' into a
-screed-database named 'screed/tests/test.fa_screed'. The screed database
-is independent from the text file it was derived from, so moving, renaming
-or deleting the 'screed/tests/test.fa' file will not affect
-screed's operation. To create a screed database from a FASTQ file the
-syntax is similar::
+This loads a FASTA file :code:`screed/tests/test.fa` into a screed database
+named :code:`screed/tests/test.fa_screed`. The screed database is independent
+from the text file it was derived from, so moving, renaming or deleting the
+:code:`screed/tests/test.fa` file will not affect the newly created database.
+To create a screed database from a FASTQ file the syntax is similar::
 
     >>> screed.read_fastq_sequences('screed/tests/test.fastq')
 
-Creating a database from a script
----------------------------------
+Creating a database from the command line
+-----------------------------------------
 
-If the screed module is in your PYTHONPATH, you can create a screed db from
-a FASTQ file at the shell::
+    $ python -m screed.db <fasta/fastq file>
 
-    $ python -m screed.fqdbm <fastq file>
-
-Similarly, to create a screed db from a fasta file::
-
-    $ python -m screed.fadbm <fasta file>
-
-where <fast* file> is the path to a sequence file.
-
-screed natively supports FASTA and FASTQ database creation. If you
-have a new sequence you want screed to work with, see the section
-below on Writing Custom Sequence Parsers.
+screed natively supports FASTA and FASTQ database creation. If your sequences
+are in a different format see the section below on **Writing Custom Sequence
+Parsers**.
 
 Reading databases
 =================
 
-The class ScreedDB is used to read screed databases, regardless of
-what file format they were derived from (FASTA/FASTQ/hava/etc.). One
-reader to rule them all!
+The class :code:`ScreedDB` is used to read screed databases, regardless of what
+file format they were derived from (FASTA/FASTQ/hava/etc.). One reader to rule
+them all!
 
 Opening
 -------
 
-In the Python environment, import the ScreedDB class and load some
-databases::
+From the Python prompt, import the ScreedDB class and load some databases::
 
     >>> from screed import ScreedDB
     >>> fadb = ScreedDB('screed/tests/test.fa')
     >>> fqdb = ScreedDB('screed/tests/test.fastq')
 
-Notice how you didn't need to write the '_screed' at the end of the
-file names?  screed automatically adds that to the file name if you
-didn't.
+Notice how you didn't need to write the '_screed' at the end of the file names?
+screed automatically adds that to the file name if you didn't.
 
 Dictionary Interface
 --------------------
 
-Since screed emulates a read-only dictionary interface, any methods
-that don't modify a dictionary are supported::
+Since screed emulates a read-only dictionary interface, any methods that don't
+modify a dictionary are supported::
 
     >>> fadb.keys()
     >>> fqdb.keys()
 
-Each record in the database contains 'fields' such as name and
-sequence information. If the database was derived from a FASTQ file,
-quality and optional annotation strings are included. Conversely,
-FASTA-derived databases have a description field.
+Each record in the database contains 'fields' such as name and sequence
+information. If the database was derived from a FASTQ file, quality and optional
+annotation strings are included. Conversely, FASTA-derived databases have a
+description field.
 
 To retrieve the names of records in the database::
 
     >>> names = fadb.keys()
 
-Length of the databases are easily found::
+The size of the databases (number of sequence records) is easily found::
 
     >>> print len(fadb)
     22
@@ -137,11 +113,11 @@ Length of the databases are easily found::
 Retrieving Records
 ------------------
 
-A record is the standard container unit in screed. Each has 'fields'
-that vary slightly depending on what kind of file the database was
-derived from.  For instance, a FASTQ-derived screed database has an
-id, a name, a quality score and a sequence. A FASTA-derived screed
-database has an id, name, description and a sequence.
+A record is the standard container unit in screed. Each has *fields* that vary
+slightly depending on what kind of file the database was derived from. For
+instance, a FASTQ-derived screed database has an id, a name, a quality score and
+a sequence. A FASTA-derived screed database has an id, name, description and a
+sequence.
 
 Retrieving whole records::
 
@@ -149,9 +125,8 @@ Retrieving whole records::
     >>> for record in fadb.itervalues():
     ...     records.append(record)
 
-What is returned is a dictionary of fields. The names of fields
-are keys into this dictionary with the actual information as values.
-For example::
+What is returned is a dictionary of fields. The names of fields are keys into
+this dictionary with the actual information as values. For example::
 
     >>> record = fadb[fadb.keys()[0]]
     >>> index = record['id']
@@ -159,14 +134,14 @@ For example::
     >>> description = record['description']
     >>> sequence = record['sequence']
 
-What this does is retrieve the first record object in the screed database,
-then retrieve the index, name, description and sequence from the record
-object using standard dictionary key -> value pairs.
+What this does is retrieve the first record object in the screed database, then
+retrieve the index, name, description and sequence from the record object using
+standard dictionary key -> value pairs.
 
 Retrieving Partial Sequences (slicing)
 --------------------------------------
 
-screed supports the concept of retrieving a 'slice' or a subset of a
+screed supports the concept of retrieving a *slice* or a subset of a
 sequence string. The motivation is speed: if you have a database entry
 with a very long sequence string but only want a small portion of the
 string, it is faster to retrieve only the portion than to retrieve the
