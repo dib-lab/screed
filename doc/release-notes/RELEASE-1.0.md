@@ -1,9 +1,5 @@
 # Release 1.0
 
-We are pleased to announce the release of Screed v0.9. Screed is a database
-engine capable of storing and retrieving short-read sequence data and is
-designed to be fast and adaptable to different sequence file formats.
-
 We are pleased to announce the release of screed 1.0. Screed is a
 biological sequence parsing and storage/retrieval library for DNA and
 protein sequences. It's designed to be lightweight and easy to use
