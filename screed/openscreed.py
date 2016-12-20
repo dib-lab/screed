@@ -6,7 +6,6 @@ from __future__ import absolute_import
 import os
 import io
 import sys
-import sqlite3
 import gzip
 import bz2file
 try:
@@ -14,6 +13,11 @@ try:
 except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
+
+try:
+    import sqlite3
+except ImportError:
+    pass
 
 from . import DBConstants
 from . import screedRecord
@@ -122,6 +126,12 @@ class ScreedDB(MutableMapping):
     """
 
     def __init__(self, filepath):
+        try:
+            sqlite3
+        except NameError:
+            raise Exception("error: sqlite3 is needed for this " +
+                            "functionality, but is not installed.")
+
         self._filepath = filepath
         self._db = None
         if not self._filepath.endswith(DBConstants.fileExtension):

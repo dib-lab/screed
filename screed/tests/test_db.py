@@ -3,6 +3,36 @@ import os
 from screed.DBConstants import fileExtension
 
 
+def test_no_sqlite_openscreed():
+    import screed.openscreed
+
+    saveme = screed.openscreed.sqlite3
+    del screed.openscreed.sqlite3
+
+    try:
+        try:
+            screed.openscreed.ScreedDB('xxx')
+        except Exception as e:
+            assert 'sqlite3 is needed' in str(e)
+    finally:
+        screed.openscreed.sqlite3 = saveme
+
+
+def test_no_sqlite_createscreed():
+    import screed.createscreed
+
+    saveme = screed.createscreed.sqlite3
+    del screed.createscreed.sqlite3
+
+    try:
+        try:
+            screed.createscreed.create_db(None, None, None)
+        except Exception as e:
+            assert 'sqlite3 is needed' in str(e)
+    finally:
+        screed.createscreed.sqlite3 = saveme
+
+
 def test_nodb():
     """
     Tests if screed throws an appropriate exception if it is
