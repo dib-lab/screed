@@ -23,6 +23,7 @@ setup(name='screed',
       author='Alex Nolley, C. Titus Brown',
       author_email='ctbrown@ucdavis.edu',
       url='http://github.com/dib-lab/screed/',
+      zip_safe=False,
       include_package_data=True,
       packages=['screed', 'screed.tests'],
       package_data={
