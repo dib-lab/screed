@@ -6,3 +6,6 @@ The screed Python and command-line APIs adhere to
 [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- screed CLI, with database creation and conversion commands.
+- screed.make_db, a simplified way of creating DB using the Python API.
