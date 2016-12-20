@@ -43,8 +43,8 @@ Dumping a database to a file
 
 .. code::
 
-    $ screed dump_to_fasta <screed database file> <fasta output>
-    $ screed dump_to_fastq <screed database file> <fastq output>
+    $ screed dump_fasta <screed database file> <fasta output>
+    $ screed dump_fastq <screed database file> <fastq output>
 
 Python Quick Start
 ==================
@@ -66,14 +66,19 @@ Creating a database
 -------------------
 
     >>> import screed
-    >>> screed.read_fasta_sequences('screed/tests/test.fa')
+    >>> screed.createscreed.make_db('screed/tests/test.fa')
 
 This loads a FASTA file :code:`screed/tests/test.fa` into a screed database
-named :code:`screed/tests/test.fa_screed`. The screed database is independent
-from the text file it was derived from, so moving, renaming or deleting the
-:code:`screed/tests/test.fa` file will not affect the newly created database.
-To create a screed database from a FASTQ file the syntax is similar::
+named :code:`screed/tests/test.fa_screed`. A couple of things to note:
 
+* The screed database is independent of the text file from which it was derived,
+  so moving, renaming or deleting :code:`screed/tests/test.fa` will not affect
+  the newly created database.
+* The :code:`make_db` function inferred the file type as FASTA automatically.
+  The :code:`read_fasta_sequences()` and :code:`read_fastq_sequences()`
+  functions are available if you'd prefer to be explicit.
+
+    >>> screed.read_fasta_sequences('screed/tests/test.fasta')
     >>> screed.read_fastq_sequences('screed/tests/test.fastq')
 
 Opening a database
