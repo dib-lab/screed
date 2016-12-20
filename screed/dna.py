@@ -1,3 +1,5 @@
+# Copyright (c) 2016, The Regents of the University of California.
+
 import array
 import string
 

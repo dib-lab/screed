@@ -1,4 +1,4 @@
-# Copyright (c) 2008-2015, Michigan State University
+# Copyright (c) 2008, Michigan State University.
 """Reader and writer for screed."""
 
 from __future__ import absolute_import
