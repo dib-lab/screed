@@ -1,3 +1,5 @@
+# Copyright (c) 2016, The Regents of the University of California.
+
 from __future__ import absolute_import
 from functools import total_ordering
 import types

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Copyright (c) 2016, The Regents of the University of California.
 """ Extracts the version of screed """
 
 import sys

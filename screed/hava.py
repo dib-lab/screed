@@ -1,5 +1,6 @@
-from __future__ import absolute_import
+# Copyright (c) 2016, The Regents of the University of California.
 
+from __future__ import absolute_import
 from . import DBConstants
 from .utils import to_str
 
