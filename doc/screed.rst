@@ -44,8 +44,8 @@ Dumping a database to a file
 
 .. code::
 
-    $ screed dump_to_fasta <screed database file>
-    $ screed dump_to_fastq <screed database file>
+    $ screed dump_to_fasta <screed database file> <fasta output>
+    $ screed dump_to_fastq <screed database file> <fastq output>
 
 Python Quick Start
 ==================
