@@ -1,3 +1,5 @@
+# Copyright (c) 2016, The Regents of the University of California.
+
 from __future__ import absolute_import
 from functools import total_ordering
 import types
@@ -18,8 +20,22 @@ class Record(MutableMapping):
     Simple dict-like record interface with bag behavior.
     """
 
-    def __init__(self, *args, **kwargs):
-        self.d = dict(*args, **kwargs)
+    def __init__(self, name=None, sequence=None, **kwargs):
+        d = dict()
+        if name is not None:
+            d['name'] = name
+        if sequence is not None:
+            d['sequence'] = sequence
+
+        d.update(kwargs)
+
+        if 'name' not in d:
+            raise TypeError("'name' must be specified")
+        if 'sequence' not in d:
+            raise TypeError("'sequence' must be specified")
+        if 'quality' in d and d['quality'] is None:
+            del d['quality']
+        self.d = d
 
     def __setitem__(self, name, value):
         self.d[name] = value
@@ -38,11 +54,11 @@ class Record(MutableMapping):
 
     def __getitem__(self, idx):
         if isinstance(idx, slice):
-            trimmed = Record(self.d)
+            trimmed = dict(self.d)
             trimmed['sequence'] = trimmed['sequence'][idx]
             if 'quality' in trimmed:
                 trimmed['quality'] = trimmed['quality'][idx]
-            return Record(trimmed)
+            return Record(**trimmed)
         return self.d[idx]
 
     def __delitem__(self, key):
@@ -178,7 +194,7 @@ def _buildRecord(fieldTuple, dbObj, rowName, queryBy):
         else:
             hackedResult.append((key, value))
 
-    return Record(hackedResult)
+    return Record(**dict(hackedResult))
 
 
 def write_fastx(record, fileobj):

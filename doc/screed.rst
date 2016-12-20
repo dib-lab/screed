@@ -26,7 +26,6 @@ Use pip to download, and install Screed and its dependencies::
 
 To run the optional tests type::
 
-    pip install pytest-cov
     python -m screed.tests
 
 Command-line Quick Start
@@ -235,8 +234,6 @@ The second line begins the line(s) of sequence. Like the FASTQ parser,
 FASTA <-> FASTQ Conversion
 ==========================
 
-@CTB this doesn't work?
-
 As an extra nicety, screed can convert FASTA files to FASTQ and back again.
 
 FASTA to FASTQ
@@ -248,7 +245,7 @@ first argument and a path to the desired FASTQ file as the second
 argument. There is also a shell interface if the screed module is in
 your PYTHONPATH::
 
-    $ python -m screed.dump_to_fastq <path to fasta db> <converted fastq file>
+    $ python -m screed dump_to_fastq <path to fasta db> [ <converted fastq file> ]
 
 The FASTA name attribute is directly dumped from the file. The
 sequence attribute is also dumped pretty much directly, but is line
@@ -277,7 +274,7 @@ first argument and a path to the desired FASTA file as the second
 argument. Like the ToFastq function before, there is a shell interface
 to ToFasta if the screed module is in your PYTHONPATH::
 
-    $ python -m screed.dump_to_fasta <path to fastq db> <converted fasta file>
+    $ python -m screed dump_to_fasta <path to fastq db> [ <converted fasta file> ]
 
 As above, the name and sequence attributes are directly dumped from
 the FASTQ database to the FASTA file with the sequence line wrapping

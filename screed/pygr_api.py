@@ -1,4 +1,4 @@
-# Copyright (c) 2008-2010, Michigan State University
+# Copyright (c) 2008, Michigan State University.
 
 """
 A simple wrapper implementing a pygr-compatible SequenceDB based on screed.

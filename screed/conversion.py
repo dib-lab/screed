@@ -1,6 +1,6 @@
-from __future__ import absolute_import
-# Copyright (c) 2008-2010, Michigan State University
+# Copyright (c) 2008-2010, Michigan State University.
 
+from __future__ import absolute_import
 from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
@@ -54,7 +54,7 @@ def ToFastq(dbFile, outputFile):
     outFile = open(outputFile, 'wb')
     db = ScreedDB(dbFile)
 
-    for value in db.itervalues():
+    for n, value in enumerate(db.itervalues()):
         line = '@%s %s\n%s\n+\n%s\n' % (value['name'],
                                         GetComments(value),
                                         linewrap(str(value['sequence'])),
@@ -62,6 +62,8 @@ def ToFastq(dbFile, outputFile):
         outFile.write(line.encode('UTF-8'))
     db.close()
     outFile.close()
+
+    return n + 1
 
 
 def ToFasta(dbFile, outputFile):
@@ -72,10 +74,12 @@ def ToFasta(dbFile, outputFile):
     outFile = open(outputFile, 'wb')
     db = ScreedDB(dbFile)
 
-    for value in db.itervalues():
+    for n, value in enumerate(db.itervalues()):
         line = '>%s %s\n%s\n' % (value['name'], GetComments(value),
                                  linewrap(str(value['sequence'])))
         outFile.write(line.encode('UTF-8'))
 
     db.close()
     outFile.close()
+
+    return n + 1

@@ -1,5 +1,6 @@
-from __future__ import absolute_import
+# Copyright (c) 2016, The Regents of the University of California.
 
+from __future__ import absolute_import
 from . import DBConstants
 from .screedRecord import Record
 from .utils import to_str
@@ -19,7 +20,7 @@ def fastq_iter(handle, line=None, parse_description=False):
         line = handle.readline()
     line = to_str(line.strip())
     while line:
-        data = Record()
+        data = {}
 
         if line and not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
@@ -60,4 +61,4 @@ def fastq_iter(handle, line=None, parse_description=False):
             raise IOError('sequence and quality strings must be '
                           'of equal length')
 
-        yield data
+        yield Record(**data)

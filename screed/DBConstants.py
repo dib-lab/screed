@@ -1,4 +1,4 @@
-# Copyright (c) 2008-2010, Michigan State University
+# Copyright (c) 2008, Michigan State University.
 
 """
 Defines some constant strings identifications used in multiple
