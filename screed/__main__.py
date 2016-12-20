@@ -8,8 +8,8 @@ import argparse
 import sys
 
 from . import createscreed
-from . import dump_to_fasta
-from . import dump_to_fastq
+from . import dump_fasta
+from . import dump_fastq
 
 
 class ScreedCommands(object):
@@ -19,18 +19,18 @@ class ScreedCommands(object):
             description="",
             usage='''screed <command> [<args>]
 
-Commands can be:
+Available:
 
-    db <filename>                 "Creates a screed database."
-    dump_to_fasta <db> <output>   "Convert a screed database to a FASTA file"
-    dump_to_fasta <db> <output>   "Convert a screed database to a FASTQ file"
-.
+    db <filename>               Creates a screed database.
+    dump_fasta <db> <output>    Convert a screed database to a FASTA file
+    dump_fastq <db> <output>    Convert a screed database to a FASTQ file
+
 ''')
 
         commands = {
             'db': createscreed.main,
-            'dump_to_fasta': dump_to_fasta.main,
-            'dump_to_fastq': dump_to_fastq.main,
+            'dump_fasta': dump_fasta.main,
+            'dump_fastq': dump_fastq.main,
         }
 
         parser.add_argument('command')
@@ -41,7 +41,6 @@ Commands can be:
             sys.exit(1)
 
         cmd = commands[args.command]
-        print('# executing: %s' % args.command, file=sys.stderr)
         cmd(sys.argv[2:])
 
 

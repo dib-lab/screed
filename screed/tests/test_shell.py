@@ -115,7 +115,7 @@ class Test_convert_shell(test_fasta.Test_fasta):
         ret = subprocess.check_call(cmd, stdout=subprocess.PIPE)
         assert ret == 0, ret
 
-        cmd = ['screed', 'dump_to_fastq', self._testfa, self._fqName]
+        cmd = ['screed', 'dump_fastq', self._testfa, self._fqName]
         ret = subprocess.check_call(cmd, stdout=subprocess.PIPE)
         assert ret == 0, ret
 
@@ -123,7 +123,7 @@ class Test_convert_shell(test_fasta.Test_fasta):
         ret = subprocess.check_call(cmd, stdout=subprocess.PIPE)
         assert ret == 0, ret
 
-        cmd = ['screed', 'dump_to_fasta', self._fqName, self._faName]
+        cmd = ['screed', 'dump_fasta', self._fqName, self._faName]
         ret = subprocess.check_call(cmd, stdout=subprocess.PIPE)
         assert ret == 0, ret
 
