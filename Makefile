@@ -63,7 +63,7 @@ diff_pylint_report: pylint_report.txt
 	diff-quality --violations=pylint pylint_report.txt
 
 .coverage: $(PYSOURCES) $(TESTSOURCES)
-	./setup.py tests .coverage.out
+	./setup.py test --addopts="--cov"
 
 coverage.xml: .coverage
 	coverage xml --omit 'screed/tests/*'

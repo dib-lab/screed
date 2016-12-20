@@ -18,7 +18,7 @@ def fasta_iter(handle, parse_description=False, line=None):
         line = handle.readline()
 
     while line:
-        data = Record()
+        data = {}
 
         line = to_str(line.strip())
         if not line.startswith('>'):
@@ -45,4 +45,4 @@ def fasta_iter(handle, parse_description=False, line=None):
             line = to_str(handle.readline())
 
         data['sequence'] = ''.join(sequenceList)
-        yield data
+        yield Record(**data)
