@@ -1,11 +1,4 @@
-"""
-Test the pygr API.
-"""
-
 from __future__ import absolute_import, unicode_literals
-
-import pytest
-pygr = pytest.importorskip("pygr")
 
 import screed
 from screed.DBConstants import fileExtension
@@ -13,6 +6,9 @@ from screed.pygr_api import ScreedSequenceDB, ScreedSequenceDB_ByIndex
 from pickle import dump, load
 from io import StringIO
 import os
+
+import pytest
+pygr = pytest.importorskip("pygr")
 
 testfa = os.path.join(os.path.dirname(__file__), 'test.fa')
 
