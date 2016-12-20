@@ -27,9 +27,9 @@ class Record(MutableMapping):
 
         d.update(kwargs)
 
-        if not 'name' in d:
+        if 'name' not in d:
             raise TypeError("'name' must be specified")
-        if not 'sequence' in d:
+        if 'sequence' not in d:
             raise TypeError("'sequence' must be specified")
         if 'quality' in d and d['quality'] is None:
             del d['quality']
