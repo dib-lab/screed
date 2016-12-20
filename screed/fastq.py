@@ -19,7 +19,7 @@ def fastq_iter(handle, line=None, parse_description=False):
         line = handle.readline()
     line = to_str(line.strip())
     while line:
-        data = Record()
+        data = {}
 
         if line and not line.startswith('@'):
             raise IOError("Bad FASTQ format: no '@' at beginning of line")
@@ -60,4 +60,4 @@ def fastq_iter(handle, line=None, parse_description=False):
             raise IOError('sequence and quality strings must be '
                           'of equal length')
 
-        yield data
+        yield Record(**data)

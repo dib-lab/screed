@@ -24,6 +24,7 @@ def test_new_record():
     records = list(iter(screed.fasta.fasta_iter(s)))
     assert records[0]['name'] == '1'
     assert records[1]['name'] == '2'
+    assert not hasattr(records[0], 'accuracy')   # check for legacy attribute
 
 
 class Test_fasta(object):
