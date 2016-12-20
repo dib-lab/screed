@@ -1,11 +1,16 @@
 from __future__ import absolute_import
-from . import DBConstants
+
+import argparse
+import itertools
 import os
 try:
     import sqlite3
 except ImportError:
     pass
 import itertools
+import sys
+
+from . import DBConstants, openscreed, fasta, fastq
 
 
 def create_db(filepath, fields, rcrditer):
@@ -90,3 +95,34 @@ def create_db(filepath, fields, rcrditer):
 
     con.commit()
     con.close()
+
+
+def make_db(filename):
+    iterfunc = openscreed.open(filename, parse_description=True)
+
+    field_mapping = {
+        fastq.fastq_iter.__name__: fastq.FieldTypes,
+        fasta.fasta_iter.__name__: fasta.FieldTypes
+    }
+
+    fieldTypes = field_mapping[iterfunc.iter_fn.__name__]
+
+    # Create the screed db
+    return create_db(filename, fieldTypes, iterfunc)
+
+
+def main(args):
+    parser = argparse.ArgumentParser(description="A shell interface to the "
+                                     "screed database writing function")
+    parser.add_argument('filename')
+    args = parser.parse_args(args)
+
+    make_db(args.filename)
+
+    print("Database saved in {}{}".format(args.filename,
+                                          DBConstants.fileExtension))
+    exit(0)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
