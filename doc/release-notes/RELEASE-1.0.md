@@ -15,7 +15,7 @@ These are all pre-existing
 
  - Screed does not support gzip file streaming. This is an issue with Python 2.x and will likely *not* be fixed in future releases. This is being tracked in ged-lab/khmer#700
  
- - Screed is overly tolerant of spaces in fast{a,q} which is against spec. This is being tracked in ged-lab/khmer#108
+ - Screed is overly tolerant of spaces in fast{a,q} which is against spec. This is being tracked in dib-lab/khmer#108
  
 ## Contributors
 
