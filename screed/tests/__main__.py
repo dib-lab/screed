@@ -8,9 +8,10 @@ if __name__ == '__main__':
         "setup_requires": ['pytest_runner'],
         "tests_require": ['pytest'],
     }
+    rootdir = os.path.dirname(os.path.dirname(__file__))
+    #  TODO: read opts from pytest.ini
+    opts = '-m "not known_failing" -v'
+    sys.argv[1:] = ['pytest', '--addopts=' + opts]
+    os.chdir(rootdir)
     setup(**setup_params)
-
-    import pytest
-    errno = pytest.main(["-m not known_failing", '-v',
-                         os.path.dirname(__file__)])
-    sys.exit(errno)
+    sys.exit()
