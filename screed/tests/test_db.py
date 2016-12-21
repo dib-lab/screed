@@ -1,6 +1,19 @@
-import screed
 import os
+import shutil
+
+import screed
 from screed.DBConstants import fileExtension
+from . import screed_tst_utils as utils
+
+
+def test_make_db():
+    _testfa = utils.get_temp_filename('test.fa')
+    shutil.copy(utils.get_test_data('test.fa'), _testfa)
+    screed.make_db(_testfa)
+
+    db = screed.ScreedDB(_testfa)
+
+    os.unlink(_testfa + fileExtension)
 
 
 def test_no_sqlite_openscreed():
