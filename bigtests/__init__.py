@@ -1,13 +1,18 @@
-import sys, os, gc
-import urllib, tarfile
+# Copyright (c) 2016, The Regents of the University of California.
+
+import gc
+import os
+import sys
+import tarfile
+import urllib
 
 thisdir = os.path.dirname(__file__)
 libdir = os.path.abspath(os.path.join(thisdir, '..', 'screed'))
 sys.path.insert(0, libdir)
 
-from screed import read_fastq_sequences
-from screed import read_fasta_sequences
-from screed import ScreedDB
+from screed import read_fastq_sequences  # nopep8
+from screed import read_fasta_sequences  # nopep8
+from screed import ScreedDB  # nopep8
 
 tests22 = os.path.join(thisdir,  's_2_2_sequence.fastq')
 tests31 = os.path.join(thisdir, 's_3_1_sequence.fastq')
@@ -17,6 +22,7 @@ tri = os.path.join(thisdir, 'triCas2.fa')
 mus = os.path.join(thisdir, 'Mus_musculus.NCBIM37.50.dna_rm.chromosome.9.fa')
 xeno = os.path.join(thisdir, 'Xenopus_tropicalis.JGI4.1.50.dna.toplevel.fa')
 sorex = os.path.join(thisdir, 'Sorex_araneus.COMMON_SHREW1.53.dna.toplevel.fa')
+
 
 def getfile(f):
     """
@@ -32,8 +38,8 @@ def getfile(f):
     try:
         up = urllib.urlopen(base_url)
     except IOError:
-        raise IOError("Error downloading testfiles, are you connected to " +\
-              "the internet?")
+        raise IOError("Error downloading testfiles, are you connected to "
+                      "the internet?")
     fp.write(up.read())
     fp.close()
 
@@ -43,15 +49,18 @@ def getfile(f):
     os.unlink(filename)
     return
 
+
 def setup():
     # Create databases
     endings = ['_screed']
-    filenames = [(tests22, 'fastq'), (tests31, 'fastq'), (tests42, 'fastq'),
-            (pongo, 'fasta'), (tri, 'fasta'), (mus, 'fasta'), (xeno, 'fasta'),
-                 (sorex, 'fasta')]
+    filenames = [
+        (tests22, 'fastq'), (tests31, 'fastq'), (tests42, 'fastq'),
+        (pongo, 'fasta'), (tri, 'fasta'), (mus, 'fasta'), (xeno, 'fasta'),
+        (sorex, 'fasta')
+    ]
     for f in filenames:
         fname = f[0]
-        if not os.path.isfile(fname): # Download files if necessary
+        if not os.path.isfile(fname):  # Download files if necessary
             getfile(f)
         parser = None
         if f[1] == 'fasta':
@@ -62,8 +71,9 @@ def setup():
         for end in endings:
             if not os.path.isfile(fname + end):
                 created = False
-        if created == False:
+        if not created:
             parser(fname)
+
 
 class Test_s22_fastq:
     """
@@ -101,7 +111,7 @@ class Test_s22_fastq:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -111,7 +121,7 @@ class Test_s22_fastq:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -170,7 +180,7 @@ class Test_s22_fastq:
             'id': 0,
             'annotations': '',
             'quality': 'AA7AAA3+AAAAAA.AAA.;7;AA;;;;*;<1;<<<',
-            'name' : 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2',
+            'name': 'HWI-EAS_4_PE-FC20GCB:2:1:492:573/2',
             'sequence': 'ACAGCAAAATTGTGATTGAGGATGAAGAACTGCTGT'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:2:162:131:826/2'] = {
@@ -183,7 +193,7 @@ class Test_s22_fastq:
         testcases['HWI-EAS_4_PE-FC20GCB:2:330:88:628/2'] = {
             'id': 3790455,
             'annotations': '',
-            'quality' : 'AA;AA??A5A;;+AA?AAAA;AA;9AA.AA?????9',
+            'quality': 'AA;AA??A5A;;+AA?AAAA;AA;9AA.AA?????9',
             'name': 'HWI-EAS_4_PE-FC20GCB:2:330:88:628/2',
             'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA'}
 
@@ -203,6 +213,7 @@ class Test_s22_fastq:
 
         for case in testcases:
             assert testcases[case] == self.db[case]
+
 
 class Test_s31_fastq:
     """
@@ -240,7 +251,7 @@ class Test_s31_fastq:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -250,7 +261,7 @@ class Test_s31_fastq:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -309,7 +320,7 @@ class Test_s31_fastq:
             'id': 0,
             'annotations': '',
             'quality': 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
-            'name' : 'HWI-EAS_4_PE-FC20GCB:3:1:71:840/1',
+            'name': 'HWI-EAS_4_PE-FC20GCB:3:1:71:840/1',
             'sequence': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}
 
         testcases['HWI-EAS_4_PE-FC20GCB:3:330:957:433/1'] = {
@@ -322,7 +333,7 @@ class Test_s31_fastq:
         testcases['HWI-EAS_4_PE-FC20GCB:3:166:443:410/1'] = {
             'id': 2219847,
             'annotations': '',
-            'quality' : 'AAAAAAAAAAAAAAAAAAAAAAAA6<@AA959???%',
+            'quality': 'AAAAAAAAAAAAAAAAAAAAAAAA6<@AA959???%',
             'name': 'HWI-EAS_4_PE-FC20GCB:3:166:443:410/1',
             'sequence': 'TGGCATTCGCACACATCATGATGGTGCTGACCGTAA'}
 
@@ -342,6 +353,7 @@ class Test_s31_fastq:
 
         for case in testcases:
             assert testcases[case] == self.db[case]
+
 
 class Test_s42_fastq:
     """
@@ -364,7 +376,6 @@ class Test_s42_fastq:
             nameRcrd = self.db[rcrd.name]
             assert rcrd == nameRcrd
 
-
     def test_dict_stuff(self):
         """
         Tests some dictionary methods on the database
@@ -380,7 +391,7 @@ class Test_s42_fastq:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -390,7 +401,7 @@ class Test_s42_fastq:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -449,9 +460,9 @@ class Test_s42_fastq:
             'id': 0,
             'annotations': '',
             'quality': 'AAAAAAAA:4>>AAA:44>>->-&4;8+8826;66.',
-            'name' : 'HWI-EAS_4_PE-FC20GCB:4:1:257:604/2',
+            'name': 'HWI-EAS_4_PE-FC20GCB:4:1:257:604/2',
             'sequence': 'TGTGGATAGTCGCCCGTGATGGCGTCGAAGTTCCGG'}
-        
+
         testcases['HWI-EAS_4_PE-FC20GCB:4:330:96:902/2'] = {
             'id': 4148632,
             'annotations': '',
@@ -462,7 +473,7 @@ class Test_s42_fastq:
         testcases['HWI-EAS_4_PE-FC20GCB:4:166:158:532/2'] = {
             'id': 2074316,
             'annotations': '',
-            'quality' : 'AAAAAAA?A?AAAAAAA?A>A?A?AAAAAA?.<?-?',
+            'quality': 'AAAAAAA?A?AAAAAAA?A>A?A?AAAAAA?.<?-?',
             'name': 'HWI-EAS_4_PE-FC20GCB:4:166:158:532/2',
             'sequence': 'ATCGCCAATGCCCAGGCCTGGTTCTCTTTAACCTAT'}
 
@@ -520,7 +531,7 @@ class Test_po_fasta:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -530,7 +541,7 @@ class Test_po_fasta:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -587,46 +598,48 @@ class Test_po_fasta:
         testcases = {}
         testcases['GENSCAN00000032971'] = {
             'id': 0,
-            'description': 'cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random' \
+            'description': 'cdna:Genscan chromosome:PPYG2:6_qbl_hap2_random'
             ':95622:98297:1',
-            'name' : 'GENSCAN00000032971',
-            'sequence': 'ATGGCGCCCCGAACCCTCCTCCTGCTGCTCTCGGCGGCCCTGGCCCCGAC' \
+            'name': 'GENSCAN00000032971',
+            'sequence': 'ATGGCGCCCCGAACCCTCCTCCTGCTGCTCTCGGCGGCCCTGGCCCCGAC'
             'CGAGACCTGG'}
         testcases['GENSCAN00000042282'] = {
             'id': 53997,
-            'description': 'cdna:Genscan chromosome:PPYG2:1:229892060:22989' \
+            'description': 'cdna:Genscan chromosome:PPYG2:1:229892060:22989'
             '2800:1',
             'name': 'GENSCAN00000042282',
-            'sequence': 'ATGATGCCATTGCAAGGACCCTCTGCAGGGCCTCAGTCCCGAGGATGGCA' \
+            'sequence': 'ATGATGCCATTGCAAGGACCCTCTGCAGGGCCTCAGTCCCGAGGATGGCA'
             'CACAGCCTTC'}
         testcases['GENSCAN00000051311'] = {
             'id': 30780,
-            'description' : 'cdna:Genscan chromosome:PPYG2:10:132962172:132' \
+            'description': 'cdna:Genscan chromosome:PPYG2:10:132962172:132'
             '962871:1',
             'name': 'GENSCAN00000051311',
-            'sequence': 'ATGACCCAGCCACCTACCAGGCCGCTCTGCAGACCCCCCACGGGAGCAGC' \
+            'sequence': 'ATGACCCAGCCACCTACCAGGCCGCTCTGCAGACCCCCCACGGGAGCAGC'
             'CTCTGCCCCC'}
         testcases['GENSCAN00000006030'] = {
             'id': 1469,
-            'description': 'cdna:Genscan chromosome:PPYG2:14_random:1765749' \
+            'description': 'cdna:Genscan chromosome:PPYG2:14_random:1765749'
             ':1766075:-1',
             'name': 'GENSCAN00000006030',
-            'sequence': 'ATGTGTGGCAACAAGGGCATTTCTGCCTTCCCTGAATCAGACCACCTTTT' \
+            'sequence': 'ATGTGTGGCAACAAGGGCATTTCTGCCTTCCCTGAATCAGACCACCTTTT'
             'CACATGGGTA'}
         testcases['GENSCAN00000048263'] = {
             'id': 43029,
-            'description': 'cdna:Genscan chromosome:PPYG2:6:100388173:10048' \
+            'description': 'cdna:Genscan chromosome:PPYG2:6:100388173:10048'
             '5454:-1',
             'name': 'GENSCAN00000048263',
-            'sequence': 'ATGTGTCCCTTTGAATATGCCGGAGAACAACAGTTGCCATGGATGTGTTC' \
+            'sequence': 'ATGTGTCCCTTTGAATATGCCGGAGAACAACAGTTGCCATGGATGTGTTC'
             'TGGGGAGCCC'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]\
-                   ['description']
-            assert str(self.db[case]['sequence']).startswith(testcases[case]\
-                                                        ['sequence'])
+            assert testcases[case]['description'] == \
+                self.db[case]['description']
+            assert str(self.db[case]['sequence']).startswith(
+                testcases[case]['sequence']
+            )
+
 
 class Test_mus_fasta:
     """
@@ -664,7 +677,7 @@ class Test_mus_fasta:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -674,7 +687,7 @@ class Test_mus_fasta:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -730,19 +743,21 @@ class Test_mus_fasta:
         """
         testcases = {}
         testcases['9'] = {
-		'id': 0,
-            'description': 'dna_rm:chromosome chromosome:NCBIM37:9:1:124076' \
-            '172:1',
-            'name' : '9',
-            'sequence': 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN' \
-            'NNNNNNNNNN'}
+            'id': 0,
+            'description': 'dna_rm:chromosome chromosome:NCBIM37:9:1:124076'
+                           '172:1',
+            'name': '9',
+            'sequence': 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+                        'NNNNNNNNNN'
+        }
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]\
-                   ['description']
-            assert str(self.db[case]['sequence']).startswith(testcases[case]\
-                                                        ['sequence'])
+            assert testcases[case]['description'] == \
+                self.db[case]['description']
+            assert str(self.db[case]['sequence']).startswith(
+                testcases[case]['sequence']
+            )
 
 
 class Test_tri_fasta:
@@ -781,7 +796,7 @@ class Test_tri_fasta:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -791,7 +806,7 @@ class Test_tri_fasta:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -849,7 +864,7 @@ class Test_tri_fasta:
         testcases['singleUn_100'] = {
             'id': 0,
             'description': '',
-            'name' : 'singleUn_100',
+            'name': 'singleUn_100',
             'sequence': 'TTTAAACACGTGTCCGCGCCATTTTTTTATTTATTTACCGATCAAGTGCA'}
         testcases['singleUn_9'] = {
             'id': 2210,
@@ -858,7 +873,7 @@ class Test_tri_fasta:
             'sequence': 'TTTAATTTTTTTACAACTCAAAATTTTGAGTAGTGTTTTAAATAGTACAC'}
         testcases['ChLG6'] = {
             'id': 2016,
-            'description' : '',
+            'description': '',
             'name': 'ChLG6',
             'sequence': 'CAAAAAAATTCATAACTCAAAAACTAAAAGTCGTAGAGCAATGCGGTTTG'}
         testcases['singleUn_286'] = {
@@ -874,10 +889,11 @@ class Test_tri_fasta:
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]\
-                   ['description']
-            assert str(self.db[case]['sequence']).startswith(testcases[case]\
-                                                        ['sequence'])
+            assert testcases[case]['description'] == \
+                self.db[case]['description']
+            assert str(self.db[case]['sequence']).startswith(
+                testcases[case]['sequence']
+            )
 
 
 class Test_xeno_fasta:
@@ -916,7 +932,7 @@ class Test_xeno_fasta:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -926,7 +942,7 @@ class Test_xeno_fasta:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -983,46 +999,48 @@ class Test_xeno_fasta:
         testcases = {}
         testcases['scaffold_20095'] = {
             'id': 0,
-            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_20095:1:2'\
-            '001:1',
-            'name' : 'scaffold_20095',
-            'sequence': 'GATGAGATCACCTTTCATGCTTTTTGTATCCCTATTATCTAGAGACAACAA'\
-            'ATCAGTTGC'}
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_20095:1:2'
+                           '001:1',
+            'name': 'scaffold_20095',
+            'sequence': 'GATGAGATCACCTTTCATGCTTTTTGTATCCCTATTATCTAGAGACAACAA'
+                        'ATCAGTTGC'}
         testcases['scaffold_1'] = {
             'id': 19500,
-            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_1:1:781781'\
-            '4:1',
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_1:1:781781'
+                           '4:1',
             'name': 'scaffold_1',
-            'sequence': 'CCTCCCTTTTTGGCTGTCTTTTCACTGTATCATAGCCTGGCGTGAACCAAG'\
-            'CCTCAAAAA'}
+            'sequence': 'CCTCCCTTTTTGGCTGTCTTTTCACTGTATCATAGCCTGGCGTGAACCAAG'
+                        'CCTCAAAAA'}
         testcases['scaffold_271'] = {
             'id': 19230,
-            'description' : 'dna:scaffold scaffold:JGI4.1:scaffold_271:1:156'\
-            '7461:1',
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_271:1:156'
+                           '7461:1',
             'name': 'scaffold_271',
-            'sequence': 'CGATTTTTGCGGAAAAACGCGAGTTTTTGGTAGCCATTCCGAAAGTTGCGA'\
-            'TTTTTTGTA'}
+            'sequence': 'CGATTTTTGCGGAAAAACGCGAGTTTTTGGTAGCCATTCCGAAAGTTGCGA'
+                        'TTTTTTGTA'}
         testcases['scaffold_19901'] = {
             'id': 329,
-            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_19901:1:22'\
-            '56:1',
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_19901:1:22'
+                           '56:1',
             'name': 'scaffold_19901',
-            'sequence': 'ATACCGCAAAGGTTTCTTTCTTCTCAGTGCTCCATGCTGCCTCTCTTGTTT'\
-            'TGCCTCCCT'}
+            'sequence': 'ATACCGCAAAGGTTTCTTTCTTCTCAGTGCTCCATGCTGCCTCTCTTGTTT'
+                        'TGCCTCCCT'}
         testcases['scaffold_95'] = {
             'id': 19408,
-            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_95:1:28996'\
-            '70:1',
+            'description': 'dna:scaffold scaffold:JGI4.1:scaffold_95:1:28996'
+                           '70:1',
             'name': 'scaffold_95',
-            'sequence': 'CCCTCCTGGTGATCCCACTTCAATCTCCCCATAGGCACACATCACTTCTAG'\
-            'CAGTTCACA'}
+            'sequence': 'CCCTCCTGGTGATCCCACTTCAATCTCCCCATAGGCACACATCACTTCTAG'
+                        'CAGTTCACA'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
-            assert testcases[case]['description'] == self.db[case]\
-                   ['description']
-            assert str(self.db[case]['sequence']).startswith(testcases[case]\
-                                                        ['sequence'])
+            assert testcases[case]['description'] == \
+                self.db[case]['description']
+            assert str(self.db[case]['sequence']).startswith(
+                testcases[case]['sequence']
+            )
+
 
 class Test_sorex_fasta:
     """
@@ -1060,7 +1078,7 @@ class Test_sorex_fasta:
         for k in self.db:
             assert k in self.db
 
-        assert not 'FOO' in self.db
+        assert 'FOO' not in self.db
 
     def test_get(self):
         for k in self.db:
@@ -1070,7 +1088,7 @@ class Test_sorex_fasta:
             record = self.db[k]
             assert record.name == k
 
-        assert self.db.get('FOO') == None
+        assert self.db.get('FOO') is None
         try:
             self.db['FOO']
             assert False, "the previous line should raise a KeyError"
@@ -1127,55 +1145,56 @@ class Test_sorex_fasta:
         testcases = {}
         testcases['scaffold_93039'] = {
             'id': 0,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_93'\
-            '039:1:203:1',
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_93'
+                           '039:1:203:1',
             'name': 'scaffold_93039',
-            'sequence': 'GCTGAGCCTTGTAGTTCTGCTCCCTTTGACTGACGGCCCACTATGGACCG'\
-            'GAAAAACTAC'}
-        
+            'sequence': 'GCTGAGCCTTGTAGTTCTGCTCCCTTTGACTGACGGCCCACTATGGACCG'
+                        'GAAAAACTAC'}
+
         testcases['scaffold_107701'] = {
             'id': 1,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_10'\
-            '7701:1:203:1',
-            'name' : 'scaffold_107701',
-            'sequence': 'TAAACCCAAAATAAACATTCCCCAAATTATATTTCTTCCTTTCCTTCTGA'\
-            'ATAAAAGAAA'}
-        
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_10'
+                           '7701:1:203:1',
+            'name': 'scaffold_107701',
+            'sequence': 'TAAACCCAAAATAAACATTCCCCAAATTATATTTCTTCCTTTCCTTCTGA'
+                        'ATAAAAGAAA'}
+
         testcases['GeneScaffold_6994'] = {
             'id': 243135,
-            'description': 'dna:genescaffold genescaffold:COMMON_SHREW1:Gen'\
-            'eScaffold_6994:1:2349312:1',
+            'description': 'dna:genescaffold genescaffold:COMMON_SHREW1:Gen'
+                           'eScaffold_6994:1:2349312:1',
             'name': 'GeneScaffold_6994',
-            'sequence': 'TATTGAGAGAAGTGGGAACTTCTCTAGTGGTGGGGTATGGTGATGGAATG'\
-            'ATGTATGAAT'}
-        
+            'sequence': 'TATTGAGAGAAGTGGGAACTTCTCTAGTGGTGGGGTATGGTGATGGAATG'
+                        'ATGTATGAAT'}
+
         testcases['scaffold_118324'] = {
             'id': 13823,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_11'\
-            '8324:1:884:1',
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_11'
+                           '8324:1:884:1',
             'name': 'scaffold_118324',
-            'sequence': 'CAGCCCCCTGCAACAAATTTTATACTCTAGAAACAGTTTAATGGCTGTTG'\
-            'GAATATTTCC'}
-        
+            'sequence': 'CAGCCCCCTGCAACAAATTTTATACTCTAGAAACAGTTTAATGGCTGTTG'
+                        'GAATATTTCC'}
+
         testcases['scaffold_92895'] = {
             'id': 14573,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_92'\
-            '895:1:890:1',
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_92'
+                           '895:1:890:1',
             'name': 'scaffold_92895',
-            'sequence': 'GGGAAGCTTGCAAGGCTGTCCCATGTGGGCAGGAAGCTCTCAGTAGCTTG'\
-            'CCAGTTTCTC'}
-        
+            'sequence': 'GGGAAGCTTGCAAGGCTGTCCCATGTGGGCAGGAAGCTCTCAGTAGCTTG'
+                        'CCAGTTTCTC'}
+
         testcases['scaffold_62271'] = {
             'id': 37101,
-            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_62'\
-            '271:1:1064:1',
+            'description': 'dna:scaffold scaffold:COMMON_SHREW1:scaffold_62'
+                           '271:1:1064:1',
             'name': 'scaffold_62271',
-            'sequence': 'AGAGTATCTCCCCCACATGGCAGAGCCTGGCAAGCTACCCATGGCGTATT'\
-            'CAATATGCCA'}
+            'sequence': 'AGAGTATCTCCCCCACATGGCAGAGCCTGGCAAGCTACCCATGGCGTATT'
+                        'CAATATGCCA'}
 
         for case in testcases:
             assert testcases[case]['name'] == self.db[case]['name']
             assert testcases[case]['description'] == \
-                   self.db[case]['description']
-            assert str(self.db[case]['sequence']).startswith(testcases[case]\
-                                                        ['sequence'])
+                self.db[case]['description']
+            assert str(self.db[case]['sequence']).startswith(
+                testcases[case]['sequence']
+            )

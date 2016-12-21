@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2008-2010, Michigan State University
-# Copyright (C) 2016, The Regents of the University of California.
+# Copyright (c) 2008, Michigan State University.
+# Copyright (c) 2016, The Regents of the University of California.
 
 from __future__ import print_function
 from screed import ToFastq

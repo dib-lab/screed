@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2016, The Regents of the University of California.
+# Copyright (c) 2016, The Regents of the University of California.
 
 from __future__ import absolute_import, print_function
 

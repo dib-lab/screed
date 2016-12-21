@@ -1,6 +1,6 @@
-from __future__ import absolute_import
-# Copyright (c) 2008-2010, Michigan State University
+# Copyright (c) 2008-2010, Michigan State University.
 
+from __future__ import absolute_import
 from .openscreed import ScreedDB
 
 _MAXLINELEN = 80
