@@ -66,20 +66,20 @@ Creating a database
 -------------------
 
     >>> import screed
-    >>> screed.createscreed.make_db('screed/tests/test.fa')
+    >>> screed.make_db('screed/tests/test-data/test.fa')
 
-This loads a FASTA file :code:`screed/tests/test.fa` into a screed database
-named :code:`screed/tests/test.fa_screed`. A couple of things to note:
+This loads a FASTA file :code:`screed/tests/test-data/test.fa` into a screed database
+named :code:`screed/tests/test-data/test.fa_screed`. A couple of things to note:
 
 * The screed database is independent of the text file from which it was derived,
-  so moving, renaming or deleting :code:`screed/tests/test.fa` will not affect
+  so moving, renaming or deleting :code:`screed/tests/test-data/test.fa` will not affect
   the newly created database.
 * The :code:`make_db` function inferred the file type as FASTA automatically.
   The :code:`read_fasta_sequences()` and :code:`read_fastq_sequences()`
   functions are available if you'd prefer to be explicit.
 
-    >>> screed.read_fasta_sequences('screed/tests/test.fasta')
-    >>> screed.read_fastq_sequences('screed/tests/test.fastq')
+    >>> screed.read_fasta_sequences('screed/tests/test-data/test.fasta')
+    >>> screed.read_fastq_sequences('screed/tests/test-data/test.fastq')
 
 Opening a database
 ------------------
@@ -91,8 +91,8 @@ them all!
 From the Python prompt, import the ScreedDB class and load some databases::
 
     >>> from screed import ScreedDB
-    >>> fadb = ScreedDB('screed/tests/test.fa')
-    >>> fqdb = ScreedDB('screed/tests/test.fastq')
+    >>> fadb = ScreedDB('screed/tests/test-data/test.fa')
+    >>> fqdb = ScreedDB('screed/tests/test-data/test.fastq')
 
 Notice how you didn't need to write the '_screed' at the end of the file names?
 screed automatically adds that to the file name if you didn't.
