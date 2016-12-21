@@ -1,5 +1,3 @@
-.. vim set filetype=rst
-
 The screed developer documentation
 ==================================
 
@@ -16,5 +14,6 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
+   parsers
    coding-guidelines-and-review
    release-checklist
