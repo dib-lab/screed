@@ -22,10 +22,15 @@ class Record(MutableMapping):
 
     def __init__(self, name=None, sequence=None, **kwargs):
         d = dict()
-        if name is not None:
-            d['name'] = name
-        if sequence is not None:
-            d['sequence'] = sequence
+
+        # This is an ugly hack because we accepted dictionaries before...
+        if isinstance(name, MutableMapping):
+            d = name
+        else:
+            if name is not None:
+                d['name'] = name
+            if sequence is not None:
+                d['sequence'] = sequence
 
         d.update(kwargs)
 
