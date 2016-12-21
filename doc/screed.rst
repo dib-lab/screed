@@ -46,6 +46,9 @@ Dumping a database to a file
     $ screed dump_fasta <screed database file> <fasta output>
     $ screed dump_fastq <screed database file> <fastq output>
 
+If no output file is provided, sequences are written to the terminal (stdout) by
+default.
+
 Python Quick Start
 ==================
 
@@ -250,7 +253,7 @@ first argument and a path to the desired FASTQ file as the second
 argument. There is also a shell interface if the screed module is in
 your PYTHONPATH::
 
-    $ python -m screed dump_to_fastq <path to fasta db> [ <converted fastq file> ]
+    $ python -m screed dump_fastq <path to fasta db> [ <converted fastq file> ]
 
 The FASTA name attribute is directly dumped from the file. The
 sequence attribute is also dumped pretty much directly, but is line
@@ -279,7 +282,7 @@ first argument and a path to the desired FASTA file as the second
 argument. Like the ToFastq function before, there is a shell interface
 to ToFasta if the screed module is in your PYTHONPATH::
 
-    $ python -m screed dump_to_fasta <path to fastq db> [ <converted fasta file> ]
+    $ python -m screed dump_fasta <path to fastq db> [ <converted fasta file> ]
 
 As above, the name and sequence attributes are directly dumped from
 the FASTQ database to the FASTA file with the sequence line wrapping
