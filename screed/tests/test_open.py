@@ -1,4 +1,7 @@
 # Copyright (c) 2008-2015, Michigan State University
+"""
+Test `screed.open`.
+"""
 
 from __future__ import absolute_import
 

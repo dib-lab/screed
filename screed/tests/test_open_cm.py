@@ -1,4 +1,7 @@
 # Copyright (c) 2008-2015, Michigan State University
+"""
+Test the use of `screed.open` as a ContextManager.
+"""
 
 from . import screed_tst_utils as utils
 import screed
