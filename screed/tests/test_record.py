@@ -3,16 +3,6 @@ from screed import Record
 import pytest
 
 
-@pytest.mark.xfail(raises=TypeError)
-def test_create_noname():
-    r = Record(sequence='ATGGAC')
-
-
-@pytest.mark.xfail(raises=TypeError)
-def test_create_noseq():
-    r = Record(name='somename')
-
-
 def test_create_quality_none():
     r = Record(name='foo', sequence='ATGACG', quality=None)
     assert not hasattr(r, 'quality')
@@ -25,10 +15,6 @@ def test_len():
 
 # copied over from khmer tests/test_read_parsers.py
 def test_read_type_basic():
-    # Constructing without mandatory arguments should raise an exception
-    with pytest.raises(TypeError):
-        Record()
-
     name = "895:1:1:1246:14654 1:N:0:NNNNN"
     sequence = "ACGT"
     r = Record(name, sequence)
