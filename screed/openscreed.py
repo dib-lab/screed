@@ -113,11 +113,6 @@ class Open(object):
             self.sequencefile.close()
 
 
-_open = open
-open = Open
-open_reader = open
-
-
 class ScreedDB(MutableMapping):
 
     """

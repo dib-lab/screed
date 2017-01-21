@@ -12,7 +12,7 @@ except ImportError:
 import itertools
 import sys
 
-from . import DBConstants, openscreed, fasta, fastq
+from . import DBConstants, fasta, fastq, openscreed
 
 
 def create_db(filepath, fields, rcrditer):
@@ -100,7 +100,7 @@ def create_db(filepath, fields, rcrditer):
 
 
 def make_db(filename):
-    iterfunc = openscreed.open(filename, parse_description=True)
+    iterfunc = openscreed.Open(filename, parse_description=True)
 
     field_mapping = {
         fastq.fastq_iter.__name__: fastq.FieldTypes,
