@@ -25,7 +25,7 @@ def read_fastq_sequences(filename):
     Function to parse text from the given FASTQ file into a screed database
     """
     # Will raise an exception if the file doesn't exist
-    iterfunc = openscreed.open(filename, parse_description=True)
+    iterfunc = openscreed.Open(filename, parse_description=True)
 
     # Create the screed db
     create_db(filename, fastq.FieldTypes, iterfunc)
@@ -38,7 +38,7 @@ def read_fasta_sequences(filename):
     Function to parse text from the given FASTA file into a screed database
     """
     # Will raise an exception if the file doesn't exist
-    iterfunc = openscreed.open(filename, parse_description=True)
+    iterfunc = openscreed.Open(filename, parse_description=True)
 
     # Create the screed db
     create_db(filename, fasta.FieldTypes, iterfunc)
