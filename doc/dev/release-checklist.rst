@@ -25,12 +25,13 @@ Getting Started
 #. Install/update versioneer::
 
         pip install versioneer
-        versioneer-installer
+        versioneer install
 
-   If there is a new version of versioneer::
+   If there is a new version of versioneer, follow the instruction to update
+   it and fix the configuration if needed::
 
         git diff
-        ./setup.py versioneer
+        versioneer install
         git commit -p -m "new version of versioneer.py"
         # or abandon the changes
         git checkout -- versioneer.py screed/_version.py screed/__init.py \
@@ -45,7 +46,7 @@ Getting Started
 #. Review the issue list for any existing bugs that won't be fixed in the
    release and ensure they're documented in ``doc/known-issues.txt``
 
-#. Verify that the build is clean: http://ci.ged.msu.edu/job/screed/
+#. Verify that the build is clean: https://travis-ci.org/dib-lab/screed
 
 #. Set the new version number and release candidate::
 
