@@ -52,21 +52,9 @@ copyright = u'2012-2015, Michigan State University'
 
 # The full version, including alpha/beta/rc tags.
 
-sys.path.insert(0, '.')
-sys.path.insert(0, '../')  # to get the versioneer module
-
-import imp  # nopep8
-fp, pathname, description = imp.find_module('versioneer')
-versioneer = imp.load_module('versioneer', fp, pathname, description)
-del imp
-
-versioneer.VCS = 'git'
-versioneer.versionfile_source = '../screed/_version.py'
-versioneer.versionfile_build = '../screed/_version.py'
-versioneer.tag_prefix = 'v'  # tags are like v1.2.0
-versioneer.parentdir_prefix = '..'
-
-release = versioneer.get_version()
+from screed._version import get_versions
+release = get_versions()['version']
+del get_versions
 
 # The short X.Y version.
 version = '.'.join(release.split('.')[:2])
