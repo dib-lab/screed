@@ -75,7 +75,7 @@ Getting Started
         make install-dependencies
         make install
         make test
-        python -c 'import screed; print screed.__version__' # double-check version number
+        python -c 'import screed; print(screed.__version__)' # double-check version number
 
 
         # Test via pip
