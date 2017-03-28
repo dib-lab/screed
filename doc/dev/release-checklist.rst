@@ -86,8 +86,9 @@ Getting Started
         cd src/screed
         make dist
         make install
-        nosetests screed --attr '!known_failing'
-        python -c 'import screed; print screed.__version__'
+        pip install pytest
+        pytest --pyargs screed -m 'not known_failing'
+        python -c 'import screed; print(screed.__version__)'
         cp dist/screed*tar.gz ../../../testenv3
 
         # test if the dist made in testenv2 is complete enough to build another
@@ -95,10 +96,10 @@ Getting Started
 
         cd ../../../testenv3
         source bin/activate
-        pip install nose
+        pip install pytest
         pip install screed*tar.gz
-        nosetests screed --attr '!known_failing'
-        python -c 'import screed; print screed.__version__'
+        pytest --pyargs screed -m 'not known_failing'
+        python -c 'import screed; print(screed.__version__)'
         tar xzf screed*tar.gz
         cd screed*
         make dist
@@ -118,13 +119,13 @@ Getting Started
 
         cd ../../testenv4
         source bin/activate
-        pip install -U setuptools
-        pip install nose
+        pip install -U setuptools pip
+        pip install pytest
         pip install -i https://testpypi.python.org/pypi --pre --no-clean screed
-        nosetests screed --attr '!known_failing'
-        python -c 'import screed; print screed.__version__'
+        pytest --pyargs screed -m 'not known_failing'
+        python -c 'import screed; print(screed.__version__)'
         cd build/screed
-        ./setup.py nosetests --attr '!known_failing'
+        ./setup.py test
 
 #. Do any final testing (acceptance tests, etc.) Note that the acceptance tests
    for screed are to run the khmer automated tests with the new version of
