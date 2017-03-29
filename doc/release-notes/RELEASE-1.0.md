@@ -16,10 +16,10 @@ Documentation is available at http://screed.readthedocs.org/en/v1.0
 ## New items of note:
 
 - New shell commands for common screed operations:
-  - `db` for database creation (`python -m screed db <filename>`)
+  - `db` for database creation (`screed db <filename>`)
   - dumping FAST{A,Q} records from a db
-  (`python -m screed dump_fasta <db> <output>`
-  and `python -m screed dump_fastq <db> <output>`). #55 @luizirber
+  (`screed dump_fasta <db> <output>`
+  and `screed dump_fastq <db> <output>`). #55 @luizirber
 - Remove `\*_Writer` classes and unify record writing in the `write_fastx`
   function. #53 @standage
 - We now use pytest as a test runner,
@@ -45,7 +45,7 @@ These are all pre-existing
 
 ## Contributors
 
-@luizirber \*@betatim \*@standage @ctb
+@luizirber \*@standage @ctb \*@betatim
 
 \* Indicates new contributors
 
