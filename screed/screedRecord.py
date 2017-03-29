@@ -1,11 +1,9 @@
 # Copyright (c) 2016, The Regents of the University of California.
 
 from __future__ import absolute_import
+from collections.abc import Mapping
 from functools import total_ordering
-import types
 from . import DBConstants
-import gzip
-import bz2
 from io import BytesIO
 
 try:
@@ -23,7 +21,10 @@ class Record(MutableMapping):
     def __init__(self, name=None, sequence=None, **kwargs):
         d = dict()
         if name is not None:
-            d['name'] = name
+            if isinstance(name, str):
+                d['name'] = name
+            elif isinstance(name, Mapping):
+                d.update(name)
         if sequence is not None:
             d['sequence'] = sequence
 
