@@ -25,12 +25,13 @@ Getting Started
 #. Install/update versioneer::
 
         pip install versioneer
-        versioneer-installer
+        versioneer install
 
-   If there is a new version of versioneer::
+   If there is a new version of versioneer, follow the instruction to update
+   it and fix the configuration if needed::
 
         git diff
-        ./setup.py versioneer
+        versioneer install
         git commit -p -m "new version of versioneer.py"
         # or abandon the changes
         git checkout -- versioneer.py screed/_version.py screed/__init.py \
@@ -45,7 +46,7 @@ Getting Started
 #. Review the issue list for any existing bugs that won't be fixed in the
    release and ensure they're documented in ``doc/known-issues.txt``
 
-#. Verify that the build is clean: http://ci.ged.msu.edu/job/screed/
+#. Verify that the build is clean: https://travis-ci.org/dib-lab/screed
 
 #. Set the new version number and release candidate::
 
@@ -74,7 +75,7 @@ Getting Started
         make install-dependencies
         make install
         make test
-        python -c 'import screed; print screed.__version__' # double-check version number
+        python -c 'import screed; print(screed.__version__)' # double-check version number
 
 
         # Test via pip
@@ -85,8 +86,9 @@ Getting Started
         cd src/screed
         make dist
         make install
-        nosetests screed --attr '!known_failing'
-        python -c 'import screed; print screed.__version__'
+        pip install pytest
+        pytest --pyargs screed -m 'not known_failing'
+        python -c 'import screed; print(screed.__version__)'
         cp dist/screed*tar.gz ../../../testenv3
 
         # test if the dist made in testenv2 is complete enough to build another
@@ -94,10 +96,10 @@ Getting Started
 
         cd ../../../testenv3
         source bin/activate
-        pip install nose
+        pip install pytest
         pip install screed*tar.gz
-        nosetests screed --attr '!known_failing'
-        python -c 'import screed; print screed.__version__'
+        pytest --pyargs screed -m 'not known_failing'
+        python -c 'import screed; print(screed.__version__)'
         tar xzf screed*tar.gz
         cd screed*
         make dist
@@ -117,13 +119,13 @@ Getting Started
 
         cd ../../testenv4
         source bin/activate
-        pip install -U setuptools
-        pip install nose
+        pip install -U setuptools pip
+        pip install pytest
         pip install -i https://testpypi.python.org/pypi --pre --no-clean screed
-        nosetests screed --attr '!known_failing'
-        python -c 'import screed; print screed.__version__'
+        pytest --pyargs screed -m 'not known_failing'
+        python -c 'import screed; print(screed.__version__)'
         cd build/screed
-        ./setup.py nosetests --attr '!known_failing'
+        ./setup.py test
 
 #. Do any final testing (acceptance tests, etc.) Note that the acceptance tests
    for screed are to run the khmer automated tests with the new version of
