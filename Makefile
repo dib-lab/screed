@@ -15,6 +15,7 @@ all:
 
 install-dependencies:
 	pip install --upgrade $(DEVPKGS) || pip2 install --upgrade $(DEVPKGS)
+	pip install --upgrade --requirement doc/requirements.txt
 
 install: FORCE
 	./setup.py build install

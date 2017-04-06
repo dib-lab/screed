@@ -8,5 +8,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   RELEASE-0.5
+   RELEASE-1.0
+   RELEASE-0.9
    RELEASE-0.8
+   RELEASE-0.5
