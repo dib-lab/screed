@@ -1,6 +1,5 @@
 from __future__ import absolute_import, unicode_literals, print_function
 from screed import Record
-import pytest
 
 
 def test_create_quality_none():
@@ -32,3 +31,21 @@ def test_read_type_attributes():
     assert r.quality == 'good'
     assert r.name == '1234'
     assert r.annotations == 'ann'
+
+
+def test_set_cleaned_seq():
+    name = "895:1:1:1246:14654 1:N:0:NNNNN"
+    sequence = "ACGTacgtN"
+    r = Record(name, sequence)
+
+    assert r.name == name
+    assert r.sequence == sequence
+    assert r.cleaned_seq == "ACGTACGTA"
+
+
+def test_set_cleaned_seq_slicing():
+    name = "895:1:1:1246:14654 1:N:0:NNNNN"
+    sequence = "ACGTacgtN"
+    r = Record(name, sequence)
+
+    assert r.cleaned_seq[-4:] == "ACGTACGTA"[-4:]

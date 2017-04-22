@@ -26,6 +26,7 @@ class Record(MutableMapping):
             d['name'] = name
         if sequence is not None:
             d['sequence'] = sequence
+            d['cleaned_seq'] = str(sequence).upper().replace("N", "A")
 
         d.update(kwargs)
 
@@ -35,6 +36,8 @@ class Record(MutableMapping):
 
     def __setitem__(self, name, value):
         self.d[name] = value
+        if name == 'sequence':
+            self.d['cleaned_seq'] = value.upper().replace("N", "A")
 
     def __getattr__(self, name):
         try:
@@ -52,6 +55,7 @@ class Record(MutableMapping):
         if isinstance(idx, slice):
             trimmed = dict(self.d)
             trimmed['sequence'] = trimmed['sequence'][idx]
+            trimmed['cleaned_seq'] = trimmed['cleaned_seq'][idx]
             if 'quality' in trimmed:
                 trimmed['quality'] = trimmed['quality'][idx]
             return Record(**trimmed)
