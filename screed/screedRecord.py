@@ -1,11 +1,8 @@
 # Copyright (c) 2016, The Regents of the University of California.
 
 from __future__ import absolute_import
+from collections import Mapping
 from functools import total_ordering
-import types
-from . import DBConstants
-import gzip
-import bz2
 from io import BytesIO
 
 try:
@@ -13,6 +10,8 @@ try:
 except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
+
+from . import DBConstants
 
 
 class Record(MutableMapping):
@@ -23,7 +22,10 @@ class Record(MutableMapping):
     def __init__(self, name=None, sequence=None, **kwargs):
         d = dict()
         if name is not None:
-            d['name'] = name
+            if isinstance(name, Mapping):
+                d.update(name)
+            else:
+                d['name'] = name
         if sequence is not None:
             d['sequence'] = sequence
 

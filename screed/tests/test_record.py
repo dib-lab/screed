@@ -17,12 +17,15 @@ def test_len():
 def test_read_type_basic():
     name = "895:1:1:1246:14654 1:N:0:NNNNN"
     sequence = "ACGT"
-    r = Record(name, sequence)
 
-    assert r.name == name
-    assert r.sequence == sequence
-    assert not hasattr(r, 'quality'), x
-    assert not hasattr(r, 'annotations'), x
+    r = Record(name, sequence)
+    s = Record(dict(name=name, sequence=sequence))
+
+    for x in (r, s):
+        assert x.name == name
+        assert x.sequence == sequence
+        assert not hasattr(x, 'quality'), x
+        assert not hasattr(x, 'annotations'), x
 
 
 # copied over from khmer tests/test_read_parsers.py
