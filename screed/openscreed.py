@@ -9,7 +9,7 @@ import sys
 import gzip
 import bz2file
 try:
-    from collections import MutableMapping
+    from collections.abc import MutableMapping
 except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
