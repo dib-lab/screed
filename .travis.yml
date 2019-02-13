@@ -1,11 +1,9 @@
 language: python
-python: 2.7
-
-env:
-  - TOX_ENV=py27
-  - TOX_ENV=py35
+python:
+  - 2.7
+  - 3.5
 
 install:
-  - pip install tox
+  - pip install tox-travis
 
-script: tox -e $TOX_ENV
+script: tox
