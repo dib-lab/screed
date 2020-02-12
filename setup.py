@@ -9,11 +9,15 @@ except ImportError:
 
 import versioneer
 
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(name='screed',
       version=versioneer.get_version(),
       cmdclass=versioneer.get_cmdclass(),
-      description_file="README.md",
+      long_description=long_description,
       long_description_content_type="text/markdown",
       author='Luiz Irber, Peter Cock, Michael R. Crusoe, Jacob Fenton, '
              'Thomas Fenzl, Sarah Guermond, Tim Head, Mark Mandel, '
