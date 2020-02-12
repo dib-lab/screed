@@ -9,7 +9,7 @@ import bz2
 from io import BytesIO
 
 try:
-    from collections import MutableMapping
+    from collections.abc import MutableMapping
 except ImportError:
     import UserDict
     MutableMapping = UserDict.DictMixin
