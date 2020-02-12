@@ -14,11 +14,12 @@ setup(name='screed',
       version=versioneer.get_version(),
       cmdclass=versioneer.get_cmdclass(),
       description_file="README.md",
-      long_description_content_type = "text/markdown",
+      long_description_content_type="text/markdown",
       author='Luiz Irber, Peter Cock, Michael R. Crusoe, Jacob Fenton, '
-             'Thomas Fenzl, Sarah Guermond, Tim Head, Mark Mandel, Kevin D. Murray, '
-             'Alexander Nolley, Camille Scott, Daniel Standage, '
-             'Benjamin R. Taylor, Michael Wright, en zyme, C. Titus Brown',
+             'Thomas Fenzl, Sarah Guermond, Tim Head, Mark Mandel, '
+             'Kevin D. Murray, Alexander Nolley, Camille Scott, '
+             'Daniel Standage, Benjamin R. Taylor, Michael Wright, en zyme, '
+             'C. Titus Brown',
       author_email='ctbrown@ucdavis.edu',
       url='http://github.com/dib-lab/screed/',
       zip_safe=False,
