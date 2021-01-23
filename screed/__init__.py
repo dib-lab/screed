@@ -1,4 +1,5 @@
 # Copyright (c) 2008, Michigan State University.
+# Copyright (c) 2021, University of California
 
 """
 screed is a database tool useful for retrieving arbitrary kinds of sequence
@@ -34,6 +35,7 @@ from screed.seqparse import read_fasta_sequences
 from screed.dna import rc
 from screed.screedRecord import Record
 
+from pkg_resources import get_distribution, DistributionNotFound
 try:
     VERSION = get_distribution(__name__).version
 except DistributionNotFound:  # pragma: no cover
