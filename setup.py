@@ -7,19 +7,7 @@ except ImportError:
     print('(WARNING: importing distutils, not setuptools!)')
     from distutils.core import setup
 
-import imp
-fp, pathname, description = imp.find_module('versioneer')
-versioneer = imp.load_module('versioneer', fp, pathname, description)
-del imp
-versioneer.VCS = 'git'
-versioneer.versionfile_source = 'screed/_version.py'
-versioneer.versionfile_build = 'screed/_version.py'
-versioneer.tag_prefix = 'v'  # i.e. v1.2.0
-versioneer.parentdir_prefix = '.'
-CMDCLASS = versioneer.get_cmdclass()
-
 setup(name='screed',
-      version=versioneer.get_version(),
       description='A short read database',
       author='Alex Nolley, C. Titus Brown',
       author_email='ctbrown@ucdavis.edu',
@@ -30,9 +18,9 @@ setup(name='screed',
       package_data={
           'screed.tests': ['test.*', 'test-whitespace.fa', 'empty.fa']},
       license='BSD',
-      setup_requires=['pytest-runner'],
+      setup_requires=['pytest-runner', 'setuptools_scm'],
+      use_scm_version={ 'write_to': 'screed/version.py' },
       tests_require=['pytest >= 3.0', 'pytest-cov'],
-      cmdclass=versioneer.get_cmdclass(),
       install_requires=['bz2file'],
       entry_points={'console_scripts': [
           'screed = screed.__main__:main'
