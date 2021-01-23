@@ -7,12 +7,7 @@ from . import DBConstants
 import gzip
 import bz2
 from io import BytesIO
-
-try:
-    from collections import MutableMapping
-except ImportError:
-    import UserDict
-    MutableMapping = UserDict.DictMixin
+from collections.abc import MutableMapping
 
 
 class Record(MutableMapping):
