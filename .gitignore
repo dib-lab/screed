@@ -21,3 +21,6 @@ pylint_report.txt
 MANIFEST
 doc/_build/*
 screed/version.py
+.eggs
+.tox
+.cache
