@@ -8,4 +8,4 @@ setup(name='screed',
 #          'screed.tests': ['test.*', 'test-whitespace.fa', 'empty.fa']},
       setup_requires=['pytest-runner'],
       tests_require=['pytest >= 3.0', 'pytest-cov'],
-      })
+      )
