@@ -1,5 +1,5 @@
 include ChangeLog Makefile README.md
 include MANIFEST.in Doxyfile.in
 include TODO doc/LICENSE.rst
-include screed/_version.py
+include screed/version.py
 graft screed/tests/test-data
