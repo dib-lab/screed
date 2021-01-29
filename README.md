@@ -3,7 +3,7 @@
 [![Documentation](https://readthedocs.org/projects/screed/badge/?version=latest)](http://screed.readthedocs.io/en/latest/)
 <a href="https://pypi.org/project/screed/"><img alt="PyPI" src="https://badge.fury.io/py/screed.svg"></a>
 <a href="https://github.com/dib-lab/screed/blob/latest/doc/LICENSE.rst"><img alt="License: 3-Clause BSD" src="https://img.shields.io/badge/License-BSD%203--Clause-blue.svg"></a>
-![Python tests](https://github.com/dib-lab/sourmash/workflows/Python%20tests/badge.svg)
+![Python tests](https://github.com/dib-lab/screed/workflows/Python%20tests/badge.svg)
 
 The official repository for screed is:
 
