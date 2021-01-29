@@ -8,11 +8,7 @@ import io
 import sys
 import gzip
 import bz2file
-try:
-    from collections import MutableMapping
-except ImportError:
-    import UserDict
-    MutableMapping = UserDict.DictMixin
+from collections.abc import MutableMapping
 
 try:
     import sqlite3

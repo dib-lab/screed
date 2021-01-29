@@ -20,3 +20,7 @@ pylint_report.txt
 .*.swp
 MANIFEST
 doc/_build/*
+screed/version.py
+.eggs
+.tox
+.cache
