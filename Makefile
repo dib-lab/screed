@@ -14,6 +14,9 @@ all:
 install: FORCE
 	./setup.py build install
 
+install-dependencies: FORCE
+	pip install -e .[all]
+
 develop: FORCE
 	./setup.py develop
 
