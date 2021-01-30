@@ -23,7 +23,8 @@ def fasta_iter(handle, parse_description=False, line=None):
 
         line = to_str(line.strip())
         if not line.startswith('>'):
-            raise IOError(f"Bad FASTA format: no '>' at beginning of line: {line}")
+            msg = f"Bad FASTA format: no '>' at beginning of line: {line}"
+            raise IOError(msg)
 
         if parse_description:  # Try to grab the name and optional description
             try:

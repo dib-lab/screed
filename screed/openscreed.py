@@ -57,14 +57,14 @@ class Open(object):
             if file_start.startswith(magic):
                 compression = ftype
                 break
-        if compression is 'bz2':
+        if compression == 'bz2':
             sequencefile = bz2file.BZ2File(filename=bufferedfile)
             peek = sequencefile.peek(1)
-        elif compression is 'gz':
+        elif compression == 'gz':
             if not bufferedfile.seekable():
                 bufferedfile.close()
-                raise ValueError("gziped data not streamable, pipe through zcat \
-                                first")
+                raise ValueError("gziped data not streamable, pipe "
+                                 "through zcat first")
             peek = gzip.GzipFile(filename=filename).read(1)
             sequencefile = gzip.GzipFile(filename=filename)
         else:

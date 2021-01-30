@@ -163,7 +163,6 @@ class _ScreedSeqInfoDict_ByIndex(object, UserDict.DictMixin):
             yield i
             i += 1
 
-#
 
 if __name__ == '__main__':
     import sys
