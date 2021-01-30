@@ -63,8 +63,8 @@ class Open(object):
         elif compression == 'gz':
             if not bufferedfile.seekable():
                 bufferedfile.close()
-                raise ValueError("gziped data not streamable, pipe through zcat \
-                                first")
+                raise ValueError("gziped data not streamable, pipe "
+                                 "through zcat first")
             peek = gzip.GzipFile(filename=filename).read(1)
             sequencefile = gzip.GzipFile(filename=filename)
         else:

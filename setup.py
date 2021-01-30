@@ -19,7 +19,7 @@ setup(name='screed',
           'screed.tests': ['test.*', 'test-whitespace.fa', 'empty.fa']},
       license='BSD',
       setup_requires=['pytest-runner', 'setuptools_scm'],
-      use_scm_version={ 'write_to': 'screed/version.py' },
+      use_scm_version={'write_to': 'screed/version.py'},
       tests_require=['pytest >= 3.0', 'pytest-cov'],
       install_requires=['bz2file'],
       entry_points={'console_scripts': [
