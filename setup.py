@@ -29,6 +29,7 @@ setup(name='screed',
       use_scm_version={'write_to': 'screed/version.py'},
       tests_require=test_deps,
       install_requires=install_deps,
+      extras_require=extras,
       entry_points={'console_scripts': [
           'screed = screed.__main__:main'
           ]
