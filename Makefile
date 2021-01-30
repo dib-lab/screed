@@ -39,7 +39,8 @@ pylint: FORCE
 	pylint --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
 		setup.py screed || true
 
-doc: build/sphinx/html/index.html
+doc: FORCE
+	cd doc && make html
 
 test: FORCE
 	./setup.py develop
