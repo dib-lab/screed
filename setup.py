@@ -10,9 +10,7 @@ except ImportError:
 test_deps = ['pytest >= 3.0', 'pytest-cov', 'pycodestyle']
 setup_deps = ['pytest-runner', 'setuptools_scm']
 install_deps = ['bz2file']
-extras = { 'test': test_deps,
-           'all': test_deps + install_deps + setup_deps
-         }
+extras = {'test': test_deps, 'all': test_deps + install_deps + setup_deps}
 
 setup(name='screed',
       description='A short read database',
