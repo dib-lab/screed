@@ -1,4 +1,5 @@
 # Copyright (c) 2008, Michigan State University.
+# Copyright (c) 2021, University of California
 
 """
 screed is a database tool useful for retrieving arbitrary kinds of sequence
