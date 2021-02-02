@@ -18,26 +18,12 @@ Getting Started
 
 #. Start with a clean checkout::
 
-        cd `mktemp -d`
+        cd $(mktemp -d)
         git clone git@github.com:dib-lab/screed.git
         cd screed
 
-#. Install/update versioneer::
-
-        pip install versioneer
-        versioneer-installer
-
-   If there is a new version of versioneer::
-
-        git diff
-        ./setup.py versioneer
-        git commit -p -m "new version of versioneer.py"
-        # or abandon the changes
-        git checkout -- versioneer.py screed/_version.py screed/__init.py \
-                MANIFEST.in
-
-#. Review the git logs since the previous release and that ChangeLog reflects
-   the major changes::
+#. Review the git logs since the previous release and make sure that
+   ChangeLog reflects the major changes::
 
         git log --minimal --patch \
                 `git describe --tags --always --abbrev=0`..HEAD
@@ -45,12 +31,10 @@ Getting Started
 #. Review the issue list for any existing bugs that won't be fixed in the
    release and ensure they're documented in ``doc/known-issues.txt``
 
-#. Verify that the build is clean: http://ci.ged.msu.edu/job/screed/
-
 #. Set the new version number and release candidate::
 
-        new_version=1.1
-        rc=rc3
+        new_version=1.0.5
+        rc=rc1
 
    Tag the release candidate with the new version prefixed by the letter 'v'::
 
@@ -75,7 +59,6 @@ Getting Started
         make install
         make test
         python -c 'import screed; print screed.__version__' # double-check version number
-
 
         # Test via pip
         cd ../../testenv2
@@ -170,12 +153,8 @@ When you have a thoroughly tested release candidate, cut a release like so:
 
 #. Tweet about the new release
 
-#. Send email including the release notes to khmer@lists.idyll.org and
-   khmer-announce@lists.idyll.org
-
 Notes on this document
 ======================
 This is the procedure for cutting a new release of screed. It has been adapted
 from the release documentation for the khmer project, found at
 http://khmer.readthedocs.org/en/v1.1/release.html.
-
