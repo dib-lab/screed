@@ -60,6 +60,7 @@ class Open(object):
         if compression == 'bz2':
             sequencefile = bz2file.BZ2File(filename=bufferedfile)
             peek = sequencefile.peek(1)
+            bufferedfile.close()
         elif compression == 'gz':
             if not bufferedfile.seekable():
                 bufferedfile.close()
@@ -67,6 +68,7 @@ class Open(object):
                                  "through zcat first")
             peek = gzip.GzipFile(filename=filename).read(1)
             sequencefile = gzip.GzipFile(filename=filename)
+            bufferedfile.close()
         else:
             peek = bufferedfile.peek(1)
             sequencefile = bufferedfile
