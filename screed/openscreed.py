@@ -119,6 +119,7 @@ class ScreedDB(MutableMapping):
     """
 
     def __init__(self, filepath):
+        self._db = None
         try:
             sqlite3
         except NameError:
@@ -126,7 +127,6 @@ class ScreedDB(MutableMapping):
                             "functionality, but is not installed.")
 
         self._filepath = filepath
-        self._db = None
         if not self._filepath.endswith(DBConstants.fileExtension):
             self._filepath += DBConstants.fileExtension
 

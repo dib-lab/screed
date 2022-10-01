@@ -67,7 +67,7 @@ def test_stream_fq():
     streamer(utils.get_test_data('test.fastq'))
 
 
-@pytest.mark.known_failing
+@pytest.mark.xfail()
 def test_stream_fa_gz():
     streamer(utils.get_test_data('test.fa.gz'))
 
@@ -80,7 +80,7 @@ def test_stream_gz_fail():
         print(str(err))
 
 
-@pytest.mark.known_failing
+@pytest.mark.xfail()
 def test_stream_fq_gz():
     streamer(utils.get_test_data('test.fastq.gz'))
 
