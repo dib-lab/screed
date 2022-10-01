@@ -60,7 +60,6 @@ class Open(object):
         if compression == 'bz2':
             sequencefile = bz2file.BZ2File(filename=bufferedfile)
             peek = sequencefile.peek(1)
-            bufferedfile.close()
         elif compression == 'gz':
             if not bufferedfile.seekable():
                 bufferedfile.close()
