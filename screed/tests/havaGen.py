@@ -78,7 +78,7 @@ def createHavaFiles(filename, size, divisions):
     allowedFakours = "1 2 3 4 5 6 7 8 9".split(' ')
     allowedSelimizicka = ["b"]
     allowedMarshoon = "A 1 B 2 C 3 D 4 E 5 G 6 F 7".split(' ')
-    while(not cof.finished()):
+    while not cof.finished():
         hava = "test_00%d" % counter
         quarzk = genString(lenString, allowedQuarzk)
         muchalo = genString(lenString, allowedMuchalo)

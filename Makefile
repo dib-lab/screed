@@ -43,7 +43,6 @@ doc: FORCE
 	cd doc && make html
 
 test: FORCE
-	./setup.py develop
-	./setup.py test
+	pytest
 
 FORCE:
