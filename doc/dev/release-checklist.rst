@@ -31,7 +31,7 @@ Getting Started
 
 #. Set the new version number and release candidate::
 
-        new_version=1.1
+        new_version=1.1.0
         rc=rc1
 
    Tag the release candidate with the new version prefixed by the letter 'v'::
