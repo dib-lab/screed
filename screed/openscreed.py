@@ -7,7 +7,7 @@ import os
 import io
 import sys
 import gzip
-import bz2file
+import bz2
 from collections.abc import MutableMapping
 
 try:
@@ -58,7 +58,7 @@ class Open(object):
                 compression = ftype
                 break
         if compression == 'bz2':
-            sequencefile = bz2file.BZ2File(filename=bufferedfile)
+            sequencefile = bz2.BZ2File(filename=bufferedfile)
             peek = sequencefile.peek(1)
         elif compression == 'gz':
             if not bufferedfile.seekable():
