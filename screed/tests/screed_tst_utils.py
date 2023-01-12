@@ -11,20 +11,15 @@
 import tempfile
 import os
 import shutil
-from pkg_resources import Requirement, resource_filename, ResolutionError
+from importlib import resources
 from io import StringIO
 import sys
 import traceback
 
 
 def get_test_data(filename):
-    filepath = None
-    try:
-        filepath = resource_filename(
-            Requirement.parse("screed"), "screed/tests/" + filename)
-    except ResolutionError:
-        pass
-    if not filepath or not os.path.isfile(filepath):
+    filepath = resources.files('screed') / 'screed' / 'tests' / filename
+    if not filepath.exists() or not os.path.isfile(filepath):
         filepath = os.path.join(os.path.dirname(__file__), 'test-data',
                                 filename)
     return filepath

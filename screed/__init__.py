@@ -36,10 +36,10 @@ from screed.dna import rc
 from screed.screedRecord import Record
 
 
-from pkg_resources import get_distribution, DistributionNotFound
+from importlib.metadata import version, PackageNotFoundError
 try:
-    VERSION = get_distribution(__name__).version
-except DistributionNotFound:  # pragma: no cover
+    VERSION = version(__name__)
+except PackageNotFoundError:  # pragma: no cover
     try:
         from .version import version as VERSION  # noqa
     except ImportError:  # pragma: no cover
