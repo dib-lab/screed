@@ -11,10 +11,15 @@
 import tempfile
 import os
 import shutil
-from importlib import resources
 from io import StringIO
 import sys
 import traceback
+
+from importlib import resources
+
+# Remove when we drop support for 3.8
+if sys.version_info < (3, 9):
+    import importlib_resources as resources
 
 
 def get_test_data(filename):
