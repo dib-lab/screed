@@ -15,7 +15,7 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
     db and then run the fasta suite
     """
 
-    def setup(self):
+    def setup_method(self):
 
         self._fqName = utils.get_temp_filename('fa_to_fq')
         self._faName = utils.get_temp_filename('fq_to_fa')
@@ -29,7 +29,7 @@ class Test_fasta_to_fastq(test_fasta.Test_fasta):
         screed.read_fasta_sequences(self._faName)  # Fasta file -> fasta db
         self.db = screed.ScreedDB(self._faName)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._fqName)
         os.unlink(self._fqName + fileExtension)
         os.unlink(self._faName)

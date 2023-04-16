@@ -15,7 +15,7 @@ class Test_fa_shell_command(test_fasta.Test_fasta):
     screed database correctly from the shell
     """
 
-    def setup(self):
+    def setup_method(self):
         thisdir = os.path.dirname(__file__)
 
         self._testfa = utils.get_temp_filename('test.fa')
@@ -26,7 +26,7 @@ class Test_fa_shell_command(test_fasta.Test_fasta):
         assert ret == 0, ret
         self.db = screed.ScreedDB(self._testfa)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfa + fileExtension)
 
 
@@ -37,7 +37,7 @@ class Test_fq_shell_command(test_fastq.Test_fastq):
     screed database correctly from the shell
     """
 
-    def setup(self):
+    def setup_method(self):
         thisdir = os.path.dirname(__file__)
 
         self._testfq = utils.get_temp_filename('test.fastq')
@@ -48,7 +48,7 @@ class Test_fq_shell_command(test_fastq.Test_fastq):
         assert ret == 0, ret
         self.db = screed.ScreedDB(self._testfq)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfq + fileExtension)
 
 
@@ -59,7 +59,7 @@ class Test_fa_shell_module(test_fasta.Test_fasta):
     screed database correctly from the shell
     """
 
-    def setup(self):
+    def setup_method(self):
         thisdir = os.path.dirname(__file__)
 
         self._testfa = utils.get_temp_filename('test.fa')
@@ -70,7 +70,7 @@ class Test_fa_shell_module(test_fasta.Test_fasta):
         assert ret == 0, ret
         self.db = screed.ScreedDB(self._testfa)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfa + fileExtension)
 
 
@@ -81,7 +81,7 @@ class Test_fq_shell_module(test_fastq.Test_fastq):
     screed database correctly from the shell
     """
 
-    def setup(self):
+    def setup_method(self):
         thisdir = os.path.dirname(__file__)
 
         self._testfq = utils.get_temp_filename('test.fastq')
@@ -92,7 +92,7 @@ class Test_fq_shell_module(test_fastq.Test_fastq):
         assert ret == 0, ret
         self.db = screed.ScreedDB(self._testfq)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfq + fileExtension)
 
 
@@ -104,7 +104,7 @@ class Test_convert_shell(test_fasta.Test_fasta):
     db and then run the fasta suite, all from the command line.
     """
 
-    def setup(self):
+    def setup_method(self):
 
         self._fqName = utils.get_temp_filename('fa_to_fq')
         self._faName = utils.get_temp_filename('fq_to_fa')
@@ -133,7 +133,7 @@ class Test_convert_shell(test_fasta.Test_fasta):
 
         self.db = screed.ScreedDB(self._faName)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._fqName)
         os.unlink(self._fqName + fileExtension)
         os.unlink(self._faName)

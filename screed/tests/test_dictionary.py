@@ -13,14 +13,14 @@ class Test_dict_methods(object):
     queries.
     """
 
-    def setup(self):
+    def setup_method(self):
         self._testfa = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfa + fileExtension)
 
     def test_iter_stuff(self):

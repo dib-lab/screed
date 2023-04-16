@@ -9,7 +9,7 @@ import shutil
 
 class test_fa_recover(test_fasta.Test_fasta):
 
-    def setup(self):
+    def setup_method(self):
         self._fileName = utils.get_temp_filename('fastaRecovery')
 
         self._testfa = utils.get_temp_filename('test.fa')
@@ -20,7 +20,7 @@ class test_fa_recover(test_fasta.Test_fasta):
         screed.read_fasta_sequences(self._fileName)
         self.db = screed.ScreedDB(self._fileName)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._fileName)
         os.unlink(self._fileName + fileExtension)
         os.unlink(self._testfa + fileExtension)

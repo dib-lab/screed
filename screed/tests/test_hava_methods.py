@@ -12,11 +12,11 @@ shutil.copy(utils.get_test_data('test.hava'), testha)
 
 class test_hava(object):
 
-    def setup(self):
+    def setup_method(self):
         screed.seqparse.read_hava_sequences(testha)
         self._db = screed.ScreedDB(testha)
 
-    def teardown(self):
+    def teardown_method(self):
         b = 7
         # os.unlink(testha + fileExtension)
 
