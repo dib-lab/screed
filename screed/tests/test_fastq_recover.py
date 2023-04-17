@@ -9,7 +9,7 @@ import shutil
 
 class test_fq_recover(test_fastq.Test_fastq):
 
-    def setup(self):
+    def setup_method(self):
         self._fileName = utils.get_temp_filename('fastqRecovery')
 
         self._testfq = utils.get_temp_filename('test.fastq')
@@ -20,7 +20,7 @@ class test_fq_recover(test_fastq.Test_fastq):
         screed.read_fastq_sequences(self._fileName)
         self.db = screed.ScreedDB(self._fileName)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._fileName)
         os.unlink(self._fileName + fileExtension)
         os.unlink(self._testfq + fileExtension)

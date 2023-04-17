@@ -15,7 +15,7 @@ class nostring:
 
 class test_comparisons():
 
-    def setup(self):
+    def setup_method(self):
         self._testfile = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), self._testfile)
         screed.read_fasta_sequences(self._testfile)

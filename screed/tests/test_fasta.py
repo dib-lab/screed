@@ -29,14 +29,14 @@ def test_new_record():
 
 class Test_fasta(object):
 
-    def setup(self):
+    def setup_method(self):
         self._testfa = utils.get_temp_filename('test.fa')
         shutil.copy(utils.get_test_data('test.fa'), self._testfa)
 
         screed.read_fasta_sequences(self._testfa)
         self.db = screed.ScreedDB(self._testfa)
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfa + fileExtension)
 
     def test_length(self):
@@ -111,7 +111,7 @@ class Test_fasta(object):
 
 class Test_fasta_whitespace(object):
 
-    def setup(self):
+    def setup_method(self):
         self._testfa = utils.get_temp_filename('test-whitespace.fa')
         shutil.copy(utils.get_test_data('test-whitespace.fa'), self._testfa)
 
@@ -121,7 +121,7 @@ class Test_fasta_whitespace(object):
     def test_for_omitted_record(self):
         assert 'ENSMICT00000012401' in self.db
 
-    def teardown(self):
+    def teardown_method(self):
         os.unlink(self._testfa + fileExtension)
 
 
