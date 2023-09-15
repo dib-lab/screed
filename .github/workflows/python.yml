@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [latest]
   schedule:
-    - cron: "0 0 * * *" # daily
+    - cron: "0 0 7 * *" # monthly
 
 jobs:
   test:
