@@ -76,6 +76,7 @@ class Open(object):
         try:
             first_char = peek[0]
         except IndexError as err:
+            sequencefile.close()
             return []  # empty file
 
         try:
@@ -89,6 +90,7 @@ class Open(object):
             iter_fn = fastq_iter
 
         if iter_fn is None:
+            sequencefile.close()
             raise ValueError("unknown file format for '%s'" % filename)
 
         self.sequencefile = sequencefile
