@@ -10,3 +10,58 @@ build-backend = 'setuptools.build_meta'
 [tool.setuptools_scm]
 write_to = "screed/version.py"
 git_describe_command = "git describe --dirty --tags --long --match v* --first-parent"
+
+[project]
+name = "screed"
+description = "a Python library for loading FASTA and FASTQ sequences"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = [ "doc/LICENSE.rst" ]
+requires-python = ">=3.11"
+dynamic = [ "version" ]
+
+authors = [
+  { name = "Alex Nolley" },
+  { name = "C. Titus Brown" },
+]
+
+maintainers = [
+  { name = "C. Titus Brown", email = "titus@idyll.org" },
+  { name = "Luiz Irber", email="luiz@sourmash.bio" },
+]
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Environment :: MacOS X",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS :: MacOS X",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/dib-lab/screed"
+"Documentation" = "https://screed.readthedocs.io/"
+"Source" = "https://github.com/dib-lab/screed"
+"Tracker" = "https://github.com/dib-lab/screed/issues"
+"CI" = "https://github.com/dib-lab/screed/actions"
+
+[project.scripts]
+"screed" = "screed.__main__:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest >= 6.2.2",
+    "pycodestyle",
+    "pytest-cov",
+]
+all = ["screed[test]"]
+
+[tool.setuptools]
+packages = ["screed"]
