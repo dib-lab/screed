@@ -5,39 +5,39 @@
 
 PYSOURCES=$(wildcard screed/*.py)
 TESTSOURCES=$(wildcard screed/tests/*.py)
-SOURCES=$(PYSOURCES) setup.py
+SOURCES=$(PYSOURCES)
 
 VERSION=$(shell git describe --tags --dirty | sed s/v//)
 all:
-	./setup.py build
+	python -m build .
 
 install: FORCE
-	./setup.py build install
+	pip install -e .
 
 install-dependencies: FORCE
 	pip install -e .[all]
 
 develop: FORCE
-	./setup.py develop
+	pip install -e .
 
 dist: dist/screed-$(VERSION).tar.gz
 
 dist/screed-$(VERSION).tar.gz: $(SOURCES)
-	./setup.py sdist
+	python -m build --sdist .
 
 clean: FORCE
-	./setup.py clean --all || true
+	pip uninstall screed || true
 	rm -rf build/
 	rm -rf coverage-debug .coverage coverage.xml
 	rm -rf doc/_build
 	rm -rf .eggs/ *.egg-info/ .cache/ __pycache__/ *.pyc */*.pyc */*/*.pyc
 
 pep8: $(PYSOURCES) $(TESTSOURCES)
-	pycodestyle --exclude=_version.py setup.py screed/
+	pycodestyle --exclude=_version.py screed/
 
 pylint: FORCE
 	pylint --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
-		setup.py screed || true
+		screed || true
 
 doc: FORCE
 	cd doc && make html

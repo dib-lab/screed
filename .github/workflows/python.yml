@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        py: ["3.10", 3.9, 3.8]
+        py: ["3.11", "3.12", "3.13", "3.14"]
       fail-fast: false
 
     steps:
@@ -59,8 +59,10 @@ jobs:
           PYTHONDEVMODE: 1
 
       - name: Upload Python coverage to codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
             flags: python
             fail_ci_if_error: true
             files: coverage.xml
+        env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
