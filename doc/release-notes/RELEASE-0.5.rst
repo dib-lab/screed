@@ -3,7 +3,7 @@ Release v0.5
 ============
 
 We are proud to announce the release of screed v0.5. screed is a database engine
-capable of storing and retriving short-read sequence data. screed is designed
+capable of storing and retrieving short-read sequence data. screed is designed
 to be fast and adaptable to different sequence file formats. This marks the
 first release of screed which we consider stable and complete.
 
